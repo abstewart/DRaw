@@ -27,10 +27,9 @@ https://youtu.be/F0XVOL1zQHM
 Team member Names:
 
 1. Steven Abbott
-2. *TODO my name is...*
-3. *TODO my name is...*
-4. *TODO my name is...*
-5. *TODO my name is...*
+2. Elizabeth Williams
+3. Andrew Briasco-Stewart
+4. Ben Mallett
 
 # Team spread sheet 
 
