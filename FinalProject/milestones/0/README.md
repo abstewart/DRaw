@@ -18,6 +18,16 @@ The first stage we learned in the software development life cycle is planning.
 
 ## Timeline
 
+|     Date    |  Milestone  |
+|:------------|:-----------:|
+|  3/17/2023  |      1      |
+|  3/18/2023  |      2      |
+|  3/31/2023  |     3,4     |
+|  4/7/2023   |     5,6     |
+|  4/10/2023  |    7,8,9    |
+|  4/12/2023  |      10     |
+|  4/19/2023  | Project due |
+
 - Date: 3/17/23
 	- Milestone 1
 - Date: 3/18/23
