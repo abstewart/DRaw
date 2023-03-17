@@ -1,0 +1,16 @@
+.DS_Store
+
+# As per assignment 3 part 1, ignore:
+*.o
+*.out
+*.app
+*.exe
+*.so
+*.dylib
+*.dll
+
+# Also ignore:
+*.obj
+*.ilk
+*.pdb
+.idea
