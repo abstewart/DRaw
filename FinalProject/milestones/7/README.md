@@ -9,4 +9,4 @@
   - [ ] Run your code with the latest version of d-scanner before committing your code (could be a GitHub action).
   - [ ] (Optional) Run your code with the latest version of clang-tidy  (could be a GitHub action).
 
-*Modify this file to include instructions on how to build and run your software. Specify which platform you are running on. Running your software involves launching a server and connecting at least 2 clients to the server.*
+*Modify this file to include instructions on how to build and run your software. Specify which platform you are running on. Running your software involves launching a server and connecting at least 3 clients to the server.*
