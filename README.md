@@ -34,7 +34,7 @@ https://youtu.be/F0XVOL1zQHM
 # Team Spreadsheet 
 
 - Your team members and project manager are listed on the following spreadsheet [here](https://docs.google.com/spreadsheets/d/1Z81Es6K-AAlTdzFNmQA32MbcQVekF6jEHnhKCKACF2w/edit?usp=sharing). 
-- Your project manager will be your first point of contact for various project deliverables and questions. Though you may continue to attend office hours with whoever you like, your project manager will be your primary contact.
+- Your project manager will be your first point of contact for various project deliverables and questions. Though you may continue to attend office hours with whomever you like, your project manager will be your primary contact.
 
 ## Team Logistics
 
@@ -60,7 +60,7 @@ https://youtu.be/F0XVOL1zQHM
 			<tr>	  
 			<td>10% (Milestone Check-in #1)</td>
 				<td align="left">
-					<ul><li>Did you complete your check-in #1?</li><li>Was a timeline present?</li><li>Were there at least 10 asks created in the 'Projects' tab?</li></ul>
+					<ul><li>Did you complete your check-in #1?</li><li>Was a timeline present?</li><li>Were there at least 10 tasks created in the 'Projects' tab?</li></ul>
 				</td>
 		</tr>
 	</tbody>
@@ -155,7 +155,7 @@ https://youtu.be/F0XVOL1zQHM
       <th align="center">Description</th>
     </tr>	     
       <td>10% (Testing)</td>
-	<td align="left"><ul><li>Do you have at least 8 unit test cases? Are they properly integrated with a Github Action?</li></ul></td> 
+	<td align="left"><ul><li>Do you have at least 8 unit test cases? Are they properly integrated with a GitHub Action?</li></ul></td> 
     </tr>
   </tbody>
 </table>
