@@ -22,9 +22,9 @@ https://youtu.be/F0XVOL1zQHM
 
 ## Team
 
-**Team Name**: *Edit this to your official team name*
+**Team Name**: DRaw
 
-Team member Names:
+Team Member Names:
 
 1. Steven Abbott
 2. Elizabeth Williams
