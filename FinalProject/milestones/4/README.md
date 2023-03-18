@@ -12,7 +12,7 @@ Provided below are the requirements which the project managers will ask you. For
 
 ## Milestone ("Sprint") Check list
 
-**Note** Everyone needs to speak at this meeting.
+**Note**: Everyone needs to speak at this meeting.
 
 - [ ] Did you come up with a plan/timeline for features? (Milestone 0)
 - [ ] How is (or how did) the integration of all the assignments go?
