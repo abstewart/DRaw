@@ -6,7 +6,7 @@
 
 Welcome to the final project repository!  
 
-Here is a welcome video showing the repoisory organization--be sure to read carefully through the instructions (Consuming a large spec and breaking it down is part of engineering!).
+Here is a welcome video showing the repository organization--be sure to read carefully through the instructions (Consuming a large spec and breaking it down is part of engineering!).
 
 <a href="https://youtu.be/F0XVOL1zQHM">
 <img src="./media/FinalProject.png" alt="Click for final project video" width="300">
@@ -31,7 +31,7 @@ https://youtu.be/F0XVOL1zQHM
 3. Andrew Briasco-Stewart
 4. Ben Mallett
 
-# Team spread sheet 
+# Team Spreadsheet 
 
 - Your team members and project manager are listed on the following spreadsheet [here](https://docs.google.com/spreadsheets/d/1Z81Es6K-AAlTdzFNmQA32MbcQVekF6jEHnhKCKACF2w/edit?usp=sharing). 
 - Your project manager will be your first point of contact for various project deliverables and questions. Though you may continue to attend office hours with whoever you like, your project manager will be your primary contact.
@@ -91,7 +91,7 @@ https://youtu.be/F0XVOL1zQHM
 			<tr>	  
 			<td>5% (Youtube Video)</td>
 			<td align="left">
-				<ul><li>Did you upload a Youtube Video and test out opening it incognito mode so we could also access it?</li>
+				<ul><li>Did you upload a YouTube Video and test out opening it incognito mode, so we could also access it?</li>
 			</td>
 		</tr>
 	</tbody>
@@ -160,4 +160,4 @@ https://youtu.be/F0XVOL1zQHM
   </tbody>
 </table>
 
-**Note** To be 100% clear, every team member gets the same grade with the exception of the peer assessment.
+**Note** To be 100% clear, every team member gets the same grade except for the peer assessment.
