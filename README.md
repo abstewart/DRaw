@@ -60,7 +60,7 @@ Team Member Names:
 			<tr>	  
 			<td>10% (Milestone Check-in #1)</td>
 				<td align="left">
-					<ul><li>Did you complete your check-in #1?</li><li>Was a timeline present?</li><li>Were there at least 10 asks created in the 'Projects' tab</li></ul>
+					<ul><li>Did you complete your check-in #1?</li><li>Was a timeline present?</li><li>Were there at least 10 asks created in the 'Projects' tab?</li></ul>
 				</td>
 		</tr>
 	</tbody>
@@ -105,7 +105,7 @@ Team Member Names:
     </tr>
      <tr>
 	<td>10% (Team Assessment)</td>
-	<td align="left"><ul><li>Did you complete the assessment form which earns you 2%--the other 8% is determined by your team members responses</li><li>Note: In rare instances the instructor reserves the right to weigh the Team assessment more heavily. In the instance that a team member scores very low, the instructor will individually evaluate that students grade for the project.</li></ul></td>
+	<td align="left"><ul><li>Did you complete the assessment form which earns you 2%? -- the other 8% is determined by your team members responses</li><li>Note: In rare instances the instructor reserves the right to weigh the Team assessment more heavily. In the instance that a team member scores very low, the instructor will individually evaluate that students grade for the project.</li></ul></td>
     </tr>	     
   </tbody>
 </table>  
@@ -119,7 +119,7 @@ Team Member Names:
     </tr>
      <tr>
 	<td>25% (Polish and completion)</td>
-	<td align="left"><ul><li>How polished are your materials(timeline, documentation, presentation)? Does your software work? Does it compile? Does it crash, segfault?</li></ul></td>
+	<td align="left"><ul><li>How polished are your materials (timeline, documentation, presentation)? Does your software work? Does it compile? Does it crash, segfault?</li></ul></td>
     </tr>	     
   </tbody>
 </table>  
@@ -131,7 +131,7 @@ Team Member Names:
       <th align="center">Description</th>
     </tr>	     
       <td>10% (Feature of your choice)</td>
-	<td align="left"><ul><li>Does your feature work? Do you have at least 1 test case</li></ul></td> 
+	<td align="left"><ul><li>Does your feature work? Do you have at least 1 test case?</li></ul></td> 
     </tr>
   </tbody>
 </table>
