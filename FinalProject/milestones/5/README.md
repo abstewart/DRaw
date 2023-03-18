@@ -31,7 +31,7 @@ Your next task is the following.
 # F.A.Q. (Instructor Anticipated Questions)
 
 1. Q: If I choose a really easy feature will I get less points?
-	- A: Not necessarily, and I think each feature has its own challenge?
+	- A: Not necessarily, and I think each feature has its own challenge.
 2. Q: If I implement 2 or more features will I get more points?
 	- A: I would encourage that, maybe! But 1 good feature that works is better than 2 features which almost work.
 3. Q: Can I propose another feature?
