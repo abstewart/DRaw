@@ -16,7 +16,7 @@ Provided below are a list of curated resources to help you complete the task(s) 
 
 # Task 1 - Networking
 
-<img align="right" width="400px" src="./media/network.png">
+<img align="right" width="378" src="./media/network.png" alt="">
 
 Previously you have learned how to create a networked application. Now it is time to combine what we have learned in our previous labs/assignments/exercises and build a collaborative painting program.
 
@@ -55,10 +55,10 @@ Start small, slowly integrate the features into your assignment.
 # F.A.Q. (Instructor Anticipated Questions)
 
 1. Q: How do we handle undo?
-	- A: Undo should undo the last command a user did and send that action to the server. Note, that if a user paints on top of a pixel that you are undo'ing the operation on, your change will override their change. This is fine behavior.
-2. Q: Can I change this to be a peer-peer applciation or otherwise change the structure of the networked code?
+	- A: Undo should undo the last command a user did and send that action to the server. Note, that if a user paints on top of a pixel that you are undoing the operation on, your change will override their change. This is fine behavior.
+2. Q: Can I change this to be a peer-peer application or otherwise change the structure of the networked code?
 	- A: Sure, so long as at least 3 clients can paint at the same time.
 3. Q: Does your instructor enjoy painting?
 	- A: Yes, but I am not very good. The following below is a recent experiment of something called a Dutch Pour. You use a hair dryer and a blow torch over acrylic paints.
-	- <img width="400px" src="./media/DutchPour.jpg"/>
+	- <img width="4032" src="./media/DutchPour.jpg" alt=""/>
 
