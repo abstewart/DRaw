@@ -24,7 +24,7 @@ https://youtu.be/F0XVOL1zQHM
 
 **Team Name**: DRaw
 
-Team Member Names:
+**Team Member Names**:
 
 1. Steven Abbott
 2. Elizabeth Williams
