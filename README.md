@@ -105,7 +105,7 @@ Team Member Names:
     </tr>
      <tr>
 	<td>10% (Team Assessment)</td>
-	<td align="left"><ul><li>Did you complete the assessment form which earns you 2%? -- the other 8% is determined by your team members responses</li><li>Note: In rare instances the instructor reserves the right to weigh the Team assessment more heavily. In the instance that a team member scores very low, the instructor will individually evaluate that students grade for the project.</li></ul></td>
+	<td align="left"><ul><li>Did you complete the assessment form which earns you 2%? -- the other 8% is determined by your team members responses.</li><li>Note: In rare instances the instructor reserves the right to weigh the Team assessment more heavily. In the instance that a team member scores very low, the instructor will individually evaluate that students grade for the project.</li></ul></td>
     </tr>	     
   </tbody>
 </table>  
