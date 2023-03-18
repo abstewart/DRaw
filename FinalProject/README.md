@@ -1,6 +1,6 @@
 # Client
 
-A client has approached with with the following [statement of work (a.k.a. SOW)](./sow.md) (which is intentionally vague) for a 6 week contract. You haven't worked with this client previously, but you want to impress them with your newly assembled team. Review the [statement of work](./sow.md), self-organize, and begin!
+A client has approached with the following [statement of work (a.k.a. SOW)](./sow.md) (which is intentionally vague) for a 6 week contract. You haven't worked with this client previously, but you want to impress them with your newly assembled team. Review the [statement of work](./sow.md), self-organize, and begin!
 
 **Note** The client does not want you to publicly share this repository of code outside of your team, but you may share your youtube video on your resume/portfolio as you like!
 
