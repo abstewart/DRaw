@@ -34,7 +34,7 @@ Our goal is to be able to have multiple clients (at least 3) connect to a server
 ## Requirements Analysis (Your Task)
 
 1. Integrate previous assignments if you have not previously done so.
-	- This tasks main feature is to have a server which multiple clients can connect to collaboratively paint on the same canvas.
+	- This task's main feature is to have a server which multiple clients can connect to collaboratively paint on the same canvas.
 		- The IP address and port# should not be hard-coded anywhere in the application. (Prompt the user for input)
 		- Note when a new user joins, they should receive the same canvas that other clients are painting on. Think about where you should store the command history or pixel information for the canvas.
 		- At least 3 users should be able to paint at once.
