@@ -71,7 +71,10 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: client-coverage
+          name: Generate Client Coverage
           path: ./client/coverage # or path/to/artifact
+
+      - name: Check Client Coverage
+        run: sh ./support/cicd_scripts/check_coverage.sh ./client
 
 

@@ -19,7 +19,7 @@
 			"sourceFiles": [
 				"bin/ut.d"
 			],
-			"targetName": "unittestc",
+			"targetName": "unittest",
 			"targetType": "executable"
 		}
 	],
