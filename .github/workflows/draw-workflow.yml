@@ -35,13 +35,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Install D compiler
+      - name: Install D Compiler
         uses: dlang-community/setup-dlang@v1
         with:
           compiler: ${{ matrix.dc }}
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Run a Multi-Line Script
         run: |
           echo Check dub and dmd versions:
           dub --version
@@ -49,32 +49,33 @@ jobs:
           pwd
 
       # Runs a single command using the runners shell
-      - name: Check formatting
+      - name: Check Formatting
         run: sh ./support/cicd_scripts/format.sh ./client
 
       # Runs a single command using the runners shell
-      - name: Perform unit tests
+      - name: Perform Client Unit Tests
         working-directory: ./client
         run: dub run --build=unittest
 
-      - name: Generate Docs
+      - name: Generate Client Docs
         run: sh ./support/cicd_scripts/generate_docs.sh ./client
 
-      - name: Generate Coverage
+      - name: Generate Client Coverage
         working-directory: ./client
         run: dub -b cov
 
+      - name: Check Client Coverage
+        run: sh ./support/cicd_scripts/check_coverage.sh ./client
+
       - uses: actions/upload-artifact@v3
         with:
-          name: client-docs
+          name: Archive Client Docs
           path: ./client/docs # or path/to/artifact
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Generate Client Coverage
+          name: Archive Client Coverage
           path: ./client/coverage # or path/to/artifact
 
-      - name: Check Client Coverage
-        run: sh ./support/cicd_scripts/check_coverage.sh ./client
 
 
