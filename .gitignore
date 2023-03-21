@@ -10,6 +10,12 @@
 *.o
 *.obj
 
+# Compiled Executable File
+*.out
+
+# macOS Application Bundle
+*.app
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -29,4 +35,4 @@ __dummy.html
 docs/
 
 # Code coverage
-*.lst 
+*.lst
