@@ -34,10 +34,10 @@ for val in $DFILES; do
 done
 
 # Record if any of the files are different so we can fail later:
-ANY_DIFFERENT=False
+ANY_DIFFERENT=0
 for val in $DFILES; do
   COPIED_PATH=$D_COPY_PATH/$(basename $val)
-  cmp -s $val $COPIED_PATH || echo `cmp $val $COPIED_PATH` || ANY_DIFFERENT=True
+  cmp -s $val $COPIED_PATH || echo `cmp $val $COPIED_PATH` || ANY_DIFFERENT=1
 done
 
 # Wipe the copy file:
