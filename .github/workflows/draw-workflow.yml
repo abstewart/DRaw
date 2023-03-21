@@ -57,4 +57,21 @@ jobs:
         working-directory: ./client
         run: dub run --build=unittest
 
+      - name: Generate Docs
+        run: sh ./support/cicd_scripts/generate_docs.sh ./client
+
+      - name: Generate Coverage
+        working-directory: ./client
+        run: dub -b cov
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: client-docs
+          path: ./client/docs # or path/to/artifact
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: client-coverage
+          path: ./client/coverage # or path/to/artifact
+
 
