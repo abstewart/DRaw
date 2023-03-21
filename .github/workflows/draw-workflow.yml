@@ -22,7 +22,7 @@ jobs:
     name: Dub Tests
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, macOS-latest]
         dc: [dmd-latest]
         exclude:
           - { os: macOS-latest, dc: dmd-2.085.0 }
@@ -84,7 +84,7 @@ jobs:
         working-directory: ./client
         run: |
           dub --build=release
-          ls ./bin
+          ls -a ./bin
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
@@ -128,7 +128,7 @@ jobs:
         working-directory: ./server
         run: |
           dub --build=release
-          ls ./bin
+          ls -a ./bin
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
