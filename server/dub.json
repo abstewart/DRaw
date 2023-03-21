@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"Team DRaw"
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"dependencies": {
+		"covered": "~>1.0.2"
+	},
+	"description": "The server for the Team DRaw application.",
+	"license": "proprietary",
+	"name": "server"
+}
