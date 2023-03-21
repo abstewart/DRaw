@@ -56,7 +56,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Perform unit tests
         working-directory: ./client
-        run: dub test
+        run: dub run --build=unittest
 
       - name: Check formatting
         run: sh ./support/cicd_scripts/format.sh ./client

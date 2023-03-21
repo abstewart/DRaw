@@ -49,7 +49,7 @@ fi
 # End with error if there were any differences:
 if [ $ANY_DIFFERENT ];
 then
-  set -e
+  exit 1
 fi
 
 # There were no differences! Success!
