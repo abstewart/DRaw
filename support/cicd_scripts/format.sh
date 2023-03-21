@@ -29,8 +29,8 @@ done
 
 # Run the formatter on the copied files:
 dub fetch dfmt
-for val in $D_COPY_PATH; do
-  dub run dfmt -- -i $val
+for val in $DFILES; do
+  dub run dfmt -- -i $D_COPY_PATH/$(basename $val)
 done
 
 # Record if any of the files are different so we can fail later:
