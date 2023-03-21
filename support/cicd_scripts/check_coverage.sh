@@ -1,6 +1,7 @@
 #!/bin/bash
 ###
-###
+### Go through each coverage file and verify that every file is 100% covered
+### (or contains no code), otherwise, error.
 ###
 
 # Look for .d files and store temporary state in the given file:

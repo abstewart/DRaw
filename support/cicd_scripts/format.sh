@@ -49,8 +49,10 @@ fi
 # End with error if there were any differences:
 if $ANY_DIFFERENT;
 then
+  echo Failed! Reformat and try again!!
   exit 1
 fi
 
 # There were no differences! Success!
+echo Success! All files formatted properly!!
 exit 0
