@@ -10,9 +10,31 @@
 *.dll
 
 # Also ignore:
+*.lst
 *.obj
 *.ilk
 *.pdb
 .idea
 
+.dub
+docs.json
+__dummy.html
+
 coverage/
+docs/
+
+/client
+client.so
+client.dylib
+client.dll
+client.a
+client.lib
+client-test-*
+
+/server
+server.so
+server.dylib
+server.dll
+server.a
+server.lib
+server-test-*
