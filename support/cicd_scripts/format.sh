@@ -53,4 +53,4 @@ then
 fi
 
 # There were no differences! Success!
-exit
+exit 0
