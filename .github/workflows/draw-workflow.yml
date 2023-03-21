@@ -48,8 +48,12 @@ jobs:
           dmd --version
           pwd
 
+      ###
+      ### Client:
+      ###
+
       # Runs a single command using the runners shell
-      - name: Check Formatting
+      - name: Check Client Formatting
         run: sh ./support/cicd_scripts/format.sh ./client
 
       - name: Generate Client Coverage
@@ -61,10 +65,9 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Archive Client Coverage
+          name: Client Coverage
           path: ./client/coverage # or path/to/artifact
 
-      # Runs a single command using the runners shell
       - name: Perform Client Unit Tests
         working-directory: ./client
         run: dub run --build=unittest
@@ -74,8 +77,58 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Archive Client Docs
+          name: Client Docs
           path: ./client/docs # or path/to/artifact
+
+      - name: Build Client Release Deliverable
+        working-directory: ./client
+        run: dub --build=release
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Client Release Deliverable
+          path: ./client/bin/client.exe # or path/to/artifact
+
+      ###
+      ### Server:
+      ###
+
+      - name: Check Server Formatting
+        run: sh ./support/cicd_scripts/format.sh ./server
+
+      - name: Generate Server Coverage
+        working-directory: ./server
+        run: dub -b cov
+
+      - name: Check Server Coverage
+        run: sh ./support/cicd_scripts/check_coverage.sh ./server
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Server Coverage
+          path: ./server/coverage # or path/to/artifact
+
+      # Runs a single command using the runners shell
+      - name: Perform Server Unit Tests
+        working-directory: ./server
+        run: dub run --build=unittest
+
+      - name: Generate Server Docs
+        run: sh ./support/cicd_scripts/generate_docs.sh ./server
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Server Docs
+          path: ./server/docs # or path/to/artifact
+
+      - name: Build Server Release Deliverable
+        working-directory: ./server
+        run: dub --build=release
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Server Release Deliverable
+          path: ./server/bin/server.exe # or path/to/artifact
 
 
 
