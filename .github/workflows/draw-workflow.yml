@@ -46,10 +46,17 @@ jobs:
           echo Check dub and dmd versions:
           dub --version
           dmd --version
+          pwd
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: dub --version
+      - name: Perform unit tests
+        working-directory: ./client
+        run: dub test
 
-#      - name: Run tests
-#        run: dub -q test
+      # Runs a single command using the runners shell
+      - name: Perform unit tests
+        working-directory: ./client
+        run: dub test
+
+      - name: Check formatting
+        run: sh ./support/cicd_scripts/format.sh ./client
