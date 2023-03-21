@@ -34,13 +34,11 @@ for val in $DFILES; do
 done
 
 # Record if any of the files are different so we can fail later:
-ANY_DIFFERENT=0
+ANY_DIFFERENT=false
 for val in $DFILES; do
   COPIED_PATH=$D_COPY_PATH/$(basename $val)
-  cmp -s $val $COPIED_PATH || echo `cmp $val $COPIED_PATH` || ANY_DIFFERENT=1
+  cmp -s $val $COPIED_PATH || echo `cmp $val $COPIED_PATH` || ANY_DIFFERENT=true
 done
-
-echo aaaaaaaaaaa
 
 # Wipe the copy file:
 if [ -d $D_COPY_PATH ];
@@ -48,15 +46,11 @@ then
   rm -r $D_COPY_PATH
 fi
 
-echo bbbbbbbbbbb
-
 # End with error if there were any differences:
-if [ $ANY_DIFFERENT ];
+if [ $ANY_DIFFERENT == true ];
 then
   exit 1
 fi
-
-echo ccccccccc
 
 # There were no differences! Success!
 exit 0
