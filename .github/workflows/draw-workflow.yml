@@ -80,13 +80,16 @@ jobs:
           name: Client Docs
           path: ./client/docs # or path/to/artifact
 
-      - name: Build Client Release Deliverable
+      - name: Build Client Release Deliverables
         working-directory: ./client
-        run: dub --build=release
+        run: |
+          dub --build=release
+          ls .
 
       - uses: actions/upload-artifact@v3
+        if: matrix.os == 'windows-latest'
         with:
-          name: Client Release Deliverable
+          name: Client Windows Release Deliverable
           path: ./client/bin/client.exe # or path/to/artifact
 
       ###
@@ -121,13 +124,16 @@ jobs:
           name: Server Docs
           path: ./server/docs # or path/to/artifact
 
-      - name: Build Server Release Deliverable
+      - name: Build Server Release Deliverables
         working-directory: ./server
-        run: dub --build=release
+        run: |
+          dub --build=release
+          ls .
 
       - uses: actions/upload-artifact@v3
+        if: matrix.os == 'windows-latest'
         with:
-          name: Server Release Deliverable
+          name: Server Windows Release Deliverable
           path: ./server/bin/server.exe # or path/to/artifact
 
 
