@@ -19,7 +19,7 @@ fi
 mkdir $D_COPY_PATH
 
 # Find all .d files:
-DFILES=`find $SEARCH_FOLDER -name '*.d'`
+DFILES=`find $SEARCH_FOLDER -name '*.d' -r`
 
 
 # Copy all files over:
