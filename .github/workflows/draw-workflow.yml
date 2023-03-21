@@ -49,14 +49,12 @@ jobs:
           pwd
 
       # Runs a single command using the runners shell
-      - name: Perform unit tests
-        working-directory: ./client
-        run: dub test
+      - name: Check formatting
+        run: sh ./support/cicd_scripts/format.sh ./client
 
       # Runs a single command using the runners shell
       - name: Perform unit tests
         working-directory: ./client
         run: dub run --build=unittest
 
-      - name: Check formatting
-        run: sh ./support/cicd_scripts/format.sh ./client
+
