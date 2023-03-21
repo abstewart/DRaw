@@ -47,7 +47,7 @@ then
 fi
 
 # End with error if there were any differences:
-if [ $ANY_DIFFERENT == true ];
+if $ANY_DIFFERENT;
 then
   exit 1
 fi
