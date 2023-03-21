@@ -9,7 +9,7 @@ COV_DIR="coverage"
 COV_PATH=$SEARCH_FOLDER/$COV_DIR
 
 # Find all .d files:
-COV_FILES=`find $COV_PATH -name '*.lst'`
+COV_FILES=`find $COV_PATH/* -name '*.lst'`
 echo Code coverage report:
 
 ANY_UNDER_TARGET=false
