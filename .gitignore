@@ -19,11 +19,11 @@
 .dub
 docs.json
 __dummy.html
+dub.selections.json
 
 coverage/
 docs/
 
-/client
 client.so
 client.dylib
 client.dll
@@ -31,7 +31,6 @@ client.a
 client.lib
 client-test-*
 
-/server
 server.so
 server.dylib
 server.dll

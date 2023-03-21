@@ -84,7 +84,7 @@ jobs:
         working-directory: ./client
         run: |
           dub --build=release
-          ls .
+          ls ./bin
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
@@ -128,7 +128,7 @@ jobs:
         working-directory: ./server
         run: |
           dub --build=release
-          ls .
+          ls ./bin
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
