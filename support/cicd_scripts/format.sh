@@ -19,7 +19,7 @@ fi
 mkdir $D_COPY_PATH
 
 # Find all .d files:
-DFILES=`find $SEARCH_FOLDER -name '*.d' -r`
+DFILES=`find $SEARCH_FOLDER -name '*.d'`
 
 
 # Copy all files over:
@@ -28,7 +28,7 @@ for val in $DFILES; do
 done
 
 # Run the formatter on the copied files:
-dub run dfmt --yes -- --version
+dub fetch dfmt
 for val in $D_COPY_PATH; do
   dub run dfmt -- -i $val
 done
