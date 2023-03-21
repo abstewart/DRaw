@@ -40,17 +40,23 @@ for val in $DFILES; do
   cmp -s $val $COPIED_PATH || echo `cmp $val $COPIED_PATH` || ANY_DIFFERENT=1
 done
 
+echo aaaaaaaaaaa
+
 # Wipe the copy file:
 if [ -d $D_COPY_PATH ];
 then
   rm -r $D_COPY_PATH
 fi
 
+echo bbbbbbbbbbb
+
 # End with error if there were any differences:
 if [ $ANY_DIFFERENT ];
 then
   exit 1
 fi
+
+echo ccccccccc
 
 # There were no differences! Success!
 exit 0
