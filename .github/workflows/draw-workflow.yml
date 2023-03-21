@@ -52,14 +52,6 @@ jobs:
       - name: Check Formatting
         run: sh ./support/cicd_scripts/format.sh ./client
 
-      # Runs a single command using the runners shell
-      - name: Perform Client Unit Tests
-        working-directory: ./client
-        run: dub run --build=unittest
-
-      - name: Generate Client Docs
-        run: sh ./support/cicd_scripts/generate_docs.sh ./client
-
       - name: Generate Client Coverage
         working-directory: ./client
         run: dub -b cov
@@ -69,13 +61,21 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Archive Client Docs
-          path: ./client/docs # or path/to/artifact
+          name: Archive Client Coverage
+          path: ./client/coverage # or path/to/artifact
+
+      # Runs a single command using the runners shell
+      - name: Perform Client Unit Tests
+        working-directory: ./client
+        run: dub run --build=unittest
+
+      - name: Generate Client Docs
+        run: sh ./support/cicd_scripts/generate_docs.sh ./client
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Archive Client Coverage
-          path: ./client/coverage # or path/to/artifact
+          name: Archive Client Docs
+          path: ./client/docs # or path/to/artifact
 
 
 
