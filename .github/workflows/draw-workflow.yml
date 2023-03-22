@@ -22,7 +22,7 @@ jobs:
     name: Dub Tests
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-20.04, windows-latest, macOS-latest]
         dc: [dmd-latest]
         exclude:
           - { os: macOS-latest, dc: dmd-2.085.0 }
@@ -87,7 +87,7 @@ jobs:
           ls ./bin
 
       - name: Ubuntu TestssssCharliePupperIsTheCutestBestestBoyILoveHimSoMuchAndMaaike
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-20.04'
         run: |
           ldd --version
           ./client/bin/client
@@ -100,9 +100,9 @@ jobs:
           path: ./client/bin/client # or path/to/artifact
 
       - uses: actions/upload-artifact@v3
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-20.04'
         with:
-          name: Client Ubuntu Release Deliverable
+          name: Client Ubuntu-20.04 Release Deliverable
           path: ./client/bin/client # or path/to/artifact
 
       - uses: actions/upload-artifact@v3
@@ -156,9 +156,9 @@ jobs:
           path: ./server/bin/server # or path/to/artifact
 
       - uses: actions/upload-artifact@v3
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-20.04'
         with:
-          name: Server Ubuntu Release Deliverable
+          name: Server Ubuntu-20.04 Release Deliverable
           path: ./server/bin/server # or path/to/artifact
 
       - uses: actions/upload-artifact@v3
