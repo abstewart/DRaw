@@ -1,25 +1,44 @@
+# MAC
 .DS_Store
 
-# As per assignment 3 part 1, ignore:
+# IDE
+.idea
+.vscode
+
+# DLang compiled object files
 *.o
-*.out
+*.obj
+
+# macOS Application Bundle
 *.app
+
+# Executables
 *.exe
+
+# Compiled Dynamic libraries
 *.so
 *.dylib
 *.dll
 
-# Also ignore:
-*.lst
-*.obj
-*.ilk
-*.pdb
-.idea
+# Compiled Static libraries
+*.a
+*.lib
 
+# Compiled Executable File
+*.out
+
+# Code coverage
+*.lst
+
+# DUB
 .dub
 docs.json
 __dummy.html
 dub.selections.json
+
+# Also ignore
+*.ilk
+*.pdb
 
 coverage/
 docs/

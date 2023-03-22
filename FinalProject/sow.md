@@ -21,8 +21,8 @@ We at *The Paint Factory* value speed, so the desktop application should be prog
 ### Goals and objectives of our engagement
 
 - During the first week get organized and get the team together. Do preliminary research into tasks identifying trouble points to the above. Make project estimates and develop an overall schedule.
-- Focus on completing a MVP as soon as possible and checking in with project manager intermitently.
-- Work within team in roughly 1 to 2 week sprints to achieve objectives (or otherwise as agreed upon).
+- Focus on completing an MVP as soon as possible and checking in with project manager intermittently.
+- Work within team in roughly 1 to 2-week sprints to achieve objectives (or otherwise as agreed upon).
 - Demo working application, record working application.
 
 ### Deliverable
