@@ -22,7 +22,7 @@ jobs:
     name: Dub Tests
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
         dc: [dmd-latest]
         exclude:
           - { os: macOS-latest, dc: dmd-2.085.0 }
@@ -87,6 +87,18 @@ jobs:
           ls -a ./bin
 
       - uses: actions/upload-artifact@v3
+        if: matrix.os == 'macOS-latest'
+        with:
+          name: Client macOS Release Deliverable
+          path: ./client/bin/client # or path/to/artifact
+
+      - uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: Client Ubuntu Release Deliverable
+          path: ./client/bin/client # or path/to/artifact
+
+      - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
         with:
           name: Client Windows Release Deliverable
@@ -129,6 +141,18 @@ jobs:
         run: |
           dub --build=release
           ls -a ./bin
+
+      - uses: actions/upload-artifact@v3
+        if: matrix.os == 'macOS-latest'
+        with:
+          name: Server macOS Release Deliverable
+          path: ./client/bin/server # or path/to/artifact
+
+      - uses: actions/upload-artifact@v3
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: Server Ubuntu Release Deliverable
+          path: ./client/bin/server # or path/to/artifact
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
