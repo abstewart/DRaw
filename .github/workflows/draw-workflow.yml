@@ -86,13 +86,6 @@ jobs:
           dub --build=release
           ls ./bin
 
-      - name: Ubuntu TestssssCharliePupperIsTheCutestBestestBoyILoveHimSoMuchAndMaaike
-        if: matrix.os == 'ubuntu-20.04'
-        run: |
-          ldd --version
-          ./client/bin/client
-          
-
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'macOS-latest'
         with:
@@ -166,6 +159,3 @@ jobs:
         with:
           name: Server Windows Release Deliverable
           path: ./server/bin/server.exe # or path/to/artifact
-
-
-
