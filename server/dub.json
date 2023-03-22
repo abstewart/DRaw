@@ -1,0 +1,35 @@
+{
+	"authors": [
+		"Team DRaw"
+	],
+	"configurations": [
+		{
+			"name": "executable",
+			"targetType": "executable"
+		},
+		{
+			"excludedSourceFiles": [
+				"source/app.d"
+			],
+			"mainSourceFile": "bin/ut.d",
+			"name": "unittest",
+			"preBuildCommands": [
+				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
+			],
+			"sourceFiles": [
+				"bin/ut.d"
+			],
+			"targetName": "unittest",
+			"targetType": "executable"
+		}
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"dependencies": {
+		"unit-threaded": "~>2.1.2"
+	},
+	"description": "The server for the Team DRaw application.",
+	"license": "proprietary",
+	"name": "server",
+	"targetPath": "bin",
+	"targetType": "executable"
+}

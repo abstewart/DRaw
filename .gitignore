@@ -1,20 +1,19 @@
-# IDE 
-.idea
-.vscode
-
 # MAC
 .DS_Store
 
-# DLang 
-# Compiled Object files
+# IDE
+.idea
+.vscode
+
+# DLang compiled object files
 *.o
 *.obj
 
-# Compiled Executable File
-*.out
-
 # macOS Application Bundle
 *.app
+
+# Executables
+*.exe
 
 # Compiled Dynamic libraries
 *.so
@@ -25,14 +24,35 @@
 *.a
 *.lib
 
-# Executables
-*.exe
+# Compiled Executable File
+*.out
+
+# Code coverage
+*.lst
 
 # DUB
 .dub
 docs.json
 __dummy.html
+dub.selections.json
+
+# Also ignore:
+*.ilk
+*.pdb
+
+coverage/
 docs/
 
-# Code coverage
-*.lst
+client.so
+client.dylib
+client.dll
+client.a
+client.lib
+client-test-*
+
+server.so
+server.dylib
+server.dll
+server.a
+server.lib
+server-test-*
