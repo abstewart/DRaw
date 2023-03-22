@@ -56,3 +56,5 @@ server.dll
 server.a
 server.lib
 server-test-*
+client/bin/client
+server/bin/server
