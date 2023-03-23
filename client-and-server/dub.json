@@ -25,7 +25,8 @@
 	],
 	"copyright": "Copyright © 2023, Team DRaw",
 	"dependencies": {
-		"unit-threaded": "~>2.1.2"
+		"unit-threaded": "~>2.1.2",
+		"bindbc-sdl": "~>1.2.4"
 	},
 	"description": "The client for the Team DRaw application.",
 	"license": "proprietary",

@@ -1,4 +1,4 @@
-class Window {
-
-    render(canvas);
-}
+//class Window {
+//
+//    render(canvas);
+//}
