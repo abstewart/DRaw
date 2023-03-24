@@ -1,36 +1,35 @@
 {
-	"authors": [
-		"Team DRaw"
+    "name": "draw",
+    "description": "The client for the Team DRaw application.",
+    "authors": [
+	"Team DRaw"
+    ],
+    "copyright": "Copyright © 2023, Team DRaw",
+    "targetType": "executable",
+    "license": "proprietary",
+    "targetPath": "bin",
+    "configurations": [
+	{
+	"name": "unittest",
+	"preBuildCommands": [
+	    "dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
 	],
-	"configurations": [
-		{
-			"name": "executable",
-			"targetType": "executable"
-		},
-		{
-			"excludedSourceFiles": [
-				"source/app.d"
-			],
-			"mainSourceFile": "bin/ut.d",
-			"name": "unittest",
-			"preBuildCommands": [
-				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
-			],
-			"sourceFiles": [
-				"bin/ut.d"
-			],
-			"targetName": "unittest",
-			"targetType": "executable"
-		}
+	"mainSourceFile": "bin/ut.d",
+	"excludedSourceFiles": [
+	    "source/client/source/app.d",
+	    "source/server/source/app.d"
 	],
-	"copyright": "Copyright © 2023, Team DRaw",
 	"dependencies": {
-		"unit-threaded": "~>2.1.2",
-		"bindbc-sdl": "~>1.2.4"
-	},
-	"description": "The client for the Team DRaw application.",
-	"license": "proprietary",
+	    "unit-threaded": "~>2.1.2",
+	    "bindbc-sdl": "~>1.2.4"
+	}
+    },
+	{
 	"name": "client",
-	"targetPath": "bin",
-	"targetType": "executable"
+	"mainSourceFile": "source/client/app.d",
+	"dependencies": {
+	    "bindbc-sdl": "~>1.2.4"
+	}
+    }
+    ]
 }
