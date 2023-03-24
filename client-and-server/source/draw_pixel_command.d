@@ -11,8 +11,8 @@ class DrawPixelCommand : Command {
     Color color;
 
     this(int x, int y, Color color) {
-        x = x;
-        y = y;
+        this.x = x;
+        this.y = y;
         color = color;
     }
 
