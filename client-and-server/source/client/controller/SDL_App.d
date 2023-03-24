@@ -109,6 +109,9 @@ class SDLApp{
 
                     DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(xPos, yPos, Color.BLUE);
                     newDrawPixelCommand.apply(*applicationState.canvasState.cachedImgSurface);
+                }else if(e.type == SDL_KEYUP && e.key.keysym.scancode == SDL_SCANCODE_Z){
+
+                    writeln("ZZZZZ!!!!!");
                 }
             }
 

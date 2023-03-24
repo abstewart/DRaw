@@ -13,6 +13,7 @@ import canvas_state : CanvasState;
 struct ApplicationState{
     CanvasState* canvasState;
 
+
     this(int x, int y) {
         // Create a CanvasState...
 
