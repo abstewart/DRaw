@@ -9,7 +9,9 @@ import bindbc.sdl;
 import loader = bindbc.loader.sharedlib;
 
 // Load our custom SDL_Surface library
-import canvas_state : CanvasState;
+import application_state : ApplicationState;
+import draw_pixel_command : DrawPixelCommand;
+import constants;
 
 
 class SDLApp{
@@ -75,7 +77,7 @@ class SDLApp{
         480,
         SDL_WINDOW_SHOWN);
         // Load the bitmap surface
-        CanvasState imgSurface = CanvasState(640, 480);
+        ApplicationState applicationState = ApplicationState(640, 480);
 
         // Flag for determing if we are running the main application loop
         bool runApplication = true;
@@ -104,21 +106,15 @@ class SDLApp{
                     // retrieve the position
                     int xPos = e.button.x;
                     int yPos = e.button.y;
-                    // Loop through and update specific pixels
-                    // NOTE: No bounds checking performed --
-                    //       think about how you might fix this :)
-                    int brushSize=4;
-                    for(int w=-brushSize; w < brushSize; w++){
-                        for(int h=-brushSize; h < brushSize; h++){
-                            imgSurface.UpdateSurfacePixel(xPos+w,yPos+h,255,128,32);
-                        }
-                    }
+
+                    DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(xPos, yPos, Color.BLUE);
+                    newDrawPixelCommand.apply(*applicationState.canvasState.cachedImgSurface);
                 }
             }
 
             // Blit the surace (i.e. update the window with another surfaces pixels
             //                       by copying those pixels onto the window).
-            SDL_BlitSurface(imgSurface.cachedImgSurface,null,SDL_GetWindowSurface(window),null);
+            SDL_BlitSurface(applicationState.canvasState.cachedImgSurface,null,SDL_GetWindowSurface(window),null);
             // Update the window surface
             SDL_UpdateWindowSurface(window);
             // Delay for 16 milliseconds
