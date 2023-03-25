@@ -10,6 +10,7 @@ import loader = bindbc.loader.sharedlib;
 
 // Load our custom SDL_Surface library
 import application_state : ApplicationState;
+import command;
 import draw_pixel_command : DrawPixelCommand;
 import constants;
 
@@ -109,9 +110,20 @@ class SDLApp{
 
                     DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(xPos, yPos, Color.BLUE);
                     newDrawPixelCommand.apply(*applicationState.canvasState.cachedImgSurface);
+                    //add the command to the history // TODO check for success b4 this?
+                    applicationState.addToHistory(newDrawPixelCommand);
                 }else if(e.type == SDL_KEYUP && e.key.keysym.scancode == SDL_SCANCODE_Z){
+                    //TODO this currently crashes if there's nothing to undo
+                    writeln("ZZZZZ!!!!!", applicationState.history.length);
+                    //retrieve the most recent command
+                    Command cmd = applicationState.popHistory();
 
-                    writeln("ZZZZZ!!!!!");
+                    //call the undo function, passing the img Surface
+                    if(cmd !is null){
+                        cmd.undo(*applicationState.canvasState.cachedImgSurface);
+                    }
+
+
                 }
             }
 
