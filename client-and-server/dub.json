@@ -1,0 +1,38 @@
+{
+	"name": "draw",
+	"description": "The client for the Team DRaw application.",
+	"authors": [
+		"Team DRaw"
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"targetType": "executable",
+	"license": "proprietary",
+	"targetPath": "bin",
+	"configurations": [
+		{
+			"name": "client",
+			"mainSourceFile": "source/client/app.d",
+			"dependencies": {
+				"bindbc-sdl": "~>1.2.4"
+			},
+			"excludedSourceFiles": [
+				"source/server/source/app.d"
+			]
+		},
+		{
+			"name": "unittest",
+			"preBuildCommands": [
+				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
+			],
+			"mainSourceFile": "bin/ut.d",
+			"excludedSourceFiles": [
+				"source/client/source/app.d",
+				"source/server/source/app.d"
+			],
+			"dependencies": {
+				"unit-threaded": "~>2.1.2",
+				"bindbc-sdl": "~>1.2.4"
+			}
+		}
+	]
+}
