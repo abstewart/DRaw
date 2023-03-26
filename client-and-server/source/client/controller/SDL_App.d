@@ -113,7 +113,6 @@ class SDLApp{
                     //add the command to the history // TODO check for success b4 this?
                     applicationState.addToHistory(newDrawPixelCommand);
                 }else if(e.type == SDL_KEYUP && e.key.keysym.scancode == SDL_SCANCODE_Z){
-                    //TODO this currently crashes if there's nothing to undo
                     writeln("ZZZZZ!!!!!", applicationState.history.length);
                     //retrieve the most recent command
                     Command cmd = applicationState.popHistory();
