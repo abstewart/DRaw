@@ -1,6 +1,8 @@
 // Imports.
 private import std.stdio;                               // writeln.
+private import std.array;                               // appender.
 private import std.math;                                // PI.
+import std.datetime.systime : SysTime, Clock;           // SysTime and Clock.
 
 private import cairo.Context;                           // Context.
 private import cairo.ImageSurface;                      // ImageSurface.
@@ -75,7 +77,6 @@ class MyDrawingArea : VBox {
 
     void saveWhiteboard(Button button) {
         writeln("Save whiteboard to a file");
-        // TODO
         this.drawingArea.saveWhiteboard();
     }
 
@@ -164,9 +165,8 @@ class MyDrawingArea : VBox {
             writeln("The new brush color is: ", this.rgbaColor.toString);
         }
 
-        // TODO: Take in a file name and pass that plus the path into savev.
+        // TODO: Make the background of the image white -- not black.
         public void saveWhiteboard() {
-            writeln("In saveWhiteboard()");
             Context context = Context.create(this.surface);
             getAllocation(size);                        // Grab the widget's size as allocated by its parent.
             this.pixbuf = getFromSurface(context.getTarget(), this.xOffset, this.yOffset,
@@ -176,11 +176,25 @@ class MyDrawingArea : VBox {
             this.jpegOptions = ["quality"];
             this.jpegOptionValues = ["100"];
 
-            if (this.pixbuf.savev("./test.jpg", "jpeg", this.jpegOptions, this.jpegOptionValues)) {
+            // Create the file path.
+            auto filePath = appender!string();
+            filePath.put('.');
+            filePath.put('/');
+            SysTime currentTime = Clock.currTime();
+            foreach (char c ; currentTime.toString()) {
+                filePath.put(c);
+            }
+            filePath.put('.');
+            filePath.put('j');
+            filePath.put('p');
+            filePath.put('e');
+            filePath.put('g');
+
+            writeln("file path = ", filePath[]);
+
+            if (this.pixbuf.savev(filePath[], "jpeg", this.jpegOptions, this.jpegOptionValues)) {
                 writeln("JPEG was successfully saved.");
             }
-
-            writeln("Exiting saveWhiteboard()");
         }
 
         void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
