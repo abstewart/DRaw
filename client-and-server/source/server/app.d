@@ -1,10 +1,12 @@
 import std.stdio;
-import SDL_App : SDLApp;
+import server_network : Server;
 
 /// Main function. Entry point for the program.
 void main()
 {
-    writeln("This is the client! Hello!!!");
-    SDLApp myApp = new SDLApp();
-    myApp.MainApplicationLoop();
+    Server ourServer = new Server("localhost", 51111, 4);
+
+	writeln("Awaiting client connections");
+
+    ourServer.handleReception();
 }

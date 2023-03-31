@@ -1,17 +1,25 @@
 {
-    "name": "draw",
+    "name": "server",
     "description": "The client for the Team DRaw application.",
     "authors": [
 	"Team DRaw"
     ],
     "copyright": "Copyright © 2023, Team DRaw",
-    "license": "proprietary",
     "targetType": "executable",
-    "subPackages": [
-	"./source/client/",
-	"./source/server/"
+    "license": "proprietary",
+    "targetPath": "bin",
+    "mainSourceFile": "app.d",
+    "sourcePaths": ["./", "../client/"],
+    "excludedSourceFiles": [
+	"../client/app.d"
     ],
     "configurations": [
+	{
+	"name": "server",
+	"dependencies": {
+	    "bindbc-sdl": "~>1.2.4"
+	}
+    },
 	{
 	"name": "unittest",
 	"preBuildCommands": [

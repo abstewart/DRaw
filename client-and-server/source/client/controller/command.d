@@ -8,7 +8,7 @@ interface Command {
 
     void undo(ref SDL_Surface);
 
-    int getCommandType();
+    char[] encode();
 }
 
 

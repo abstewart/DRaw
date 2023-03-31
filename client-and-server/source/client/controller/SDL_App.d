@@ -3,6 +3,10 @@
 // Import D standard libraries
 import std.stdio;
 import std.string;
+import std.conv;
+import std.parallelism;
+import std.concurrency;
+import std.datetime;
 
 // Load the SDL2 library
 import bindbc.sdl;
@@ -12,14 +16,45 @@ import loader = bindbc.loader.sharedlib;
 import application_state : ApplicationState;
 import command;
 import draw_pixel_command : DrawPixelCommand;
-import constants;
+import color : Color;
+import client_network;
+import deque : Deque;
+import encode_decode;
 
+auto TIMEOUT_DUR = 50.msecs;
+
+void handleNetworking(Tid parent) {
+    Client network = new Client();
+
+    for( bool active = true; active; ) {
+        // gives a 500 microsecond window for the main thread to trigger a send
+        // writeln("checking for send from parent");
+        auto recv = receiveTimeout(TIMEOUT_DUR,
+            // (bool noSendRequested) { writeln("explicit no send"); },
+            (immutable bool needToSend, char[] commandToSend) { 
+                writeln("received a packet to send");
+                if (needToSend) {network.sendToServer(commandToSend);} 
+                },
+            (OwnerTerminated error) { active = false; }
+        );
+        // receives data from our server, note our server is non-blocking
+        auto cmdAndLen = network.receiveFromServer();
+    
+        // if we get a command we need to send it to our parent thread
+        if (cmdAndLen[1] > 0) {
+            writeln("writing data to parent");
+            immutable char[] encodedCmd = to!string(cmdAndLen[0]);
+            immutable recvLen = cmdAndLen[1];
+            send(parent, encodedCmd, recvLen);
+        }
+    }
+}
 
 class SDLApp{
-
     this(){
         // Handle initialization...
         // SDL_Init
+        // Socket Initialization
 
         // Load the SDL libraries from bindbc-sdl
         // on the appropriate operating system
@@ -55,6 +90,7 @@ class SDLApp{
         if(SDL_Init(SDL_INIT_EVERYTHING) !=0){
             writeln("SDL_Init: ", fromStringz(SDL_GetError()));
         }
+
     }
 
     ~this(){
@@ -82,6 +118,8 @@ class SDLApp{
 
         // Flag for determing if we are running the main application loop
         bool runApplication = true;
+        Command[] cStack;
+        Tid network_thread = spawn(&handleNetworking, thisTid);
         // Flag for determining if we are 'drawing' (i.e. mouse has been pressed
         //                                                but not yet released)
         bool drawing = false;
@@ -107,11 +145,20 @@ class SDLApp{
                     // retrieve the position
                     int xPos = e.button.x;
                     int yPos = e.button.y;
-
-                    DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(xPos, yPos, Color.BLUE);
-                    newDrawPixelCommand.apply(*applicationState.canvasState.cachedImgSurface);
-                    //add the command to the history // TODO check for success b4 this?
+                    Color lineColor = Color(0,0,255);
+                    DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(xPos, yPos, lineColor);
+                    immutable auto toSend = newDrawPixelCommand.encode();
+                    immutable bool sendStatus = true;
+                    send(network_thread, sendStatus, toSend);
+                    // clientNetwork.sendToServer(newDrawPixelCommand.encode());
+                    // auto executeTask = task!executeCommand(newDrawPixelCommand, applicationState);
+                    // this.executionPool.put(executeTask);
+                    // synchronized {
+                    cStack ~= [newDrawPixelCommand];
                     applicationState.addToHistory(newDrawPixelCommand);
+                    // }
+                    //add the command to the history // TODO check for success b4 this?
+                    // applicationState.addToHistory(newDrawPixelCommand);
                 }else if(e.type == SDL_KEYUP && e.key.keysym.scancode == SDL_SCANCODE_Z){
                     writeln("ZZZZZ!!!!!", applicationState.history.length);
                     //retrieve the most recent command
@@ -121,19 +168,35 @@ class SDLApp{
                     if(cmd !is null){
                         cmd.undo(*applicationState.canvasState.cachedImgSurface);
                     }
-
-
                 }
             }
 
+            for( bool messageReceived = true; messageReceived; ) {
+                messageReceived = receiveTimeout(TIMEOUT_DUR,
+                    (char[] commandEnc, long recv) {
+                        Command command = decodePacketToCommand(commandEnc, recv);
+                        cStack ~= [command];
+                        }
+                );
+            }
+
+            while(cStack.length > 0) {
+                Command command = cStack[0];
+                command.apply(*applicationState.canvasState.cachedImgSurface);  
+                cStack = cStack[1..$];
+            }
             // Blit the surace (i.e. update the window with another surfaces pixels
             //                       by copying those pixels onto the window).
             SDL_BlitSurface(applicationState.canvasState.cachedImgSurface,null,SDL_GetWindowSurface(window),null);
-            // Update the window surface
+            // // Update the window surface
             SDL_UpdateWindowSurface(window);
             // Delay for 16 milliseconds
             // Otherwise the program refreshes too quickly
+            // auto receiveTask = task!handleReception(this.clientNetwork, this.executionPool, this.cStack);
+            // this.receptionPool.put(receiveTask);
+            
             SDL_Delay(16);
+
         }
 
         // Destroy our window
