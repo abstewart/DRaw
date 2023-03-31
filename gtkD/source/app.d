@@ -31,13 +31,109 @@ private import gtk.AboutDialog;                                         // About
 private import gtk.Dialog;                                              // Dialog.
 
 class MyWindow : ApplicationWindow {
+    this(Application application) {
+        super(application);
+        setTitle("DRaw");
+        setup();
+        showAll();
+
+        string versionCompare = Version.checkVersion(3,0,0);
+
+        if (versionCompare.length > 0){
+            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType.OK,
+            "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
+            "\nYou might run into problems!"~ "\n\nPress OK to continue");
+            d.run();
+            d.destroy();
+        }
+    }
+
+    void setup() {
+        VBox mainBox = new VBox(false,0);
+        mainBox.packStart(getMenuBar(), false, false,0);
+
+        // AppBox.
+        AppBox appBox = new AppBox();
+        mainBox.packStart(appBox, false, false,0);
+
+        // Buttons.
+        Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard);
+        Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard);
+        Button quitButton = new Button(StockID.QUIT, &anyButtonExits);
+        ButtonBox bBox = HButtonBox.createActionBox();
+        bBox.packEnd(connectButton, 0, 0, 10);
+        bBox.packEnd(disconnectButton, 0, 0, 10);
+        bBox.packEnd(quitButton,0, 0, 10);
+        mainBox.packStart(bBox, false, false,0);
+
+        // Statusbar.
+        Statusbar statusbar = new Statusbar();
+        mainBox.packStart(statusbar, false, true,0);
+
+        // Add mainBox to Window.
+        add(mainBox);
+    }
+
+    void connectWhiteboard(Button button) {
+        writeln("Connect whiteboard");
+        ConnectDialog connectDialog = new ConnectDialog();
+    }
+
+    void disconnectWhiteboard(Button button) {
+        writeln("Disconnect whiteboard");
+        DisconnectDialog disconnectDialog = new DisconnectDialog();
+    }
+
+    void anyButtonExits(Button button) {
+        writeln("Exit program");
+        // TODO: Disconnect from server, if connected.
+        stdlib.exit(0);
+    }
+
+    void onMenuActivate(MenuItem menuItem) {
+        string action = menuItem.getActionName();
+        switch (action) {
+            case "help.about":
+            GtkDAbout dlg = new GtkDAbout();
+            dlg.addOnResponse(&onDialogResponse);
+            dlg.showAll();
+
+            dlg.run();
+            dlg.destroy();
+
+            break ;
+            default:
+            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
+            "You pressed menu item "~action);
+            d.run();
+            d.destroy();
+            break ;
+        }
+    }
+
+    void onDialogResponse(int response, Dialog dlg) {
+        if (response == GtkResponseType.CANCEL) {
+            dlg.destroy();
+        }
+    }
+
+    MenuBar getMenuBar() {
+        AccelGroup accelGroup = new AccelGroup();
+        addAccelGroup(accelGroup);
+        MenuBar menuBar = new MenuBar();
+        Menu menu = menuBar.append("_Help");
+        menu.append(new MenuItem(&onMenuActivate, "_About","help.about", true, accelGroup, 'a',
+        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
+        return menuBar;
+    }
+
     int windowDelete(GdkEvent* event, Widget widget) {
         debug(events) {
             writefln("MyWindow.widgetDelete : this and widget to delete %X %X", this, window);
         }
 
         MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.QUESTION,
-                                            ButtonsType.YES_NO, "Are you sure you want' to exit?");
+        ButtonsType.YES_NO, "Are you sure you want' to exit?");
         int responce = d.run();
         if (responce == ResponseType.YES){
             // TODO: Disconnect from server, if connected.
@@ -47,7 +143,42 @@ class MyWindow : ApplicationWindow {
         return true;
     }
 
-    class NewImageDialog : Dialog {
+    // Classes.
+
+    class DisconnectDialog : Dialog {
+        private:
+        DialogFlags flags = DialogFlags.MODAL;
+        ResponseType[] responseTypes = [ResponseType.YES, ResponseType.NO];
+
+        string[] buttonLabels = ["Yes", "No"];
+        string titleText = "Are you sure you want to disconnect?";
+
+        public:
+        this() {
+            super(titleText, null, flags, buttonLabels, responseTypes);
+            addOnResponse(&doSomething);
+            run();
+            destroy();
+        }
+
+        private:
+        void doSomething(int response, Dialog d) {
+            switch(response) {
+                case ResponseType.YES:
+                writeln("You disconnected.");
+                // TODO: If they are not connected -- alert them that they are already not connected.
+                break;
+                case ResponseType.NO:
+                writeln("You did not disconnect.");
+                break;
+                default:
+                writeln("Dialog closed.");
+                break;
+            }
+        }
+    }
+
+    class ConnectDialog : Dialog {
         private:
         GtkDialogFlags flags = GtkDialogFlags.MODAL;
         MessageType messageType = MessageType.INFO;
@@ -232,72 +363,6 @@ class MyWindow : ApplicationWindow {
         CENTER = 2,
     }
 
-    this(Application application) {
-        super(application);
-        setTitle("DRaw");
-        setup();
-        showAll();
-
-        string versionCompare = Version.checkVersion(3,0,0);
-
-        if (versionCompare.length > 0){
-            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType.OK,
-            "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
-            "\nYou might run into problems!"~ "\n\nPress OK to continue");
-            d.run();
-            d.destroy();
-        }
-    }
-
-    void setup() {
-        VBox mainBox = new VBox(false,0);
-        mainBox.packStart(getMenuBar(), false, false,0);
-
-        // AppBox.
-        AppBox appBox = new AppBox();
-        mainBox.packStart(appBox, false, false,0);
-
-        // Buttons.
-        Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard);
-        //Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
-        //Button saveButton = new Button(StockID.SAVE, &saveWhiteboard);
-        Button quitButton = new Button(StockID.QUIT, &anyButtonExits);
-        ButtonBox bBox = HButtonBox.createActionBox();
-        bBox.packEnd(connectButton, 0, 0, 10);
-        //bBox.packEnd(undoButton, 0, 0, 10);
-        //bBox.packEnd(saveButton,0, 0, 10);
-        bBox.packEnd(quitButton,0, 0, 10);
-        mainBox.packStart(bBox, false, false,0);
-
-        // Statusbar.
-        Statusbar statusbar = new Statusbar();
-        mainBox.packStart(statusbar, false, true,0);
-
-        // Add mainBox to Window.
-        add(mainBox);
-    }
-
-    void connectWhiteboard(Button button) {
-        writeln("Connect whiteboard");
-        NewImageDialog n = new NewImageDialog();
-    }
-
-    void anyButtonExits(Button button) {
-        writeln("Exit program");
-        // TODO: Disconnect from server, if connected.
-        stdlib.exit(0);
-    }
-
-    MenuBar getMenuBar() {
-        AccelGroup accelGroup = new AccelGroup();
-        addAccelGroup(accelGroup);
-        MenuBar menuBar = new MenuBar();
-        Menu menu = menuBar.append("_Help");
-        menu.append(new MenuItem(&onMenuActivate, "_About","help.about", true, accelGroup, 'a',
-        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
-        return menuBar;
-    }
-
     class AppBox : Box {
         MyDrawingArea myDrawingArea;
 
@@ -330,33 +395,6 @@ class MyWindow : ApplicationWindow {
             setLicense(license);
             setProgramName(programName);
             setLogo(logoPixbuf);
-        }
-    }
-
-    void onMenuActivate(MenuItem menuItem) {
-        string action = menuItem.getActionName();
-        switch (action) {
-            case "help.about":
-                GtkDAbout dlg = new GtkDAbout();
-                dlg.addOnResponse(&onDialogResponse);
-                dlg.showAll();
-
-                dlg.run();
-                dlg.destroy();
-
-                break ;
-            default:
-                MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
-                "You pressed menu item "~action);
-                d.run();
-                d.destroy();
-                break ;
-        }
-    }
-
-    void onDialogResponse(int response, Dialog dlg) {
-        if (response == GtkResponseType.CANCEL) {
-            dlg.destroy();
         }
     }
 }

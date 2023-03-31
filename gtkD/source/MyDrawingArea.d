@@ -76,6 +76,7 @@ class MyDrawingArea : VBox {
     void saveWhiteboard(Button button) {
         writeln("Save whiteboard to a file");
         // TODO
+        this.drawingArea.saveWhiteboard();
     }
 
     void undoWhiteboard(Button button) {
@@ -116,8 +117,13 @@ class MyDrawingArea : VBox {
         Image image;
         Pixbuf scaledPixbuf;
         SpinButton spin;
+
+        GtkAllocation size;                 // The area assigned to the DrawingArea by its parent.
+        Pixbuf pixbuf;                      // An 8-bit/pixel image buffer.
         string[] jpegOptions;
         string[] jpegOptionValues;
+        int xOffset = 0;
+        int yOffset = 0;
 
         this() {
             setSizeRequest(500, 300);            // Width, height.
@@ -144,12 +150,6 @@ class MyDrawingArea : VBox {
             writeln("TestDrawing destructor");
         }
 
-        public void updateBrushColor(RGBA newColor) {
-            writeln("In updateBrushColor");
-            this.rgbaColor = newColor;
-            writeln("The new brush color is: ", this.rgbaColor.toString);
-        }
-
         int Execute() {
             return 0;
         }
@@ -158,11 +158,35 @@ class MyDrawingArea : VBox {
             return 0;
         }
 
-        void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
-            width = allocation.width;
-            height = allocation.height;
+        public void updateBrushColor(RGBA newColor) {
+            writeln("In updateBrushColor");
+            this.rgbaColor = newColor;
+            writeln("The new brush color is: ", this.rgbaColor.toString);
+        }
 
-            surface = ImageSurface.create(CairoFormat.ARGB32, width, height);
+        // TODO: Take in a file name and pass that plus the path into savev.
+        public void saveWhiteboard() {
+            writeln("In saveWhiteboard()");
+            Context context = Context.create(this.surface);
+            getAllocation(size);                        // Grab the widget's size as allocated by its parent.
+            this.pixbuf = getFromSurface(context.getTarget(), this.xOffset, this.yOffset,
+                                    this.size.width, this.size.height); // The contents of the surface go into the buffer.
+
+            // Prepare and write JPEG file.
+            this.jpegOptions = ["quality"];
+            this.jpegOptionValues = ["100"];
+
+            if (this.pixbuf.savev("./test.jpg", "jpeg", this.jpegOptions, this.jpegOptionValues)) {
+                writeln("JPEG was successfully saved.");
+            }
+
+            writeln("Exiting saveWhiteboard()");
+        }
+
+        void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
+            this.width = allocation.width;
+            this.height = allocation.height;
+            this.surface = ImageSurface.create(CairoFormat.ARGB32, this.width, this.height);
         }
 
         public bool onButtonPress(Event event, Widget widget) {
@@ -173,7 +197,7 @@ class MyDrawingArea : VBox {
                 debug(trace) {
                     writeln("Button 1 down");
                 }
-                buttonIsDown = true;
+                this.buttonIsDown = true;
 
                 drawPrimitive(cast(int)event.button.x, cast(int)event.button.y);
             }
@@ -188,7 +212,7 @@ class MyDrawingArea : VBox {
                 debug(trace) {
                     writeln("Button 1 UP");
                 }
-                buttonIsDown = false;
+                this.buttonIsDown = false;
             }
             return false;
         }
@@ -215,10 +239,10 @@ class MyDrawingArea : VBox {
         public void sizeSpinChanged(SpinButton spinButton) {
             if (!(scaledPixbuf is null)) {
                 int width = spinButton.getValueAsInt();
-                scaledPixbuf = image.getPixbuf();
+                this.scaledPixbuf = image.getPixbuf();
 
-                float ww = width * scaledPixbuf.getWidth() / 30;
-                float hh = width * scaledPixbuf.getHeight() / 30;
+                float ww = width * this.scaledPixbuf.getWidth() / 30;
+                float hh = width * this.scaledPixbuf.getHeight() / 30;
 
                 scaledPixbuf = scaledPixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
             }
@@ -228,7 +252,7 @@ class MyDrawingArea : VBox {
             int width = this.spin.getValueAsInt();
             int height = width * 3 / 4;
 
-            Context context = Context.create(surface);
+            Context context = Context.create(this.surface);
             context.setOperator(operator);
             const double ALPHAVALUE = 1.0;
             double rValue = this.rgbaColor.red();
@@ -242,34 +266,34 @@ class MyDrawingArea : VBox {
 
             switch (primitiveType) {
                 case "Arc":
-                context.arc(x - width / 2, y - width / 2, width, 0, 2 * PI);
-                context.stroke();
-                break ;
+                    context.arc(x - width / 2, y - width / 2, width, 0, 2 * PI);
+                    context.stroke();
+                    break ;
                 case "Filled Arc":
-                context.arc(x - width / 4, y - width / 4, width / 2, 0, 2 * PI);
-                context.fill();
-                break ;
+                    context.arc(x - width / 4, y - width / 4, width / 2, 0, 2 * PI);
+                    context.fill();
+                    break ;
                 case "Line":
-                context.moveTo(x, y);
-                context.lineTo(x+width, y);
-                context.stroke();
-                break ;
+                    context.moveTo(x, y);
+                    context.lineTo(x+width, y);
+                    context.stroke();
+                    break ;
                 case "Point":
-                context.rectangle(x, y, 1, 1);
-                context.fill();
-                break ;
+                    context.rectangle(x, y, 1, 1);
+                    context.fill();
+                    break ;
                 case "Rectangle":
-                context.rectangle(x - width / 2, y - width / 4, width, height);
-                context.stroke();
-                break ;
+                    context.rectangle(x - width / 2, y - width / 4, width, height);
+                    context.stroke();
+                    break ;
                 case "Filled Rectangle":
-                context.rectangle(x - width / 2, y - width / 4, width, height);
-                context.fill();
-                break ;
+                    context.rectangle(x - width / 2, y - width / 4, width, height);
+                    context.fill();
+                    break ;
                 default:
-                context.arcNegative(x  -2, y - 2, 4, 0, 6);
-                context.fill();
-                break ;
+                    context.arcNegative(x  -2, y - 2, 4, 0, 6);
+                    context.fill();
+                    break ;
             }
 
             // Redraw the Widget.
@@ -277,7 +301,7 @@ class MyDrawingArea : VBox {
         }
 
         void onPrimOptionChanged(ComboBoxText comboBoxText) {
-            primitiveType = comboBoxText.getActiveText();
+            this.primitiveType = comboBoxText.getActiveText();
         }
     }
 }
