@@ -41,8 +41,8 @@ class MyWindow : ApplicationWindow {
 
         if (versionCompare.length > 0){
             MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType.OK,
-            "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
-            "\nYou might run into problems!"~ "\n\nPress OK to continue");
+                                "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
+                                "\nYou might run into problems!"~ "\n\nPress OK to continue");
             d.run();
             d.destroy();
         }
@@ -98,20 +98,18 @@ class MyWindow : ApplicationWindow {
         string action = menuItem.getActionName();
         switch (action) {
             case "help.about":
-            GtkDAbout dlg = new GtkDAbout();
-            dlg.addOnResponse(&onDialogResponse);
-            dlg.showAll();
-
-            dlg.run();
-            dlg.destroy();
-
-            break ;
+                GtkDAbout dlg = new GtkDAbout();
+                dlg.addOnResponse(&onDialogResponse);
+                dlg.showAll();
+                dlg.run();
+                dlg.destroy();
+                break ;
             default:
-            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
-            "You pressed menu item "~action);
-            d.run();
-            d.destroy();
-            break ;
+                MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
+                                    "You pressed menu item "~action);
+                d.run();
+                d.destroy();
+                break ;
         }
     }
 
@@ -127,7 +125,7 @@ class MyWindow : ApplicationWindow {
         MenuBar menuBar = new MenuBar();
         Menu menu = menuBar.append("_Help");
         menu.append(new MenuItem(&onMenuActivate, "_About","help.about", true, accelGroup, 'a',
-        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
+                        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
         return menuBar;
     }
 
@@ -137,7 +135,7 @@ class MyWindow : ApplicationWindow {
         }
 
         MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.QUESTION,
-        ButtonsType.YES_NO, "Are you sure you want' to exit?");
+        ButtonsType.YES_NO, "Are you sure you want to exit?");
         int responce = d.run();
         if (responce == ResponseType.YES){
             // TODO: Disconnect from server, if connected.
@@ -159,7 +157,7 @@ class MyWindow : ApplicationWindow {
 
         public:
         this() {
-            super(titleText, null, flags, buttonLabels, responseTypes);
+            super(this.titleText, null, this.flags, this.buttonLabels, this.responseTypes);
             addOnResponse(&doSomething);
             run();
             destroy();
@@ -200,7 +198,7 @@ class MyWindow : ApplicationWindow {
 
         public:
         this() {
-            super(titleText, null, flags, buttonLabels, responseTypes);
+            super(titleText, null, this.flags, this.buttonLabels, this.responseTypes);
             farmOutContent();
 
             addOnResponse(&doSomething);
@@ -214,24 +212,24 @@ class MyWindow : ApplicationWindow {
 
         void farmOutContent() {
             // FARM it out to AreaContent class.
-            contentArea = getContentArea();
-            areaContent = new AreaContent(contentArea);
+            this.contentArea = getContentArea();
+            this.areaContent = new AreaContent(this.contentArea);
         }
 
         void doSomething(int response, Dialog d) {
             switch (response) {
                 case ResponseType.OK:
-                foreach (item; areaContent.getConnectGrid.getData()) {
-                    writeln("data item: ", item);
-                }
-                // TODO: Check for valid IP addresses and port numbers.
-                break ;
+                    foreach (item; areaContent.getConnectGrid.getData()) {
+                        writeln("data item: ", item);
+                    }
+                    // TODO: Check for valid IP addresses and port numbers.
+                    break ;
                 case ResponseType.CANCEL:
-                writeln("Cancelled");
-                break ;
+                    writeln("Cancelled");
+                    break ;
                 default:
-                writeln("Dialog closed");
-                break ;
+                    writeln("Dialog closed");
+                    break ;
             }
         }
     }
@@ -243,10 +241,10 @@ class MyWindow : ApplicationWindow {
 
         public:
         this(Box contentArea) {
-            _contentArea = contentArea;
-            _connectGrid = new ConnectGrid();
-            _contentArea.add(_connectGrid);
-            _contentArea.showAll();
+            this._contentArea = contentArea;
+            this._connectGrid = new ConnectGrid();
+            this._contentArea.add(this._connectGrid);
+            this._contentArea.showAll();
         }
 
         ~this(){
@@ -254,24 +252,21 @@ class MyWindow : ApplicationWindow {
         }
 
         ConnectGrid getConnectGrid() {
-            return (_connectGrid);
+            return (this._connectGrid);
         }
     }
 
     class ConnectGrid : Grid {
         private:
         int _borderWidth = 10;        // Keeps the widgets from crowding each other in the grid.
-
         PadLabel ipAddressLabel;
         string ipAddressLabelText = "IP Address:";
         PadEntry ipAddressEntry;
         string ipAddressPlaceholderText = "localhost";
-
         PadLabel portNumLabel;
         string portNumLabelText = "Port number:";
         PadEntry portNumEntry;
         string portNumPlaceholderText = "50001";
-
         // Store the user-supplied data so it can be retrieved later.
         string _ipAddress;
         string _portNum;
@@ -279,23 +274,23 @@ class MyWindow : ApplicationWindow {
         public:
         this() {
             super();
-            setBorderWidth(_borderWidth);               // Keeps the grid separated from the window edges.
+            setBorderWidth(this._borderWidth);               // Keeps the grid separated from the window edges.
 
             // Row 0.
-            ipAddressLabel = new PadLabel(BoxJustify.RIGHT, ipAddressLabelText);
-            attach(ipAddressLabel, 0, 0, 1, 1);
+            this.ipAddressLabel = new PadLabel(BoxJustify.RIGHT, this.ipAddressLabelText);
+            attach(this.ipAddressLabel, 0, 0, 1, 1);
 
-            ipAddressEntry = new PadEntry(BoxJustify.LEFT, ipAddressPlaceholderText);
-            ipAddressEntry.setWidthInCharacters(30);
-            attach(ipAddressEntry, 1, 0, 2, 1);
+            this.ipAddressEntry = new PadEntry(BoxJustify.LEFT, this.ipAddressPlaceholderText);
+            this.ipAddressEntry.setWidthInCharacters(30);
+            attach(this.ipAddressEntry, 1, 0, 2, 1);
 
             // Row 1.
-            portNumLabel = new PadLabel(BoxJustify.RIGHT, portNumLabelText);
-            attach(portNumLabel, 0, 1, 1, 1);
+            this.portNumLabel = new PadLabel(BoxJustify.RIGHT, this.portNumLabelText);
+            attach(this.portNumLabel, 0, 1, 1, 1);
 
-            portNumEntry = new PadEntry(BoxJustify.LEFT, portNumPlaceholderText);
-            portNumEntry.setWidthInCharacters(30);
-            attach(portNumEntry, 1, 1, 1, 1);
+            this.portNumEntry = new PadEntry(BoxJustify.LEFT, this.portNumPlaceholderText);
+            this.portNumEntry.setWidthInCharacters(30);
+            attach(this.portNumEntry, 1, 1, 1, 1);
 
             setMarginBottom(7);
         }
@@ -305,9 +300,9 @@ class MyWindow : ApplicationWindow {
         }
 
         Tuple!(string, string) getData() {
-            _ipAddress = ipAddressEntry.getText();
-            _portNum = portNumEntry.getText();
-            return (tuple(_ipAddress, _portNum));
+            this._ipAddress = this.ipAddressEntry.getText();
+            this._portNum = this.portNumEntry.getText();
+            return (tuple(this._ipAddress, this._portNum));
         }
     }
 
@@ -315,8 +310,8 @@ class MyWindow : ApplicationWindow {
         Label label;
 
         this(BoxJustify pJustify, string text = null) {
-            label = new Label(text);
-            super(label, pJustify);
+            this.label = new Label(text);
+            super(this.label, pJustify);
         }
 
         ~this(){
@@ -330,14 +325,14 @@ class MyWindow : ApplicationWindow {
 
         this(BoxJustify pJustify, string placeholderText = null) {
             if (placeholderText !is null) {
-                _placeholderText = placeholderText;
+                this._placeholderText = placeholderText;
             } else {
-                _placeholderText = "";
+                this._placeholderText = "";
             }
 
-            _entry = new Entry(_placeholderText);
+            this._entry = new Entry(_placeholderText);
 
-            super(_entry, pJustify);
+            super(this._entry, pJustify);
         }
 
         ~this(){
@@ -345,15 +340,15 @@ class MyWindow : ApplicationWindow {
         }
 
         void setVisibility(bool state) {
-            _entry.setVisibility(state);
+            this._entry.setVisibility(state);
         }
 
         void setWidthInCharacters(int width) {
-            _entry.setWidthChars(width);
+            this._entry.setWidthChars(width);
         }
 
         string getText() {
-            return (_entry.getText());
+            return (this._entry.getText());
         }
     }
 
@@ -369,19 +364,19 @@ class MyWindow : ApplicationWindow {
 
         public:
         this(Widget widget, BoxJustify pJustify) {
-            _widget = widget;
-            _pJustify = pJustify;
+            this._widget = widget;
+            this._pJustify = pJustify;
 
-            super(Orientation.HORIZONTAL, globalPadding);
+            super(Orientation.HORIZONTAL, this.globalPadding);
 
-            if (_pJustify == BoxJustify.LEFT) {
-                packStart(_widget, expand, fill, padding);
+            if (this._pJustify == BoxJustify.LEFT) {
+                packStart(this._widget, this.expand, this.fill, this.padding);
             } else if (_pJustify == BoxJustify.RIGHT) {
-                packEnd(_widget, expand, fill, padding);
+                packEnd(this._widget, this.expand, this.fill, this.padding);
             } else {
-                add(_widget);
+                add(this._widget);
             }
-            setBorderWidth(_borderWidth);
+            setBorderWidth(this._borderWidth);
         }
 
         ~this(){
@@ -400,8 +395,8 @@ class MyWindow : ApplicationWindow {
 
         this() {
             super(Orientation.VERTICAL, 10);
-            myDrawingArea = new MyDrawingArea();
-            packStart(myDrawingArea, true, true, 0);
+            this.myDrawingArea = new MyDrawingArea();
+            packStart(this.myDrawingArea, true, true, 0);
         }
 
         ~this(){
