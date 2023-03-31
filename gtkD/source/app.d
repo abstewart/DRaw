@@ -33,22 +33,18 @@ private import gtk.Dialog;                                              // Dialo
 class MyWindow : ApplicationWindow {
     int windowDelete(GdkEvent* event, Widget widget) {
         debug(events) {
-            writefln("MyWindow.widgetDelete : this and widget to delete %X %X",this,window);
+            writefln("MyWindow.widgetDelete : this and widget to delete %X %X", this, window);
         }
 
         MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.QUESTION,
-        ButtonsType.YES_NO, "Are you sure you want' to exit?");
+                                            ButtonsType.YES_NO, "Are you sure you want' to exit?");
         int responce = d.run();
         if (responce == ResponseType.YES){
+            // TODO: Disconnect from server, if connected.
             stdlib.exit(0);
         }
         d.destroy();
         return true;
-    }
-
-    void connectWhiteboard(Button button) {
-        writeln("Connect whiteboard");
-        NewImageDialog n = new NewImageDialog();
     }
 
     class NewImageDialog : Dialog {
@@ -136,9 +132,9 @@ class MyWindow : ApplicationWindow {
         public:
         this() {
             super();
-            setBorderWidth(_borderWidth); // keeps the grid separated from the window edges
+            setBorderWidth(_borderWidth);               // Keeps the grid separated from the window edges.
 
-            // Row 0
+            // Row 0.
             ipAddressLabel = new PadLabel(BoxJustify.RIGHT, ipAddressLabelText);
             attach(ipAddressLabel, 0, 0, 1, 1);
 
@@ -146,7 +142,7 @@ class MyWindow : ApplicationWindow {
             ipAddressEntry.setWidthInCharacters(30);
             attach(ipAddressEntry, 1, 0, 2, 1);
 
-            // Row 1
+            // Row 1.
             portNumLabel = new PadLabel(BoxJustify.RIGHT, portNumLabelText);
             attach(portNumLabel, 0, 1, 1, 1);
 
@@ -236,19 +232,6 @@ class MyWindow : ApplicationWindow {
         CENTER = 2,
     }
 
-    void anyButtonExits(Button button) {
-        writeln("Exit program");
-        stdlib.exit(0);
-    }
-
-    void saveWhiteboard(Button button) {
-        writeln("Save whiteboard to a file");
-    }
-
-    void undoWhiteboard(Button button) {
-        writeln("Undo command on whiteboard");
-    }
-
     this(Application application) {
         super(application);
         setTitle("DRaw");
@@ -276,13 +259,13 @@ class MyWindow : ApplicationWindow {
 
         // Buttons.
         Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard);
-        Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
-        Button saveButton = new Button(StockID.SAVE, &saveWhiteboard);
+        //Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
+        //Button saveButton = new Button(StockID.SAVE, &saveWhiteboard);
         Button quitButton = new Button(StockID.QUIT, &anyButtonExits);
         ButtonBox bBox = HButtonBox.createActionBox();
         bBox.packEnd(connectButton, 0, 0, 10);
-        bBox.packEnd(undoButton, 0, 0, 10);
-        bBox.packEnd(saveButton,0, 0, 10);
+        //bBox.packEnd(undoButton, 0, 0, 10);
+        //bBox.packEnd(saveButton,0, 0, 10);
         bBox.packEnd(quitButton,0, 0, 10);
         mainBox.packStart(bBox, false, false,0);
 
@@ -292,6 +275,17 @@ class MyWindow : ApplicationWindow {
 
         // Add mainBox to Window.
         add(mainBox);
+    }
+
+    void connectWhiteboard(Button button) {
+        writeln("Connect whiteboard");
+        NewImageDialog n = new NewImageDialog();
+    }
+
+    void anyButtonExits(Button button) {
+        writeln("Exit program");
+        // TODO: Disconnect from server, if connected.
+        stdlib.exit(0);
     }
 
     MenuBar getMenuBar() {
@@ -343,20 +337,20 @@ class MyWindow : ApplicationWindow {
         string action = menuItem.getActionName();
         switch (action) {
             case "help.about":
-            GtkDAbout dlg = new GtkDAbout();
-            dlg.addOnResponse(&onDialogResponse);
-            dlg.showAll();
+                GtkDAbout dlg = new GtkDAbout();
+                dlg.addOnResponse(&onDialogResponse);
+                dlg.showAll();
 
-            dlg.run();
-            dlg.destroy();
+                dlg.run();
+                dlg.destroy();
 
-            break ;
+                break ;
             default:
-            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
-            "You pressed menu item "~action);
-            d.run();
-            d.destroy();
-            break ;
+                MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
+                "You pressed menu item "~action);
+                d.run();
+                d.destroy();
+                break ;
         }
     }
 

@@ -50,16 +50,37 @@ class MyDrawingArea : VBox {
         packStart(this.drawingArea, true, true,0);
 
         Button colorButton = new Button("Color Dialog", &showColor);
+        Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
+        Button saveButton = new Button(StockID.SAVE, &saveWhiteboard);
 
         HBox hbox = new HBox(false, 4);
         hbox.packStart(new Label("Brush type"), false, false, 2);
         hbox.packStart(primOption, false, false, 2);
         hbox.packStart(new Label("Brush size"), false, false, 2);
         hbox.packStart(this.drawingArea.spin, false, false, 2);
-        hbox.packStart(new Label("Paint color"), false, false, 2);
         hbox.packStart(colorButton, false, false, 2);
+        hbox.packStart(undoButton, false, false, 2);
+        hbox.packStart(saveButton, false, false, 2);
 
         packStart(hbox, false, false, 0);
+    }
+
+    void showColor(Button button) {
+        if (d  is  null) {
+            d = new MyColorChooserDialog(this.drawingArea);
+        }
+        d.run();
+        d.hide();
+    }
+
+    void saveWhiteboard(Button button) {
+        writeln("Save whiteboard to a file");
+        // TODO
+    }
+
+    void undoWhiteboard(Button button) {
+        writeln("Undo command on whiteboard");
+        // TODO
     }
 
     class MyColorChooserDialog : ColorChooserDialog {
@@ -84,14 +105,6 @@ class MyDrawingArea : VBox {
         }
     }
 
-    void showColor(Button button) {
-        if (d  is  null) {
-            d = new MyColorChooserDialog(this.drawingArea);
-        }
-        d.run();
-        d.hide();
-    }
-
     class TestDrawing : DrawingArea, Command {
         CairoOperator operator = CairoOperator.OVER;
         ImageSurface surface;
@@ -103,6 +116,8 @@ class MyDrawingArea : VBox {
         Image image;
         Pixbuf scaledPixbuf;
         SpinButton spin;
+        string[] jpegOptions;
+        string[] jpegOptionValues;
 
         this() {
             setSizeRequest(500, 300);            // Width, height.
