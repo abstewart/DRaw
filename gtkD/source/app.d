@@ -31,6 +31,7 @@ private import gtk.AboutDialog;                                         // About
 private import gtk.Dialog;                                              // Dialog.
 
 class MyWindow : ApplicationWindow {
+    public:
     this(Application application) {
         super(application);
         setTitle("DRaw");
@@ -52,7 +53,7 @@ class MyWindow : ApplicationWindow {
         writeln("MyWindow destructor");
     }
 
-    void setup() {
+    protected void setup() {
         VBox mainBox = new VBox(false,0);
         mainBox.packStart(getMenuBar(), false, false,0);
 
@@ -78,23 +79,23 @@ class MyWindow : ApplicationWindow {
         add(mainBox);
     }
 
-    void connectWhiteboard(Button button) {
+    protected void connectWhiteboard(Button button) {
         writeln("Connect whiteboard");
         ConnectDialog connectDialog = new ConnectDialog();
     }
 
-    void disconnectWhiteboard(Button button) {
+    protected void disconnectWhiteboard(Button button) {
         writeln("Disconnect whiteboard");
         DisconnectDialog disconnectDialog = new DisconnectDialog();
     }
 
-    void anyButtonExits(Button button) {
+    protected void anyButtonExits(Button button) {
         writeln("Exit program");
         // TODO: Disconnect from server, if connected.
         stdlib.exit(0);
     }
 
-    void onMenuActivate(MenuItem menuItem) {
+    protected void onMenuActivate(MenuItem menuItem) {
         string action = menuItem.getActionName();
         switch (action) {
             case "help.about":
@@ -113,13 +114,13 @@ class MyWindow : ApplicationWindow {
         }
     }
 
-    void onDialogResponse(int response, Dialog dlg) {
+    protected void onDialogResponse(int response, Dialog dlg) {
         if (response == GtkResponseType.CANCEL) {
             dlg.destroy();
         }
     }
 
-    MenuBar getMenuBar() {
+    protected MenuBar getMenuBar() {
         AccelGroup accelGroup = new AccelGroup();
         addAccelGroup(accelGroup);
         MenuBar menuBar = new MenuBar();
@@ -129,7 +130,7 @@ class MyWindow : ApplicationWindow {
         return menuBar;
     }
 
-    int windowDelete(GdkEvent* event, Widget widget) {
+    protected int windowDelete(GdkEvent* event, Widget widget) {
         debug(events) {
             writefln("MyWindow.widgetDelete : this and widget to delete %X %X", this, window);
         }
@@ -151,7 +152,6 @@ class MyWindow : ApplicationWindow {
         private:
         DialogFlags flags = DialogFlags.MODAL;
         ResponseType[] responseTypes = [ResponseType.YES, ResponseType.NO];
-
         string[] buttonLabels = ["Yes", "No"];
         string titleText = "Disconnect?";
 
@@ -167,8 +167,7 @@ class MyWindow : ApplicationWindow {
             writeln("Disconnect destructor");
         }
 
-        private:
-        void doSomething(int response, Dialog d) {
+        protected void doSomething(int response, Dialog d) {
             switch(response) {
                 case ResponseType.YES:
                     writeln("You disconnected.");
@@ -210,13 +209,13 @@ class MyWindow : ApplicationWindow {
             writeln("ConnectDialog destructor");
         }
 
-        void farmOutContent() {
+        protected void farmOutContent() {
             // FARM it out to AreaContent class.
             this.contentArea = getContentArea();
             this.areaContent = new AreaContent(this.contentArea);
         }
 
-        void doSomething(int response, Dialog d) {
+        protected void doSomething(int response, Dialog d) {
             switch (response) {
                 case ResponseType.OK:
                     foreach (item; areaContent.getConnectGrid.getData()) {
@@ -299,7 +298,7 @@ class MyWindow : ApplicationWindow {
             writeln("ConnectGrid destructor");
         }
 
-        Tuple!(string, string) getData() {
+        protected Tuple!(string, string) getData() {
             this._ipAddress = this.ipAddressEntry.getText();
             this._portNum = this.portNumEntry.getText();
             return (tuple(this._ipAddress, this._portNum));
@@ -307,8 +306,10 @@ class MyWindow : ApplicationWindow {
     }
 
     class PadLabel : HPadBox {
+        private:
         Label label;
 
+        public:
         this(BoxJustify pJustify, string text = null) {
             this.label = new Label(text);
             super(this.label, pJustify);
@@ -320,9 +321,11 @@ class MyWindow : ApplicationWindow {
     }
 
     class PadEntry : HPadBox {
+        private:
         Entry _entry;
         string _placeholderText;
 
+        public:
         this(BoxJustify pJustify, string placeholderText = null) {
             if (placeholderText !is null) {
                 this._placeholderText = placeholderText;
@@ -339,15 +342,15 @@ class MyWindow : ApplicationWindow {
             writeln("PadEntry destructor");
         }
 
-        void setVisibility(bool state) {
+        protected void setVisibility(bool state) {
             this._entry.setVisibility(state);
         }
 
-        void setWidthInCharacters(int width) {
+        protected void setWidthInCharacters(int width) {
             this._entry.setWidthChars(width);
         }
 
-        string getText() {
+        protected string getText() {
             return (this._entry.getText());
         }
     }
@@ -391,8 +394,10 @@ class MyWindow : ApplicationWindow {
     }
 
     class AppBox : Box {
+        private:
         MyDrawingArea myDrawingArea;
 
+        public:
         this() {
             super(Orientation.VERTICAL, 10);
             this.myDrawingArea = new MyDrawingArea();
@@ -405,6 +410,7 @@ class MyWindow : ApplicationWindow {
     }
 
     class GtkDAbout : AboutDialog {
+        public:
         this() {
             string itemLabel = "About";
             string sectionName = "Them What Done Stuff";

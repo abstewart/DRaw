@@ -26,14 +26,16 @@ private import gtk.Image;                               // Image.
 private import gtk.SpinButton;                          // SpinButton.
 
 interface Command{
-    int Execute(int x, int y);
-    int Undo(int x, int y);
+    protected int Execute(int x, int y);
+    protected int Undo(int x, int y);
 }
 
 class MyDrawingArea : VBox {
+    private:
     MyDrawing drawingArea;
     MyColorChooserDialog d;
 
+    public:
     this() {
         super(false, 4);
 
@@ -67,20 +69,20 @@ class MyDrawingArea : VBox {
         packStart(hbox, false, false, 0);
     }
 
-    void showColor(Button button) {
-        if (d  is  null) {
-            d = new MyColorChooserDialog(this.drawingArea);
+    protected void showColor(Button button) {
+        if (this.d  is  null) {
+            this.d = new MyColorChooserDialog(this.drawingArea);
         }
-        d.run();
-        d.hide();
+        this.d.run();
+        this.d.hide();
     }
 
-    void saveWhiteboard(Button button) {
+    protected void saveWhiteboard(Button button) {
         writeln("Save whiteboard to a file");
         this.drawingArea.saveWhiteboard();
     }
 
-    void undoWhiteboard(Button button) {
+    protected void undoWhiteboard(Button button) {
         writeln("Undo command on whiteboard");
         // TODO
     }
@@ -99,8 +101,7 @@ class MyDrawingArea : VBox {
             this.drawingArea = drawingArea;
         }
 
-        protected:
-        void doSomething(int response, Dialog d) {
+        protected void doSomething(int response, Dialog d) {
             getRgba(selectedColor);
             writeln("New color selection: ", selectedColor);
             this.drawingArea.updateBrushColor(selectedColor);
@@ -109,8 +110,6 @@ class MyDrawingArea : VBox {
 
     class MyDrawing : DrawingArea, Command {
         private:
-        //              R    G    B    Alpha
-        float[] rgba = [0.3, 0.6, 0.2, 0.9];
         CairoOperator operator = CairoOperator.OVER;
         ImageSurface surface;
         RGBA rgbaColor;
@@ -123,8 +122,6 @@ class MyDrawingArea : VBox {
         SpinButton spin;
         GtkAllocation size;                 // The area assigned to the DrawingArea by its parent.
         Pixbuf pixbuf;                      // An 8-bit/pixel image buffer.
-        //string[] jpegOptions;
-        //string[] jpegOptionValues;
         string[] pngOptions;
         string[] pngOptionValues;
         int xOffset = 0;
@@ -138,7 +135,6 @@ class MyDrawingArea : VBox {
             this.primitiveType = "Filled Arc";
             this.rgbaColor = new RGBA(cast(double)0, cast(double)0, cast(double)0);        // Intially black.
             writeln("The initial brush color is: ", this.rgbaColor.toString);
-
             this.spin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0), 1, 0);
             sizeSpinChanged(this.spin);
             this.spin.addOnValueChanged(&sizeSpinChanged);
@@ -154,21 +150,19 @@ class MyDrawingArea : VBox {
             writeln("MyDrawing destructor");
         }
 
-        public void updateBrushColor(RGBA newColor) {
+        protected void updateBrushColor(RGBA newColor) {
             writeln("In updateBrushColor");
             this.rgbaColor = newColor;
             writeln("The new brush color is: ", this.rgbaColor.toString);
         }
-        
-        public void saveWhiteboard() {
+
+        protected void saveWhiteboard() {
             Context context = Context.create(this.surface);
             getAllocation(size);                        // Grab the widget's size as allocated by its parent.
             this.pixbuf = getFromSurface(context.getTarget(), this.xOffset, this.yOffset,
                                     this.size.width, this.size.height); // The contents of the surface go into the buffer.
 
             // Prepare and write PNG file.
-            //this.jpegOptions = ["quality"];
-            //this.jpegOptionValues = ["100"];
             this.pngOptions = ["x-dpi", "y-dpi", "compression"];
             this.pngOptionValues = ["150", "150", "1"];
 
@@ -181,30 +175,23 @@ class MyDrawingArea : VBox {
                 filePath.put(c);
             }
             filePath.put('.');
-            filePath.put('j');
             filePath.put('p');
-            filePath.put('e');
+            filePath.put('n');
             filePath.put('g');
 
-            writeln("file path = ", filePath[]);
-
-            //if (this.pixbuf.savev(filePath[], "jpeg", this.jpegOptions, this.jpegOptionValues)) {
-            //    writeln("JPEG was successfully saved.");
-            //}
             if(pixbuf.savev(filePath[], "png", pngOptions, pngOptionValues)) {
-                writeln("PNG was successfully saved.");
-
+                writeln(filePath[], " was successfully saved.");
             }
         }
 
-        void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
+        protected void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
             this.width = allocation.width;
             this.height = allocation.height;
             this.surface = ImageSurface.create(CairoFormat.ARGB32, this.width, this.height);
         }
 
         // When the mouse is held down this.buttonIsDown = true and execute (draw/paint).
-        public bool onButtonPress(Event event, Widget widget) {
+        protected bool onButtonPress(Event event, Widget widget) {
             if (event.type == EventType.BUTTON_PRESS && event.button.button == 1) {
                 this.buttonIsDown = true;
                 // Draw/paint.
@@ -214,18 +201,15 @@ class MyDrawingArea : VBox {
         }
 
         // When the mouse is held down this.buttonIsDown = false.
-        public bool onButtonRelease(Event event, Widget widget) {
+        protected bool onButtonRelease(Event event, Widget widget) {
             if (event.type == EventType.BUTTON_RELEASE && event.button.button == 1) {
                 this.buttonIsDown = false;
             }
             return false;
         }
 
-        /**
-		 * This will be called from the expose event call back.
-		 * \bug this is called on get or loose focus - review
-		 */
-        public bool onDraw(Scoped!Context context, Widget widget) {
+        // This will be called from the expose event call back.
+        protected bool onDraw(Scoped!Context context, Widget widget) {
             // Fill the Widget with the surface we are drawing on.
             context.setSourceSurface(this.surface, 0, 0);
             context.paint();
@@ -235,7 +219,7 @@ class MyDrawingArea : VBox {
 
         // This detects motion on the whiteboard. If the mouse is still in motion and the
         // mouse is being held down execute (draw/paint).
-        public bool onMotionNotify(Event event, Widget widget) {
+        protected bool onMotionNotify(Event event, Widget widget) {
             if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
                 // Draw/paint.
                 Execute(cast(int)event.motion.x, cast(int)event.motion.y);
@@ -243,22 +227,19 @@ class MyDrawingArea : VBox {
             return true;
         }
 
-        public void sizeSpinChanged(SpinButton spinButton) {
-            if (!(scaledPixbuf is null)) {
+        protected void sizeSpinChanged(SpinButton spinButton) {
+            if (!(this.scaledPixbuf is null)) {
                 int width = spinButton.getValueAsInt();
                 this.scaledPixbuf = image.getPixbuf();
-
                 float ww = width * this.scaledPixbuf.getWidth() / 30;
                 float hh = width * this.scaledPixbuf.getHeight() / 30;
-
-                scaledPixbuf = scaledPixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
+                this.scaledPixbuf = scaledPixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
             }
         }
 
-        int Execute(int x, int y) {
+        protected int Execute(int x, int y) {
             int width = this.spin.getValueAsInt();
             int height = width * 3 / 4;
-
             Context context = Context.create(this.surface);
             context.setOperator(operator);
             const double ALPHAVALUE = 1.0;
@@ -308,12 +289,12 @@ class MyDrawingArea : VBox {
             return 0;
         }
 
-        int Undo(int x, int y) {
+        protected int Undo(int x, int y) {
             // TODO
             return 0;
         }
 
-        void onPrimOptionChanged(ComboBoxText comboBoxText) {
+        protected void onPrimOptionChanged(ComboBoxText comboBoxText) {
             this.primitiveType = comboBoxText.getActiveText();
         }
     }
