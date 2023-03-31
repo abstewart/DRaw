@@ -31,7 +31,7 @@ void handleNetworking(Tid parent) {
         // writeln("checking for send from parent");
         auto recv = receiveTimeout(TIMEOUT_DUR,
             // (bool noSendRequested) { writeln("explicit no send"); },
-            (immutable bool needToSend, char[] commandToSend) { 
+            (immutable bool needToSend, string commandToSend) { 
                 writeln("received a packet to send");
                 if (needToSend) {network.sendToServer(commandToSend);} 
                 },
@@ -43,8 +43,8 @@ void handleNetworking(Tid parent) {
         // if we get a command we need to send it to our parent thread
         if (cmdAndLen[1] > 0) {
             writeln("writing data to parent");
-            immutable char[] encodedCmd = to!string(cmdAndLen[0]);
-            immutable recvLen = cmdAndLen[1];
+            string encodedCmd = to!string(cmdAndLen[0]);
+            immutable long recvLen = cmdAndLen[1];
             send(parent, encodedCmd, recvLen);
         }
     }
@@ -147,7 +147,7 @@ class SDLApp{
                     int yPos = e.button.y;
                     Color lineColor = Color(0,0,255);
                     DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(xPos, yPos, lineColor);
-                    immutable auto toSend = newDrawPixelCommand.encode();
+                    string toSend = to!string(newDrawPixelCommand.encode());
                     immutable bool sendStatus = true;
                     send(network_thread, sendStatus, toSend);
                     // clientNetwork.sendToServer(newDrawPixelCommand.encode());
@@ -173,8 +173,9 @@ class SDLApp{
 
             for( bool messageReceived = true; messageReceived; ) {
                 messageReceived = receiveTimeout(TIMEOUT_DUR,
-                    (char[] commandEnc, long recv) {
-                        Command command = decodePacketToCommand(commandEnc, recv);
+                    (string commandEnc, immutable long recv) {
+                        writeln("received", commandEnc);
+                        Command command = decodePacketToCommandString(commandEnc, recv);
                         cStack ~= [command];
                         }
                 );

@@ -62,9 +62,20 @@ unittest {
 
 Command decodePacketToCommand(char[] message, long size) {
     char[][] fields = message[0 .. size].split(',');
+    writeln(fields);
     // Color cmdColor = Color(to!string(fields[2]));
     Color cmdColor = Color(255, 255, 255);
-    return new DrawPixelCommand(1, 1, cmdColor);
+    return new DrawPixelCommand(100, 100, cmdColor);
+}
+
+Command decodePacketToCommandString(string message, long size) {
+    char[] m;
+    m ~= message;
+    char[][] fields = m[0 .. size - 1].split(',');
+    writeln(fields);
+    // Color cmdColor = Color(to!string(fields[2]));
+    Color cmdColor = Color(255, 255, 255);
+    return new DrawPixelCommand(100, 100, cmdColor);
 }
 
 unittest {

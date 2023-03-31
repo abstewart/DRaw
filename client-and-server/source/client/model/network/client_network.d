@@ -69,6 +69,12 @@ class Client {
 		this.sock.send(packetData);
 	}
 
+	void sendToServer(string packetData) {
+		char[] packet;
+		packet ~= packetData;
+		this.sock.send(packet);
+	}
+
 	bool isSocketOpen() {
 		return this.socketOpen;
 	}
