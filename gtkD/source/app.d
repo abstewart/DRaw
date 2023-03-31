@@ -48,6 +48,10 @@ class MyWindow : ApplicationWindow {
         }
     }
 
+    ~this(){
+        writeln("MyWindow destructor");
+    }
+
     void setup() {
         VBox mainBox = new VBox(false,0);
         mainBox.packStart(getMenuBar(), false, false,0);
@@ -143,7 +147,7 @@ class MyWindow : ApplicationWindow {
         return true;
     }
 
-    // Classes.
+    // Inner classes.
 
     class DisconnectDialog : Dialog {
         private:
@@ -159,6 +163,10 @@ class MyWindow : ApplicationWindow {
             addOnResponse(&doSomething);
             run();
             destroy();
+        }
+
+        ~this(){
+            writeln("Disconnect destructor");
         }
 
         private:
@@ -200,6 +208,10 @@ class MyWindow : ApplicationWindow {
             destroy();
         }
 
+        ~this(){
+            writeln("ConnectDialog destructor");
+        }
+
         void farmOutContent() {
             // FARM it out to AreaContent class.
             contentArea = getContentArea();
@@ -235,6 +247,10 @@ class MyWindow : ApplicationWindow {
             _connectGrid = new ConnectGrid();
             _contentArea.add(_connectGrid);
             _contentArea.showAll();
+        }
+
+        ~this(){
+            writeln("AreaContent destructor");
         }
 
         ConnectGrid getConnectGrid() {
@@ -284,6 +300,10 @@ class MyWindow : ApplicationWindow {
             setMarginBottom(7);
         }
 
+        ~this(){
+            writeln("ConnectGrid destructor");
+        }
+
         Tuple!(string, string) getData() {
             _ipAddress = ipAddressEntry.getText();
             _portNum = portNumEntry.getText();
@@ -297,6 +317,10 @@ class MyWindow : ApplicationWindow {
         this(BoxJustify pJustify, string text = null) {
             label = new Label(text);
             super(label, pJustify);
+        }
+
+        ~this(){
+            writeln("PadLabel destructor");
         }
     }
 
@@ -314,6 +338,10 @@ class MyWindow : ApplicationWindow {
             _entry = new Entry(_placeholderText);
 
             super(_entry, pJustify);
+        }
+
+        ~this(){
+            writeln("PadEntry destructor");
         }
 
         void setVisibility(bool state) {
@@ -355,6 +383,10 @@ class MyWindow : ApplicationWindow {
             }
             setBorderWidth(_borderWidth);
         }
+
+        ~this(){
+            writeln("HPadBox destructor");
+        }
     }
 
     enum BoxJustify {
@@ -370,6 +402,10 @@ class MyWindow : ApplicationWindow {
             super(Orientation.VERTICAL, 10);
             myDrawingArea = new MyDrawingArea();
             packStart(myDrawingArea, true, true, 0);
+        }
+
+        ~this(){
+            writeln("AppBox destructor");
         }
     }
 
@@ -395,6 +431,10 @@ class MyWindow : ApplicationWindow {
             setLicense(license);
             setProgramName(programName);
             setLogo(logoPixbuf);
+        }
+
+        ~this(){
+            writeln("GtkDAbout destructor");
         }
     }
 }

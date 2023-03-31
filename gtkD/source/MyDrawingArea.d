@@ -29,13 +29,13 @@ interface Command{
 }
 
 class MyDrawingArea : VBox {
-    TestDrawing drawingArea;
+    MyDrawing drawingArea;
     MyColorChooserDialog d;
 
     this() {
         super(false, 4);
 
-        this.drawingArea = new TestDrawing();
+        this.drawingArea = new MyDrawing();
 
         ComboBoxText primOption = new ComboBoxText();
         primOption.appendText("Filled Arc");
@@ -89,10 +89,10 @@ class MyDrawingArea : VBox {
         string title = "Color Selection";
         DialogFlags flags = GtkDialogFlags.MODAL;
         RGBA selectedColor;
-        TestDrawing drawingArea;
+        MyDrawing drawingArea;
 
         public:
-        this(TestDrawing drawingArea) {
+        this(MyDrawing drawingArea) {
             super(title, null);
             addOnResponse(&doSomething);
             this.drawingArea = drawingArea;
@@ -106,7 +106,7 @@ class MyDrawingArea : VBox {
         }
     }
 
-    class TestDrawing : DrawingArea, Command {
+    class MyDrawing : DrawingArea, Command {
         CairoOperator operator = CairoOperator.OVER;
         ImageSurface surface;
         RGBA rgbaColor;
@@ -147,7 +147,7 @@ class MyDrawingArea : VBox {
         }
 
         ~this(){
-            writeln("TestDrawing destructor");
+            writeln("MyDrawing destructor");
         }
 
         int Execute() {
