@@ -1,98 +1,34 @@
-//version(cairo) {
-//    import cairo.clock;
-//}
+// Imports.
+private import std.stdio;                                               // writeln.
+private import std.typecons;                                            // Tuple.
+private import stdlib = core.stdc.stdlib : exit;
 
-import std.stdio;                   // writeln.
-import std.typecons;              // Tuple.
-//import std.conv;
+private import gio.Application : GioApplication = Application;          // GioApplication.
 
-import gtk.Version;               // Version.
-//import gtk.Table;
+private import MyDrawingArea : MyDrawingArea;                           // MyDrawingArea.
 
-import stdlib = core.stdc.stdlib : exit;
-//import core.thread;
-//import std.random;
-//import std.string;
+private import gdk.Pixbuf;                                              // Pixbuf.
 
-//import gdk.Threads;
-
-import gio.Application : GioApplication = Application;        // GioApplication.
-import gtk.Application;                     // Application.
-import gtk.ApplicationWindow;               // ApplicationWindow.
-//import gtk.Adjustment;
-import gtk.AccelGroup;                      // AccelGroup.
-
-import MyDrawingArea : MyDrawingArea;
-
-//import gtk.MainWindow;
-//import gtk.Main;
-private import gtk.Entry;                 // Entry.
-import gtk.Box;                           // Box.
-import gtk.MenuItem;                        // MenuItem.
-import gtk.Widget;                          // Widget.
-import gtk.MenuBar;                         // MenuBar.
-//import gtk.Notebook;
-//import gtk.ComboBoxText;
-//import gtk.FileChooserDialog;
-//import gtk.FontSelectionDialog;
-//import gtk.ColorSelectionDialog;
-import gtk.Button;                          // Button.
-import gtk.VBox;                            // VBox.
-//import gtk.MessageDialog;
-//import gtk.Frame;
-import gtk.HButtonBox;                      // HButtonBox.
-import gtk.Statusbar;                       // Statusbar.
-import gtk.Menu;                            // Menu.
-//import gtk.HandleBox;
-//import gtk.Toolbar;
-//import gtk.SeparatorToolItem;
-//import gtk.ToolButton;
-//import gtk.RadioButton;
-//import gtk.CheckButton;
-//import gtk.ToggleButton;
-//import gtk.HBox;
-//import gtk.Arrow;
-import gtk.ButtonBox;                   // ButtonBox.
-//import gtk.Calendar;
-//import gtk.VButtonBox;
-//import gtk.SpinButton;
-//import gtk.ListStore;
-//import gtk.TreeIter;
-//import gtk.TreeView;
-//import gtk.TreeViewColumn;
-//import gtk.CellRendererText;
-//import gtk.Window;
-import gtk.Grid;
-
-//import gtk.ScrolledWindow;
-import gtk.MessageDialog;               // MessageDialog.
-//
-//import core.memory;
-//
-//import glib.ListSG;
-//
-//import glib.Str;
-import gtk.Label;                   // Label.
-//import glib.ListG;
-//import gtk.Paned;
-//import gtk.HPaned;
-//import gtk.VPaned;
-
-//import gtk.Calendar;
-//import std.stdio;
-//import gtk.VButtonBox;
-//import gtk.FileChooserButton;
-//
-import gtk.AboutDialog;                 // AboutDialog.
-import gtk.Dialog;                      // Dialog.
-//
-//import gtk.TreeStore;
-import gdk.Pixbuf;                      // Pixbuf.
-//import gtk.ComboBox;
-//
-//import gtk.TreePath;
-//import gtk.CellRenderer;
-//import gtk.CellRendererPixbuf;
+private import gtk.Version;                                             // Version.
+private import gtk.Application;                                         // Application.
+private import gtk.ApplicationWindow;                                   // ApplicationWindow.
+private import gtk.AccelGroup;                                          // AccelGroup.
+private import gtk.Entry;                                               // Entry.
+private import gtk.Box;                                                 // Box.
+private import gtk.MenuItem;                                            // MenuItem.
+private import gtk.Widget;                                              // Widget.
+private import gtk.MenuBar;                                             // MenuBar.
+private import gtk.Button;                                              // Button.
+private import gtk.VBox;                                                // VBox.
+private import gtk.HButtonBox;                                          // HButtonBox.
+private import gtk.Statusbar;                                           // Statusbar.
+private import gtk.Menu;                                                // Menu.
+private import gtk.ButtonBox;                                           // ButtonBox.
+private import gtk.Grid;                                                // Grid.
+private import gtk.MessageDialog;                                       // MessageDialog.
+private import gtk.Label;                                               // Label.
+private import gtk.AboutDialog;                                         // AboutDialog.
+private import gtk.Dialog;                                              // Dialog.
 
 class MyWindow : ApplicationWindow {
     int windowDelete(GdkEvent* event, Widget widget) {

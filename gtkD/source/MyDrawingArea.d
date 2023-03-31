@@ -1,39 +1,27 @@
-private import cairo.Context;           // Context.
-private import cairo.ImageSurface;        // ImageSurface.
+// Imports.
+private import std.stdio;                               // writeln.
+private import std.math;                                // PI.
 
-private import gtk.VBox;                // VBox.
-//private import pango.PgContext;
-//private import pango.PgLayout;
+private import cairo.Context;                           // Context.
+private import cairo.ImageSurface;                      // ImageSurface.
 
-private import std.stdio;           // writeln.
-private import std.math;            // PI.
-//
-import gtk.ColorChooserDialog;          // ColorChooserDialog.
-import gdk.RGBA;                        // RGBA.
-import gtk.Dialog;                      // Dialog.
-//import gtk.ColorSelectionDialog;
-import gtk.Button;                          // Button.
-import gtk.Label;                       // Label.
-private import gtk.Widget;              // Widget.
-//private import gtk.MenuItem;
-private import gtk.ComboBox;                // ComboBox.
-private import gtk.ComboBoxText;            // CombBoxText.
-//private import gtk.Menu;
-private import gtk.Adjustment;              // Adjustment.
-private import gtk.HBox;                    // HBox.
-private import gdk.Pixbuf;                  // Pixbuf.
-//private import gdk.Cairo;
-private import gdk.Event;           // Event.
-//import gdk.Color;
-//
-//import gtk.ColorSelection;
+private import gdk.RGBA;                                // RGBA.
+private import gdk.Pixbuf;                              // Pixbuf.
+private import gdk.Event;                               // Event.
 
-//private import pango.PgCairo;
-//private import pango.PgFontDescription;
-//
-private import gtk.DrawingArea;             // DrawingArea.
-private import gtk.Image;                   // Image.
-private import gtk.SpinButton;              // SpinButton.
+private import gtk.VBox;                                // VBox.
+private import gtk.ColorChooserDialog;                  // ColorChooserDialog.
+private import gtk.Dialog;                              // Dialog.
+private import gtk.Button;                              // Button.
+private import gtk.Label;                               // Label.
+private import gtk.Widget;                              // Widget.
+private import gtk.ComboBox;                            // ComboBox.
+private import gtk.ComboBoxText;                        // CombBoxText.
+private import gtk.Adjustment;                          // Adjustment.
+private import gtk.HBox;                                // HBox.
+private import gtk.DrawingArea;                         // DrawingArea.
+private import gtk.Image;                               // Image.
+private import gtk.SpinButton;                          // SpinButton.
 
 interface Command{
     int Execute();
