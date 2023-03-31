@@ -15,6 +15,9 @@
 # Executables
 *.exe
 
+#bin directories
+bin/
+
 # Compiled Dynamic libraries
 *.so
 *.dylib

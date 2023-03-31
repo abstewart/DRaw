@@ -8,8 +8,8 @@
     "license": "proprietary",
     "targetType": "executable",
     "subPackages": [
-	"./source/client/",
-	"./source/server/"
+	"./client/",
+	"./server/"
     ],
     "configurations": [
 	{
@@ -19,8 +19,8 @@
 	],
 	"mainSourceFile": "bin/ut.d",
 	"excludedSourceFiles": [
-	    "source/client/source/app.d",
-	    "source/server/source/app.d"
+	    "client/source/app.d",
+	    "server/source/app.d"
 	],
 	"dependencies": {
 	    "unit-threaded": "~>2.1.2",
