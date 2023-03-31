@@ -26,8 +26,8 @@ private import gtk.Image;                               // Image.
 private import gtk.SpinButton;                          // SpinButton.
 
 interface Command{
-    int Execute();
-    int Undo();
+    int Execute(int x, int y);
+    int Undo(int x, int y);
 }
 
 class MyDrawingArea : VBox {
@@ -108,6 +108,9 @@ class MyDrawingArea : VBox {
     }
 
     class MyDrawing : DrawingArea, Command {
+        private:
+        //              R    G    B    Alpha
+        float[] rgba = [0.3, 0.6, 0.2, 0.9];
         CairoOperator operator = CairoOperator.OVER;
         ImageSurface surface;
         RGBA rgbaColor;
@@ -118,7 +121,6 @@ class MyDrawingArea : VBox {
         Image image;
         Pixbuf scaledPixbuf;
         SpinButton spin;
-
         GtkAllocation size;                 // The area assigned to the DrawingArea by its parent.
         Pixbuf pixbuf;                      // An 8-bit/pixel image buffer.
         string[] jpegOptions;
@@ -126,13 +128,12 @@ class MyDrawingArea : VBox {
         int xOffset = 0;
         int yOffset = 0;
 
+        public:
         this() {
             setSizeRequest(500, 300);            // Width, height.
             this.width = getWidth();
             this.height = getHeight();
-
             this.primitiveType = "Filled Arc";
-
             this.rgbaColor = new RGBA(cast(double)0, cast(double)0, cast(double)0);        // Intially black.
             writeln("The initial brush color is: ", this.rgbaColor.toString);
 
@@ -140,7 +141,7 @@ class MyDrawingArea : VBox {
             sizeSpinChanged(this.spin);
             this.spin.addOnValueChanged(&sizeSpinChanged);
 
-            addOnDraw(&drawCallback);
+            addOnDraw(&onDraw);
             addOnMotionNotify(&onMotionNotify);
             addOnSizeAllocate(&onSizeAllocate);
             addOnButtonPress(&onButtonPress);
@@ -149,14 +150,6 @@ class MyDrawingArea : VBox {
 
         ~this(){
             writeln("MyDrawing destructor");
-        }
-
-        int Execute() {
-            return 0;
-        }
-
-        int Undo() {
-            return 0;
         }
 
         public void updateBrushColor(RGBA newColor) {
@@ -203,29 +196,19 @@ class MyDrawingArea : VBox {
             this.surface = ImageSurface.create(CairoFormat.ARGB32, this.width, this.height);
         }
 
+        // When the mouse is held down this.buttonIsDown = true and execute (draw/paint).
         public bool onButtonPress(Event event, Widget widget) {
-            debug(trace) {
-                writeln("button DOWN");
-            }
             if (event.type == EventType.BUTTON_PRESS && event.button.button == 1) {
-                debug(trace) {
-                    writeln("Button 1 down");
-                }
                 this.buttonIsDown = true;
-
-                drawPrimitive(cast(int)event.button.x, cast(int)event.button.y);
+                // Draw/paint.
+                Execute(cast(int)event.button.x, cast(int)event.button.y);
             }
             return false;
         }
 
+        // When the mouse is held down this.buttonIsDown = false.
         public bool onButtonRelease(Event event, Widget widget) {
-            debug(trace) {
-                writeln("button UP");
-            }
             if (event.type == EventType.BUTTON_RELEASE && event.button.button == 1) {
-                debug(trace) {
-                    writeln("Button 1 UP");
-                }
                 this.buttonIsDown = false;
             }
             return false;
@@ -235,17 +218,20 @@ class MyDrawingArea : VBox {
 		 * This will be called from the expose event call back.
 		 * \bug this is called on get or loose focus - review
 		 */
-        public bool drawCallback(Scoped!Context context, Widget widget) {
+        public bool onDraw(Scoped!Context context, Widget widget) {
             // Fill the Widget with the surface we are drawing on.
-            context.setSourceSurface(surface, 0, 0);
+            context.setSourceSurface(this.surface, 0, 0);
             context.paint();
 
             return true;
         }
 
+        // This detects motion on the whiteboard. If the mouse is still in motion and the
+        // mouse is being held down execute (draw/paint).
         public bool onMotionNotify(Event event, Widget widget) {
-            if (buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
-                drawPrimitive(cast(int)event.motion.x, cast(int)event.motion.y);
+            if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
+                // Draw/paint.
+                Execute(cast(int)event.motion.x, cast(int)event.motion.y);
             }
             return true;
         }
@@ -262,7 +248,7 @@ class MyDrawingArea : VBox {
             }
         }
 
-        public void drawPrimitive(int x, int y) {
+        int Execute(int x, int y) {
             int width = this.spin.getValueAsInt();
             int height = width * 3 / 4;
 
@@ -312,6 +298,12 @@ class MyDrawingArea : VBox {
 
             // Redraw the Widget.
             this.queueDraw();
+            return 0;
+        }
+
+        int Undo(int x, int y) {
+            // TODO
+            return 0;
         }
 
         void onPrimOptionChanged(ComboBoxText comboBoxText) {
