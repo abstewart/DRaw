@@ -123,8 +123,10 @@ class MyDrawingArea : VBox {
         SpinButton spin;
         GtkAllocation size;                 // The area assigned to the DrawingArea by its parent.
         Pixbuf pixbuf;                      // An 8-bit/pixel image buffer.
-        string[] jpegOptions;
-        string[] jpegOptionValues;
+        //string[] jpegOptions;
+        //string[] jpegOptionValues;
+        string[] pngOptions;
+        string[] pngOptionValues;
         int xOffset = 0;
         int yOffset = 0;
 
@@ -157,17 +159,18 @@ class MyDrawingArea : VBox {
             this.rgbaColor = newColor;
             writeln("The new brush color is: ", this.rgbaColor.toString);
         }
-
-        // TODO: Make the background of the image white -- not black.
+        
         public void saveWhiteboard() {
             Context context = Context.create(this.surface);
             getAllocation(size);                        // Grab the widget's size as allocated by its parent.
             this.pixbuf = getFromSurface(context.getTarget(), this.xOffset, this.yOffset,
                                     this.size.width, this.size.height); // The contents of the surface go into the buffer.
 
-            // Prepare and write JPEG file.
-            this.jpegOptions = ["quality"];
-            this.jpegOptionValues = ["100"];
+            // Prepare and write PNG file.
+            //this.jpegOptions = ["quality"];
+            //this.jpegOptionValues = ["100"];
+            this.pngOptions = ["x-dpi", "y-dpi", "compression"];
+            this.pngOptionValues = ["150", "150", "1"];
 
             // Create the file path.
             auto filePath = appender!string();
@@ -185,8 +188,12 @@ class MyDrawingArea : VBox {
 
             writeln("file path = ", filePath[]);
 
-            if (this.pixbuf.savev(filePath[], "jpeg", this.jpegOptions, this.jpegOptionValues)) {
-                writeln("JPEG was successfully saved.");
+            //if (this.pixbuf.savev(filePath[], "jpeg", this.jpegOptions, this.jpegOptionValues)) {
+            //    writeln("JPEG was successfully saved.");
+            //}
+            if(pixbuf.savev(filePath[], "png", pngOptions, pngOptionValues)) {
+                writeln("PNG was successfully saved.");
+
             }
         }
 
