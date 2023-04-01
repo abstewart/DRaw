@@ -10,7 +10,9 @@ private import gtk.Label;                                               // Label
 private import gtk.Entry;                                               // Entry.
 private import gtk.Grid;                                                // Grid.
 
+/// Class representing the Grid in the ConnectDialog.
 class ConnectGrid : Grid {
+    // Instance variables.
     private:
     int _borderWidth = 10;        // Keeps the widgets from crowding each other in the grid.
     PadLabel ipAddressLabel;
@@ -25,6 +27,7 @@ class ConnectGrid : Grid {
     string _ipAddress;
     string _portNum;
 
+    /// Constructor.
     public:
     this() {
         super();
@@ -49,10 +52,12 @@ class ConnectGrid : Grid {
         setMarginBottom(7);
     }
 
+    /// Destructor.
     ~this(){
         writeln("ConnectGrid destructor");
     }
 
+    /// Getter method -- get the IP Address and port number the user typed in (or the default).
     public Tuple!(string, string) getData() {
         this._ipAddress = this.ipAddressEntry.getText();
         this._portNum = this.portNumEntry.getText();

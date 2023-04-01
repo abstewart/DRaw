@@ -1,8 +1,8 @@
 // Imports.
-private import std.stdio;                                               // writeln.
+private import std.stdio;                               // writeln.
 private import std.array;                               // appender.
 private import std.math;                                // PI.
-private import std.datetime.systime : SysTime, Clock;           // SysTime and Clock.
+private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
 
 private import Command : Command;
 
@@ -21,7 +21,9 @@ private import gtk.ComboBoxText;                        // CombBoxText.
 private import gtk.Dialog;                              // Dialog.
 private import gtk.Adjustment;                          // Adjustment.
 
+/// Class representing the drawing area that the user is drawing/painting on.
 class MyDrawing : DrawingArea, Command {
+    // Instance variables.
     private:
     CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
@@ -40,6 +42,7 @@ class MyDrawing : DrawingArea, Command {
     int xOffset = 0;
     int yOffset = 0;
 
+    /// Constructor.
     public:
     this() {
         setSizeRequest(500, 300);            // Width, height.
@@ -52,27 +55,30 @@ class MyDrawing : DrawingArea, Command {
         sizeSpinChanged(this.spin);
         this.spin.addOnValueChanged(&sizeSpinChanged);
 
-        addOnDraw(&onDraw);
-        addOnMotionNotify(&onMotionNotify);
+        addOnDraw(&onDraw);                         // This signal is emitted when a widget is supposed to render itself.
+        addOnMotionNotify(&onMotionNotify);         // This motion notify event signal is emitted when the pointer moves over the widget's gdk.Window.
         addOnSizeAllocate(&onSizeAllocate);
-        addOnButtonPress(&onButtonPress);
-        addOnButtonRelease(&onButtonRelease);
+        addOnButtonPress(&onButtonPress);           // This button press event signal will be emitted when a button (typically from a mouse) is pressed.
+        addOnButtonRelease(&onButtonRelease);       // This button press event signal will be emitted when a button (typically from a mouse) is released.
     }
 
+    /// Deconstructor.
     ~this(){
         writeln("MyDrawing destructor");
     }
 
+    /// Getter method -- gets the spin button.
     public SpinButton getSpin() {
         return this.spin;
     }
 
+    /// Method called when the user selects a color in the color chooser dialog.
     public void updateBrushColor(RGBA newColor) {
-        writeln("In updateBrushColor");
         this.rgbaColor = newColor;
         writeln("The new brush color is: ", this.rgbaColor.toString);
     }
 
+    /// Method called when the user clicks the Save button.
     public void saveWhiteboard() {
         Context context = Context.create(this.surface);
         getAllocation(this.size);                        // Grab the widget's size as allocated by its parent.
@@ -101,14 +107,15 @@ class MyDrawing : DrawingArea, Command {
         }
     }
 
-    public void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
+    // Set width, height, and surface.
+    private void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
         this.width = allocation.width;
         this.height = allocation.height;
         this.surface = ImageSurface.create(CairoFormat.ARGB32, this.width, this.height);
     }
 
     // When the mouse is held down this.buttonIsDown = true and execute (draw/paint).
-    public bool onButtonPress(Event event, Widget widget) {
+    private bool onButtonPress(Event event, Widget widget) {
         if (event.type == EventType.BUTTON_PRESS && event.button.button == 1) {
             this.buttonIsDown = true;
             // Draw/paint.
@@ -118,7 +125,7 @@ class MyDrawing : DrawingArea, Command {
     }
 
     // When the mouse is held down this.buttonIsDown = false.
-    public bool onButtonRelease(Event event, Widget widget) {
+    private bool onButtonRelease(Event event, Widget widget) {
         if (event.type == EventType.BUTTON_RELEASE && event.button.button == 1) {
             this.buttonIsDown = false;
         }
@@ -126,7 +133,7 @@ class MyDrawing : DrawingArea, Command {
     }
 
     // This will be called from the expose event call back.
-    public bool onDraw(Scoped!Context context, Widget widget) {
+    private bool onDraw(Scoped!Context context, Widget widget) {
         // Fill the Widget with the surface we are drawing on.
         context.setSourceSurface(this.surface, 0, 0);
         context.paint();
@@ -135,7 +142,7 @@ class MyDrawing : DrawingArea, Command {
 
     // This detects motion on the whiteboard. If the mouse is still in motion and the
     // mouse is being held down execute (draw/paint).
-    public bool onMotionNotify(Event event, Widget widget) {
+    private bool onMotionNotify(Event event, Widget widget) {
         if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
             // Draw/paint.
             Execute(cast(int)event.motion.x, cast(int)event.motion.y);
@@ -143,7 +150,10 @@ class MyDrawing : DrawingArea, Command {
         return true;
     }
 
-    public void sizeSpinChanged(SpinButton spinButton) {
+    // What is called when the brush/pen size is changed. It will be called when the app initially opens
+    // and when the user updates the brush/pen size.
+    private void sizeSpinChanged(SpinButton spinButton) {
+        writeln("sizeSpinChanged");
         if (!(this.scaledPixbuf is null)) {
             int width = spinButton.getValueAsInt();
             this.scaledPixbuf = image.getPixbuf();
@@ -153,6 +163,7 @@ class MyDrawing : DrawingArea, Command {
         }
     }
 
+    /// The execute method -- draw/paint.
     public int Execute(int x, int y) {
         int width = this.spin.getValueAsInt();
         int height = width * 3 / 4;
@@ -205,11 +216,13 @@ class MyDrawing : DrawingArea, Command {
         return 0;
     }
 
+    /// The undo method -- undo the Execute command.
     public int Undo(int x, int y) {
         // TODO
         return 0;
     }
 
+    /// Method used in MyDrawingArea.d file. Used to set the primitive type.
     public void onPrimOptionChanged(ComboBoxText comboBoxText) {
         this.primitiveType = comboBoxText.getActiveText();
     }

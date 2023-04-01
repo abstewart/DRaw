@@ -3,26 +3,31 @@ private import std.stdio;                                               // write
 
 private import gtk.Dialog;                                              // Dialog.
 
+/// Class representing what opens when the user clicks the Disconnect button.
 class DisconnectDialog : Dialog {
+    // Instance variables.
     private:
     DialogFlags flags = DialogFlags.MODAL;
     ResponseType[] responseTypes = [ResponseType.YES, ResponseType.NO];
     string[] buttonLabels = ["Yes", "No"];
     string titleText = "Disconnect?";
 
+    /// Constructor.
     public:
     this() {
         super(this.titleText, null, this.flags, this.buttonLabels, this.responseTypes);
-        addOnResponse(&doSomething);
-        run();
+        addOnResponse(&doSomething);            // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
+        run();                                  // Blocks in a recursive main loop until the dialog either emits the response signal, or is destroyed.
         destroy();
     }
 
+    /// Deconstructor.
     ~this(){
         writeln("Disconnect destructor");
     }
 
-    protected void doSomething(int response, Dialog d) {
+    // React based on which response the user picked.
+    private void doSomething(int response, Dialog d) {
         switch (response) {
             case ResponseType.YES:
             writeln("You disconnected.");

@@ -5,11 +5,14 @@ private import ConnectGrid : ConnectGrid;
 
 private import gtk.Box;                                                 // Box.
 
+/// Class used in the ConnectDialog.d file.
 class AreaContent {
+    // Instance variables.
     private:
     Box _contentArea;
     ConnectGrid _connectGrid;
 
+    /// Constructor.
     public:
     this(Box contentArea) {
         this._contentArea = contentArea;
@@ -18,10 +21,12 @@ class AreaContent {
         this._contentArea.showAll();
     }
 
+    /// Destructor.
     ~this(){
         writeln("AreaContent destructor");
     }
 
+    /// Getter method that gets the ConnectGrid of this AreaContent.
     public ConnectGrid getConnectGrid() {
         return this._connectGrid;
     }

@@ -10,11 +10,14 @@ private import gtk.Label;                               // Label.
 private import gtk.ComboBoxText;                        // CombBoxText.
 private import gtk.HBox;                                // HBox.
 
-class MyDrawingArea : VBox {
+/// Class representing the box that the users drawing sits in. Includes the brush type, brush size, color picker, undo, and save options.
+class MyDrawingBox : VBox {
+    // Instance variables.
     private:
     MyDrawing drawingArea;
     MyColorChooserDialog d;
 
+    /// Constructor.
     public:
     this() {
         super(false, 4);
@@ -31,7 +34,7 @@ class MyDrawingArea : VBox {
         primOption.setActive(0);
         primOption.addOnChanged(&this.drawingArea.onPrimOptionChanged);
 
-        packStart(this.drawingArea, true, true,0);
+        packStart(this.drawingArea, true, true,0);          // Adds child to box, packed with reference to the start of box.
 
         Button colorButton = new Button("Color Dialog", &showColor);
         Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
@@ -46,10 +49,16 @@ class MyDrawingArea : VBox {
         hbox.packStart(undoButton, false, false, 2);
         hbox.packStart(saveButton, false, false, 2);
 
-        packStart(hbox, false, false, 0);
+        packStart(hbox, false, false, 0);                   // Adds child to box, packed with reference to the start of box.
     }
 
-    protected void showColor(Button button) {
+    /// Deconstructor.
+    ~this(){
+        writeln("MyDrawingBox destructor");
+    }
+
+    // What happens when the coloButton is clicked on by the user.
+    private void showColor(Button button) {
         if (this.d  is  null) {
             this.d = new MyColorChooserDialog(this.drawingArea);
         }
@@ -57,11 +66,13 @@ class MyDrawingArea : VBox {
         this.d.hide();
     }
 
-    protected void saveWhiteboard(Button button) {
+    // What happens when the saveButton is clicked on by the user.
+    private void saveWhiteboard(Button button) {
         this.drawingArea.saveWhiteboard();
     }
 
-    protected void undoWhiteboard(Button button) {
+    // What happens when the undoButton is clicked on by the user.
+    private void undoWhiteboard(Button button) {
         writeln("Undo command on whiteboard");
         // TODO
     }

@@ -7,6 +7,7 @@ private import gio.Application : GioApplication = Application;          // GioAp
 
 private import gtk.Application;                                         // Application.
 
+/// Main method -- run the application.
 int main(string[] args){
     Linker.dumpLoadLibraries();
     Linker.dumpFailedLoads();

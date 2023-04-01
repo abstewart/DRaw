@@ -5,7 +5,7 @@ private import stdlib = core.stdc.stdlib : exit;
 private import DisconnectDialog : DisconnectDialog;
 private import ConnectDialog : ConnectDialog;
 private import AppBox : AppBox;
-private import GtkDAbout : GtkDAbout;
+private import DRawAbout : DRawAbout;
 
 private import gtk.Version;                                             // Version.
 private import gtk.Application;                                         // Application.
@@ -23,11 +23,13 @@ private import gtk.ButtonBox;                                           // Butto
 private import gtk.Dialog;                                              // Dialog.
 private import gtk.MessageDialog;                                       // MessageDialog.
 
+/// Class representing the main window of the application.
 class MyWindow : ApplicationWindow {
+    /// Constructor.
     public:
     this(Application application) {
         super(application);
-        setTitle("DRaw");
+        setTitle("DRaw");                       // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         showAll();
         string versionCompare = Version.checkVersion(3, 0, 0);
@@ -40,11 +42,13 @@ class MyWindow : ApplicationWindow {
         }
     }
 
+    /// Deconstructor.
     ~this(){
         writeln("MyWindow destructor");
     }
 
-    protected void setup() {
+    // Method used to set up the window.
+    private void setup() {
         VBox mainBox = new VBox(false,0);
         mainBox.packStart(getMenuBar(), false, false,0);
 
@@ -70,26 +74,29 @@ class MyWindow : ApplicationWindow {
         add(mainBox);
     }
 
-    protected void connectWhiteboard(Button button) {
+    // Method that creates a new ConnectDialog.
+    private void connectWhiteboard(Button button) {
         ConnectDialog connectDialog = new ConnectDialog();
     }
 
-    protected void disconnectWhiteboard(Button button) {
+    // Method that creates a new DisconnectDialog.
+    private void disconnectWhiteboard(Button button) {
         DisconnectDialog disconnectDialog = new DisconnectDialog();
     }
 
-    protected void anyButtonExits(Button button) {
+    // What happens when the user exits the window.
+    private void anyButtonExits(Button button) {
         writeln("Exit program");
         // TODO: Disconnect from server, if connected.
         stdlib.exit(0);
     }
 
-    protected void onMenuActivate(MenuItem menuItem) {
+    // What happens when the user clicks the About item in the Help menu.
+    private void onMenuActivate(MenuItem menuItem) {
         string action = menuItem.getActionName();
         switch (action) {
             case "help.about":
-            GtkDAbout dlg = new GtkDAbout();
-            dlg.addOnResponse(&onDialogResponse);
+            DRawAbout dlg = new DRawAbout();
             dlg.showAll();
             dlg.run();
             dlg.destroy();
@@ -103,13 +110,8 @@ class MyWindow : ApplicationWindow {
         }
     }
 
-    protected void onDialogResponse(int response, Dialog dlg) {
-        if (response == GtkResponseType.CANCEL) {
-            dlg.destroy();
-        }
-    }
-
-    protected MenuBar getMenuBar() {
+    // Helper method to get the menu bar for the window.
+    private MenuBar getMenuBar() {
         AccelGroup accelGroup = new AccelGroup();
         addAccelGroup(accelGroup);
         MenuBar menuBar = new MenuBar();
@@ -117,21 +119,5 @@ class MyWindow : ApplicationWindow {
         menu.append(new MenuItem(&onMenuActivate, "_About","help.about", true, accelGroup, 'a',
         GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
         return menuBar;
-    }
-
-    protected int windowDelete(GdkEvent* event, Widget widget) {
-        debug(events) {
-            writefln("MyWindow.widgetDelete : this and widget to delete %X %X", this, window);
-        }
-
-        MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.QUESTION,
-        ButtonsType.YES_NO, "Are you sure you want to exit?");
-        int responce = d.run();
-        if (responce == ResponseType.YES){
-            // TODO: Disconnect from server, if connected.
-            stdlib.exit(0);
-        }
-        d.destroy();
-        return true;
     }
 }
