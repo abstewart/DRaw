@@ -75,6 +75,11 @@ class MyDrawing : DrawingArea {
         return this.spin;
     }
 
+    /// Getter method -- gets the image surface.
+    public ImageSurface getImageSurface() {
+        return this.surface;
+    }
+
     /// Method called when the user selects a color in the color chooser dialog.
     public void updateBrushColor(RGBA newColor) {
         this.rgbaColor = newColor;
@@ -137,11 +142,8 @@ class MyDrawing : DrawingArea {
             int y = cast(int)event.button.y;
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
-            this.spin.getValueAsInt(), this.primitiveType);
+            this.spin.getValueAsInt(), this.primitiveType, this, this.width, this.height);
             newDrawPixelCommand.execute();
-            // Redraw the Widget. Must be called after execute.
-            queueDraw();
-
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
         }
@@ -172,11 +174,8 @@ class MyDrawing : DrawingArea {
             int y = cast(int)event.button.y;
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
-            this.spin.getValueAsInt(), this.primitiveType);
+            this.spin.getValueAsInt(), this.primitiveType, this, this.width, this.height);
             newDrawPixelCommand.execute();
-            // Redraw the Widget. Must be called after execute.
-            queueDraw();
-
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
         }

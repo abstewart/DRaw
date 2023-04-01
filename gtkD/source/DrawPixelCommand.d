@@ -22,16 +22,26 @@ class DrawPixelCommand : Command {
     Context context;
     int width;
     string primitiveType;
+    MyDrawing myDrawing;
+    ImageSurface inputSurface;
+    ImageSurface oldSurface;
+    int imageSurfaceWidth;
+    int imageSurfaceHeight;
 
     /// Constructor.
     public:
-    this(int x, int y, Context context, RGBA rgbaColor, int width, string primitiveType) {
+    this(int x, int y, Context context, RGBA rgbaColor, int width, string primitiveType, MyDrawing myDrawing,
+        int imageSurfaceWidth, int imageSurfaceHeight) {
         this.x = x;
         this.y = y;
         this.context = context;
         this.rgbaColor = rgbaColor;
         this.width = width;
         this.primitiveType = primitiveType;
+        this.myDrawing = myDrawing;
+        this.inputSurface = this.myDrawing.getImageSurface();
+        this.imageSurfaceWidth = imageSurfaceWidth;
+        this.imageSurfaceHeight = imageSurfaceHeight;
     }
 
     /// Destructor.
@@ -41,6 +51,8 @@ class DrawPixelCommand : Command {
 
     /// The execute method -- draw/paint.
     public int execute() {
+        this.oldSurface = ImageSurface.create(CairoFormat.ARGB32, this.imageSurfaceWidth, this.imageSurfaceHeight);
+
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -86,6 +98,8 @@ class DrawPixelCommand : Command {
             break ;
         }
 
+        // Redraw the Widget.
+        this.myDrawing.queueDraw();
         return 0;
     }
 
