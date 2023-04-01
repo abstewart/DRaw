@@ -5,6 +5,8 @@ private import std.math;                                // PI.
 private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
 
 private import DrawPixelCommand : DrawPixelCommand;
+private import ApplicationState : ApplicationState;
+private import Command : Command;
 
 private import cairo.Context;                           // Context.
 private import cairo.ImageSurface;                      // ImageSurface.
@@ -41,6 +43,7 @@ class MyDrawing : DrawingArea {
     string[] pngOptionValues;
     int xOffset = 0;
     int yOffset = 0;
+    ApplicationState applicationState = new ApplicationState();
 
     /// Constructor.
     public:
@@ -107,6 +110,18 @@ class MyDrawing : DrawingArea {
         }
     }
 
+    /// Method called when the user clicks the Undo button.
+    public void undoWhiteboard() {
+        writeln("Undoing: History length = ", this.applicationState.getHistory().length);
+        // Retrieve the most recent command.
+        Command cmd = this.applicationState.popHistory();
+
+        // Call the undo function.
+        if (cmd !is null) {
+            cmd.undo();
+        }
+    }
+
     // Set width, height, and surface.
     private void onSizeAllocate(GtkAllocation* allocation, Widget widget) {
         this.width = allocation.width;
@@ -121,11 +136,14 @@ class MyDrawing : DrawingArea {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
             // Draw/paint.
-            DrawPixelCommand cmd = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
+            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
             this.spin.getValueAsInt(), this.primitiveType);
-            cmd.Execute();
-            // Redraw the Widget. Must be called after Execute.
+            newDrawPixelCommand.execute();
+            // Redraw the Widget. Must be called after execute.
             queueDraw();
+
+            // Add the command to the history.
+            this.applicationState.addToHistory(newDrawPixelCommand);
         }
         return false;
     }
@@ -153,11 +171,14 @@ class MyDrawing : DrawingArea {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
             // Draw/paint.
-            DrawPixelCommand cmd = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
+            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
             this.spin.getValueAsInt(), this.primitiveType);
-            cmd.Execute();
-            // Redraw the Widget. Must be called after Execute.
+            newDrawPixelCommand.execute();
+            // Redraw the Widget. Must be called after execute.
             queueDraw();
+
+            // Add the command to the history.
+            this.applicationState.addToHistory(newDrawPixelCommand);
         }
         return true;
     }

@@ -75,13 +75,6 @@ class MyDrawingBox : VBox {
     // What happens when the undoButton is clicked on by the user.
     private void undoWhiteboard(Button button) {
         writeln("Undo command on whiteboard");
-        // TODO
-        // Retrieve the most recent command.
-        Command cmd;
-
-        // Call the undo function.
-        if (cmd !is null) {
-
-        }
+        this.drawingArea.undoWhiteboard();
     }
 }

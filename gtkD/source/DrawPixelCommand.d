@@ -40,7 +40,7 @@ class DrawPixelCommand : Command {
     }
 
     /// The execute method -- draw/paint.
-    public int Execute() {
+    public int execute() {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -90,7 +90,7 @@ class DrawPixelCommand : Command {
     }
 
     /// The undo method -- undo the Execute command.
-    public int Undo() {
+    public int undo() {
         // TODO
         return 0;
     }
