@@ -4,7 +4,7 @@ private import std.array;                               // appender.
 private import std.math;                                // PI.
 private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
 
-private import Command : Command;
+private import DrawPixelCommand : DrawPixelCommand;
 
 private import cairo.Context;                           // Context.
 private import cairo.ImageSurface;                      // ImageSurface.
@@ -22,7 +22,7 @@ private import gtk.Dialog;                              // Dialog.
 private import gtk.Adjustment;                          // Adjustment.
 
 /// Class representing the drawing area that the user is drawing/painting on.
-class MyDrawing : DrawingArea, Command {
+class MyDrawing : DrawingArea {
     // Instance variables.
     private:
     CairoOperator operator = CairoOperator.OVER;
@@ -118,8 +118,14 @@ class MyDrawing : DrawingArea, Command {
     private bool onButtonPress(Event event, Widget widget) {
         if (event.type == EventType.BUTTON_PRESS && event.button.button == 1) {
             this.buttonIsDown = true;
+            int x = cast(int)event.button.x;
+            int y = cast(int)event.button.y;
             // Draw/paint.
-            Execute(cast(int)event.button.x, cast(int)event.button.y);
+            DrawPixelCommand cmd = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
+            this.spin.getValueAsInt(), this.primitiveType);
+            cmd.Execute();
+            // Redraw the Widget. Must be called after Execute.
+            queueDraw();
         }
         return false;
     }
@@ -144,8 +150,14 @@ class MyDrawing : DrawingArea, Command {
     // mouse is being held down execute (draw/paint).
     private bool onMotionNotify(Event event, Widget widget) {
         if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
+            int x = cast(int)event.button.x;
+            int y = cast(int)event.button.y;
             // Draw/paint.
-            Execute(cast(int)event.motion.x, cast(int)event.motion.y);
+            DrawPixelCommand cmd = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
+            this.spin.getValueAsInt(), this.primitiveType);
+            cmd.Execute();
+            // Redraw the Widget. Must be called after Execute.
+            queueDraw();
         }
         return true;
     }
@@ -160,66 +172,6 @@ class MyDrawing : DrawingArea, Command {
             float hh = width * this.scaledPixbuf.getHeight() / 30;
             this.scaledPixbuf = scaledPixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
         }
-    }
-
-    /// The execute method -- draw/paint.
-    public int Execute(int x, int y) {
-        int width = this.spin.getValueAsInt();
-        int height = width * 3 / 4;
-        Context context = Context.create(this.surface);
-        context.setOperator(operator);
-        const double ALPHAVALUE = 1.0;
-        double rValue = this.rgbaColor.red();
-        double gValue = this.rgbaColor.green();
-        double bValue = this.rgbaColor.blue();
-        // Set the color of the brush/pen.
-        context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
-
-        debug(trace) {
-            writefln("primitiveType = %s", primitiveType);
-        }
-
-        switch (primitiveType) {
-            case "Arc":
-            context.arc(x - width / 2, y - width / 2, width, 0, 2 * PI);
-            context.stroke();
-            break ;
-            case "Filled Arc":
-            context.arc(x - width / 4, y - width / 4, width / 2, 0, 2 * PI);
-            context.fill();
-            break ;
-            case "Line":
-            context.moveTo(x, y);
-            context.lineTo(x + width, y);
-            context.stroke();
-            break ;
-            case "Point":
-            context.rectangle(x, y, 1, 1);
-            context.fill();
-            break ;
-            case "Rectangle":
-            context.rectangle(x - width / 2, y - width / 4, width, height);
-            context.stroke();
-            break ;
-            case "Filled Rectangle":
-            context.rectangle(x - width / 2, y - width / 4, width, height);
-            context.fill();
-            break ;
-            default:
-            context.arcNegative(x  -2, y - 2, 4, 0, 6);
-            context.fill();
-            break ;
-        }
-
-        // Redraw the Widget.
-        this.queueDraw();
-        return 0;
-    }
-
-    /// The undo method -- undo the Execute command.
-    public int Undo() {
-        // TODO
-        return 0;
     }
 
     /// Method used in MyDrawingArea.d file. Used to set the primitive type.
