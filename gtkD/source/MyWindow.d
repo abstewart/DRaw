@@ -33,8 +33,8 @@ class MyWindow : ApplicationWindow {
         string versionCompare = Version.checkVersion(3, 0, 0);
         if (versionCompare.length > 0){
             MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType.OK,
-                                "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
-                                "\nYou might run into problems!"~ "\n\nPress OK to continue");
+            "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
+            "\nYou might run into problems!"~ "\n\nPress OK to continue");
             d.run();
             d.destroy();
         }
@@ -88,18 +88,18 @@ class MyWindow : ApplicationWindow {
         string action = menuItem.getActionName();
         switch (action) {
             case "help.about":
-                GtkDAbout dlg = new GtkDAbout();
-                dlg.addOnResponse(&onDialogResponse);
-                dlg.showAll();
-                dlg.run();
-                dlg.destroy();
-                break ;
+            GtkDAbout dlg = new GtkDAbout();
+            dlg.addOnResponse(&onDialogResponse);
+            dlg.showAll();
+            dlg.run();
+            dlg.destroy();
+            break ;
             default:
-                MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
-                                    "You pressed menu item "~action);
-                d.run();
-                d.destroy();
-                break ;
+            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
+            "You pressed menu item "~action);
+            d.run();
+            d.destroy();
+            break ;
         }
     }
 
@@ -115,7 +115,7 @@ class MyWindow : ApplicationWindow {
         MenuBar menuBar = new MenuBar();
         Menu menu = menuBar.append("_Help");
         menu.append(new MenuItem(&onMenuActivate, "_About","help.about", true, accelGroup, 'a',
-                        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
+        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
         return menuBar;
     }
 

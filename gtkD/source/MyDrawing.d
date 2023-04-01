@@ -77,7 +77,7 @@ class MyDrawing : DrawingArea, Command {
         Context context = Context.create(this.surface);
         getAllocation(this.size);                        // Grab the widget's size as allocated by its parent.
         this.pixbuf = getFromSurface(context.getTarget(), this.xOffset, this.yOffset,
-                        this.size.width, this.size.height); // The contents of the surface go into the buffer.
+        this.size.width, this.size.height); // The contents of the surface go into the buffer.
 
         // Prepare and write PNG file.
         this.pngOptions = ["x-dpi", "y-dpi", "compression"];
@@ -170,34 +170,34 @@ class MyDrawing : DrawingArea, Command {
 
         switch (primitiveType) {
             case "Arc":
-                context.arc(x - width / 2, y - width / 2, width, 0, 2 * PI);
-                context.stroke();
-                break ;
+            context.arc(x - width / 2, y - width / 2, width, 0, 2 * PI);
+            context.stroke();
+            break ;
             case "Filled Arc":
-                context.arc(x - width / 4, y - width / 4, width / 2, 0, 2 * PI);
-                context.fill();
-                break ;
+            context.arc(x - width / 4, y - width / 4, width / 2, 0, 2 * PI);
+            context.fill();
+            break ;
             case "Line":
-                context.moveTo(x, y);
-                context.lineTo(x+width, y);
-                context.stroke();
-                break ;
+            context.moveTo(x, y);
+            context.lineTo(x+width, y);
+            context.stroke();
+            break ;
             case "Point":
-                context.rectangle(x, y, 1, 1);
-                context.fill();
-                break ;
+            context.rectangle(x, y, 1, 1);
+            context.fill();
+            break ;
             case "Rectangle":
-                context.rectangle(x - width / 2, y - width / 4, width, height);
-                context.stroke();
-                break ;
+            context.rectangle(x - width / 2, y - width / 4, width, height);
+            context.stroke();
+            break ;
             case "Filled Rectangle":
-                context.rectangle(x - width / 2, y - width / 4, width, height);
-                context.fill();
-                break ;
+            context.rectangle(x - width / 2, y - width / 4, width, height);
+            context.fill();
+            break ;
             default:
-                context.arcNegative(x  -2, y - 2, 4, 0, 6);
-                context.fill();
-                break ;
+            context.arcNegative(x  -2, y - 2, 4, 0, 6);
+            context.fill();
+            break ;
         }
 
         // Redraw the Widget.
