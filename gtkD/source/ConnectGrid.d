@@ -22,7 +22,7 @@ class ConnectGrid : Grid {
     PadLabel portNumLabel;
     string portNumLabelText = "Port number:";
     PadEntry portNumEntry;
-    string portNumPlaceholderText = "50001";
+    string portNumPlaceholderText = "50002";
     // Store the user-supplied data so it can be retrieved later.
     string _ipAddress;
     string _portNum;

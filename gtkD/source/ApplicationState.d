@@ -6,7 +6,7 @@ private import Command : Command;
 
 /// Class that represents the state of the application.
 class ApplicationState {
-    // Instance variables.
+    // Instance variable.
     private:
     Command[] history;
 

@@ -1,5 +1,7 @@
 // Imports.
 private import std.stdio;                                               // writeln.
+private import std.conv;                                                // to.
+private import std.socket;
 
 private import AreaContent : AreaContent;
 
@@ -48,7 +50,32 @@ class ConnectDialog : Dialog {
             foreach (item; this.areaContent.getConnectGrid.getData()) {
                 writeln("data item: ", item);
             }
-            // TODO: Check for valid IP addresses and port numbers.
+            // TODO: Check for valid IP addresse.
+            string ipAddress = this.areaContent.getConnectGrid.getData()[0];
+            writeln("ipAddress = ", ipAddress);
+            if (isIPAddress(ipAddress)) {
+                writeln("Is a valid IP address");
+            } else {
+                writeln("Is not a valid IP address");
+            }
+
+
+
+
+            // TODO: Check for valid port number.
+            // A port number is an unsigned short from 1-65535.
+            // Port numbers under 1024 are reserved for system services http, ftp, etc.
+            ushort port = to!ushort(this.areaContent.getConnectGrid.getData()[1]);
+            writeln("port = ", port);
+            if (isValidPort(port)) {
+                writeln("Is a valid port number");
+            } else {
+                writeln("Is not a port number");
+            }
+
+
+
+
             break ;
             case ResponseType.CANCEL:
             writeln("Cancelled connection");
@@ -57,5 +84,16 @@ class ConnectDialog : Dialog {
             writeln("Dialog closed");
             break ;
         }
+    }
+
+    // TODO
+    private bool isIPAddress(string ipAddress) {
+        return true;
+    }
+
+    // TODO
+    // TODO: Check to see if the valid port number is free to use.
+    private bool isValidPort(ushort port) {
+        return true;
     }
 }

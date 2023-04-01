@@ -14,6 +14,7 @@ private import gtk.SpinButton;                          // SpinButton.
 
 /// Class representing the draw pixel command.
 class DrawPixelCommand : Command {
+    // Instance variables.
     private:
     CairoOperator operator = CairoOperator.OVER;
     int x;
@@ -52,7 +53,6 @@ class DrawPixelCommand : Command {
     /// The execute method -- draw/paint.
     public int execute() {
         this.oldSurface = ImageSurface.create(CairoFormat.ARGB32, this.imageSurfaceWidth, this.imageSurfaceHeight);
-
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
