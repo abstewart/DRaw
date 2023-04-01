@@ -1,19 +1,11 @@
 // Imports.
-private import gtkd.Loader;
+private import std.stdio;                               // writeln.
 
-private import MyWindow : MyWindow;
+private import DRawApp : DRawApp;
 
-private import gio.Application : GioApplication = Application;          // GioApplication.
-
-private import gtk.Application;                                         // Application.
-
-/// Main method -- run the application.
+/// Main method -- run the application. Entry point for the program.
 int main(string[] args){
-    Linker.dumpLoadLibraries();
-    Linker.dumpFailedLoads();
-    auto application = new Application("demo.MyWindow", GApplicationFlags.FLAGS_NONE);
-    application.addOnActivate(delegate void(GioApplication app) {
-        new MyWindow(application);
-    });
-    return application.run(args);
+    writeln("Starting the DRaw application.");
+    DRawApp myApp = new DRawApp(args);
+    return myApp.runMainApplication();
 }
