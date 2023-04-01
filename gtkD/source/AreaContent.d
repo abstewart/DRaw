@@ -23,6 +23,6 @@ class AreaContent {
     }
 
     public ConnectGrid getConnectGrid() {
-        return (this._connectGrid);
+        return this._connectGrid;
     }
 }

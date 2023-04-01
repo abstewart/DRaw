@@ -56,6 +56,6 @@ class ConnectGrid : Grid {
     public Tuple!(string, string) getData() {
         this._ipAddress = this.ipAddressEntry.getText();
         this._portNum = this.portNumEntry.getText();
-        return (tuple(this._ipAddress, this._portNum));
+        return tuple(this._ipAddress, this._portNum);
     }
 }

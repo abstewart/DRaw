@@ -22,7 +22,6 @@ class ConnectDialog : Dialog {
     this() {
         super(titleText, null, this.flags, this.buttonLabels, this.responseTypes);
         farmOutContent();
-
         addOnResponse(&doSomething);
         run();
         destroy();
@@ -41,17 +40,17 @@ class ConnectDialog : Dialog {
     protected void doSomething(int response, Dialog d) {
         switch (response) {
             case ResponseType.OK:
-            foreach (item; this.areaContent.getConnectGrid.getData()) {
-                writeln("data item: ", item);
-            }
-            // TODO: Check for valid IP addresses and port numbers.
-            break ;
+                foreach (item; this.areaContent.getConnectGrid.getData()) {
+                    writeln("data item: ", item);
+                }
+                // TODO: Check for valid IP addresses and port numbers.
+                break ;
             case ResponseType.CANCEL:
-            writeln("Cancelled");
-            break ;
+                writeln("Cancelled connection");
+                break ;
             default:
-            writeln("Dialog closed");
-            break ;
+                writeln("Dialog closed");
+                break ;
         }
     }
 }

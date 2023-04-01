@@ -58,7 +58,6 @@ class MyDrawingArea : VBox {
     }
 
     protected void saveWhiteboard(Button button) {
-        writeln("Save whiteboard to a file");
         this.drawingArea.saveWhiteboard();
     }
 

@@ -25,15 +25,15 @@ class DisconnectDialog : Dialog {
     protected void doSomething(int response, Dialog d) {
         switch(response) {
             case ResponseType.YES:
-            writeln("You disconnected.");
-            // TODO: If they are not connected -- alert them that they are already not connected.
-            break;
+                writeln("You disconnected.");
+                // TODO: If they are not connected -- alert them that they are already not connected.
+                break;
             case ResponseType.NO:
-            writeln("You did not disconnect.");
-            break;
+                writeln("You did not disconnect.");
+                break;
             default:
-            writeln("Dialog closed.");
-            break;
+                writeln("Dialog closed.");
+                break;
         }
     }
 }

@@ -1,4 +1,6 @@
 // Imports.
+private import gtkd.Loader;
+
 private import MyWindow : MyWindow;
 
 private import gio.Application : GioApplication = Application;          // GioApplication.
@@ -6,8 +8,6 @@ private import gio.Application : GioApplication = Application;          // GioAp
 private import gtk.Application;                                         // Application.
 
 int main(string[] args){
-    import gtkd.Loader;
-
     Linker.dumpLoadLibraries();
     Linker.dumpFailedLoads();
     auto application = new Application("demo.MyWindow", GApplicationFlags.FLAGS_NONE);
