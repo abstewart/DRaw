@@ -3,6 +3,7 @@ private import std.stdio;                               // writeln.
 
 private import MyDrawing : MyDrawing;
 private import MyColorChooserDialog : MyColorChooserDialog;
+private import Command : Command;
 
 private import gtk.VBox;                                // VBox.
 private import gtk.Button;                              // Button.
@@ -75,5 +76,12 @@ class MyDrawingBox : VBox {
     private void undoWhiteboard(Button button) {
         writeln("Undo command on whiteboard");
         // TODO
+        // Retrieve the most recent command.
+        Command cmd;
+
+        // Call the undo function.
+        if (cmd !is null) {
+
+        }
     }
 }

@@ -11,11 +11,10 @@ class DRawAbout : AboutDialog {
     public:
     this() {
         string itemLabel = "About";
-        string sectionName = "Them What Done Stuff";
         string[] people = ["Andrew Briasco-Stewart", "Benjamin Mallett", "Elizabeth Williams", "Steven Abbott"];
-        string[] artists = people;
+        string[] artists = ["Elizabeth Williams"];
         string[] documenters = people;
-        string comments = "This is a gtkD demo -- DRaw.";
+        string comments = "Collaborative Paint Whiteboard";
         string license = "License Foundations of Software Engineering Spring 2023";
         string programName = "DRaw";
         string protection = "Copywrite 2023 © DRaw";
@@ -24,7 +23,6 @@ class DRawAbout : AboutDialog {
 
         setAuthors(people);                         // Sets the strings which are displayed in the authors tab of the secondary credits dialog.
         setArtists(artists);                        // Sets the strings which are displayed in the artists tab of the secondary credits dialog.
-        addCreditSection(sectionName, people);      // Creates a new section in the Credits page. Shows when the Credits button is clicked.
         setCopyright(protection);                   // Sets the copyright string to display in the about dialog. This should be a short string of one or two lines.
         setComments(comments);                      // Sets the comments string to display in the about dialog. This should be a short string of one or two lines.
         setLicense(license);                        // Sets the license information to be displayed in the secondary license dialog. If license is NULL, the license button is hidden.

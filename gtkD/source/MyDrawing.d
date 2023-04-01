@@ -153,7 +153,6 @@ class MyDrawing : DrawingArea, Command {
     // What is called when the brush/pen size is changed. It will be called when the app initially opens
     // and when the user updates the brush/pen size.
     private void sizeSpinChanged(SpinButton spinButton) {
-        writeln("sizeSpinChanged");
         if (!(this.scaledPixbuf is null)) {
             int width = spinButton.getValueAsInt();
             this.scaledPixbuf = image.getPixbuf();
@@ -173,6 +172,7 @@ class MyDrawing : DrawingArea, Command {
         double rValue = this.rgbaColor.red();
         double gValue = this.rgbaColor.green();
         double bValue = this.rgbaColor.blue();
+        // Set the color of the brush/pen.
         context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
         debug(trace) {
@@ -190,7 +190,7 @@ class MyDrawing : DrawingArea, Command {
             break ;
             case "Line":
             context.moveTo(x, y);
-            context.lineTo(x+width, y);
+            context.lineTo(x + width, y);
             context.stroke();
             break ;
             case "Point":
@@ -217,7 +217,7 @@ class MyDrawing : DrawingArea, Command {
     }
 
     /// The undo method -- undo the Execute command.
-    public int Undo(int x, int y) {
+    public int Undo() {
         // TODO
         return 0;
     }
