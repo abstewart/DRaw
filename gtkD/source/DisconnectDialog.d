@@ -1,5 +1,6 @@
 // Imports.
 private import std.stdio;                                               // writeln.
+private import std.socket;
 
 private import gtk.Dialog;                                              // Dialog.
 
@@ -32,6 +33,13 @@ class DisconnectDialog : Dialog {
             case ResponseType.YES:
             writeln("You disconnected.");
             // TODO: If they are not connected -- alert them that they are already not connected.
+
+
+            // TODO: If they are connected, disconnect them.
+            // this.socket.close();
+
+
+
             break ;
             case ResponseType.NO:
             writeln("You did not disconnect.");
