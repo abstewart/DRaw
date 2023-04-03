@@ -50,7 +50,11 @@ class ConnectDialog : Dialog {
             foreach (item; this.areaContent.getConnectGrid.getData()) {
                 writeln("data item: ", item);
             }
-            // TODO: Check for valid IP addresse.
+            // TODO: Check for valid IP address.
+            // 12.2.3.04
+            // 12.2.3.4
+            // localhost
+            // example analogy: Date: 50/2/1997 is in a valid date format, but 50 is not a month.
             string ipAddress = this.areaContent.getConnectGrid.getData()[0];
             writeln("ipAddress = ", ipAddress);
             if (isIPAddress(ipAddress)) {

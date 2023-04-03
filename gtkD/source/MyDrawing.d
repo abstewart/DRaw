@@ -34,7 +34,7 @@ class MyDrawing : DrawingArea {
     int width;
     int height;
     bool buttonIsDown;
-    string primitiveType;
+    string brushType;
     Image image;
     Pixbuf scaledPixbuf;
     SpinButton spin;
@@ -52,7 +52,7 @@ class MyDrawing : DrawingArea {
         setSizeRequest(500, 300);            // Width, height.
         this.width = getWidth();
         this.height = getHeight();
-        this.primitiveType = "Filled Arc";
+        this.brushType = "Filled Arc";
         this.previousColor = null;                                                      // Initially there is no previous color.
         if (this.previousColor is null) {
             writeln("MyDrawing constructor. The previous color is: null");
@@ -89,6 +89,8 @@ class MyDrawing : DrawingArea {
 
     /// Method called when the user selects a color in the color chooser dialog.
     public void updateBrushColor(RGBA newColor) {
+        // TODO: The previous brush color is not necessarily equivalent to the previous
+        // pixel color.
         this.previousColor = this.currentColor;
         if (this.previousColor is null) {
             writeln("updateBrushColor. The previous color is: null");
@@ -155,7 +157,7 @@ class MyDrawing : DrawingArea {
             int y = cast(int)event.button.y;
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
-            this.previousColor, this.spin.getValueAsInt(), this.primitiveType, this);
+            this.previousColor, this.spin.getValueAsInt(), this.brushType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
@@ -187,7 +189,7 @@ class MyDrawing : DrawingArea {
             int y = cast(int)event.button.y;
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
-            this.previousColor, this.spin.getValueAsInt(), this.primitiveType, this);
+            this.previousColor, this.spin.getValueAsInt(), this.brushType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
@@ -207,8 +209,8 @@ class MyDrawing : DrawingArea {
         }
     }
 
-    /// Method used in MyDrawingArea.d file. Used to set the primitive type.
-    public void onPrimOptionChanged(ComboBoxText comboBoxText) {
-        this.primitiveType = comboBoxText.getActiveText();
+    /// Method used in MyDrawingArea.d file. Used to set the brush type.
+    public void onBrushOptionChanged(ComboBoxText comboBoxText) {
+        this.brushType = comboBoxText.getActiveText();
     }
 }

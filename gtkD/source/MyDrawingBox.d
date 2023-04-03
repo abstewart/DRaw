@@ -33,7 +33,7 @@ class MyDrawingBox : VBox {
         primOption.appendText("Rectangle");
         primOption.appendText("Filled Rectangle");
         primOption.setActive(0);
-        primOption.addOnChanged(&this.drawingArea.onPrimOptionChanged);
+        primOption.addOnChanged(&this.drawingArea.onBrushOptionChanged);
 
         packStart(this.drawingArea, true, true,0);          // Adds child to box, packed with reference to the start of box.
 
