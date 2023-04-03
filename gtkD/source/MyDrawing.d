@@ -131,7 +131,7 @@ class MyDrawing : DrawingArea {
     /// Method called when the user clicks the Undo button.
     public void undoWhiteboard() {
         writeln("Undoing: History length = ", this.applicationState.getHistory().length);
-        // Retrieve the most recent command.
+        // Retrieve the most recent command and remove it from the history array.
         Command cmd = this.applicationState.popHistory();
 
         // Call the undo function.
@@ -154,7 +154,7 @@ class MyDrawing : DrawingArea {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
             // Draw/paint.
-            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.currentColor,
+            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
             this.previousColor, this.spin.getValueAsInt(), this.primitiveType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
@@ -186,7 +186,7 @@ class MyDrawing : DrawingArea {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
             // Draw/paint.
-            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.currentColor,
+            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
             this.previousColor, this.spin.getValueAsInt(), this.primitiveType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.

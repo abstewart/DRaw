@@ -19,19 +19,22 @@ class DrawPixelCommand : Command {
     CairoOperator operator = CairoOperator.OVER;
     int x;
     int y;
+    ImageSurface surface;
+    Context context;
     RGBA currentColor;
     RGBA previousColor;
-    Context context;
     int width;
     string primitiveType;
     MyDrawing myDrawing;
 
     /// Constructor.
     public:
-    this(int x, int y, Context context, RGBA currentColor, RGBA previousColor, int width, string primitiveType, MyDrawing myDrawing) {
+    this(int x, int y, RGBA currentColor, RGBA previousColor, int width, string primitiveType, MyDrawing myDrawing) {
         this.x = x;
         this.y = y;
-        this.context = context;
+        this.myDrawing = myDrawing;
+        this.surface = myDrawing.getImageSurface();
+        this.context = Context.create(this.surface);
         this.currentColor = currentColor;
         writeln("DrawPixelCommand constructor. The current brush color is: ", this.currentColor.toString());
         this.previousColor = previousColor;
@@ -42,7 +45,6 @@ class DrawPixelCommand : Command {
         }
         this.width = width;
         this.primitiveType = primitiveType;
-        this.myDrawing = myDrawing;
     }
 
     /// Destructor.
@@ -105,6 +107,7 @@ class DrawPixelCommand : Command {
     /// The undo method -- undo the Execute command.
     public int undo() {
         // TODO
+        // Redraw/repaint to the previous color.
         return 0;
     }
 }
