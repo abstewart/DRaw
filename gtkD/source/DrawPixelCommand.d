@@ -19,7 +19,8 @@ class DrawPixelCommand : Command {
     CairoOperator operator = CairoOperator.OVER;
     int x;
     int y;
-    RGBA rgbaColor;
+    RGBA currentColor;
+    RGBA previousColor;
     Context context;
     int width;
     string primitiveType;
@@ -27,11 +28,18 @@ class DrawPixelCommand : Command {
 
     /// Constructor.
     public:
-    this(int x, int y, Context context, RGBA rgbaColor, int width, string primitiveType) {
+    this(int x, int y, Context context, RGBA currentColor, RGBA previousColor, int width, string primitiveType, MyDrawing myDrawing) {
         this.x = x;
         this.y = y;
         this.context = context;
-        this.rgbaColor = rgbaColor;
+        this.currentColor = currentColor;
+        writeln("DrawPixelCommand constructor. The current brush color is: ", this.currentColor.toString());
+        this.previousColor = previousColor;
+        if (this.previousColor is null) {
+            writeln("DrawPixelCommand constructor. The previous color is: null");
+        } else {
+            writeln("DrawPixelCommand constructor. The previous brush color is: ", this.previousColor.toString());
+        }
         this.width = width;
         this.primitiveType = primitiveType;
         this.myDrawing = myDrawing;
@@ -47,9 +55,9 @@ class DrawPixelCommand : Command {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
-        double rValue = this.rgbaColor.red();
-        double gValue = this.rgbaColor.green();
-        double bValue = this.rgbaColor.blue();
+        double rValue = this.currentColor.red();
+        double gValue = this.currentColor.green();
+        double bValue = this.currentColor.blue();
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 

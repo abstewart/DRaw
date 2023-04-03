@@ -29,7 +29,8 @@ class MyDrawing : DrawingArea {
     private:
     CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
-    RGBA rgbaColor;
+    RGBA previousColor;
+    RGBA currentColor;
     int width;
     int height;
     bool buttonIsDown;
@@ -52,8 +53,14 @@ class MyDrawing : DrawingArea {
         this.width = getWidth();
         this.height = getHeight();
         this.primitiveType = "Filled Arc";
-        this.rgbaColor = new RGBA(cast(double)0, cast(double)0, cast(double)0);        // Intially black.
-        writeln("The initial brush color is: ", this.rgbaColor.toString);
+        this.previousColor = null;                                                      // Initially there is no previous color.
+        if (this.previousColor is null) {
+            writeln("MyDrawing constructor. The previous color is: null");
+        } else {
+            writeln("MyDrawing constructor. The previous brush color is: ", this.previousColor.toString());
+        }
+        this.currentColor = new RGBA(cast(double)0, cast(double)0, cast(double)0);      // Intially black.
+        writeln("MyDrawing constructor. The initial brush color is: ", this.currentColor.toString());
         this.spin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0), 1, 0);
         sizeSpinChanged(this.spin);
         this.spin.addOnValueChanged(&sizeSpinChanged);
@@ -82,8 +89,14 @@ class MyDrawing : DrawingArea {
 
     /// Method called when the user selects a color in the color chooser dialog.
     public void updateBrushColor(RGBA newColor) {
-        this.rgbaColor = newColor;
-        writeln("The new brush color is: ", this.rgbaColor.toString);
+        this.previousColor = this.currentColor;
+        if (this.previousColor is null) {
+            writeln("updateBrushColor. The previous color is: null");
+        } else {
+            writeln("updateBrushColor. The previous brush color is: ", this.previousColor.toString());
+        }
+        this.currentColor = newColor;
+        writeln("updateBrushColor. The new brush color is: ", this.currentColor.toString());
     }
 
     /// Method called when the user clicks the Save button.
@@ -141,8 +154,8 @@ class MyDrawing : DrawingArea {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
             // Draw/paint.
-            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
-            this.spin.getValueAsInt(), this.primitiveType);
+            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.currentColor,
+            this.previousColor, this.spin.getValueAsInt(), this.primitiveType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
@@ -173,8 +186,8 @@ class MyDrawing : DrawingArea {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
             // Draw/paint.
-            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
-            this.spin.getValueAsInt(), this.primitiveType);
+            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.currentColor,
+            this.previousColor, this.spin.getValueAsInt(), this.primitiveType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
