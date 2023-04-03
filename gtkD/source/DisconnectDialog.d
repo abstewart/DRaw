@@ -3,6 +3,7 @@ private import std.stdio;                                               // write
 private import std.socket;
 
 private import gtk.Dialog;                                              // Dialog.
+private import gtk.MessageDialog;                                       // MessageDialog.
 
 /// Class representing what opens when the user clicks the Disconnect button.
 class DisconnectDialog : Dialog {
@@ -37,6 +38,11 @@ class DisconnectDialog : Dialog {
 
             // TODO: If they are connected, disconnect them.
             // this.socket.close();
+
+            MessageDialog message = new MessageDialog( this, GtkDialogFlags.MODAL, MessageType.INFO,
+            ButtonsType.OK, "You are now disconnceted!");
+            message.run();
+            message.destroy();
 
 
 
