@@ -142,7 +142,7 @@ class MyDrawing : DrawingArea {
             int y = cast(int)event.button.y;
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
-            this.spin.getValueAsInt(), this.primitiveType, this, this.width, this.height);
+            this.spin.getValueAsInt(), this.primitiveType);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
@@ -174,7 +174,7 @@ class MyDrawing : DrawingArea {
             int y = cast(int)event.button.y;
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, Context.create(this.surface), this.rgbaColor,
-            this.spin.getValueAsInt(), this.primitiveType, this, this.width, this.height);
+            this.spin.getValueAsInt(), this.primitiveType);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
