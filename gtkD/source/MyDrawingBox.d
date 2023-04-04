@@ -36,7 +36,7 @@ class MyDrawingBox : VBox {
         primOption.setActive(0);
         primOption.addOnChanged(&this.drawingArea.onBrushOptionChanged);
 
-        packStart(this.drawingArea, true, true,0);          // Adds child to box, packed with reference to the start of box.
+        packStart(this.drawingArea, true, true, 0);          // Adds child to box, packed with reference to the start of box.
 
         Button colorButton = new Button("Color Dialog", &showColor);
         Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
