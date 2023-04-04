@@ -56,7 +56,6 @@ class DrawPixelCommand : Command {
             writefln("brushType = %s", this.brushType);
         }
 
-        writeln("before with switch execute");
         switch (this.brushType) {
             case "Arc":
             this.context.arc(this.pixel.getX() - this.width / 2, this.pixel.getY() - this.width / 2, this.width, 0, 2 * PI);
