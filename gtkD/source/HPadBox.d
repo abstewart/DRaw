@@ -21,6 +21,7 @@ class HPadBox : Box {
     /// Constructor.
     public:
     this(Widget widget, BoxJustify pJustify) {
+        writeln("HPadBox constructor");
         this._widget = widget;
         this._pJustify = pJustify;
         super(Orientation.HORIZONTAL, this.globalPadding);

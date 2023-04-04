@@ -19,6 +19,7 @@ class MyChatBox : VBox {
     public:
     this() {
         super(false, 4);
+        writeln("MyChatBox constructor");
 
         ScrolledWindow sw = new ScrolledWindow(null, null);
         sw.setPolicy(PolicyType.AUTOMATIC,PolicyType.AUTOMATIC);

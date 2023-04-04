@@ -15,6 +15,7 @@ class Pixel {
     /// Constructor.
     public:
     this(int x, int y, RGBA currentColor, RGBA previousColor) {
+        writeln("Pixel constructor");
         this.x = x;
         this.y = y;
         this.currentColor = currentColor;

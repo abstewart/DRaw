@@ -21,8 +21,14 @@ class MyColorChooserDialog : ColorChooserDialog {
     public:
     this(MyDrawing drawingArea) {
         super(title, null);
+        writeln("MyColorChooserDialog constructor");
         addOnResponse(&doSomething);        // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
         this.drawingArea = drawingArea;
+    }
+
+    /// Destructor.
+    ~this() {
+        writeln("MyColorChooserDialog destructor");
     }
 
     // React based on which response the user picked.

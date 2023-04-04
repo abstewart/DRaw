@@ -15,6 +15,7 @@ class PadLabel : HPadBox {
     /// Constructor.
     public:
     this(BoxJustify pJustify, string text = null) {
+        writeln("PadLabel constructor");
         this.label = new Label(text);
         super(this.label, pJustify);
     }

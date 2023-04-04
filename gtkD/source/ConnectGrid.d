@@ -31,6 +31,7 @@ class ConnectGrid : Grid {
     public:
     this() {
         super();
+        writeln("ConnectGrid constructor");
         setBorderWidth(this._borderWidth);               // Keeps the grid separated from the window edges.
 
         // Row 0.

@@ -16,6 +16,7 @@ class PadEntry : HPadBox {
     /// Constructor.
     public:
     this(BoxJustify pJustify, string placeholderText = null) {
+        writeln("PadEntry constructor");
         if (placeholderText !is null) {
             this._placeholderText = placeholderText;
         } else {

@@ -34,6 +34,7 @@ class ConnectDialog : Dialog {
     public:
     this(MyWindow myWindow) {
         super(titleText, null, this.flags, this.buttonLabels, this.responseTypes);
+        writeln("ConnectDialog constructor");
         this.myWindow = myWindow;
         this.isConnected = this.myWindow.getConnection();
         writeln("In connection. isConnected = ", this.isConnected);

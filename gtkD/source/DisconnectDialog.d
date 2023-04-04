@@ -22,6 +22,7 @@ class DisconnectDialog : Dialog {
     public:
     this(MyWindow myWindow) {
         super(this.titleText, null, this.flags, this.buttonLabels, this.responseTypes);
+        writeln("Disconnect constructor");
         this.myWindow = myWindow;
         this.isConnected = this.myWindow.getConnection();
         writeln("In connection. isConnected = ", this.isConnected);

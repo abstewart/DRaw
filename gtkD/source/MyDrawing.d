@@ -49,6 +49,7 @@ class MyDrawing : DrawingArea {
     /// Constructor.
     public:
     this() {
+        writeln("MyDrawing constructor");
         setSizeRequest(500, 300);            // Width, height.
         this.width = getWidth();
         this.height = getHeight();

@@ -15,6 +15,7 @@ class AreaContent {
     /// Constructor.
     public:
     this(Box contentArea) {
+        writeln("AreaContent constructor");
         this._contentArea = contentArea;
         this._connectGrid = new ConnectGrid();
         this._contentArea.add(this._connectGrid);
@@ -26,7 +27,7 @@ class AreaContent {
         writeln("AreaContent destructor");
     }
 
-    /// Getter method that gets the ConnectGrid of this AreaContent.
+    /// Getter method -- gets the ConnectGrid of this AreaContent.
     public ConnectGrid getConnectGrid() {
         return this._connectGrid;
     }

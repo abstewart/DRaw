@@ -28,6 +28,7 @@ class DrawPixelCommand : Command {
     /// Constructor.
     public:
     this(int x, int y, RGBA currentColor, RGBA previousColor, int width, string brushType, MyDrawing myDrawing) {
+        writeln("DrawPixelCommand constructor");
         this.pixel = new Pixel(x, y, currentColor, previousColor);
         this.width = width;
         this.brushType = brushType;

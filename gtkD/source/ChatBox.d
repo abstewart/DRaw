@@ -15,6 +15,7 @@ class ChatBox : Box {
     public:
     this() {
         super(Orientation.VERTICAL, 10);
+        writeln("ChatBox constructor");
         this.myChatBox = new MyChatBox();
         packStart(this.myChatBox, true, true, 0);       // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }

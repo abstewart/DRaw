@@ -10,6 +10,7 @@ class DRawAbout : AboutDialog {
     /// Constructor.
     public:
     this() {
+        writeln("GtkDAbout constructor");
         string itemLabel = "About";
         string[] people = ["Andrew Briasco-Stewart", "Benjamin Mallett", "Elizabeth Williams", "Steven Abbott"];
         string[] artists = ["Elizabeth Williams"];

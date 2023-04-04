@@ -22,6 +22,7 @@ class MyDrawingBox : VBox {
     public:
     this() {
         super(false, 4);
+        writeln("MyDrawingBox constructor");
 
         this.drawingArea = new MyDrawing();
 
