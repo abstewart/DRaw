@@ -1,17 +1,18 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: DRaw-cicd-workflow
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events for every branch
   push:
     branches:
-      - '*'
+      - 'master'
+      - 'main'
   pull_request:
+    types: [ opened, reopened ]
     branches:
       - '*'
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -22,7 +23,7 @@ jobs:
     name: Dub Tests
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-latest, macOS-latest]
+        os: [ubuntu-20.04] # [ubuntu-20.04, windows-latest, macOS-latest]
         dc: [dmd-latest]
         exclude:
           - { os: macOS-latest, dc: dmd-2.085.0 }
@@ -54,34 +55,36 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Check Client Formatting
-        run: sh ./support/cicd_scripts/format.sh ./client
+        run: sh ./support/cicd_scripts/check_format.sh ./client-and-server/client
 
       - name: Generate Client Coverage
-        working-directory: ./client
+        working-directory: ./client-and-server/client
         run: dub -b cov
 
       - name: Check Client Coverage
-        run: sh ./support/cicd_scripts/check_coverage.sh ./client
+        run: sh ./support/cicd_scripts/check_coverage.sh ./client-and-server/client
 
       - uses: actions/upload-artifact@v3
         with:
           name: Client Coverage
-          path: ./client/coverage # or path/to/artifact
+          path: ./client-and-server/client/coverage # or path/to/artifact
+          retention-days: 5
 
       - name: Perform Client Unit Tests
-        working-directory: ./client
+        working-directory: ./client-and-server/client
         run: dub run --build=unittest
 
       - name: Generate Client Docs
-        run: sh ./support/cicd_scripts/generate_docs.sh ./client
+        run: sh ./support/cicd_scripts/generate_docs.sh ./client-and-server/client
 
       - uses: actions/upload-artifact@v3
         with:
           name: Client Docs
-          path: ./client/docs # or path/to/artifact
+          path: ./client-and-server/client/docs # or path/to/artifact
+          retention-days: 5
 
       - name: Build Client Release Deliverables
-        working-directory: ./client
+        working-directory: ./client-and-server/client
         run: |
           dub --build=release
           ls ./bin
@@ -90,26 +93,29 @@ jobs:
         if: matrix.os == 'macOS-latest'
         with:
           name: Client macOS Release Deliverable
-          path: ./client/bin/client # or path/to/artifact
+          path: ./client-and-server/client/bin/client # or path/to/artifact
+          retention-days: 5
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'ubuntu-20.04'
         with:
           name: Client Ubuntu-20.04 Release Deliverable
-          path: ./client/bin/client # or path/to/artifact
+          path: ./client-and-server/client/bin/client # or path/to/artifact
+          retention-days: 5
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
         with:
           name: Client Windows Release Deliverable
-          path: ./client/bin/client.exe # or path/to/artifact
+          path: ./client-and-server/client/bin/client.exe # or path/to/artifact
+          retention-days: 5
 
       ###
       ### Server:
       ###
 
       - name: Check Server Formatting
-        run: sh ./support/cicd_scripts/format.sh ./server
+        run: sh ./support/cicd_scripts/check_format.sh ./server
 
       - name: Generate Server Coverage
         working-directory: ./server
@@ -122,6 +128,7 @@ jobs:
         with:
           name: Server Coverage
           path: ./server/coverage # or path/to/artifact
+          retention-days: 5
 
       # Runs a single command using the runners shell
       - name: Perform Server Unit Tests
@@ -147,15 +154,18 @@ jobs:
         with:
           name: Server macOS Release Deliverable
           path: ./server/bin/server # or path/to/artifact
+          retention-days: 5
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'ubuntu-20.04'
         with:
           name: Server Ubuntu-20.04 Release Deliverable
           path: ./server/bin/server # or path/to/artifact
+          retention-days: 5
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
         with:
           name: Server Windows Release Deliverable
           path: ./server/bin/server.exe # or path/to/artifact
+          retention-days: 5

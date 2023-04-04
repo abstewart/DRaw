@@ -1,5 +1,6 @@
 import std.stdio;
 import SDL_App : SDLApp;
+
 /// Main function. Entry point for the program.
 void main()
 {

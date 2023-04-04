@@ -12,7 +12,8 @@ import color : Color;
 
 int SKIP_VALUE = -1;
 
-char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int yPos) {
+char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int yPos)
+{
     char[] encoded = [];
     string cmdType = (commandType == SKIP_VALUE) ? "" : to!string(commandType);
     string brush = (brushSize == SKIP_VALUE) ? "" : to!string(brushSize);
@@ -24,43 +25,50 @@ char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int 
     return encoded;
 }
 
-unittest {
+unittest
+{
     Color col = new Color(1, 1, 1);
     char[] encoded = encodeCommand(1, 1, col, 1, 1);
     assert("1,1,(1|1|1),1,1\r" == encoded);
 }
 
-unittest {
+unittest
+{
     Color col = new Color(1, 1, 1);
     char[] encoded = encodeCommand(1, 1, col, SKIP_VALUE, 1);
     assert("1,1,(1|1|1),,1\r" == encoded);
 }
 
-unittest {
+unittest
+{
     Color col = new Color(1, 1, 1);
     char[] encoded = encodeCommand(1, 1, col, 1, 1);
     assert("1,1,,1,1\r" == encoded);
 }
 
-unittest {
+unittest
+{
     Color col = new Color(1, 1, 1);
     char[] encoded = encodeCommand(1, SKIP_VALUE, col, 1, 1);
     assert("1,,(1|1|1),1,1\r" == encoded);
 }
 
-unittest {
+unittest
+{
     Color col = new Color(1, 1, 1);
     char[] encoded = encodeCommand(SKIP_VALUE, 1, col, 1, 1);
     assert(",1,(1|1|1),1,1\r" == encoded);
 }
 
-unittest {
+unittest
+{
     Color col = new Color(1, 1, 1);
     char[] encoded = encodeCommand(1, 1, col, 1, SKIP_VALUE);
     assert("1,1,(1|1|1),1,\r" == encoded);
 }
 
-Command decodePacketToCommand(char[] message, long size) {
+Command decodePacketToCommand(char[] message, long size)
+{
     char[][] fields = message[0 .. size].split(',');
     writeln(fields);
     // Color cmdColor = Color(to!string(fields[2]));
@@ -68,7 +76,8 @@ Command decodePacketToCommand(char[] message, long size) {
     return new DrawPixelCommand(100, 100, cmdColor);
 }
 
-Command decodePacketToCommandString(string message, long size) {
+Command decodePacketToCommandString(string message, long size)
+{
     char[] m;
     m ~= message;
     char[][] fields = m[0 .. size - 1].split(',');
@@ -78,7 +87,8 @@ Command decodePacketToCommandString(string message, long size) {
     return new DrawPixelCommand(100, 100, cmdColor);
 }
 
-unittest {
+unittest
+{
     char[] packet = "1,1,(1,1,1),1,1\r";
     long size = 13;
     Command cmd = decodePacketToCommand(packet, size);

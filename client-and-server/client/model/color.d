@@ -7,7 +7,8 @@ import std.format;
 /**
 * Represents a color in RGBA format.
 */
-struct Color {
+struct Color
+{
     private ubyte r;
     private ubyte g;
     private ubyte b;
@@ -18,7 +19,8 @@ struct Color {
     * Params:
     *        isValid = a boolean representing the intended validity of the color
     */
-    this(bool validity) {
+    this(bool validity)
+    {
         this.r = 0;
         this.g = 0;
         this.b = 0;
@@ -30,8 +32,9 @@ struct Color {
     * Params: 
     *        templateString = a string in the format (r|g|b)
     */
-    this(string packedString) {
-        string[] fields = packedString[1 .. $-1].split('|');
+    this(string packedString)
+    {
+        string[] fields = packedString[1 .. $ - 1].split('|');
         this.r = to!ubyte(fields[0]);
         this.g = to!ubyte(fields[1]);
         this.b = to!ubyte(fields[2]);
@@ -44,8 +47,9 @@ struct Color {
     *        r =    red component of rgba
     *        b =    blue component of rgba
     *        g =    green component of rgba
-    */ 
-    this(ubyte r, ubyte g, ubyte b) {
+    */
+    this(ubyte r, ubyte g, ubyte b)
+    {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -54,35 +58,40 @@ struct Color {
     /**
     * Gets the red component of the color
     */
-    ubyte getRed() {
+    ubyte getRed()
+    {
         return this.r;
     }
 
     /**
     * Gets the blue component of the color
     */
-    ubyte getBlue() {
+    ubyte getBlue()
+    {
         return this.b;
     }
 
     /**
     * gets the green component of the color
     */
-    ubyte getGreen() {
+    ubyte getGreen()
+    {
         return this.g;
     }
 
     /**
     * Checks whether a color is intended to be valid or not
     */
-    bool isValidColor() {
+    bool isValidColor()
+    {
         return this.isValid;
     }
 
     /**
     * returns an encoded tuple representing the color value
     */
-    string toEncodedString() {
+    string toEncodedString()
+    {
         return format("(%s|%s|%s)", to!string(this.r), to!string(this.g), to!string(this.b));
     }
 

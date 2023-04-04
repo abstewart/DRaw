@@ -13,6 +13,13 @@ COV_PATH=$SEARCH_FOLDER/$COV_DIR
 COV_FILES=`find $COV_PATH/* -name '*.lst'`
 echo Code coverage report:
 
+# Ensure that the /coverage directory is not empty:
+if [ -z "$(ls -A COV_PATH)" ];
+then
+  echo Failed! No coverage whatsoever!
+  exit 1
+fi
+
 ANY_UNDER_TARGET=false
 for val in $COV_FILES; do
   LAST_LINE=$(tail -1 $val)

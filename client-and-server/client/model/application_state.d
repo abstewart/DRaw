@@ -11,35 +11,41 @@ import loader = bindbc.loader.sharedlib;
 
 import canvas_state : CanvasState;
 
-struct ApplicationState{
+struct ApplicationState
+{
     CanvasState* canvasState;
     //store the history of commands
     //will likely later want to refactor this into another class
-    Command [] history;
+    Command[] history;
 
-
-    this(int x, int y) {
+    this(int x, int y)
+    {
         // Create a CanvasState...
 
         canvasState = new CanvasState(x, y);
     }
 
-    ~this(){
+    ~this()
+    {
 
     }
 
     //add the given command to the front of the history list
-    void addToHistory(Command cmd){
+    void addToHistory(Command cmd)
+    {
         history = cmd ~ history;
     }
 
-    Command popHistory() {
-        if(history.length >= 1){
+    Command popHistory()
+    {
+        if (history.length >= 1)
+        {
             auto ans = history[0];
             history = history[1 .. $];
             return ans;
         }
-        else {
+        else
+        {
             return null;
         }
     }

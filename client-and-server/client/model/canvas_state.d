@@ -1,6 +1,5 @@
 module canvas_state;
 
-
 // Import D standard libraries
 import std.stdio;
 import std.string;
@@ -9,27 +8,26 @@ import std.string;
 import bindbc.sdl;
 import loader = bindbc.loader.sharedlib;
 
-
-
-struct CanvasState{
+struct CanvasState
+{
     //auto base_surface;
     //auto command_history;
     SDL_Surface* cachedImgSurface;
 
-    this(int x, int y) {
+    this(int x, int y)
+    {
         // Create a surface...
 
         // Load the bitmap surface
-        cachedImgSurface = SDL_CreateRGBSurface(0,x,y,32,0,0,0,0);
+        cachedImgSurface = SDL_CreateRGBSurface(0, x, y, 32, 0, 0, 0, 0);
     }
 
-    ~this(){
+    ~this()
+    {
         // Free a surface...
 
         SDL_FreeSurface(cachedImgSurface);
     }
-
-
 
     //// Check a pixel color
     //// Some OtherFunction()
