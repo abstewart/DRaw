@@ -65,6 +65,8 @@ class MyDrawing : DrawingArea {
         const double BVALUE = 244.0;
         const double ALPHAVALUE = 1.0;
         this.previousColor = new RGBA(RVALUE, GVALUE, BVALUE, ALPHAVALUE);       // Initially the default color.
+        // TODO: Obtain the previous color without hardcoding it.
+        // this.previousColor = _________;
         // ===================================================================================
 
 
@@ -172,6 +174,7 @@ class MyDrawing : DrawingArea {
             // TODO: Obtain previous color of the pixel you are drawing on.
             setPixbuf();
             writeln("readPixels = ", this.pixbuf.readPixels());
+            // this.previousColor = _________;
             // ===================================================================================
 
             // Draw/paint.
@@ -211,6 +214,7 @@ class MyDrawing : DrawingArea {
             // TODO: Obtain previous color of the pixel you are drawing on.
             setPixbuf();
             writeln("readPixels = ", this.pixbuf.readPixels());
+            // this.previousColor = _________;
             // ===================================================================================
 
 
