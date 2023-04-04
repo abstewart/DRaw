@@ -8,7 +8,7 @@ private import gdk.RGBA;                                // RGBA.
 private import gtk.ColorChooserDialog;                  // ColorChooserDialog.
 private import gtk.Dialog;                              // Dialog.
 
-/// Class representing the color chooser dialog the user clicks on.
+/// Class representing the color chooser dialog the user clicks on. NOTE: If you click outside of MyColorChooserDialog, the main application screen will cover it. You need to close MyColorChooserDialog before doing anything else.
 class MyColorChooserDialog : ColorChooserDialog {
     // Instance variables.
     private:

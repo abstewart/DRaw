@@ -60,6 +60,8 @@ class MyDrawingBox : VBox {
     }
 
     // What happens when the coloButton is clicked on by the user.
+    // NOTE: If you click outside of MyColorChooserDialog, the main application screen will cover it.
+    // You need to close MyColorChooserDialog before doing anything else.
     private void showColor(Button button) {
         if (this.d  is  null) {
             this.d = new MyColorChooserDialog(this.drawingArea);
