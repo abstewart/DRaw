@@ -5,7 +5,7 @@ private import MyDrawingBox : MyDrawingBox;                             // MyDra
 
 private import gtk.Box;                                                 // Box.
 
-/// AppBox used to arrange myDrawingArea using the notion of packing.
+/// AppBox used to arrange myDrawingBox using the notion of packing.
 class AppBox : Box {
     // Instance variable.
     private:

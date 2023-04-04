@@ -24,6 +24,10 @@ class DRawApp {
     /// Destructor.
     ~this() {
         writeln("DRawApp destructor. Ending application--good bye!");
+
+        // ===================================================================================
+        // TODO: Disconnect from server, if connected.
+        // ===================================================================================
     }
 
     /// Run the application.

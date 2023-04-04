@@ -1,11 +1,11 @@
 // Imports.
 private import std.stdio;                                               // writeln.
-private import stdlib = core.stdc.stdlib : exit;
 
 private import DisconnectDialog : DisconnectDialog;
 private import ConnectDialog : ConnectDialog;
 private import AppBox : AppBox;
 private import DRawAbout : DRawAbout;
+private import ChatBox : ChatBox;
 
 private import gtk.Version;                                             // Version.
 private import gtk.Application;                                         // Application.
@@ -64,26 +64,28 @@ class MyWindow : ApplicationWindow {
 
     // Method used to set up the window.
     private void setup() {
-        VBox mainBox = new VBox(false,0);
-        mainBox.packStart(getMenuBar(), false, false,0);
+        VBox mainBox = new VBox(false, 0);
+        mainBox.packStart(getMenuBar(), false, false, 0);
 
         // AppBox.
         AppBox appBox = new AppBox();
-        mainBox.packStart(appBox, false, false,0);
+        mainBox.packStart(appBox, false, false, 0);
 
         // Buttons.
         Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard);
         Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard);
-        Button quitButton = new Button(StockID.QUIT, &anyButtonExits);
         ButtonBox bBox = HButtonBox.createActionBox();
         bBox.packEnd(connectButton, 0, 0, 10);
         bBox.packEnd(disconnectButton, 0, 0, 10);
-        bBox.packEnd(quitButton,0, 0, 10);
-        mainBox.packStart(bBox, false, false,0);
+        mainBox.packStart(bBox, false, false, 0);
 
         // Statusbar.
         Statusbar statusbar = new Statusbar();
-        mainBox.packStart(statusbar, false, true,0);
+        mainBox.packStart(statusbar, false, true, 0);
+
+        // ChatBox.
+        ChatBox chatbox = new ChatBox();
+        mainBox.packStart(chatbox, false, false, 0);
 
         // Add mainBox to Window.
         add(mainBox);
@@ -97,13 +99,6 @@ class MyWindow : ApplicationWindow {
     // Method that creates a new DisconnectDialog.
     private void disconnectWhiteboard(Button button) {
         DisconnectDialog disconnectDialog = new DisconnectDialog(this);
-    }
-
-    // What happens when the user exits the window.
-    private void anyButtonExits(Button button) {
-        writeln("Exit program");
-        // TODO: Disconnect from server, if connected.
-        stdlib.exit(0);
     }
 
     // What happens when the user clicks the About item in the Help menu.
