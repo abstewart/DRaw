@@ -14,7 +14,7 @@ private import gtk.Dialog;                                              // Dialo
 private import gtk.Box;                                                 // Box.
 private import gtk.MessageDialog;                                       // MessageDialog.
 
-/// Class representing what opens when the user clicks the Connect button.
+/// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
 class ConnectDialog : Dialog {
     // Instance variables.
     private:
@@ -29,6 +29,7 @@ class ConnectDialog : Dialog {
     AreaContent areaContent;
     MyWindow myWindow;
     bool isConnected;
+    string username;
 
     /// Constructor.
     public:
@@ -47,6 +48,11 @@ class ConnectDialog : Dialog {
     /// Deconstructor.
     ~this(){
         writeln("ConnectDialog destructor");
+    }
+
+    // Getter method -- gets the username the user typed in.
+    private string getUsername() {
+        return this.username;
     }
 
     // FARM it out to AreaContent class.
@@ -105,6 +111,12 @@ class ConnectDialog : Dialog {
                 writeln("Is not a port number");
                 everythingIsValid = false;
             }
+
+            // ===================================================================================
+            // TODO: Check if they typed in at least a one character username.
+
+
+            // ===================================================================================
             break ;
             case ResponseType.CANCEL:
             writeln("Cancelled connection");

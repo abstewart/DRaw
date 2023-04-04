@@ -15,6 +15,10 @@ class ConnectGrid : Grid {
     // Instance variables.
     private:
     int _borderWidth = 10;        // Keeps the widgets from crowding each other in the grid.
+    PadLabel usernameLabel;
+    string usernameLabelText = "Chat username:";
+    PadEntry usernameEntry;
+    string usernamePlaceholderText = "";
     PadLabel ipAddressLabel;
     string ipAddressLabelText = "IP Address:";
     PadEntry ipAddressEntry;
@@ -26,6 +30,7 @@ class ConnectGrid : Grid {
     // Store the user-supplied data so it can be retrieved later.
     string _ipAddress;
     string _portNum;
+    string _username;
 
     /// Constructor.
     public:
@@ -50,6 +55,14 @@ class ConnectGrid : Grid {
         this.portNumEntry.setWidthInCharacters(30);
         attach(this.portNumEntry, 1, 1, 1, 1);
 
+        // Row 2.
+        this.usernameLabel = new PadLabel(BoxJustify.RIGHT, this.usernameLabelText);
+        attach(this.usernameLabel, 0, 2, 1, 1);
+
+        this.usernameEntry = new PadEntry(BoxJustify.LEFT, this.usernamePlaceholderText);
+        this.usernameEntry.setWidthInCharacters(30);
+        attach(this.usernameEntry, 1, 2, 1, 1);
+
         setMarginBottom(7);
     }
 
@@ -59,9 +72,10 @@ class ConnectGrid : Grid {
     }
 
     /// Getter method -- get the IP Address and port number the user typed in (or the default).
-    public Tuple!(string, string) getData() {
+    public Tuple!(string, string, string) getData() {
         this._ipAddress = this.ipAddressEntry.getText();
         this._portNum = this.portNumEntry.getText();
-        return tuple(this._ipAddress, this._portNum);
+        this._username = this.usernameEntry.getText();
+        return tuple(this._ipAddress, this._portNum, this._username);
     }
 }

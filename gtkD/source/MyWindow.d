@@ -28,6 +28,7 @@ class MyWindow : ApplicationWindow {
     // Instance variable.
     private:
     bool isConnected;
+    ChatBox chatbox;
 
     /// Constructor.
     public:
@@ -88,8 +89,8 @@ class MyWindow : ApplicationWindow {
         mainBox.packStart(statusbar, false, true, 0);
 
         // ChatBox.
-        ChatBox chatbox = new ChatBox(this);
-        mainBox.packStart(chatbox, false, false, 0);
+        this.chatbox = new ChatBox(this);
+        mainBox.packStart(this.chatbox, false, false, 0);
 
         // Add mainBox to Window.
         add(mainBox);
@@ -98,6 +99,8 @@ class MyWindow : ApplicationWindow {
     // Method that creates a new ConnectDialog.
     private void connectWhiteboard(Button button) {
         ConnectDialog connectDialog = new ConnectDialog(this);
+        string username = connecteDialog.getUsername();
+        this.chatbox.setUsername(username);
     }
 
     // Method that creates a new DisconnectDialog.

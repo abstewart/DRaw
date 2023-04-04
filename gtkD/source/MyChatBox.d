@@ -25,13 +25,16 @@ class MyChatBox : VBox {
     string message;
     MyWindow myWindow;
     bool isConnected;
+    string username;
 
     /// Constructor.
     public:
-    this(MyWindow myWindow) {
+    this(MyWindow myWindow, string username) {
         super(false, 4);
         writeln("MyChatBox constructor");
+        // Store instance variables.
         this.myWindow = myWindow;
+        this.username = username;
 
         // Label for where chat feature.
         Label chatFeatureLabel = new Label("Chat Feature");
@@ -101,9 +104,8 @@ class MyChatBox : VBox {
         writeln("Sent this message: ", this.message);
         // ===================================================================================
         // TODO: Get it to show up in the chat window display.
-        // TODO: Add chat window display. Figure out how to how your messages on the right
-        // side and others on the left side -- maybe even include who is sending the message
-        // and at what time.
+        // TODO: Work on chat window display -- show username, date, and time in message.
+        // Example: Ben April 4, 2023 06:00 PM: [INSERT MESSAGE]
         // ===================================================================================
         this.chatBuffer.setText(this.message);
 

@@ -14,10 +14,10 @@ class ChatBox : Box {
 
     /// Constructor.
     public:
-    this(MyWindow myWindow) {
+    this(MyWindow myWindow, string username) {
         super(Orientation.VERTICAL, 10);
         writeln("ChatBox constructor");
-        this.myChatBox = new MyChatBox(myWindow);
+        this.myChatBox = new MyChatBox(myWindow, username);
         packStart(this.myChatBox, true, true, 0);       // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
 
