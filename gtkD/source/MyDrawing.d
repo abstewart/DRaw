@@ -29,7 +29,6 @@ class MyDrawing : DrawingArea {
     private:
     CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
-    RGBA previousColor;
     RGBA currentColor;
     int width;
     int height;
@@ -54,27 +53,6 @@ class MyDrawing : DrawingArea {
         this.width = getWidth();
         this.height = getHeight();
         this.brushType = "Filled Arc";
-
-        // ===================================================================================
-        // TODO: Obtain previous color of the pixel you are drawing on.
-        setPixbuf();
-        writeln("readPixels = ", this.pixbuf.readPixels());
-
-        const double RVALUE = 246.0;
-        const double GVALUE = 245.0;
-        const double BVALUE = 244.0;
-        const double ALPHAVALUE = 1.0;
-        this.previousColor = new RGBA(RVALUE, GVALUE, BVALUE, ALPHAVALUE);       // Initially the default color.
-        // TODO: Obtain the previous color without hardcoding it.
-        // this.previousColor = _________;
-        // ===================================================================================
-
-
-        if (this.previousColor is null) {
-            writeln("MyDrawing constructor. The previous color is: null");
-        } else {
-            writeln("MyDrawing constructor. The previous brush color is: ", this.previousColor.toString());
-        }
         this.currentColor = new RGBA(cast(double)0, cast(double)0, cast(double)0);      // Intially black.
         writeln("MyDrawing constructor. The initial brush color is: ", this.currentColor.toString());
         this.spin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0), 1, 0);
@@ -169,17 +147,9 @@ class MyDrawing : DrawingArea {
             this.buttonIsDown = true;
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
-
-            // ===================================================================================
-            // TODO: Obtain previous color of the pixel you are drawing on.
-            setPixbuf();
-            writeln("readPixels = ", this.pixbuf.readPixels());
-            // this.previousColor = _________;
-            // ===================================================================================
-
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
-            this.previousColor, this.spin.getValueAsInt(), this.brushType, this);
+            this.spin.getValueAsInt(), this.brushType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
@@ -209,18 +179,9 @@ class MyDrawing : DrawingArea {
         if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
-
-            // ===================================================================================
-            // TODO: Obtain previous color of the pixel you are drawing on.
-            setPixbuf();
-            writeln("readPixels = ", this.pixbuf.readPixels());
-            // this.previousColor = _________;
-            // ===================================================================================
-
-
             // Draw/paint.
             DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
-            this.previousColor, this.spin.getValueAsInt(), this.brushType, this);
+            this.spin.getValueAsInt(), this.brushType, this);
             newDrawPixelCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newDrawPixelCommand);
