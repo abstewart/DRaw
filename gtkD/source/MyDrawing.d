@@ -89,9 +89,12 @@ class MyDrawing : DrawingArea {
 
     /// Method called when the user selects a color in the color chooser dialog.
     public void updateBrushColor(RGBA newColor) {
+        // ===================================================================================
         // TODO: The previous brush color is not necessarily equivalent to the previous
         // pixel color.
         this.previousColor = this.currentColor;
+        // ===================================================================================
+
         if (this.previousColor is null) {
             writeln("updateBrushColor. The previous color is: null");
         } else {

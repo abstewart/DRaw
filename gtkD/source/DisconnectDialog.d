@@ -33,19 +33,23 @@ class DisconnectDialog : Dialog {
         switch (response) {
             case ResponseType.YES:
             writeln("You disconnected.");
+
+
+
+            // ===================================================================================
             // TODO: If they are not connected -- alert them that they are already not connected.
 
 
             // TODO: If they are connected, disconnect them.
             // this.socket.close();
+            // ===================================================================================
+
+
 
             MessageDialog message = new MessageDialog( this, GtkDialogFlags.MODAL, MessageType.INFO,
             ButtonsType.OK, "You are now disconnceted!");
             message.run();
             message.destroy();
-
-
-
             break ;
             case ResponseType.NO:
             writeln("You did not disconnect.");

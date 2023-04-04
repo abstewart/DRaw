@@ -96,11 +96,13 @@ class DrawPixelCommand : Command {
 
     /// The undo method -- undo the Execute command.
     public int undo() {
+        // ===================================================================================
         // TODO
         // Redraw/repaint to the previous color.
         // Reset this.currentColor to equal previous color and then execute/draw/paint the pixel.
-        //this.currentColor = this.previousColor;
+        //this.pixel.setCurrentColor();
         //execute();
+        // ===================================================================================
         return 0;
     }
 }

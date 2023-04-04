@@ -4,6 +4,8 @@ private import std.conv;                                                // to.
 private import std.socket;                                              // socket.
 private import std.conv;                                                // to.
 private import std.string;                                              // isNumeric.
+private import std.algorithm.comparison : equal;                        // equal.
+private import std.regex;                                               // Regular expressions.
 
 private import AreaContent : AreaContent;
 
@@ -49,18 +51,21 @@ class ConnectDialog : Dialog {
     // React based on which response the user picked.
     private void doSomething(int response, Dialog d) {
         bool everythingIsValid = true;
+
+
+        // ===================================================================================
+        // TODO: Use the ipAddress and portNum to actually connect to the network.
         string ipAddress;
-        ushort port;
+        ushort portNum;
+
+        // ===================================================================================
+
         switch (response) {
             case ResponseType.OK:
             foreach (item; this.areaContent.getConnectGrid.getData()) {
                 writeln("data item: ", item);
             }
-            // TODO: Check for valid IP address.
-            // 12.2.3.04
-            // 12.2.3.4
-            // localhost
-            // example analogy: Date: 50/2/1997 is in a valid date format, but 50 is not a month.
+
             ipAddress = this.areaContent.getConnectGrid.getData()[0];
             writeln("ipAddress = ", ipAddress);
             if (isIPAddress(ipAddress)) {
@@ -71,16 +76,21 @@ class ConnectDialog : Dialog {
                 break;      // We can break here, because we don't need to check the port number if the IP address is invalid.
             }
 
-
-
-
-            // TODO: Check for valid port number.
             string portString = this.areaContent.getConnectGrid.getData()[1];
-            writeln("portString = ", port);
+            writeln("portString = ", portString);
             if (isValidPort(portString)) {
                 writeln("Is a valid port number");
                 // Since it is a valid port number, set it to portNum variable.
                 portNum = to!ushort(this.areaContent.getConnectGrid.getData()[1]);
+
+
+                // ===================================================================================
+                // TODO: Check to see if the valid port number is free to use.
+                // https://dlang.org/library/std/socket/socket.get_error_text.html
+                // this.socket.getErrorText();
+                // ===================================================================================
+
+
             } else {
                 writeln("Is not a port number");
                 everythingIsValid = false;
@@ -97,7 +107,9 @@ class ConnectDialog : Dialog {
         if (!everythingIsValid) {
             MessageDialog messageWarning = new MessageDialog(this,
             GtkDialogFlags.MODAL, MessageType.WARNING,
-            ButtonsType.OK, "You either typed in an invalid IP address, port number, or both. Please try to connect again.");
+            ButtonsType.OK, "You either typed in an invalid IP address, port number, or both." ~
+            " Please try to connect again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~
+            " and thus are considered invalid.");
             messageWarning.run();
             messageWarning.destroy();
         } else {
@@ -108,13 +120,24 @@ class ConnectDialog : Dialog {
         }
     }
 
-    // TODO
-    // Check IP address format and check if it is a valid IP address if the format is correct.
+    // Check for a valid IP address (IPv4 (Internet Protocol version 4)).
+    // Format: an IPv4 address string in the dotted-decimal form a.b.c.d,
+    // or a host name which will be resolved using an InternetHost object.
+    // where a, b, c, d are in the range 0-255, inclusive. (Example IPv4: 192.168.0.5)
     private bool isIPAddress(string ipAddress) {
-        return true;
+        if (ipAddress.equal("localhost")) {
+            return true;
+        }
+
+        // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
+        auto r4 = regex(r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+        if (matchFirst(ipAddress, r4)) {
+            return true;
+        }
+        return false;
     }
 
-    // TODO: Check to see if the valid port number is free to use.
+    // Check to see if a port number is valid -- reserved ports are considered invalid.
     // A port number is an unsigned short from 1-65535.
     // Port numbers under 1024 are reserved for system services http, ftp, etc.
     private bool isValidPort(string port) {
