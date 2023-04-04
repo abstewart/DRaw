@@ -32,7 +32,6 @@ class MyChatBox : VBox {
         super(false, 4);
         writeln("MyChatBox constructor");
         this.myWindow = myWindow;
-        this.isConnected = this.myWindow.getConnection();
 
         // Label for where chat feature.
         Label chatFeatureLabel = new Label("Chat Feature");
@@ -77,6 +76,7 @@ class MyChatBox : VBox {
 
     // Send the message to the chat.
     private void sendMessage(Button button) {
+        this.isConnected = this.myWindow.getConnection();
         if (!this.isConnected) {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(),
             GtkDialogFlags.MODAL, MessageType.WARNING,
