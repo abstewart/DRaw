@@ -13,7 +13,6 @@ class ApplicationState {
     /// Constructor.
     public:
     this() {
-        writeln("ApplicationState constructor");
     }
 
     /// Destructor.
