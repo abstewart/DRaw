@@ -12,8 +12,7 @@ private import gdk.RGBA;                                // RGBA.
 
 private import gtk.SpinButton;                          // SpinButton.
 
-/// Class representing the draw pixel command.
-class DrawPixelCommand : Command {
+class DrawLineCommand : Command {
     // Instance variables.
     private:
     CairoOperator operator = CairoOperator.OVER;
@@ -23,18 +22,16 @@ class DrawPixelCommand : Command {
     ImageSurface surface;
     Context context;
     int width;
-    string brushType;
     MyDrawing myDrawing;
 
     /// Constructor.
     public:
-    this(int x, int y, RGBA currentColor, int width, string brushType, MyDrawing myDrawing) {
-        writeln("DrawPixelCommand constructor");
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
+        writeln("DrawLineCommand constructor");
         this.x = x;
         this.y = y;
         this.currentColor = currentColor;
         this.width = width;
-        this.brushType = brushType;
         this.myDrawing = myDrawing;
         this.surface = myDrawing.getImageSurface();
         this.context = Context.create(this.surface);
@@ -42,7 +39,7 @@ class DrawPixelCommand : Command {
 
     /// Destructor.
     ~this() {
-        writeln("DrawPixelCommand destructor");
+        writeln("DrawLineCommand destructor");
     }
 
     /// The execute method -- draw/paint.
@@ -56,41 +53,9 @@ class DrawPixelCommand : Command {
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        debug(trace) {
-            writefln("brushType = %s", this.brushType);
-        }
-
-        switch (this.brushType) {
-            case "Arc":
-            this.context.arc(this.x - this.width / 2, this.y - this.width / 2, this.width, 0, 2 * PI);
-            this.context.stroke();
-            break ;
-            case "Filled Arc":
-            this.context.arc(this.x - this.width / 4, this.y - this.width / 4, this.width / 2, 0, 2 * PI);
-            this.context.fill();
-            break ;
-            case "Line":
-            this.context.moveTo(this.x, this.y);
-            this.context.lineTo(this.x + this.width, this.y);
-            this.context.stroke();
-            break ;
-            case "Point":
-            this.context.rectangle(this.x, this.y, 1, 1);
-            this.context.fill();
-            break ;
-            case "Rectangle":
-            this.context.rectangle(this.x - this.width / 2, this.y - this.width / 4, this.width, height);
-            this.context.stroke();
-            break ;
-            case "Filled Rectangle":
-            this.context.rectangle(this.x - this.width / 2, this.y - this.width / 4, this.width, height);
-            this.context.fill();
-            break ;
-            default:
-            this.context.arcNegative(this.x  -2, this.y - 2, 4, 0, 6);
-            this.context.fill();
-            break ;
-        }
+        this.context.moveTo(this.x, this.y);
+        this.context.lineTo(this.x + this.width, this.y);
+        this.context.stroke();
 
         // Redraw the Widget.
         this.myDrawing.queueDraw();

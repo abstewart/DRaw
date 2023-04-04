@@ -4,9 +4,14 @@ private import std.array;                               // appender.
 private import std.math;                                // PI.
 private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
 
-private import DrawPixelCommand : DrawPixelCommand;
 private import ApplicationState : ApplicationState;
 private import Command : Command;
+private import DrawArcCommand : DrawArcCommand;
+private import DrawFilledArcCommand : DrawFilledArcCommand;
+private import DrawFilledRectangleCommand : DrawFilledRectangleCommand;
+private import DrawLineCommand : DrawLineCommand;
+private import DrawPointCommand : DrawPointCommand;
+private import DrawRectangleCommand : DrawRectangleCommand;
 
 private import cairo.Context;                           // Context.
 private import cairo.ImageSurface;                      // ImageSurface.
@@ -147,12 +152,11 @@ class MyDrawing : DrawingArea {
             this.buttonIsDown = true;
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
-            // Draw/paint.
-            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this.brushType, this);
-            newDrawPixelCommand.execute();
+            // Draw/paint. Get the command based on the current brush type and then execute it.
+            Command newCommand = getCommand(x, y);
+            newCommand.execute();
             // Add the command to the history.
-            this.applicationState.addToHistory(newDrawPixelCommand);
+            this.applicationState.addToHistory(newCommand);
         }
         return false;
     }
@@ -179,12 +183,11 @@ class MyDrawing : DrawingArea {
         if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY) {
             int x = cast(int)event.button.x;
             int y = cast(int)event.button.y;
-            // Draw/paint.
-            DrawPixelCommand newDrawPixelCommand = new DrawPixelCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this.brushType, this);
-            newDrawPixelCommand.execute();
+            // Draw/paint. Get the command based on the current brush type and then execute it.
+            Command newCommand = getCommand(x, y);
+            newCommand.execute();
             // Add the command to the history.
-            this.applicationState.addToHistory(newDrawPixelCommand);
+            this.applicationState.addToHistory(newCommand);
         }
         return true;
     }
@@ -198,6 +201,26 @@ class MyDrawing : DrawingArea {
             float ww = width * this.scaledPixbuf.getWidth() / 30;
             float hh = width * this.scaledPixbuf.getHeight() / 30;
             this.scaledPixbuf = scaledPixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
+        }
+    }
+
+    // Get the command type associated with the brush type.
+    private Command getCommand(int x, int y) {
+        switch (this.brushType) {
+            case "Arc":
+            return new DrawArcCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            case "Filled Arc":
+            return new DrawFilledArcCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            case "Line":
+            return new DrawLineCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            case "Point":
+            return new DrawPointCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            case "Rectangle":
+            return new DrawRectangleCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            case "Filled Rectangle":
+            return new DrawFilledRectangleCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            default:
+            return new DrawFilledArcCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
         }
     }
 
