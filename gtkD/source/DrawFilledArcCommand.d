@@ -12,6 +12,7 @@ private import gdk.RGBA;                                // RGBA.
 
 private import gtk.SpinButton;                          // SpinButton.
 
+/// Class
 class DrawFilledArcCommand : Command {
     // Instance variables.
     private:
