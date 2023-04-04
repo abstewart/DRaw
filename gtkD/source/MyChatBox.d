@@ -40,7 +40,7 @@ class MyChatBox : VBox {
         packStart(sw1, true, true , 0);
 
         // Label for where to chat.
-        Label chatLabel = new Label("Type message below");
+        Label chatLabel = new Label("Type Message Below");
         packStart(chatLabel, false, false, 0);
 
         // The scroll window for typing a message.
