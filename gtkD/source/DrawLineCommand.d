@@ -12,6 +12,7 @@ private import gdk.RGBA;                                // RGBA.
 
 private import gtk.SpinButton;                          // SpinButton.
 
+/// Class representing the draw command with a line brush type.
 class DrawLineCommand : Command {
     // Instance variables.
     private:

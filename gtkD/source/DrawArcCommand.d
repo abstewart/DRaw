@@ -12,6 +12,7 @@ private import gdk.RGBA;                                // RGBA.
 
 private import gtk.SpinButton;                          // SpinButton.
 
+/// Class representing the draw command with an arc brush type.
 class DrawArcCommand : Command {
     // Instance variables.
     private:
