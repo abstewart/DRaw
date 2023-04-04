@@ -88,7 +88,7 @@ class MyWindow : ApplicationWindow {
         mainBox.packStart(statusbar, false, true, 0);
 
         // ChatBox.
-        ChatBox chatbox = new ChatBox();
+        ChatBox chatbox = new ChatBox(this);
         mainBox.packStart(chatbox, false, false, 0);
 
         // Add mainBox to Window.

@@ -2,6 +2,7 @@
 private import std.stdio;                               // writeln.
 
 private import MyChatBox : MyChatBox;
+private import MyWindow : MyWindow;
 
 private import gtk.Box;                                 // Box.
 
@@ -13,10 +14,10 @@ class ChatBox : Box {
 
     /// Constructor.
     public:
-    this() {
+    this(MyWindow myWindow) {
         super(Orientation.VERTICAL, 10);
         writeln("ChatBox constructor");
-        this.myChatBox = new MyChatBox();
+        this.myChatBox = new MyChatBox(myWindow);
         packStart(this.myChatBox, true, true, 0);       // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
 

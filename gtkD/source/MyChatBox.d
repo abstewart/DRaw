@@ -3,6 +3,8 @@ private import std.stdio;                               // writeln.
 private import stdlib = core.stdc.stdlib : exit;        // exit.
 private import std.algorithm;                           // equal.
 
+private import MyWindow : MyWindow;
+
 private import gtk.VBox;                                // VBox.
 private import gtk.Button;                              // Button.
 private import gtk.HBox;                                // HBox.
@@ -10,6 +12,8 @@ private import gtk.ScrolledWindow;                      // ScrolledWindow.
 private import gtk.TextView;                            // TextView.
 private import gtk.TextBuffer;                          // TextBuffer.
 private import gtk.Label;                               // Label.
+private import gtk.MessageDialog;                       // MessageDialog.
+private import gtk.Dialog;                              // Dialog.
 
 /// Class representing the user chats in.
 class MyChatBox : VBox {
@@ -19,14 +23,16 @@ class MyChatBox : VBox {
     TextBuffer chatBuffer;
     TextBuffer messageBuffer;
     string message;
+    MyWindow myWindow;
     bool isConnected;
 
     /// Constructor.
     public:
-    this() {
+    this(MyWindow myWindow) {
         super(false, 4);
         writeln("MyChatBox constructor");
-        this.isConnected = false;
+        this.myWindow = myWindow;
+        this.isConnected = this.myWindow.getConnection();
 
         // Label for where chat feature.
         Label chatFeatureLabel = new Label("Chat Feature");
@@ -71,6 +77,19 @@ class MyChatBox : VBox {
 
     // Send the message to the chat.
     private void sendMessage(Button button) {
+        if (!this.isConnected) {
+            MessageDialog notConnectedMsg = new MessageDialog(new Dialog(),
+            GtkDialogFlags.MODAL, MessageType.WARNING,
+            ButtonsType.OK, "You not connected, so you cannot chat.");
+            notConnectedMsg.run();
+            notConnectedMsg.destroy();
+
+            // Clear the text buffer -- even if it is already empty.
+            this.messageBuffer.setText("");
+
+            return;
+        }
+
         this.message = this.messageBuffer.getText();
 
         // If the bugger is "empty" do not send an empty message.
