@@ -8,6 +8,7 @@ private import std.algorithm.comparison : equal;                        // equal
 private import std.regex;                                               // Regular expressions.
 
 private import AreaContent : AreaContent;
+private import MyWindow : MyWindow;
 
 private import gtk.Dialog;                                              // Dialog.
 private import gtk.Box;                                                 // Box.
@@ -26,11 +27,16 @@ class ConnectDialog : Dialog {
     string titleText = "Connect";
     Box contentArea;
     AreaContent areaContent;
+    MyWindow myWindow;
+    bool isConnected;
 
     /// Constructor.
     public:
-    this() {
+    this(MyWindow myWindow) {
         super(titleText, null, this.flags, this.buttonLabels, this.responseTypes);
+        this.myWindow = myWindow;
+        this.isConnected = this.myWindow.getConnection();
+        writeln("In connection. isConnected = ", this.isConnected);
         farmOutContent();
         addOnResponse(&doSomething);        // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
         run();                              // Blocks in a recursive main loop until the dialog either emits the response signal, or is destroyed.
@@ -51,21 +57,13 @@ class ConnectDialog : Dialog {
     // React based on which response the user picked.
     private void doSomething(int response, Dialog d) {
         bool everythingIsValid = true;
-
-
-        // ===================================================================================
-        // TODO: Use the ipAddress and portNum to actually connect to the network.
+        bool clickedCancel = false;
         string ipAddress;
+        string portString;
         ushort portNum;
-
-        // ===================================================================================
 
         switch (response) {
             case ResponseType.OK:
-            foreach (item; this.areaContent.getConnectGrid.getData()) {
-                writeln("data item: ", item);
-            }
-
             ipAddress = this.areaContent.getConnectGrid.getData()[0];
             writeln("ipAddress = ", ipAddress);
             if (isIPAddress(ipAddress)) {
@@ -76,18 +74,19 @@ class ConnectDialog : Dialog {
                 break;      // We can break here, because we don't need to check the port number if the IP address is invalid.
             }
 
-            string portString = this.areaContent.getConnectGrid.getData()[1];
+            portString = this.areaContent.getConnectGrid.getData()[1];
             writeln("portString = ", portString);
             if (isValidPort(portString)) {
                 writeln("Is a valid port number");
                 // Since it is a valid port number, set it to portNum variable.
                 portNum = to!ushort(this.areaContent.getConnectGrid.getData()[1]);
 
-
                 // ===================================================================================
                 // TODO: Check to see if the valid port number is free to use.
                 // https://dlang.org/library/std/socket/socket.get_error_text.html
                 // this.socket.getErrorText();
+                // everythingIsValid = false;
+                // break;      // We can break here, because we don't need to check the port number if the IP address is invalid.
                 // ===================================================================================
 
 
@@ -98,12 +97,20 @@ class ConnectDialog : Dialog {
             break ;
             case ResponseType.CANCEL:
             writeln("Cancelled connection");
+            clickedCancel = true;
             break ;
             default:
             writeln("Dialog closed");
             break ;
         }
 
+        // If the user clicked cancel just return.
+        if (clickedCancel) {
+            return;
+        }
+
+        // If the IP address and/or the port number are not valid (and free) do not connect and
+        // send a message to the user saying that. Else connect.
         if (!everythingIsValid) {
             MessageDialog messageWarning = new MessageDialog(this,
             GtkDialogFlags.MODAL, MessageType.WARNING,
@@ -113,10 +120,19 @@ class ConnectDialog : Dialog {
             messageWarning.run();
             messageWarning.destroy();
         } else {
+            this.myWindow.setConnection(true);             // Let myWindow know you are now connected.
+
             MessageDialog message = new MessageDialog( this, GtkDialogFlags.MODAL, MessageType.INFO,
             ButtonsType.OK, "You are now connceted!");
             message.run();
             message.destroy();
+
+
+            // ===================================================================================
+            // TODO: Use the ipAddress and portNum to actually connect to the server.
+            // ===================================================================================
+
+
         }
     }
 

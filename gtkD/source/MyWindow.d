@@ -25,6 +25,10 @@ private import gtk.MessageDialog;                                       // Messa
 
 /// Class representing the main window of the application.
 class MyWindow : ApplicationWindow {
+    // Instance variable.
+    private:
+    bool isConnected;
+
     /// Constructor.
     public:
     this(Application application) {
@@ -40,11 +44,22 @@ class MyWindow : ApplicationWindow {
             d.run();
             d.destroy();
         }
+        this.isConnected = false;
     }
 
     /// Deconstructor.
     ~this(){
         writeln("MyWindow destructor");
+    }
+
+    /// Getter method -- gets the isConnected variable value.
+    public bool getConnection() {
+        return this.isConnected;
+    }
+
+    /// Setter method -- sets the isConnected variable value.
+    public void setConnection(bool value) {
+        this.isConnected = value;
     }
 
     // Method used to set up the window.
@@ -76,12 +91,12 @@ class MyWindow : ApplicationWindow {
 
     // Method that creates a new ConnectDialog.
     private void connectWhiteboard(Button button) {
-        ConnectDialog connectDialog = new ConnectDialog();
+        ConnectDialog connectDialog = new ConnectDialog(this);
     }
 
     // Method that creates a new DisconnectDialog.
     private void disconnectWhiteboard(Button button) {
-        DisconnectDialog disconnectDialog = new DisconnectDialog();
+        DisconnectDialog disconnectDialog = new DisconnectDialog(this);
     }
 
     // What happens when the user exits the window.
