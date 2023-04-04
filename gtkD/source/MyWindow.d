@@ -65,6 +65,9 @@ class MyWindow : ApplicationWindow {
 
     // Method used to set up the window.
     private void setup() {
+        // Do not allow users to resize the application.
+        setResizable(false);
+
         VBox mainBox = new VBox(false, 0);
         mainBox.packStart(getMenuBar(), false, false, 0);
 
