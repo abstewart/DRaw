@@ -58,7 +58,7 @@ class MyDrawing : DrawingArea {
         // ===================================================================================
         // TODO: Obtain previous color of the pixel you are drawing on.
         setPixbuf();
-        writeln("readPixels = ", *this.pixbuf.readPixels());
+        writeln("readPixels = ", this.pixbuf.readPixels());
 
         const double RVALUE = 246.0;
         const double GVALUE = 245.0;
@@ -171,7 +171,7 @@ class MyDrawing : DrawingArea {
             // ===================================================================================
             // TODO: Obtain previous color of the pixel you are drawing on.
             setPixbuf();
-            writeln("readPixels = ", *this.pixbuf.readPixels());
+            writeln("readPixels = ", this.pixbuf.readPixels());
             // ===================================================================================
 
             // Draw/paint.
@@ -210,7 +210,7 @@ class MyDrawing : DrawingArea {
             // ===================================================================================
             // TODO: Obtain previous color of the pixel you are drawing on.
             setPixbuf();
-            writeln("readPixels = ", *this.pixbuf.readPixels());
+            writeln("readPixels = ", this.pixbuf.readPixels());
             // ===================================================================================
 
 
