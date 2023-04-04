@@ -65,6 +65,16 @@ class ConnectDialog : Dialog {
 
         switch (response) {
             case ResponseType.OK:
+            // If you are already connected, tell the user that and just return.
+            if (this.isConnected) {
+                MessageDialog alreadyConnectedMsg = new MessageDialog(this,
+                GtkDialogFlags.MODAL, MessageType.WARNING,
+                ButtonsType.OK, "You are already connected. If you would like to connect to a different IP adddress and/or port, please disconnect first.");
+                alreadyConnectedMsg.run();
+                alreadyConnectedMsg.destroy();
+                return;
+            }
+
             ipAddress = this.areaContent.getConnectGrid.getData()[0];
             writeln("ipAddress = ", ipAddress);
             if (isIPAddress(ipAddress)) {

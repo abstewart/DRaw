@@ -19,12 +19,14 @@ class MyChatBox : VBox {
     TextBuffer chatBuffer;
     TextBuffer messageBuffer;
     string message;
+    bool isConnected;
 
     /// Constructor.
     public:
     this() {
         super(false, 4);
         writeln("MyChatBox constructor");
+        this.isConnected = false;
 
         // Label for where chat feature.
         Label chatFeatureLabel = new Label("Chat Feature");
