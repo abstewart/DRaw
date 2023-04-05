@@ -2,6 +2,7 @@
 private import std.stdio;                               // writeln.
 private import stdlib = core.stdc.stdlib : exit;        // exit.
 private import std.algorithm;                           // equal.
+private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
 
 private import MyWindow : MyWindow;
 
@@ -111,9 +112,10 @@ class MyChatBox : VBox {
         // ===================================================================================
         // TODO: Get it to show up in the chat window display.
         // TODO: Work on chat window display -- show username, date, and time in message.
-        // Example: Ben April 4, 2023 06:00 PM: [INSERT MESSAGE]
+        // TODO: May want to adjust format of the time.
         // ===================================================================================
-        this.chatBuffer.setText(this.message);
+        SysTime currentTime = Clock.currTime();
+        this.chatBuffer.setText(this.username ~ " " ~ currentTime.toString() ~ ":\n\t" ~ this.message);
 
         // ===================================================================================
         // TODO: Send the message over the network to all other clients.
