@@ -15,6 +15,13 @@
     ],
     "configurations": [
 		{
+			"name": "executable",
+			"targetType": "executable",
+			"dependencies": {
+				"bindbc-sdl": "~>1.2.4"
+			}
+		},
+		{
 			"name": "server",
 			"dependencies": {
 				"bindbc-sdl": "~>1.2.4"

@@ -115,36 +115,37 @@ jobs:
       ###
 
       - name: Check Server Formatting
-        run: sh ./support/cicd_scripts/check_format.sh ./server
+        run: sh ./support/cicd_scripts/check_format.sh ./client-and-server/server
 
       - name: Generate Server Coverage
-        working-directory: ./server
+        working-directory: ./client-and-server/server
         run: dub -b cov
 
       - name: Check Server Coverage
-        run: sh ./support/cicd_scripts/check_coverage.sh ./server
+        run: sh ./support/cicd_scripts/check_coverage.sh ./client-and-server/server
 
       - uses: actions/upload-artifact@v3
         with:
           name: Server Coverage
-          path: ./server/coverage # or path/to/artifact
+          path: ./client-and-server/server/coverage # or path/to/artifact
           retention-days: 5
 
       # Runs a single command using the runners shell
       - name: Perform Server Unit Tests
-        working-directory: ./server
+        working-directory: ./client-and-server/server
         run: dub run --build=unittest
 
       - name: Generate Server Docs
-        run: sh ./support/cicd_scripts/generate_docs.sh ./server
+        run: sh ./support/cicd_scripts/generate_docs.sh ./client-and-server/server
 
       - uses: actions/upload-artifact@v3
         with:
           name: Server Docs
-          path: ./server/docs # or path/to/artifact
+          path: ./client-and-server/server/docs # or path/to/artifact
+          retention-days: 5
 
       - name: Build Server Release Deliverables
-        working-directory: ./server
+        working-directory: ./client-and-server/server
         run: |
           dub --build=release
           ls ./bin
@@ -153,19 +154,19 @@ jobs:
         if: matrix.os == 'macOS-latest'
         with:
           name: Server macOS Release Deliverable
-          path: ./server/bin/server # or path/to/artifact
+          path: ./client-and-server/server/bin/server # or path/to/artifact
           retention-days: 5
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'ubuntu-20.04'
         with:
           name: Server Ubuntu-20.04 Release Deliverable
-          path: ./server/bin/server # or path/to/artifact
+          path: ./client-and-server/server/bin/server # or path/to/artifact
           retention-days: 5
 
       - uses: actions/upload-artifact@v3
         if: matrix.os == 'windows-latest'
         with:
           name: Server Windows Release Deliverable
-          path: ./server/bin/server.exe # or path/to/artifact
+          path: ./client-and-server/server/bin/server.exe # or path/to/artifact
           retention-days: 5

@@ -13,6 +13,13 @@
     ],
     "configurations": [
 		{
+			"name": "executable",
+			"targetType": "executable",
+			"dependencies": {
+				"bindbc-sdl": "~>1.2.4"
+			}
+		},
+		{
 			"name": "unittest",
 			"preBuildCommands": [
 				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
