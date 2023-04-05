@@ -15,14 +15,32 @@
     ],
     "configurations": [
 		{
+			"name": "cov",
+			"targetType": "executable",
+			"excludedSourceFiles": [
+				"app.d"
+			],
+			"dependencies": {
+				"bindbc-sdl": "~>1.2.4"
+			}
+		},
+		{
 			"name": "executable",
 			"targetType": "executable",
+			"excludedSourceFiles": [
+				"cov_app.d"
+			],
 			"dependencies": {
 				"bindbc-sdl": "~>1.2.4"
 			}
 		},
 		{
 			"name": "server",
+			"excludedSourceFiles": [
+				"source/client/source/app.d",
+				"source/server/source/app.d",
+				"cov_app.d"
+			],
 			"dependencies": {
 				"bindbc-sdl": "~>1.2.4"
 			}

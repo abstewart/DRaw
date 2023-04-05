@@ -5,7 +5,7 @@ import server_network : Server;
 /// Main function. Entry point for the program.
 void main(string[] args)
 {
-    bool disable_main_loop = false;
+    bool disable_main_loop = true;
     auto helpInformation = getopt(
         args,
         "disable_main_loop", "Set to true to prevent blocking via main loop. Defaults to false.", &disable_main_loop);
