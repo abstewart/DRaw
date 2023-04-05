@@ -3,7 +3,7 @@ private import std.stdio;                               // writeln.
 private import stdlib = core.stdc.stdlib : exit;        // exit.
 private import std.algorithm;                           // equal.
 private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
-//private import std.conv;                                // to.
+private import std.conv;                                // to.
 
 private import MyWindow : MyWindow;
 
@@ -110,22 +110,37 @@ class MyChatBox : VBox {
         }
 
         writeln("Sent this message: ", this.message);
+
+        SysTime currentTime = Clock.currTime();
+        string amPm = "AM";
+        string hour = to!string(currentTime.hour);
+        // Check from military time to standard time.
+        if (currentTime.hour > 12) {
+            ubyte h = currentTime.hour % 12;
+            hour = to!string(h);
+            amPm = "PM";
+        }
+        string minutes = to!string(currentTime.minute);
+        // If there is only 1 digit/character in minutes then you know you need to add a 0.
+        if (minutes.length == 1) {
+            minutes = "0" ~ minutes;
+        }
+        string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm ~ ":\n\t" ~ this.message ~ "\n\n";
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat);              // Concatenate the new message to the rest of the chatBuffer.
+
+
+
         // ===================================================================================
-        // TODO: Get it to show up in the chat window display.
-        // TODO: Work on chat window display -- show username, date, and time in message.
-        // TODO: May want to adjust format of the time.
         // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
         // that they have access to all the other messages.
         // ===================================================================================
-        SysTime currentTime = Clock.currTime();
-        //writefln("%02d:%02d", currentTime.hour, currentTime.minute);
-        string chat = this.username ~ " " ~ currentTime.toString() ~ ":\n\t" ~ this.message ~ "\n\n";
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat);              // Concatenate the new message to the rest of the chatBuffer.
-        //this.chatBuffer.setText(this.username ~ " " ~ to!string(currentTime.hour) ~ ":" ~ to!string(currentTime.minute) ~ ":\n\t" ~ this.message);
+
 
         // ===================================================================================
         // TODO: Send the message over the network to all other clients.
         // ===================================================================================
+
+
 
         // Clear the text buffer.
         this.messageBuffer.setText("");
