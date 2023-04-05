@@ -114,10 +114,13 @@ class MyChatBox : VBox {
         // TODO: Get it to show up in the chat window display.
         // TODO: Work on chat window display -- show username, date, and time in message.
         // TODO: May want to adjust format of the time.
+        // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
+        // that they have access to all the other messages.
         // ===================================================================================
         SysTime currentTime = Clock.currTime();
         //writefln("%02d:%02d", currentTime.hour, currentTime.minute);
-        this.chatBuffer.setText(this.username ~ " " ~ currentTime.toString() ~ ":\n\t" ~ this.message);
+        string chat = this.username ~ " " ~ currentTime.toString() ~ ":\n\t" ~ this.message ~ "\n\n";
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat);              // Concatenate the new message to the rest of the chatBuffer.
         //this.chatBuffer.setText(this.username ~ " " ~ to!string(currentTime.hour) ~ ":" ~ to!string(currentTime.minute) ~ ":\n\t" ~ this.message);
 
         // ===================================================================================
