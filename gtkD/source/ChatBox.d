@@ -25,4 +25,9 @@ class ChatBox : Box {
     ~this(){
         writeln("ChatBox destructor");
     }
+
+    /// Getter method -- gets myChatBox.
+    public MyChatBox getMyChatBox() {
+        return this.myChatBox;
+    }
 }

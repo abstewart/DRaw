@@ -77,6 +77,12 @@ class MyChatBox : VBox {
         writeln("MyChatBox destructor");
     }
 
+    /// Setter method -- sets the username to be a new username.
+    public void setUsername(string newUsername) {
+        this.username = newUsername;
+        writeln("In setUsername. this.username = ", this.username);
+    }
+
     // Send the message to the chat.
     private void sendMessage(Button button) {
         this.isConnected = this.myWindow.getConnection();

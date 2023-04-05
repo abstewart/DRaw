@@ -14,7 +14,7 @@ private import gtk.Dialog;                                              // Dialo
 private import gtk.Box;                                                 // Box.
 private import gtk.MessageDialog;                                       // MessageDialog.
 
-/// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
+/// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long (technically this means a space or new line character, for example, count) -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
 class ConnectDialog : Dialog {
     // Instance variables.
     private:
@@ -38,6 +38,7 @@ class ConnectDialog : Dialog {
         writeln("ConnectDialog constructor");
         this.myWindow = myWindow;
         this.isConnected = this.myWindow.getConnection();
+        this.username = "";                 // Initially the username is set to an empty string.
         writeln("In connection. isConnected = ", this.isConnected);
         farmOutContent();
         addOnResponse(&doSomething);        // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
@@ -50,8 +51,8 @@ class ConnectDialog : Dialog {
         writeln("ConnectDialog destructor");
     }
 
-    // Getter method -- gets the username the user typed in.
-    private string getUsername() {
+    /// Getter method -- gets the username the user typed in.
+    public string getUsername() {
         return this.username;
     }
 
@@ -80,6 +81,15 @@ class ConnectDialog : Dialog {
                 alreadyConnectedMsg.destroy();
                 return;
             }
+
+            string usernameRowValue = this.areaContent.getConnectGrid.getData()[2];
+            if (usernameRowValue.equal("")) {
+                writeln("The username has to be at least one character long");
+                everythingIsValid = false;
+                break;      // We can break here, because we don't need to check IP address or the port number since the username is not in the right format.
+            }
+            this.username = usernameRowValue;
+            writeln("username = ", this.username);
 
             ipAddress = this.areaContent.getConnectGrid.getData()[0];
             writeln("ipAddress = ", ipAddress);
@@ -111,12 +121,6 @@ class ConnectDialog : Dialog {
                 writeln("Is not a port number");
                 everythingIsValid = false;
             }
-
-            // ===================================================================================
-            // TODO: Check if they typed in at least a one character username.
-
-
-            // ===================================================================================
             break ;
             case ResponseType.CANCEL:
             writeln("Cancelled connection");
@@ -137,9 +141,9 @@ class ConnectDialog : Dialog {
         if (!everythingIsValid) {
             MessageDialog messageWarning = new MessageDialog(this,
             GtkDialogFlags.MODAL, MessageType.WARNING,
-            ButtonsType.OK, "You either typed in an invalid IP address, port number, or both." ~
+            ButtonsType.OK, "You either typed in an invalid IP address, port number, or username." ~
             " Please try to connect again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~
-            " and thus are considered invalid.");
+            " and thus are considered invalid. And usernames must be at least one character long.");
             messageWarning.run();
             messageWarning.destroy();
         } else {

@@ -1,11 +1,13 @@
 // Imports.
 private import std.stdio;                                               // writeln.
+import std.algorithm.comparison : equal;                                // equal.
 
 private import DisconnectDialog : DisconnectDialog;
 private import ConnectDialog : ConnectDialog;
 private import AppBox : AppBox;
 private import DRawAbout : DRawAbout;
 private import ChatBox : ChatBox;
+private import MyChatBox : MyChatBox;
 
 private import gtk.Version;                                             // Version.
 private import gtk.Application;                                         // Application.
@@ -28,7 +30,7 @@ class MyWindow : ApplicationWindow {
     // Instance variable.
     private:
     bool isConnected;
-    ChatBox chatbox;
+    ChatBox chatBox;
 
     /// Constructor.
     public:
@@ -89,8 +91,8 @@ class MyWindow : ApplicationWindow {
         mainBox.packStart(statusbar, false, true, 0);
 
         // ChatBox.
-        this.chatbox = new ChatBox(this);
-        mainBox.packStart(this.chatbox, false, false, 0);
+        this.chatBox = new ChatBox(this, "");               // Initially the username is set to an empty string.
+        mainBox.packStart(this.chatBox, false, false, 0);
 
         // Add mainBox to Window.
         add(mainBox);
@@ -99,8 +101,10 @@ class MyWindow : ApplicationWindow {
     // Method that creates a new ConnectDialog.
     private void connectWhiteboard(Button button) {
         ConnectDialog connectDialog = new ConnectDialog(this);
-        string username = connecteDialog.getUsername();
-        this.chatbox.setUsername(username);
+        if (this.isConnected) {
+            MyChatBox myChatBox = this.chatBox.getMyChatBox();
+            myChatBox.setUsername(connectDialog.getUsername());
+        }
     }
 
     // Method that creates a new DisconnectDialog.
