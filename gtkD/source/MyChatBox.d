@@ -3,6 +3,7 @@ private import std.stdio;                               // writeln.
 private import stdlib = core.stdc.stdlib : exit;        // exit.
 private import std.algorithm;                           // equal.
 private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
+//private import std.conv;                                // to.
 
 private import MyWindow : MyWindow;
 
@@ -115,7 +116,9 @@ class MyChatBox : VBox {
         // TODO: May want to adjust format of the time.
         // ===================================================================================
         SysTime currentTime = Clock.currTime();
+        //writefln("%02d:%02d", currentTime.hour, currentTime.minute);
         this.chatBuffer.setText(this.username ~ " " ~ currentTime.toString() ~ ":\n\t" ~ this.message);
+        //this.chatBuffer.setText(this.username ~ " " ~ to!string(currentTime.hour) ~ ":" ~ to!string(currentTime.minute) ~ ":\n\t" ~ this.message);
 
         // ===================================================================================
         // TODO: Send the message over the network to all other clients.

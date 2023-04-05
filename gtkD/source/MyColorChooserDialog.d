@@ -1,9 +1,10 @@
 // Imports.
-private import std.stdio;                                               // writeln.
+private import std.stdio;                               // writeln.
 
 private import MyDrawing : MyDrawing;
 
 private import gdk.RGBA;                                // RGBA.
+private import gdk.c.types;                             // GtkWindowPosition.
 
 private import gtk.ColorChooserDialog;                  // ColorChooserDialog.
 private import gtk.Dialog;                              // Dialog.
@@ -22,6 +23,9 @@ class MyColorChooserDialog : ColorChooserDialog {
     this(MyDrawing drawingArea) {
         super(title, null);
         writeln("MyColorChooserDialog constructor");
+        // Sets a position constraint for this window.
+        // CENTER_ALWAYS = Keep window centered as it changes size, etc.
+        setPosition(GtkWindowPosition.CENTER_ALWAYS);
         addOnResponse(&doSomething);        // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
         this.drawingArea = drawingArea;
     }

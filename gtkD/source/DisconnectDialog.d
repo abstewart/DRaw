@@ -4,6 +4,8 @@ private import std.socket;                                              // socke
 
 private import MyWindow : MyWindow;
 
+private import gdk.c.types;                                             // GtkWindowPosition.
+
 private import gtk.Dialog;                                              // Dialog.
 private import gtk.MessageDialog;                                       // MessageDialog.
 
@@ -23,6 +25,9 @@ class DisconnectDialog : Dialog {
     this(MyWindow myWindow) {
         super(this.titleText, null, this.flags, this.buttonLabels, this.responseTypes);
         writeln("Disconnect constructor");
+        // Sets a position constraint for this window.
+        // CENTER_ALWAYS = Keep window centered as it changes size, etc.
+        setPosition(GtkWindowPosition.CENTER_ALWAYS);
         this.myWindow = myWindow;
         this.isConnected = this.myWindow.getConnection();
         writeln("In connection. isConnected = ", this.isConnected);

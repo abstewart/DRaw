@@ -9,6 +9,8 @@ private import DRawAbout : DRawAbout;
 private import ChatBox : ChatBox;
 private import MyChatBox : MyChatBox;
 
+private import gdk.c.types;                                             // GtkWindowPosition.
+
 private import gtk.Version;                                             // Version.
 private import gtk.Application;                                         // Application.
 private import gtk.ApplicationWindow;                                   // ApplicationWindow.
@@ -68,6 +70,10 @@ class MyWindow : ApplicationWindow {
 
     // Method used to set up the window.
     private void setup() {
+        // Sets a position constraint for this window.
+        // CENTER_ALWAYS = Keep window centered as it changes size, etc.
+        setPosition(GtkWindowPosition.CENTER_ALWAYS);
+
         // Do not allow users to resize the application.
         setResizable(false);
 
