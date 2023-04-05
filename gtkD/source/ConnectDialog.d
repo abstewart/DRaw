@@ -88,13 +88,14 @@ class ConnectDialog : Dialog {
             }
 
             string usernameRowValue = this.areaContent.getConnectGrid.getData()[2];
-            if (usernameRowValue.equal("")) {
-                writeln("The username has to be at least one character long");
+            if (isValidUsername(usernameRowValue)) {
+                this.username = usernameRowValue;
+                writeln("username = ", this.username);
+            } else {
+                writeln("The username has to be at least one alphebtic or numeric character long (with no leading or trailing white space).");
                 everythingIsValid = false;
                 break;      // We can break here, because we don't need to check IP address or the port number since the username is not in the right format.
             }
-            this.username = usernameRowValue;
-            writeln("username = ", this.username);
 
             ipAddress = this.areaContent.getConnectGrid.getData()[0];
             writeln("ipAddress = ", ipAddress);
@@ -147,8 +148,9 @@ class ConnectDialog : Dialog {
             MessageDialog messageWarning = new MessageDialog(this,
             GtkDialogFlags.MODAL, MessageType.WARNING,
             ButtonsType.OK, "You either typed in an invalid IP address, port number, or username." ~
-            " Please try to connect again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~
-            " and thus are considered invalid. And usernames must be at least one character long.");
+            " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~
+            " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~
+            " and they cannot contain leading or trailing white space.");
             messageWarning.run();
             messageWarning.destroy();
         } else {
@@ -162,10 +164,29 @@ class ConnectDialog : Dialog {
 
             // ===================================================================================
             // TODO: Use the ipAddress and portNum to actually connect to the server.
+            // TODO: Send username to server too and check to see if it is unique (add a username array in server to keep track of already used usernames).
+            // TODO: May want to remove the usernames from said array once the client disconnects (either by disconnected, shutting down the window, and quitting the program).
             // ===================================================================================
 
 
         }
+    }
+
+    // Check for a valid username. A username has to have at least one character. It cannot have
+    // any leading or trailing white space. And the character(s) must be either a letter or number.
+    // Spaces in between words are accepted.
+    private bool isValidUsername(string username) {
+        if (username.equal("")) {
+            return false;
+        }
+
+        // Regular expression that prevents symbols and only allows letters and numbers.
+        // Allows for spaces between words. But there cannot be any leading or trailing spaces.
+        auto r = regex(r"^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$");
+        if (matchFirst(username, r)) {
+            return true;
+        }
+        return false;
     }
 
     // Check for a valid IP address (IPv4 (Internet Protocol version 4)).
