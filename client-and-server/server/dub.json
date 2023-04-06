@@ -11,7 +11,8 @@
     "mainSourceFile": "app.d",
     "sourcePaths": ["./", "../client/", "../source"],
     "excludedSourceFiles": [
-		"../client/app.d"
+		"../client/app.d",
+		"../client/client_cov_app.d"
     ],
     "configurations": [
 		{
@@ -20,26 +21,10 @@
 			"excludedSourceFiles": [
 				"app.d"
 			],
-			"dependencies": {
-				"bindbc-sdl": "~>1.2.4"
-			}
-		},
-		{
-			"name": "executable",
-			"targetType": "executable",
-			"excludedSourceFiles": [
-				"cov_app.d"
-			],
-			"dependencies": {
-				"bindbc-sdl": "~>1.2.4"
-			}
-		},
-		{
-			"name": "server",
-			"excludedSourceFiles": [
-				"source/client/source/app.d",
-				"source/server/source/app.d",
-				"cov_app.d"
+			"postRunCommands": [
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-client-\"",
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-source-\"",
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
 			],
 			"dependencies": {
 				"bindbc-sdl": "~>1.2.4"
@@ -52,8 +37,8 @@
 			],
 			"mainSourceFile": "bin/ut.d",
 			"excludedSourceFiles": [
-				"source/client/source/app.d",
-				"source/server/source/app.d"
+				"client/app.d",
+				"server/app.d"
 			],
 			"dependencies": {
 				"unit-threaded": "~>2.1.2",

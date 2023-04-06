@@ -5,6 +5,4 @@ import SDL_App : SDLApp;
 void main()
 {
     writeln("This is the client! Hello!!!");
-    SDLApp myApp = new SDLApp();
-    myApp.MainApplicationLoop();
 }
