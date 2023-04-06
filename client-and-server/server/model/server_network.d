@@ -13,16 +13,20 @@ string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 51111;
 int MESSAGE_BUFFER_SIZE = 4096;
 
-Command parseCommand(char[] message, long size) {
+Command parseCommand(char[] message, long size)
+{
     Command someCommand = decodePacketToCommand(message, size);
     return someCommand;
 }
 
-void notifyAllExcept(Socket[int] clients, Command command, int ckey) {
+void notifyAllExcept(Socket[int] clients, Command command, int ckey)
+{
     char[] message = command.encode();
     int[] curKeys = clients.keys();
-    foreach(key ; parallel(curKeys)) {
-        if (key == ckey) {
+    foreach (key; parallel(curKeys))
+    {
+        if (key == ckey)
+        {
             continue;
         }
         Socket client = clients[key];
@@ -30,7 +34,8 @@ void notifyAllExcept(Socket[int] clients, Command command, int ckey) {
     }
 }
 
-class Server {
+class Server
+{
     private string ipAddress;
     private ushort portNumber;
     private TcpSocket sock;
@@ -42,7 +47,10 @@ class Server {
     private static int clientCount;
     private Command[] commandStack = [];
 
-    this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER, ushort allowedConnections = MAX_ALLOWED_CONNECTIONS, long bufferSize = MESSAGE_BUFFER_SIZE) {
+    this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
+            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+            long bufferSize = MESSAGE_BUFFER_SIZE)
+    {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
         this.sock = new TcpSocket(AddressFamily.INET);
@@ -53,55 +61,72 @@ class Server {
         this.bufferSize = bufferSize;
     }
 
-    ~this() {
+    ~this()
+    {
         this.sock.close();
     }
 
-    void pollForMessagesAndClients() {
-        if(Socket.select(this.sockSet, null, null)){
-            if(this.sockSet.isSet(this.sock)){
-				Socket newSocket = this.sock.accept();
-				this.connectedClients[++this.clientCount] = newSocket;
-				writeln("> client",this.clientCount," added to connectedClients list");
-			}
+    void pollForMessagesAndClients()
+    {
+        if (Socket.select(this.sockSet, null, null))
+        {
+            if (this.sockSet.isSet(this.sock))
+            {
+                Socket newSocket = this.sock.accept();
+                this.connectedClients[++this.clientCount] = newSocket;
+                writeln("> client", this.clientCount, " added to connectedClients list");
+            }
             int[] curKeys = this.connectedClients.keys();
-            foreach(key; parallel(curKeys)) {
+            foreach (key; parallel(curKeys))
+            {
                 Socket client = this.connectedClients[key];
-                if(this.sockSet.isSet(client)){
+                if (this.sockSet.isSet(client))
+                {
                     char[1024] buffer;
                     long recv = client.receive(buffer);
-                    if (recv > 0) {
+                    if (recv > 0)
+                    {
                         writeln("received", buffer[0 .. recv]);
                         Command recvCommand = parseCommand(buffer, recv);
                         notifyAllExcept(this.connectedClients, recvCommand, key);
-                    } else if (recv == 0) {
+                    }
+                    else if (recv == 0)
+                    {
                         writeln("Client closed connection: ", key);
                         client.close();
                         this.connectedClients.remove(key);
-                    } else if (recv == Socket.ERROR) {
+                    }
+                    else if (recv == Socket.ERROR)
+                    {
                         writeln("Socket error");
-                    } else {
+                    }
+                    else
+                    {
                         writeln("Unknown socket reception return value");
                     }
                 }
             }
-    	}
+        }
     }
 
-    void initializeSocketSet() {
+    void initializeSocketSet()
+    {
         // Clear the readSet
         this.sockSet.reset();
-		// Add the server
+        // Add the server
         this.sockSet.add(this.sock);
-        foreach(client ; this.connectedClients) {
+        foreach (client; this.connectedClients)
+        {
             this.sockSet.add(client);
         }
     }
 
-    void handleReception() {
-        while(this.isRunning) {
+    void handleReception()
+    {
+        while (this.isRunning)
+        {
             this.initializeSocketSet();
-		    this.pollForMessagesAndClients();
+            this.pollForMessagesAndClients();
         }
     }
 }

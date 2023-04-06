@@ -31,7 +31,7 @@ void handleNetworking(Tid parent)
     {
         // gives a 500 microsecond window for the main thread to trigger a send
         // writeln("checking for send from parent");
-        auto recv = receiveTimeout(TIMEOUT_DUR,// (bool noSendRequested) { writeln("explicit no send"); },
+        auto recv = receiveTimeout(TIMEOUT_DUR, // (bool noSendRequested) { writeln("explicit no send"); },
                 (immutable bool needToSend, string commandToSend) {
             writeln("received a packet to send");
             if (needToSend)
