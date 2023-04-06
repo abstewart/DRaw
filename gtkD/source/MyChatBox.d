@@ -44,6 +44,7 @@ class MyChatBox : VBox {
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
+        sw1.setMinContentHeight(150);
         sw1.setPolicy(PolicyType.AUTOMATIC,PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);
@@ -57,6 +58,7 @@ class MyChatBox : VBox {
 
         // The scroll window for typing a message.
         ScrolledWindow sw2 = new ScrolledWindow(null, null);
+        sw2.setMinContentHeight(10);
         sw2.setPolicy(PolicyType.AUTOMATIC,PolicyType.AUTOMATIC);
         TextView textView2 = new TextView();
         textView2.setEditable(true);
