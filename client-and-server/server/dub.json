@@ -16,6 +16,9 @@
     ],
     "configurations": [
 		{
+			"name": "docs"
+		},
+		{
 			"name": "cov",
 			"targetType": "executable",
 			"excludedSourceFiles": [

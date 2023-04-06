@@ -1,8 +1,8 @@
-import std.stdio;
-import SDL_App : SDLApp;
+// Imports.
+private import std.stdio; // writeln.
 
-/// Main function. Entry point for the program.
-void main()
+/// Main method -- run the application. Entry point for the program.
+void main(string[] args)
 {
-    writeln("This is the client! Hello!!!");
+    writeln("Starting the DRaw client.");
 }

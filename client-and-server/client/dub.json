@@ -9,12 +9,12 @@
     "license": "proprietary",
     "targetPath": "bin",
     "mainSourceFile": "app.d",
-    "sourcePaths": ["./", "../server/", "../source"],
+    "sourcePaths": ["./", "../server/"],
     "excludedSourceFiles": [
 		"../server/app.d",
 		"../server/server_cov_app.d"
     ],
-    "configurations": [
+	"configurations": [
 		{
 			"name": "cov",
 			"excludedSourceFiles": [
@@ -26,7 +26,11 @@
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
 			],
 			"dependencies": {
-				"bindbc-sdl": "~>1.2.4"
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
 			}
 		},
 		{
@@ -41,8 +45,18 @@
 			],
 			"dependencies": {
 				"unit-threaded": "~>2.1.2",
-				"bindbc-sdl": "~>1.2.4"
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
 			}
+		},
+		{
+			"name": "docs",
+			"excludedSourceFiles": [
+				"client_cov_app.d"
+			]
 		}
-    ]
+	]
 }

@@ -1,7 +1,7 @@
 module server_network;
 
-import command;
-import encode_decode;
+import Command : Command;
+import EncodeDecode;
 
 import std.socket;
 import std.stdio;
