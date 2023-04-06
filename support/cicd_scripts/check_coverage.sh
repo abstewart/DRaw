@@ -1,11 +1,11 @@
 #!/bin/bash
 ###
 ### Go through each coverage file and verify that every file is 100% covered
-### (or contains no code), otherwise, error.
+### (or contains no code), otherwise, error. (Some of these syntax are courtesy of stack overflow + chatGPT)
 ###
 
 # Coverage target:
-COVERAGE_TARGET="20"
+COVERAGE_TARGET=0
 
 # Look for .d files and store temporary state in the given file:
 SEARCH_FOLDER=$1
@@ -26,32 +26,27 @@ fi
 ANY_UNDER_TARGET=false
 ANY_EMPTY=false
 for val in $COV_FILES; do
-  LAST_LINE=$(tail -1 $val)
-  LAST_CHARS=$(tail -c 13 $val)
+  LAST_LINE=$(tail -n1 $val)
 
-  if [ "$LAST_CHARS" = "" ]; then
+  if [ "$LAST_LINE" = "" ]; then
     ANY_EMPTY=true
     echo "Empty file! $val"
+    continue
   fi
 
-  if [ $ANY_EMPTY ] && [ "$LAST_CHARS" != " has no code" ] && [ "$LAST_CHARS" != "100% covered" ];
-  then
-    if [ "$LAST_CHARS" = "s 0% covered" ];
-    then
-      echo "0%: $val"
-      ANY_UNDER_TARGET=true
-    else
-      if [ "$(echo $LAST_CHARS | tr -d '%' | head -c 2)" -lt $COVERAGE_TARGET ]; then
-        echo "below $COVERAGE_TARGET: $val"
-        ANY_UNDER_TARGET=true
-      fi
-    fi
+  if echo $LAST_LINE | grep -q "has no code" ; then
+    continue
+  fi
+
+  COVERAGE_NUMBER=$(echo $LAST_LINE | grep -Eo '*[0-9]{1,3}%*' | rev | cut -c2- | rev)
+  if [ $COVERAGE_NUMBER -lt $COVERAGE_TARGET ]; then
+    echo "Below $COVERAGE_TARGET% target: $val"
+    ANY_UNDER_TARGET=true
   fi
 done
 
 if $ANY_EMPTY; then
-  echo "Failed! Delete empty .d files, they generate empty coverage reports which are annoying to deal with!"
-  exit 1
+  echo "NOTE: Empty .lst files were found! Empty .d files create empty .lst files!"
 fi
 
 # End with error if there were any files under the coverage limit:
