@@ -15,6 +15,7 @@
 			"name": "docs"
 		}
 	],
+	"targetType": "executable",
 	"description": "Gtkd demo",
 	"license": "proprietary",
 	"name": "draw"
