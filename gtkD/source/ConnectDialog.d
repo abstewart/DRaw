@@ -87,9 +87,10 @@ class ConnectDialog : Dialog {
                 return;
             }
 
-            string usernameRowValue = this.areaContent.getConnectGrid.getData()[2];
+            string usernameRowValue = this.areaContent.getConnectGrid.getData()[0];
             if (isValidUsername(usernameRowValue)) {
                 this.username = usernameRowValue;
+                writeln("Is a valid username");
                 writeln("username = ", this.username);
             } else {
                 writeln("The username has to be at least one alphebtic or numeric character long (with no leading or trailing white space).");
@@ -97,9 +98,9 @@ class ConnectDialog : Dialog {
                 break;      // We can break here, because we don't need to check IP address or the port number since the username is not in the right format.
             }
 
-            ipAddress = this.areaContent.getConnectGrid.getData()[0];
+            ipAddress = this.areaContent.getConnectGrid.getData()[1];
             writeln("ipAddress = ", ipAddress);
-            if (isIPAddress(ipAddress)) {
+            if (isValidIPAddress(ipAddress)) {
                 writeln("Is a valid IP address");
             } else {
                 writeln("Is not a valid IP address");
@@ -107,12 +108,12 @@ class ConnectDialog : Dialog {
                 break;      // We can break here, because we don't need to check the port number if the IP address is invalid.
             }
 
-            portString = this.areaContent.getConnectGrid.getData()[1];
+            portString = this.areaContent.getConnectGrid.getData()[2];
             writeln("portString = ", portString);
             if (isValidPort(portString)) {
                 writeln("Is a valid port number");
                 // Since it is a valid port number, set it to portNum variable.
-                portNum = to!ushort(this.areaContent.getConnectGrid.getData()[1]);
+                portNum = to!ushort(portString);
 
                 // ===================================================================================
                 // TODO: Check to see if the valid port number is free to use.
@@ -193,7 +194,7 @@ class ConnectDialog : Dialog {
     // Format: an IPv4 address string in the dotted-decimal form a.b.c.d,
     // or a host name which will be resolved using an InternetHost object.
     // where a, b, c, d are in the range 0-255, inclusive. (Example IPv4: 192.168.0.5)
-    private bool isIPAddress(string ipAddress) {
+    private bool isValidIPAddress(string ipAddress) {
         if (ipAddress.equal("localhost")) {
             return true;
         }
