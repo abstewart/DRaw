@@ -10,6 +10,11 @@
 		"gtk-d:sv": "~>3.10.0",
 		"gtk-d:vte": "~>3.10.0"
 	},
+	"configurations": [
+		{
+			"name": "docs"
+		}
+	],
 	"description": "Gtkd demo",
 	"license": "proprietary",
 	"name": "draw"
