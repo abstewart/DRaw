@@ -176,6 +176,7 @@ class ConnectDialog : Dialog {
     // Check for a valid username. A username has to have at least one character. It cannot have
     // any leading or trailing white space. And the character(s) must be either a letter or number.
     // Spaces in between words are accepted.
+    // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
     private bool isValidUsername(string username) {
         if (username.equal("")) {
             return false;
