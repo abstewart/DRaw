@@ -76,7 +76,7 @@ jobs:
 
       - name: Check Client Docs
         working-directory: ./client-and-server/client
-        run: sh ./support/cicd_scripts/check_docs.sh .
+        run: sh ./support/cicd_scripts/check_docs.sh
 
       - uses: actions/upload-artifact@v3
         with:
@@ -138,7 +138,7 @@ jobs:
 
       - name: Check Server Docs
         working-directory: ./client-and-server/server
-        run: sh ./support/cicd_scripts/generate_docs.sh .
+        run: sh ./support/cicd_scripts/check_docs.sh
 
       - uses: actions/upload-artifact@v3
         with:

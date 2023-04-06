@@ -4,7 +4,7 @@
 ###
 
 # Look for .d files and store temporary state in the given file:
-SEARCH_FOLDER=$1
+SEARCH_FOLDER=$(pwd)
 DOC_COPY_DIR="doc_copies"
 ORIGINAL_DOC_PATH=$SEARCH_FOLDER/docs
 DOC_COPY_PATH=$SEARCH_FOLDER/$DOC_COPY_DIR
