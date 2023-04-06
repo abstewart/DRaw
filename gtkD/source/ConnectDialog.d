@@ -17,6 +17,7 @@ private import gtk.Box;                                                 // Box.
 private import gtk.MessageDialog;                                       // MessageDialog.
 
 /// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long (technically this means a space or new line character, for example, count) -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
+// (https://gtkdcoding.com/2019/06/14/0044-custom-dialog-iii.html)
 class ConnectDialog : Dialog {
     // Instance variables.
     private:
