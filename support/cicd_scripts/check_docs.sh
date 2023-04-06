@@ -56,7 +56,7 @@ COPIED_DOC_FILES=`find $DOC_COPY_PATH -name '*.html'`
 for val in $COPIED_DOC_FILES; do
   cp $val $ORIGINAL_DOC_PATH/$(basename $val)
 done
-
+rm -r $DOC_COPY_PATH
 
 #mv $DOC_COPY_PATH $ORIGINAL_DOC_PATH
 
