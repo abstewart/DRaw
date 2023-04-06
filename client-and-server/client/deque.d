@@ -1,7 +1,7 @@
-// Run your program with: 
-// dmd Deque.d -unittest -of=test && ./test
-//
-// This will execute each of the unit tests telling you if they passed.
+/// Run your program with:
+/// dmd Deque.d -unittest -of=test && ./test
+///
+/// This will execute each of the unit tests telling you if they passed.
 
 module deque;
 
@@ -17,14 +17,14 @@ import core.exception : AssertError;
 */
 interface Container(T)
 {
-    // Element is on the front of collection
+    /// Element is on the front of collection
     void push_front(T x);
 
-    // Element is on the back of the collection
+    /// Element is on the back of the collection
     void push_back(T x);
 
-    // Element is removed from front and returned
-    // assert size > 0 before operation
+    /// Element is removed from front and returned
+    /// assert size > 0 before operation
     T pop_front();
 
     // Element is removed from back and returned

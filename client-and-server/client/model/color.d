@@ -17,7 +17,7 @@ struct Color
     /**
     * Constructs a dummy color object with no meaningful data
     * Params:
-    *        isValid = a boolean representing the intended validity of the color
+    *        validity = a boolean representing the intended validity of the color
     */
     this(bool validity)
     {
@@ -30,7 +30,7 @@ struct Color
     /**
     * Constructs a color from a templated string representing an RGB color value
     * Params: 
-    *        templateString = a string in the format (r|g|b)
+    *        packedString = a string in the format (r|g|b)
     */
     this(string packedString)
     {

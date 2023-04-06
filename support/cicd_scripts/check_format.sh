@@ -37,7 +37,10 @@ done
 ANY_DIFFERENT=false
 for val in $DFILES; do
   COPIED_PATH=$D_COPY_PATH/$(basename $val)
-  cmp -s $val $COPIED_PATH || echo `cmp $val $COPIED_PATH` || ANY_DIFFERENT=true
+  if ! cmp -s $val $COPIED_PATH; then
+    cmp $val $COPIED_PATH
+    ANY_DIFFERENT=true
+  fi
 done
 
 # Wipe the copy file:
