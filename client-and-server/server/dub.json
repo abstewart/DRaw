@@ -8,11 +8,11 @@
     "targetType": "executable",
     "license": "proprietary",
     "targetPath": "bin",
-    "mainSourceFile": "app.d",
-    "sourcePaths": ["./", "../client/", "../source"],
+    "mainSourceFile": "source/app.d",
+    "sourcePaths": ["./source", "../client/source"],
     "excludedSourceFiles": [
-		"../client/app.d",
-		"../client/client_cov_app.d"
+		"../client/source/app.d",
+		"../client/source/client_cov_app.d"
     ],
     "configurations": [
 		{
@@ -22,7 +22,7 @@
 			"name": "cov",
 			"targetType": "executable",
 			"excludedSourceFiles": [
-				"app.d"
+				"source/app.d"
 			],
 			"postRunCommands": [
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-client-\"",
@@ -40,8 +40,8 @@
 			],
 			"mainSourceFile": "bin/ut.d",
 			"excludedSourceFiles": [
-				"client/app.d",
-				"server/app.d"
+				"client/source/app.d",
+				"server/source/app.d"
 			],
 			"dependencies": {
 				"unit-threaded": "~>2.1.2",

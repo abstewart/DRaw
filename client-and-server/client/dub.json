@@ -8,11 +8,11 @@
     "targetType": "executable",
     "license": "proprietary",
     "targetPath": "bin",
-    "mainSourceFile": "app.d",
-    "sourcePaths": ["./", "../server/"],
+    "mainSourceFile": "source/app.d",
+    "sourcePaths": ["./source", "../server/source"],
     "excludedSourceFiles": [
-		"../server/app.d",
-		"../server/server_cov_app.d"
+		"../server/source/app.d",
+		"../server/source/server_cov_app.d"
     ],
 	"configurations": [
 		{
@@ -40,8 +40,8 @@
 			],
 			"mainSourceFile": "bin/ut.d",
 			"excludedSourceFiles": [
-				"client/app.d",
-				"server/app.d"
+				"client/source/app.d",
+				"../server/source/app.d"
 			],
 			"dependencies": {
 				"unit-threaded": "~>2.1.2",
@@ -55,7 +55,7 @@
 		{
 			"name": "docs",
 			"excludedSourceFiles": [
-				"client_cov_app.d"
+				"source/client_cov_app.d"
 			]
 		}
 	]
