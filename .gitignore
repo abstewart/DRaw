@@ -60,3 +60,4 @@ server.lib
 server-test-*
 client/bin/client
 server/bin/server
+gtkD/DRaw
