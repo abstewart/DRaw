@@ -44,7 +44,6 @@ dub.selections.json
 *.pdb
 
 coverage/
-docs/
 
 client.so
 client.dylib
