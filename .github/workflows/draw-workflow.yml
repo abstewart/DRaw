@@ -74,8 +74,9 @@ jobs:
         working-directory: ./client-and-server/client
         run: dub run --build=unittest
 
-      - name: Generate Client Docs
-        run: sh ./support/cicd_scripts/generate_docs.sh ./client-and-server/client
+      - name: Check Client Docs
+        working-directory: ./client-and-server/client
+        run: sh ./support/cicd_scripts/check_docs.sh .
 
       - uses: actions/upload-artifact@v3
         with:
@@ -135,8 +136,9 @@ jobs:
         working-directory: ./client-and-server/server
         run: dub run --build=unittest
 
-      - name: Generate Server Docs
-        run: sh ./support/cicd_scripts/generate_docs.sh ./client-and-server/server
+      - name: Check Server Docs
+        working-directory: ./client-and-server/server
+        run: sh ./support/cicd_scripts/generate_docs.sh .
 
       - uses: actions/upload-artifact@v3
         with:
