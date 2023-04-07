@@ -18,6 +18,15 @@
 The buildRequirements part forces warnings to be treated as warnings, and won't halt running if encountered
 
 
+### For testing ###
+When using unitthreaded for testing, use the following code block if using unit-threaded specific
+stuff, and put it with the imports.
+`version(unittest){
+    //for unit threaded specific stuff
+    import unit_threaded;
+}`
+
+
 [cwd=/Users/andrew/Documents/sp_2023_semester/cs5500_found_software_eng/DRaw/client-and-server/client] 
 dmd -c -Dddocss -lib 
 -of/Users/andrew/.dub/cache/gtk-d/3.10.0/+gtkd/build/library-docs-posix.osx.darwin-x86_64-dmd_v2.101.2-252C9DDC89B17AC886E9C4C88D74C9093EFA397EB80F27A14182BD5CFA7DD239/libgtkd-3.a 
