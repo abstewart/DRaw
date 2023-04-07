@@ -1,6 +1,6 @@
 module server_network;
 
-import Command : Command;
+import controller.commands.Command;
 import EncodeDecode;
 
 import std.socket;
