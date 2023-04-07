@@ -5,6 +5,11 @@
 	"configurations": [
 		{
 			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0",
 				"unit-threaded": "~>2.1.2"
 			},
 			"excludedSourceFiles": [
@@ -47,6 +52,8 @@
 	],
 	"license": "proprietary",
 	"mainSourceFile": "source/app.d",
+	"sourcePaths": ["../client/source"],
+	"importPaths": ["../client/source"],
 	"name": "server",
 	"targetPath": "bin",
 	"targetType": "executable"
