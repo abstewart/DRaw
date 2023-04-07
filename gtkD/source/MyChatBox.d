@@ -1,3 +1,5 @@
+module myChatBox;
+
 // Imports.
 private import std.stdio;                               // writeln.
 private import stdlib = core.stdc.stdlib : exit;        // exit.

@@ -1,3 +1,5 @@
+module myColorChooserDialog;
+
 // Imports.
 private import std.stdio;                               // writeln.
 

@@ -1,3 +1,5 @@
+module dRawApp;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 

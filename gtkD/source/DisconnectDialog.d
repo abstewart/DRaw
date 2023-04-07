@@ -1,3 +1,5 @@
+module disconnectDialog;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 private import std.socket;                                              // socket.

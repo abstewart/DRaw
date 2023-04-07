@@ -1,3 +1,5 @@
+module connectGrid;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 private import std.typecons;                                            // Tuple.

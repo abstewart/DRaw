@@ -1,3 +1,5 @@
+module command;
+
 /// The Command interface -- used in MyDrawing.d.
 interface Command {
     /// Function for updating the pixels (drawing/painting).

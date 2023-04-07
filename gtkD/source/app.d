@@ -1,3 +1,5 @@
+module app;
+
 // Imports.
 private import std.stdio;                               // writeln.
 

@@ -1,3 +1,5 @@
+module connectDialog;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 private import std.conv;                                                // to.

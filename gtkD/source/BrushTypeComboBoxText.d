@@ -1,3 +1,5 @@
+module brushTypeComboBoxText;
+
 // Imports.
 private import MyDrawing : MyDrawing;
 

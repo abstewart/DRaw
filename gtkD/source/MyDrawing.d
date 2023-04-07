@@ -1,3 +1,5 @@
+module myDrawing;
+
 // Imports.
 private import std.stdio;                               // writeln.
 private import std.array;                               // appender.

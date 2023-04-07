@@ -1,3 +1,5 @@
+module appBox;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 

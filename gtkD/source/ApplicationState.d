@@ -1,3 +1,5 @@
+module applicationState;
+
 // Imports.
 private import std.stdio;                               // writeln.
 private import std.string;

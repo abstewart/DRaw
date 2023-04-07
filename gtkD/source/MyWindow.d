@@ -1,3 +1,5 @@
+module myWindow;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 import std.algorithm.comparison : equal;                                // equal.

@@ -1,3 +1,5 @@
+module padEntry;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 

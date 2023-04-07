@@ -1,3 +1,5 @@
+module padLabel;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 

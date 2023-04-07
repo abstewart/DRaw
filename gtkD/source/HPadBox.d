@@ -1,3 +1,5 @@
+module hPadBox;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 

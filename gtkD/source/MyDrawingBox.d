@@ -1,3 +1,5 @@
+module myDrawingBox;
+
 // Imports.
 private import std.stdio;                               // writeln.
 

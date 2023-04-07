@@ -1,3 +1,5 @@
+module chatBox;
+
 // Imports.
 private import std.stdio;                               // writeln.
 

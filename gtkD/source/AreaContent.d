@@ -1,3 +1,5 @@
+module areaContent;
+
 // Imports.
 private import std.stdio;                                               // writeln.
 

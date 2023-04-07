@@ -1,3 +1,5 @@
+module drawLineCommand;
+
 // Imports.
 private import std.stdio;                               // writeln.
 private import std.math;                                // PI.
