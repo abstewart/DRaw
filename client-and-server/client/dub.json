@@ -1,63 +1,68 @@
 {
-	"name": "client",
-	"description": "The client for the Team DRaw application.",
 	"authors": [
 		"Team DRaw"
 	],
-	"copyright": "Copyright © 2023, Team DRaw",
-	"targetType": "executable",
-	"license": "proprietary",
-	"targetPath": "bin",
-	"mainSourceFile": "source/app.d",
-	"excludedSourceFiles": [
-		"../server/source/app.d",
-		"../server/source/server_cov_app.d"
-	],
 	"configurations": [
 		{
-			"name": "unittest",
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0",
+				"unit-threaded": "~>2.1.2"
+			},
 			"excludedSourceFiles": [
 				"source/app.d",
 				"source/client_cov_app.d",
 				"../server/source/app.d",
 				"../server/source/server_cov_app.d"
 			],
+			"mainSourceFile": "bin/ut.d",
+			"name": "unittest",
 			"preBuildCommands": [
 				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
 			],
-			"mainSourceFile": "bin/ut.d",
+			"targetType": "executable"
+		},
+		{
 			"dependencies": {
-				"unit-threaded": "~>2.1.2",
 				"gtk-d:gstreamer": "~>3.10.0",
 				"gtk-d:gtkd": "~>3.10.0",
 				"gtk-d:peas": "~>3.10.0",
 				"gtk-d:sv": "~>3.10.0",
 				"gtk-d:vte": "~>3.10.0"
-			}
-		},
-		{
-			"name": "cov",
+			},
 			"excludedSourceFiles": [
 				"source/app.d"
 			],
+			"name": "cov",
 			"postRunCommands": [
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-server-\"",
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-source-\"",
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
 			],
-			"dependencies": {
-				"gtk-d:gstreamer": "~>3.10.0",
-				"gtk-d:gtkd": "~>3.10.0",
-				"gtk-d:peas": "~>3.10.0",
-				"gtk-d:sv": "~>3.10.0",
-				"gtk-d:vte": "~>3.10.0"
-			}
+			"targetType": "executable"
 		},
 		{
-			"name": "docs",
 			"excludedSourceFiles": [
 				"source/client_cov_app.d"
-			]
+			],
+			"name": "docs",
+			"targetType": "executable"
 		}
-	]
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"dependencies": {
+	},
+	"description": "The client for the Team DRaw application.",
+	"excludedSourceFiles": [
+		"../server/source/app.d",
+		"../server/source/server_cov_app.d"
+	],
+	"license": "proprietary",
+	"mainSourceFile": "source/app.d",
+	"name": "client",
+	"targetPath": "bin",
+	"targetType": "executable"
 }
