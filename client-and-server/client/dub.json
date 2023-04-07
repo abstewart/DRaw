@@ -1,24 +1,23 @@
 {
-    "name": "client",
-    "description": "The client for the Team DRaw application.",
-    "authors": [
+	"name": "client",
+	"description": "The client for the Team DRaw application.",
+	"authors": [
 		"Team DRaw"
-    ],
-    "copyright": "Copyright © 2023, Team DRaw",
-    "targetType": "executable",
-    "license": "proprietary",
-    "targetPath": "bin",
-    "mainSourceFile": "source/app.d",
-    "sourcePaths": ["./source", "../server/source"],
-    "excludedSourceFiles": [
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"targetType": "executable",
+	"license": "proprietary",
+	"targetPath": "bin",
+	"mainSourceFile": "source/app.d",
+	"excludedSourceFiles": [
 		"../server/source/app.d",
 		"../server/source/server_cov_app.d"
-    ],
+	],
 	"configurations": [
 		{
 			"name": "cov",
 			"excludedSourceFiles": [
-				"app.d"
+				"./source/app.d"
 			],
 			"postRunCommands": [
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-server-\"",
@@ -40,8 +39,10 @@
 			],
 			"mainSourceFile": "bin/ut.d",
 			"excludedSourceFiles": [
-				"client/source/app.d",
-				"../server/source/app.d"
+				"./source/app.d",
+				"./source/client_cov_app.d",
+				"../server/source/app.d",
+				"../server/source/server_cov_app.d"
 			],
 			"dependencies": {
 				"unit-threaded": "~>2.1.2",
@@ -55,7 +56,7 @@
 		{
 			"name": "docs",
 			"excludedSourceFiles": [
-				"source/client_cov_app.d"
+				"./source/client_cov_app.d"
 			]
 		}
 	]
