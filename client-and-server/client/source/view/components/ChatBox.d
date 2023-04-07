@@ -2,7 +2,7 @@ module view.components.ChatBox;
 // Imports.
 private import std.stdio; // writeln.
 
-private import MyChatBox : MyChatBox;
+private import view.components.MyChatBox;
 private import view.ApplicationWindow;
 
 private import gtk.Box; // Box.

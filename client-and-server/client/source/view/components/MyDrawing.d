@@ -6,7 +6,7 @@ private import std.array; // appender.
 private import std.math; // PI.
 private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
 
-private import ApplicationState : ApplicationState;
+private import model.ApplicationState;
 private import controller.commands.Command;
 private import controller.commands.DrawArcCommand;
 private import controller.commands.DrawFilledArcCommand;

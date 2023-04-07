@@ -6,7 +6,7 @@ import std.algorithm.comparison : equal; // equal.
 private import view.components.DisconnectDialog;
 private import view.components.ConnectDialog;
 private import view.AppBox;
-private import controller.commands.DRawAbout;
+private import controller.DRawAbout;
 private import view.components.ChatBox;
 private import view.components.MyChatBox;
 
