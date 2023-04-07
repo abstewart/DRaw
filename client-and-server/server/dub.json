@@ -1,26 +1,37 @@
 {
-    "name": "server",
-    "description": "The client for the Team DRaw application.",
-    "authors": [
+	"name": "server",
+	"description": "The server for the Team DRaw application.",
+	"authors": [
 		"Team DRaw"
-    ],
-    "copyright": "Copyright © 2023, Team DRaw",
-    "targetType": "executable",
-    "license": "proprietary",
-    "targetPath": "bin",
-    "mainSourceFile": "source/app.d",
-    "sourcePaths": ["./source", "../client/source"],
-    "excludedSourceFiles": [
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"targetType": "executable",
+	"license": "proprietary",
+	"targetPath": "bin",
+	"mainSourceFile": "source/app.d",
+	"excludedSourceFiles": [
 		"../client/source/app.d",
 		"../client/source/client_cov_app.d"
-    ],
-    "configurations": [
+	],
+	"configurations": [
 		{
-			"name": "docs"
+			"name": "unittest",
+			"excludedSourceFiles": [
+				"source/app.d",
+				"source/server_cov_app.d",
+				"../client/source/app.d",
+				"../client/source/server_cov_app.d"
+			],
+			"preBuildCommands": [
+				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
+			],
+			"mainSourceFile": "bin/ut.d",
+			"dependencies": {
+				"unit-threaded": "~>2.1.2",
+			}
 		},
 		{
 			"name": "cov",
-			"targetType": "executable",
 			"excludedSourceFiles": [
 				"source/app.d"
 			],
@@ -30,23 +41,13 @@
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
 			],
 			"dependencies": {
-				"bindbc-sdl": "~>1.2.4"
 			}
 		},
 		{
-			"name": "unittest",
-			"preBuildCommands": [
-				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
-			],
-			"mainSourceFile": "bin/ut.d",
-			"excludedSourceFiles": [
-				"client/source/app.d",
-				"server/source/app.d"
-			],
-			"dependencies": {
-				"unit-threaded": "~>2.1.2",
-				"bindbc-sdl": "~>1.2.4"
-			}
+			"name": "docs",
+			"excludedSourcesFiles": [
+				"source/server_cov_app.d"
+			]
 		}
-    ]
+	]
 }

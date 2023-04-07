@@ -1,7 +1,7 @@
 // Imports.
 private import std.stdio; // writeln.
 
-private import controller.commands.DRawApp;
+private import controller.DRawApp;
 
 /// Main method -- run the application. Entry point for the program.
 int mainn(string[] args)

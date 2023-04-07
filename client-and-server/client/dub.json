@@ -15,24 +15,6 @@
 	],
 	"configurations": [
 		{
-			"name": "cov",
-			"excludedSourceFiles": [
-				"./source/app.d"
-			],
-			"postRunCommands": [
-				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-server-\"",
-				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-source-\"",
-				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
-			],
-			"dependencies": {
-				"gtk-d:gstreamer": "~>3.10.0",
-				"gtk-d:gtkd": "~>3.10.0",
-				"gtk-d:peas": "~>3.10.0",
-				"gtk-d:sv": "~>3.10.0",
-				"gtk-d:vte": "~>3.10.0"
-			}
-		},
-		{
 			"name": "unittest",
 			"excludedSourceFiles": [
 				"source/app.d",
@@ -54,9 +36,27 @@
 			}
 		},
 		{
+			"name": "cov",
+			"excludedSourceFiles": [
+				"source/app.d"
+			],
+			"postRunCommands": [
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-server-\"",
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-source-\"",
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
+			],
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
+			}
+		},
+		{
 			"name": "docs",
 			"excludedSourceFiles": [
-				"./source/client_cov_app.d"
+				"source/client_cov_app.d"
 			]
 		}
 	]
