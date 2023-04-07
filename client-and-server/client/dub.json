@@ -34,16 +34,16 @@
 		},
 		{
 			"name": "unittest",
+			"excludedSourceFiles": [
+				"source/app.d",
+				"source/client_cov_app.d",
+				"../server/source/app.d",
+				"../server/source/server_cov_app.d"
+			],
 			"preBuildCommands": [
 				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
 			],
 			"mainSourceFile": "bin/ut.d",
-			"excludedSourceFiles": [
-				"./source/app.d",
-				"./source/client_cov_app.d",
-				"../server/source/app.d",
-				"../server/source/server_cov_app.d"
-			],
 			"dependencies": {
 				"unit-threaded": "~>2.1.2",
 				"gtk-d:gstreamer": "~>3.10.0",
