@@ -1,5 +1,5 @@
 module server.controller;
-import server_network : Server;
+import model.server_network;
 
 //import canvas_state : CanvasState;
 //

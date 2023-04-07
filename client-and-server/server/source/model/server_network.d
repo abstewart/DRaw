@@ -1,7 +1,7 @@
-module server_network;
+module model.server_network;
 
 import controller.commands.Command;
-import EncodeDecode;
+import controller.EncodeDecode;
 
 import std.socket;
 import std.stdio;
@@ -120,6 +120,10 @@ class Server
             this.sockSet.add(client);
         }
     }
+    //todo remove this
+    unittest{
+        assert(42 == 42);
+    }
 
     void handleReception()
     {
@@ -128,5 +132,10 @@ class Server
             this.initializeSocketSet();
             this.pollForMessagesAndClients();
         }
+    }
+
+    //todo remove this later
+    unittest{
+        assert(5 == 5);
     }
 }
