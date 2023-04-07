@@ -29,8 +29,10 @@
 	],
 	"copyright": "Copyright © 2023, Team DRaw",
 	"dependencies": {
+		"draw:server": "*",
+		"draw:client": "*"
 	},
-	"description": "The client for the Team DRaw application.",
+	"description": "The overall project for the Team DRaw application.",
 	"license": "proprietary",
 	"name": "draw",
 	"subPackages": [
