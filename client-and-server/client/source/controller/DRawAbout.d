@@ -35,6 +35,11 @@ public:
         setProgramName(programName); // Sets the name to display in the about dialog. If this is not set, it defaults to g_get_application_name().
         setLogo(logoPixbuf); // Sets the pixbuf to be displayed as logo in the about dialog. If it is NULL, the default window icon set with Window.setDefaultIcon will be used.
     }
+    //todo remove this test
+    unittest{
+        writeln("testing");
+        assert(6 == 6);
+    }
 
     /// Deconstructor
     ~this()

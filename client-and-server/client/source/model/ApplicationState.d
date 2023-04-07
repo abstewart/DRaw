@@ -30,6 +30,13 @@ public:
         this.history = cmd ~ this.history;
     }
 
+
+    //todo remove this test
+    @("Test default")
+    unittest{
+        assert(1 == 1);
+    }
+
     /// Pop the last command off the front of the history array. If there are no commands in the history, return null.
     public Command popHistory()
     {
