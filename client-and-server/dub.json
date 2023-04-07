@@ -12,25 +12,31 @@
 		},
 		{
 			"dependencies": {
-				"bindbc-sdl": "~>1.2.4",
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0",
 				"unit-threaded": "~>2.1.2"
 			},
 			"excludedSourceFiles": [
 				"client/source/app.d",
-				"server/source/app.d"
+				"server/source/app.d",
+				"server/source/server_cov_app.d",
+				"client/source/client_cov_app.d"
 			],
 			"mainSourceFile": "bin/ut.d",
 			"name": "unittest",
 			"preBuildCommands": [
 				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
 			],
+			"sourcePaths": ["client/source", "server/source"],
+			"importPaths": ["client/source", "server/source"],
 			"targetType": "executable"
 		}
 	],
 	"copyright": "Copyright © 2023, Team DRaw",
 	"dependencies": {
-		"draw:server": "*",
-		"draw:client": "*"
 	},
 	"description": "The overall project for the Team DRaw application.",
 	"license": "proprietary",
@@ -39,5 +45,6 @@
 		"./client/",
 		"./server/"
 	],
-	"targetType": "executable"
+	"targetType": "executable",
+	"targetPath": "bin"
 }

@@ -1,4 +1,4 @@
-module server.controller;
+module controller.SController;
 import model.server_network;
 
 //import canvas_state : CanvasState;
@@ -7,7 +7,7 @@ import model.server_network;
 //    auto state = CanvasState();
 //}
 
-class Controller
+class SController
 {
 
 }
