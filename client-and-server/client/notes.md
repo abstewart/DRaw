@@ -10,9 +10,9 @@
         "allowWarnings"
         ],
     "dependencies": {
-			}
-		}
-	}
+			} 
+    }
+}
 `
 
 The buildRequirements part forces warnings to be treated as warnings, and won't halt running if encountered
