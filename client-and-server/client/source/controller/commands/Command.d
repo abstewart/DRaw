@@ -1,3 +1,4 @@
+module controller.commands.Command;
 /// The Command interface -- used in MyDrawing.d.
 interface Command
 {

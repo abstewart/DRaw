@@ -1,8 +1,9 @@
+module model.ApplicationState;
 // Imports.
 private import std.stdio; // writeln.
 private import std.string;
 
-private import Command : Command;
+private import controller.commands.Command;
 
 /// Class that represents the state of the application.
 class ApplicationState

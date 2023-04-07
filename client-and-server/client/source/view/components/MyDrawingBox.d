@@ -1,10 +1,11 @@
+module view.components.MyDrawingBox;
 // Imports.
 private import std.stdio; // writeln.
 
-private import MyDrawing : MyDrawing;
-private import MyColorChooserDialog : MyColorChooserDialog;
-private import Command : Command;
-private import BrushTypeComboBoxText : BrushTypeComboBoxText;
+private import view.components.MyDrawing;
+private import view.components.MyColorChooserDialog;
+private import controller.commands.Command;
+private import view.components.BrushTypeComboBoxText;
 
 private import gtk.VBox; // VBox.
 private import gtk.Button; // Button.

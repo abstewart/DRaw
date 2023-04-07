@@ -1,9 +1,9 @@
-// Imports.
+module controller.commands.DrawArcCommand;
 private import std.stdio; // writeln.
 private import std.math; // PI.
 
-private import Command : Command;
-private import MyDrawing : MyDrawing;
+private import controller.commands.Command;
+private import view.components.MyDrawing;
 
 private import cairo.Context; // Context.
 private import cairo.ImageSurface; // ImageSurface.

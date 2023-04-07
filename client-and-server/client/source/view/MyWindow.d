@@ -1,13 +1,14 @@
+module view.ApplicationWindow;
 // Imports.
 private import std.stdio; // writeln.
 import std.algorithm.comparison : equal; // equal.
 
-private import DisconnectDialog : DisconnectDialog;
-private import ConnectDialog : ConnectDialog;
-private import AppBox : AppBox;
-private import DRawAbout : DRawAbout;
-private import ChatBox : ChatBox;
-private import MyChatBox : MyChatBox;
+private import view.components.DisconnectDialog;
+private import view.components.ConnectDialog;
+private import view.AppBox;
+private import controller.commands.DRawAbout;
+private import view.components.ChatBox;
+private import view.components.MyChatBox;
 
 private import gdk.c.types; // GtkWindowPosition.
 

@@ -1,4 +1,4 @@
-// Imports.
+module controller.DRawAbout;
 private import std.stdio; // writeln.
 
 private import gdk.Pixbuf; // Pixbuf.

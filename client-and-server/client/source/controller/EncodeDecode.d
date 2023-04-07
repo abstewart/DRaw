@@ -1,15 +1,15 @@
-module EncodeDecode;
+module controller.EncodeDecode;
 
 import std.conv;
 import std.stdio;
 import std.format;
 import std.array;
 
-import CommandEnum : Commands;
-import Command : Command;
-import MyDrawing : MyDrawing;
-import DrawPointCommand : DrawPointCommand;
-import Color : Color;
+import controller.commands.CommandEnum;
+import controller.commands.Command;
+import view.components.MyDrawing;
+import controller.commands.DrawPointCommand : DrawPointCommand;
+import controller.Color;
 
 import gdk.RGBA; // RGBA.
 

@@ -1,4 +1,4 @@
-module Color;
+module controller.Color;
 
 import std.conv;
 import std.array;

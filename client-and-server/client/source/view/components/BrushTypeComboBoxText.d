@@ -1,5 +1,6 @@
+module view.components.BrushTypeComboBoxText;
 // Imports.
-private import MyDrawing : MyDrawing;
+private import view.components.MyDrawing;
 
 private import gtk.ComboBoxText; // CombBoxText.
 

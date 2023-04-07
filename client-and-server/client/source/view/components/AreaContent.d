@@ -1,7 +1,8 @@
+module view.components.AreaContent;
 // Imports.
 private import std.stdio; // writeln.
 
-private import ConnectGrid : ConnectGrid;
+private import view.components.ConnectGrid;
 
 private import gtk.Box; // Box.
 

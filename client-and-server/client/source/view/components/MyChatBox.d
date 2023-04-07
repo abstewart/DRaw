@@ -1,3 +1,4 @@
+module view.components.MyChatBox;
 // Imports.
 private import std.stdio; // writeln.
 private import stdlib = core.stdc.stdlib : exit; // exit.
@@ -5,7 +6,7 @@ private import std.algorithm; // equal.
 private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
 private import std.conv; // to.
 
-private import MyWindow : MyWindow;
+private import view.ApplicationWindow;
 
 private import gtk.VBox; // VBox.
 private import gtk.Button; // Button.

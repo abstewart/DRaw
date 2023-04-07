@@ -1,10 +1,11 @@
+module view.components.ConnectGrid;
 // Imports.
 private import std.stdio; // writeln.
 private import std.typecons; // Tuple.
 
-private import PadLabel : PadLabel;
-private import PadEntry : PadEntry;
-private import BoxJustify : BoxJustify;
+private import view.components.PadLabel;
+private import view.components.PadEntry;
+private import controller.BoxJustify;
 
 private import gtk.Label; // Label.
 private import gtk.Entry; // Entry.

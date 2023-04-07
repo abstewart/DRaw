@@ -1,3 +1,4 @@
+module view.components.ConnectDialog;
 // Imports.
 private import std.stdio; // writeln.
 private import std.conv; // to.
@@ -7,8 +8,8 @@ private import std.string; // isNumeric.
 private import std.algorithm.comparison : equal; // equal.
 private import std.regex; // Regular expressions.
 
-private import AreaContent : AreaContent;
-private import MyWindow : MyWindow;
+private import view.components.AreaContent;
+private import view.ApplicationWindow;
 
 private import gdk.c.types; // GtkWindowPosition.
 

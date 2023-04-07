@@ -1,7 +1,8 @@
+module view.components.MyColorChooserDialog;
 // Imports.
 private import std.stdio; // writeln.
 
-private import MyDrawing : MyDrawing;
+private import view.components.MyDrawing;
 
 private import gdk.RGBA; // RGBA.
 private import gdk.c.types; // GtkWindowPosition.

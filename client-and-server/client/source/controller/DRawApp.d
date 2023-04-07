@@ -1,9 +1,10 @@
-// Imports.
+module controller.DRawApp;
+
 private import std.stdio; // writeln.
 
 private import gtkd.Loader;
 
-private import MyWindow : MyWindow;
+private import view.ApplicationWindow;
 
 private import gio.Application : GioApplication = Application; // GioApplication.
 

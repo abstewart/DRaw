@@ -1,7 +1,8 @@
+module view.AppBox;
 // Imports.
 private import std.stdio; // writeln.
 
-private import MyDrawingBox : MyDrawingBox; // MyDrawingBox.
+private import view.components.MyDrawingBox; // MyDrawingBox.
 
 private import gtk.Box; // Box.
 

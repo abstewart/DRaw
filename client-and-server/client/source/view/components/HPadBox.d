@@ -1,7 +1,8 @@
+module view.components.HPadBox;
 // Imports.
 private import std.stdio; // writeln.
 
-private import BoxJustify : BoxJustify;
+private import controller.BoxJustify;
 
 private import gtk.Box; // Box.
 private import gtk.Widget; // Widget.

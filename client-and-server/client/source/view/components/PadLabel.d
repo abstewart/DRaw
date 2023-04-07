@@ -1,8 +1,9 @@
+module view.components.PadLabel;
 // Imports.
 private import std.stdio; // writeln.
 
-private import HPadBox : HPadBox;
-private import BoxJustify : BoxJustify;
+private import view.components.HPadBox : HPadBox;
+private import controller.BoxJustify;
 
 private import gtk.Label; // Label.
 

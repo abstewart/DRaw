@@ -1,4 +1,4 @@
-module MyDrawing;
+module view.components.MyDrawing;
 
 // Imports.
 private import std.stdio; // writeln.
@@ -7,13 +7,13 @@ private import std.math; // PI.
 private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
 
 private import ApplicationState : ApplicationState;
-private import Command : Command;
-private import DrawArcCommand : DrawArcCommand;
-private import DrawFilledArcCommand : DrawFilledArcCommand;
-private import DrawFilledRectangleCommand : DrawFilledRectangleCommand;
-private import DrawLineCommand : DrawLineCommand;
-private import DrawPointCommand : DrawPointCommand;
-private import DrawRectangleCommand : DrawRectangleCommand;
+private import controller.commands.Command;
+private import controller.commands.DrawArcCommand;
+private import controller.commands.DrawFilledArcCommand;
+private import controller.commands.DrawFilledRectangleCommand;
+private import controller.commands.DrawLineCommand;
+private import controller.commands.DrawPointCommand;
+private import controller.commands.DrawRectangleCommand;
 
 private import cairo.Context; // Context.
 private import cairo.ImageSurface; // ImageSurface.

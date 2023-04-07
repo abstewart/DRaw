@@ -1,7 +1,7 @@
-module CommandEnum;
+module controller.commands.CommandEnum;
 
 import std.typecons;
-import Command : Command;
+import controller.commands.Command;
 
 enum Commands
 {
