@@ -1,5 +1,5 @@
 import std.stdio;
-import server_network : Server;
+import model.server_network;
 
 /// Main function. Entry point for the program.
 void main(string[] args)
