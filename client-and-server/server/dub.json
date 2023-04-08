@@ -9,6 +9,23 @@
 				"gtk-d:gtkd": "~>3.10.0",
 				"gtk-d:peas": "~>3.10.0",
 				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
+			},
+			"excludedSourceFiles": [
+				"source/server_cov_app.d",
+				"../client/source/app.d",
+				"../client/source/server_cov_app.d"
+			],
+			"mainSourceFile": "source/app.d",
+			"name": "runServer",
+			"targetType": "executable"
+		},
+		{
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
 				"gtk-d:vte": "~>3.10.0",
 				"unit-threaded": "~>2.1.2"
 			},
@@ -51,8 +68,7 @@
 		"../client/source/client_cov_app.d"
 	],
 	"license": "proprietary",
-	"mainSourceFile": "source/app.d",
-	"sourcePaths": ["../client/source"],
+	"sourcePaths": ["source", "../client/source"],
 	"importPaths": ["../client/source"],
 	"name": "server",
 	"targetPath": "bin",
