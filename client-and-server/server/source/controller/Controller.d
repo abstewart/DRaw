@@ -1,4 +1,4 @@
-module controller.SController;
+module controller.Controller;
 import model.server_network;
 
 //import canvas_state : CanvasState;

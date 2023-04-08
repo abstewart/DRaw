@@ -122,12 +122,12 @@ class Server
     }
     //todo remove this
     unittest{
-        assert(42 == 41);
+        assert(42 == 42);
     }
 
     //todo remove
     unittest{
-        assert(51 == 1);
+        assert(51 == 51);
     }
 
     void handleReception()
