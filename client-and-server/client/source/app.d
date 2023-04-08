@@ -4,7 +4,7 @@ private import std.stdio; // writeln.
 private import controller.DRawApp;
 
 /// Main method -- run the application. Entry point for the program.
-int mainn(string[] args)
+int main(string[] args)
 {
     writeln("Starting the DRaw client.");
     DRawApp myApp = new DRawApp(args);
