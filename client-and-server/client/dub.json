@@ -9,6 +9,23 @@
 				"gtk-d:gtkd": "~>3.10.0",
 				"gtk-d:peas": "~>3.10.0",
 				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
+			},
+			"excludedSourceFiles": [
+				"source/client_cov_app.d",
+				"../server/source/app.d",
+				"../server/source/server_cov_app.d"
+			],
+			"mainSourceFile": "source/app.d",
+			"name": "runClient",
+			"targetType": "executable"
+		},
+		{
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
 				"gtk-d:vte": "~>3.10.0",
 				"unit-threaded": "~>2.1.2"
 			},
@@ -46,7 +63,8 @@
 		},
 		{
 			"excludedSourceFiles": [
-				"source/client_cov_app.d"
+				"source/client_cov_app.d",
+				"source/app.d"
 			],
 			"name": "docs",
 			"targetType": "executable"
@@ -61,7 +79,6 @@
 		"../server/source/server_cov_app.d"
 	],
 	"license": "proprietary",
-	"mainSourceFile": "source/app.d",
 	"name": "client",
 	"targetPath": "bin",
 	"targetType": "executable"
