@@ -2,7 +2,49 @@
 	"authors": [
 		"Team DRaw"
 	],
+	"buildTypes": {
+		"docs": {
+			"buildRequirements": [
+				"allowWarnings"
+			],
+			"buildOptions": ["syntaxOnly"],
+			"dflags": [
+				"-o-",
+				"-wi",
+				"-c",
+				"-Dddocs",
+				"-op"
+			],
+			"excludedSourceFiles": [
+				"client/source/app.d",
+				"server/source/app.d",
+				"client/source/client_cov_app.d",
+				"server/source/server_cov_app.d"
+			]
+		}
+	},
 	"configurations": [
+		{
+			"name": "docs",
+			"targetType": "executable",
+			"sourcePaths": [
+				"client/source",
+				"server/source"
+			],
+			"excludedSourceFiles": [
+				"client/source/app.d",
+				"server/source/app.d",
+				"client/source/client_cov_app.d",
+				"server/source/server_cov_app.d"
+			],
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0",
+			}
+		},
 		{
 			"dependencies": {
 				"gtk-d:gstreamer": "~>3.10.0",
@@ -18,20 +60,19 @@
 				"client/source/client_cov_app.d",
 				"server/source/server_cov_app.d"
 			],
+			"importPaths": [
+				"client/source",
+				"server/source"
+			],
 			"mainSourceFile": "bin/ut.d",
 			"name": "unittest",
 			"preBuildCommands": [
 				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
 			],
-			"sourcePaths": ["client/source", "server/source"],
-			"importPaths": ["client/source", "server/source"],
-			"targetType": "executable"
-		},
-		{
-			"dependencies": {
-				"bindbc-sdl": "~>1.2.4"
-			},
-			"name": "drawdocs",
+			"sourcePaths": [
+				"client/source",
+				"server/source"
+			],
 			"targetType": "executable"
 		}
 	],
@@ -45,6 +86,6 @@
 		"./client/",
 		"./server/"
 	],
-	"targetType": "executable",
-	"targetPath": "bin"
+	"targetPath": "bin",
+	"targetType": "none"
 }
