@@ -37,3 +37,25 @@ Alternatively, from the `client` directory run:
 #### Server Coverage ####
 From the `client-and-server` directory, run:  
 `dub run :server -c cov`
+
+### Documentation ###
+#### Basic ddocs generation ####
+From the `client-and-server` directory, run:  
+`dub build -b docs`  
+And view the resulting documentation html in the `docs` directoy.
+
+This _should_ build the documentation for the project. It may also build documentation for all 
+dependencies, however those files may be put with the source code for said dependencies, 
+and not in the docs folder.
+
+#### Harbored-mod generation ####
+From the `client-and-server` directory, run:
+`dub run harbored-mod -- $(find ./client/source ./server/source -iname '*.d')`  
+And view the resulting documentation html in the `doc` directory.
+
+This will build interactive HTML documentation (start from the `index.html` file), for just the 
+source files located in the `client/source` and `server/source` directories.
+
+
+`
+`

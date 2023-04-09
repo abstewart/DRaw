@@ -1,5 +1,5 @@
 ### Potential documentation generator command ###
-`dub run harbored-mod -- $(find . -name *.d)`
+`dub run harbored-mod -- $(find ./client/source ./server/source -iname '*.d')`
 
 ### Testing with build specifications ###
 `
