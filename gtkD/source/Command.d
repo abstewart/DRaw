@@ -1,4 +1,4 @@
-module Command;
+module command;
 
 /// The Command interface -- used in MyDrawing.d.
 interface Command {
@@ -7,4 +7,7 @@ interface Command {
 
     /// Function for undoing an Execute command.
     public int undo();
+
+    /// Encode the command.
+    public char[] encode();
 }

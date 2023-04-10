@@ -1,4 +1,5 @@
 module view.components.AreaContent;
+
 // Imports.
 private import std.stdio; // writeln.
 
@@ -7,17 +8,15 @@ private import view.components.ConnectGrid;
 private import gtk.Box; // Box.
 
 /// Class used in the ConnectDialog.d file.
-class AreaContent
-{
+class AreaContent {
     // Instance variables.
-private:
+    private:
     Box _contentArea;
     ConnectGrid _connectGrid;
 
     /// Constructor.
-public:
-    this(Box contentArea)
-    {
+    public:
+    this(Box contentArea) {
         writeln("AreaContent constructor");
         this._contentArea = contentArea;
         this._connectGrid = new ConnectGrid();
@@ -26,14 +25,12 @@ public:
     }
 
     /// Destructor.
-    ~this()
-    {
+    ~this(){
         writeln("AreaContent destructor");
     }
 
     /// Getter method -- gets the ConnectGrid of this AreaContent.
-    public ConnectGrid getConnectGrid()
-    {
+    public ConnectGrid getConnectGrid() {
         return this._connectGrid;
     }
 }
