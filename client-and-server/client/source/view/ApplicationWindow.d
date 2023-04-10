@@ -1,4 +1,5 @@
 module view.ApplicationWindow;
+
 // Imports.
 private import std.stdio; // writeln.
 import std.algorithm.comparison : equal; // equal.
@@ -29,29 +30,25 @@ private import gtk.Dialog; // Dialog.
 private import gtk.MessageDialog; // MessageDialog.
 
 /// Class representing the main window of the application.
-class MyWindow : ApplicationWindow
-{
+class MyWindow : ApplicationWindow {
     // Instance variable.
-private:
+    private:
     bool isConnected;
     ChatBox chatBox;
 
     /// Constructor.
-public:
-    this(Application application)
-    {
+    public:
+    this(Application application) {
         super(application);
         writeln("MyWindow constructor");
-        setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
+        setTitle("DRaw");                       // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         showAll();
         string versionCompare = Version.checkVersion(3, 0, 0);
-        if (versionCompare.length > 0)
-        {
-            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL,
-                    MessageType.WARNING, ButtonsType.OK,
-                    "GtkD : Gtk+ version missmatch\n" ~ versionCompare
-                    ~ "\nYou might run into problems!" ~ "\n\nPress OK to continue");
+        if (versionCompare.length > 0){
+            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType.OK,
+            "GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
+            "\nYou might run into problems!"~ "\n\nPress OK to continue");
             d.run();
             d.destroy();
         }
@@ -59,26 +56,22 @@ public:
     }
 
     /// Deconstructor.
-    ~this()
-    {
+    ~this(){
         writeln("MyWindow destructor");
     }
 
     /// Getter method -- gets the isConnected variable value.
-    public bool getConnection()
-    {
+    public bool getConnection() {
         return this.isConnected;
     }
 
     /// Setter method -- sets the isConnected variable value.
-    public void setConnection(bool value)
-    {
+    public void setConnection(bool value) {
         this.isConnected = value;
     }
 
     // Method used to set up the window.
-    private void setup()
-    {
+    private void setup() {
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -106,7 +99,7 @@ public:
         mainBox.packStart(statusbar, false, true, 0);
 
         // ChatBox.
-        this.chatBox = new ChatBox(this, ""); // Initially the username is set to an empty string.
+        this.chatBox = new ChatBox(this, "");               // Initially the username is set to an empty string.
         mainBox.packStart(this.chatBox, false, false, 0);
 
         // Add mainBox to Window.
@@ -114,52 +107,46 @@ public:
     }
 
     // Method that creates a new ConnectDialog.
-    private void connectWhiteboard(Button button)
-    {
+    private void connectWhiteboard(Button button) {
         ConnectDialog connectDialog = new ConnectDialog(this);
-        if (this.isConnected)
-        {
+        if (this.isConnected) {
             MyChatBox myChatBox = this.chatBox.getMyChatBox();
             myChatBox.setUsername(connectDialog.getUsername());
         }
     }
 
     // Method that creates a new DisconnectDialog.
-    private void disconnectWhiteboard(Button button)
-    {
+    private void disconnectWhiteboard(Button button) {
         DisconnectDialog disconnectDialog = new DisconnectDialog(this);
     }
 
     // What happens when the user clicks the About item in the Help menu.
-    private void onMenuActivate(MenuItem menuItem)
-    {
+    private void onMenuActivate(MenuItem menuItem) {
         string action = menuItem.getActionName();
-        switch (action)
-        {
-        case "help.about":
+        switch (action) {
+            case "help.about":
             DRawAbout dlg = new DRawAbout();
             dlg.showAll();
             dlg.run();
             dlg.destroy();
-            break;
-        default:
-            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL,
-                    MessageType.INFO, ButtonsType.OK, "You pressed menu item " ~ action);
+            break ;
+            default:
+            MessageDialog d = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.INFO, ButtonsType.OK,
+            "You pressed menu item "~action);
             d.run();
             d.destroy();
-            break;
+            break ;
         }
     }
 
     // Helper method to get the menu bar for the window.
-    private MenuBar getMenuBar()
-    {
+    private MenuBar getMenuBar() {
         AccelGroup accelGroup = new AccelGroup();
         addAccelGroup(accelGroup);
         MenuBar menuBar = new MenuBar();
         Menu menu = menuBar.append("_Help");
-        menu.append(new MenuItem(&onMenuActivate, "_About", "help.about", true,
-                accelGroup, 'a', GdkModifierType.CONTROL_MASK | GdkModifierType.SHIFT_MASK));
+        menu.append(new MenuItem(&onMenuActivate, "_About","help.about", true, accelGroup, 'a',
+        GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
         return menuBar;
     }
 }
