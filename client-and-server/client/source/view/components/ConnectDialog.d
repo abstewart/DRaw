@@ -10,7 +10,7 @@ private import std.algorithm.comparison : equal;    // equal.
 private import std.regex;                           // Regular expressions.
 
 private import view.components.AreaContent;
-private import view.ApplicationWindow;
+private import view.MyWindow;
 
 private import gdk.c.types;                         // GtkWindowPosition.
 

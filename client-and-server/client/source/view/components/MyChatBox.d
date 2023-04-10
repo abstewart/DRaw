@@ -7,7 +7,7 @@ private import std.algorithm;                           // equal.
 private import std.datetime.systime : SysTime, Clock;   // SysTime and Clock.
 private import std.conv;                                // to.
 
-private import view.ApplicationWindow;
+private import view.MyWindow;
 
 private import gtk.VBox;                                // VBox.
 private import gtk.Button;                              // Button.

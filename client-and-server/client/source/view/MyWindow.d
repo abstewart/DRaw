@@ -1,4 +1,4 @@
-module view.ApplicationWindow;
+module view.MyWindow;
 
 // Imports.
 private import std.stdio; // writeln.

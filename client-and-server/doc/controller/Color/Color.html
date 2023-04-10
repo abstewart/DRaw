@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>Color</title>
+<base href="../../"/>
+<script src="anchor.js"></script>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>controller.<a href=controller/Color.html>Color</a>.</small><span class="highlight">Color</span>
+</div>
+<div class="sidebar">
+<a href="controller/Color.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="controller/Color.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('controller');">controller</span>
+<ul id="controller" style='display:block'>
+<li>controller.<a href="controller/BoxJustify.html">BoxJustify</a></li>
+<li><span class=" selected">controller.<a href="controller/Color.html">Color</a></span>
+</li>
+<li>controller.<a href="controller/Controller.html">Controller</a></li>
+<li>controller.<a href="controller/DRawAbout.html">DRawAbout</a></li>
+<li>controller.<a href="controller/DRawApp.html">DRawApp</a></li>
+<li>controller.<a href="controller/EncodeDecode.html">EncodeDecode</a></li>
+<li><span class="package" onclick="show_hide('controller.commands');">controller.commands</span>
+<ul id="controller.commands">
+<li>controller.commands.<a href="controller/commands/Command.html">Command</a></li>
+<li>controller.commands.<a href="controller/commands/DrawArcCommand.html">DrawArcCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawFilledArcCommand.html">DrawFilledArcCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawFilledRectangleCommand.html">DrawFilledRectangleCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawLineCommand.html">DrawLineCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawPointCommand.html">DrawPointCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawRectangleCommand.html">DrawRectangleCommand</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="package" onclick="show_hide('model');">model</span>
+<ul id="model">
+<li>model.<a href="model/ApplicationState.html">ApplicationState</a></li>
+<li>model.<a href="model/server_network.html">server_network</a></li>
+</ul>
+</li>
+<li><span class="package" onclick="show_hide('view');">view</span>
+<ul id="view">
+<li>view.<a href="view/AppBox.html">AppBox</a></li>
+<li>view.<a href="view/ApplicationWindow.html">ApplicationWindow</a></li>
+<li><span class="package" onclick="show_hide('view.components');">view.components</span>
+<ul id="view.components">
+<li>view.components.<a href="view/components/AreaContent.html">AreaContent</a></li>
+<li>view.components.<a href="view/components/BrushTypeComboBoxText.html">BrushTypeComboBoxText</a></li>
+<li>view.components.<a href="view/components/ChatBox.html">ChatBox</a></li>
+<li>view.components.<a href="view/components/ConnectDialog.html">ConnectDialog</a></li>
+<li>view.components.<a href="view/components/ConnectGrid.html">ConnectGrid</a></li>
+<li>view.components.<a href="view/components/DisconnectDialog.html">DisconnectDialog</a></li>
+<li>view.components.<a href="view/components/HPadBox.html">HPadBox</a></li>
+<li>view.components.<a href="view/components/MyChatBox.html">MyChatBox</a></li>
+<li>view.components.<a href="view/components/MyColorChooserDialog.html">MyColorChooserDialog</a></li>
+<li>view.components.<a href="view/components/MyDrawing.html">MyDrawing</a></li>
+<li>view.components.<a href="view/components/MyDrawingBox.html">MyDrawingBox</a></li>
+<li>view.components.<a href="view/components/PadEntry.html">PadEntry</a></li>
+<li>view.components.<a href="view/components/PadLabel.html">PadLabel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public struct Color
+</code></pre>
+<div class="section"><p>Represents a color in RGBA format.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>private this(<a href="http://dlang.org/type.html#basic-data-types">bool</a> validity)
+</code></pre>
+<div class="section"><p>Constructs a dummy color object with no meaningful data.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">validity</td><td class="paramDoc"><p>a boolean representing the intended validity of the color
+</p>
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>private this(string packedString)
+</code></pre>
+<div class="section"><p>Constructs a color from a templated string representing an RGB color value.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">packedString</td><td class="paramDoc"><p>a string in the format (r|g|b)
+</p>
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>private this(
+    <a href="http://dlang.org/type.html#basic-data-types">ubyte</a> r, 
+    <a href="http://dlang.org/type.html#basic-data-types">ubyte</a> g, 
+    <a href="http://dlang.org/type.html#basic-data-types">ubyte</a> b)
+</code></pre>
+<div class="section"><p>Constructs a color given a red, green, blue, and alpha component.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">r</td><td class="paramDoc"><p>red component of rgba
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">b</td><td class="paramDoc"><p>blue component of rgba
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">g</td><td class="paramDoc"><p>green component of rgba
+</p>
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="getRed"></a><div class="symbol"><div class="description"><pre><code>private <a href="http://dlang.org/type.html#basic-data-types">ubyte</a> <a href="controller/Color/Color.html#getRed">getRed</a>()
+</code></pre>
+<div class="section"><p>Getter method -- gets the red component of the color.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div></div><a class="anchor" id="getBlue"></a><div class="symbol"><div class="description"><pre><code>private <a href="http://dlang.org/type.html#basic-data-types">ubyte</a> <a href="controller/Color/Color.html#getBlue">getBlue</a>()
+</code></pre>
+<div class="section"><p>Getter method -- gets the blue component of the color.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div></div><a class="anchor" id="getGreen"></a><div class="symbol"><div class="description"><pre><code>private <a href="http://dlang.org/type.html#basic-data-types">ubyte</a> <a href="controller/Color/Color.html#getGreen">getGreen</a>()
+</code></pre>
+<div class="section"><p>Getter method -- gets the green component of the color.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div></div><a class="anchor" id="isValidColor"></a><div class="symbol"><div class="description"><pre><code>private <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="controller/Color/Color.html#isValidColor">isValidColor</a>()
+</code></pre>
+<div class="section"><p>Checks whether a color is intended to be valid or not.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div></div><a class="anchor" id="toEncodedString"></a><div class="symbol"><div class="description"><pre><code>private string <a href="controller/Color/Color.html#toEncodedString">toEncodedString</a>()
+</code></pre>
+<div class="section"><p>Returns an encoded tuple representing the color value.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="controller/Color/Color.html#this">this</a></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#this">this</a></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#this">this</a></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#getRed">getRed</a><span class="extrainfo"></span></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#getBlue">getBlue</a><span class="extrainfo"></span></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#getGreen">getGreen</a><span class="extrainfo"></span></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#isValidColor">isValidColor</a><span class="extrainfo"></span></td><td></td><td></td></tr><tr><td><a href="controller/Color/Color.html#toEncodedString">toEncodedString</a><span class="extrainfo"></span></td><td></td><td></td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://gitlab.com/basile.b/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+<script>anchors.add();</script>
+</body>
+</html>
