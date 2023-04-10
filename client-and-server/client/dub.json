@@ -1,39 +1,85 @@
 {
-    "name": "client",
-    "description": "The client for the Team DRaw application.",
-    "authors": [
-	"Team DRaw"
-    ],
-    "copyright": "Copyright © 2023, Team DRaw",
-    "targetType": "executable",
-    "license": "proprietary",
-    "targetPath": "bin",
-    "mainSourceFile": "app.d",
-    "sourcePaths": ["./", "../server/"],
-    "excludedSourceFiles": [
-	"../server/app.d"
-    ],
-    "configurations": [
-	{
-	"name": "client",
-	"dependencies": {
-	    "bindbc-sdl": "~>1.2.4"
-	}
-    },
-	{
-	"name": "unittest",
-	"preBuildCommands": [
-	    "dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
+	"authors": [
+		"Team DRaw"
 	],
-	"mainSourceFile": "bin/ut.d",
+	"configurations": [
+		{
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
+			},
+			"excludedSourceFiles": [
+				"source/client_cov_app.d",
+				"../server/source/app.d",
+				"../server/source/server_cov_app.d"
+			],
+			"mainSourceFile": "source/app.d",
+			"name": "runClient",
+			"targetType": "executable"
+		},
+		{
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0",
+				"unit-threaded": "~>2.1.2"
+			},
+			"excludedSourceFiles": [
+				"source/app.d",
+				"source/client_cov_app.d",
+				"../server/source/app.d",
+				"../server/source/server_cov_app.d"
+			],
+			"mainSourceFile": "bin/ut.d",
+			"name": "unittest",
+			"preBuildCommands": [
+				"dub run unit-threaded -c gen_ut_main -- -f bin/ut.d -d dub"
+			],
+			"targetType": "executable"
+		},
+		{
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
+			},
+			"excludedSourceFiles": [
+				"source/app.d"
+			],
+			"name": "cov",
+			"postRunCommands": [
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-server-\"",
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-source-\"",
+				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
+			],
+			"targetType": "executable"
+		},
+		{
+			"excludedSourceFiles": [
+				"source/client_cov_app.d",
+				"source/app.d"
+			],
+			"name": "docs",
+			"targetType": "executable"
+		}
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"dependencies": {
+	},
+	"description": "The client for the Team DRaw application.",
 	"excludedSourceFiles": [
-	    "source/client/source/app.d",
-	    "source/server/source/app.d"
+		"../server/source/app.d",
+		"../server/source/server_cov_app.d"
 	],
-	"dependencies": {
-	    "unit-threaded": "~>2.1.2",
-	    "bindbc-sdl": "~>1.2.4"
-	}
-    }
-    ]
+	"license": "proprietary",
+	"name": "client",
+	"targetPath": "bin",
+	"targetType": "executable"
 }

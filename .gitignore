@@ -44,7 +44,6 @@ dub.selections.json
 *.pdb
 
 coverage/
-docs/
 
 client.so
 client.dylib
@@ -61,3 +60,4 @@ server.lib
 server-test-*
 client/bin/client
 server/bin/server
+gtkD/DRaw

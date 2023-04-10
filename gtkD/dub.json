@@ -1,0 +1,21 @@
+{
+	"authors": [
+		"Team DRaw"
+	],
+	"copyright": "Copyright © 2023, Team DRaw",
+	"dependencies": {
+		"gtk-d:gstreamer": "~>3.10.0",
+		"gtk-d:gtkd": "~>3.10.0",
+		"gtk-d:peas": "~>3.10.0",
+		"gtk-d:sv": "~>3.10.0",
+		"gtk-d:vte": "~>3.10.0"
+	},
+	"configurations": [
+		{
+			"name": "docs"
+		}
+	],
+	"description": "Gtkd demo",
+	"license": "proprietary",
+	"name": "draw"
+}
