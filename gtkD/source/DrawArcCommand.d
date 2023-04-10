@@ -71,4 +71,8 @@ class DrawArcCommand : Command {
         // ===================================================================================
         return 0;
     }
+
+    public char[] encode() {
+        return ['c', 'h', 'a'];
+    }
 }

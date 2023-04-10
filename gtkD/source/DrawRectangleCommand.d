@@ -71,4 +71,8 @@ class DrawRectangleCommand : Command {
         // ===================================================================================
         return 0;
     }
+
+    public char[] encode() {
+        return ['c', 'h', 'a'];
+    }
 }
