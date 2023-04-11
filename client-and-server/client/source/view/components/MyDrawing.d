@@ -62,7 +62,7 @@ public:
         this.width = getWidth();
         this.height = getHeight();
         this.brushType = "Filled Arc";
-        this.currentColor = new RGBA(cast(double) 0, cast(double) 0, cast(double) 0); // Intially black.
+        this.currentColor = new RGBA(cast(double) 1, cast(double) 1, cast(double) 1, 1.0); // Intially opaque black
         writeln("MyDrawing constructor. The initial brush color is: ", this.currentColor.toString());
         this.spin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0), 1, 0);
         sizeSpinChanged(this.spin);
@@ -159,6 +159,10 @@ public:
         this.width = allocation.width;
         this.height = allocation.height;
         this.surface = ImageSurface.create(CairoFormat.ARGB32, this.width, this.height);
+        //fill the surface with an initial color
+        auto ctx = Context.create(this.surface);
+        ctx.setSourceRgba(0, 0, 0, currentColor.alpha);
+        ctx.paint();
     }
 
     // When the mouse is held down this.buttonIsDown = true and execute (draw/paint).
