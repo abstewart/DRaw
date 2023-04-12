@@ -43,7 +43,6 @@ public:
     {
         super(application);
         writeln("MyWindow constructor");
-        setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         showAll();
         string versionCompare = Version.checkVersion(3, 0, 0);
@@ -80,6 +79,8 @@ public:
     // Method used to set up the window.
     private void setup()
     {
+        setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
+
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -95,8 +96,10 @@ public:
         mainBox.packStart(appBox, false, false, 0);
 
         // Buttons.
-        Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard);
-        Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard);
+        Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard, true);
+        connectButton.setTooltipText(cast(string)StockID.CONNECT);
+        Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard, true);
+        disconnectButton.setTooltipText(cast(string)StockID.DISCONNECT);
         ButtonBox bBox = HButtonBox.createActionBox();
         bBox.packEnd(connectButton, 0, 0, 10);
         bBox.packEnd(disconnectButton, 0, 0, 10);

@@ -75,7 +75,8 @@ public:
 
         // Buttons.
         Button sendButton = new Button("Send Message", &sendMessage);
-        Button quitButton = new Button(StockID.QUIT, &quitApplication);
+        Button quitButton = new Button(StockID.QUIT, &quitApplication, true);
+        quitButton.setTooltipText(cast(string)StockID.QUIT);
         HBox hbox = new HBox(false, 4);
         hbox.packStart(sendButton, false, false, 2);
         hbox.packEnd(quitButton, false, false, 2);
