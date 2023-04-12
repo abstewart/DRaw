@@ -58,15 +58,16 @@ public:
     this()
     {
         writeln("MyDrawing constructor");
-        setSizeRequest(500, 300); // Width, height.
+        // Set the size of the whiteboard.
+        setSizeRequest(900, 500); // Width, height.
         this.width = getWidth();
         this.height = getHeight();
         this.brushType = "Filled Arc";
 
-        this.currentColor = new RGBA(cast(double) 1, cast(double) 1, cast(double) 1, 1.0); // Intially opaque black
+        this.currentColor = new RGBA(cast(double) 1, cast(double) 1, cast(double) 1, 1.0); // Intially opaque black.
 
         writeln("MyDrawing constructor. The initial brush color is: ", this.currentColor.toString());
-        this.spin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0), 1, 0);
+        this.spin = new SpinButton(new Adjustment(15, 1, 400, 1, 10, 0), 1, 0); // 15 is the initial brush size.
         sizeSpinChanged(this.spin);
         this.spin.addOnValueChanged(&sizeSpinChanged);
 

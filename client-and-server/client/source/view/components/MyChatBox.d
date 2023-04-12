@@ -50,7 +50,7 @@ public:
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
-        sw1.setMinContentHeight(150);
+        sw1.setMinContentHeight(500);                       // Set the height of the chat feature.
         sw1.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);

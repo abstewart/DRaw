@@ -32,8 +32,9 @@ public:
 
         this.drawingArea = new MyDrawing();
         BrushTypeComboBoxText brushTypes = new BrushTypeComboBoxText(this.drawingArea);
-        packStart(this.drawingArea, true, true, 0); // Adds child to box, packed with reference to the start of box.
+        packEnd(this.drawingArea, true, true, 0); // Adds child to box, packed with reference to the end of box.
 
+        // Buttons.
         Button colorButton = new Button(StockID.SELECT_COLOR, &showColor, true);
         colorButton.setTooltipText(cast(string)StockID.SELECT_COLOR);
         Button undoButton = new Button(StockID.UNDO, &undoWhiteboard, true);
@@ -41,6 +42,7 @@ public:
         Button saveButton = new Button(StockID.SAVE, &saveWhiteboard, true);
         saveButton.setTooltipText(cast(string)StockID.SAVE);
 
+        // Hbox is a container that organizes child widgets into a single row.
         HBox hbox = new HBox(false, 4);
         hbox.packStart(new Label("Brush Type"), false, false, 2);
         hbox.packStart(brushTypes, false, false, 2);
