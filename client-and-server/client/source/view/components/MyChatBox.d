@@ -9,7 +9,7 @@ private import std.conv;                                // to.
 
 private import view.MyWindow;
 
-private import gdk.c.types;                         // GtkWindowPosition.
+private import gdk.c.types;                             // GtkWindowPosition.
 
 private import gtk.VBox;                                // VBox.
 private import gtk.Button;                              // Button.
