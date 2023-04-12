@@ -8,9 +8,10 @@ import std.format;
 /**
 * Represents a color in RGBA format.
 */
-struct Color {
+struct Color
+{
     // Instance variables.
-    private:
+private:
     ubyte r;
     ubyte g;
     ubyte b;
@@ -21,8 +22,9 @@ struct Color {
     * Params:
     *        validity = a boolean representing the intended validity of the color
     */
-    public:
-    this(bool validity) {
+public:
+    this(bool validity)
+    {
         this.r = 0;
         this.g = 0;
         this.b = 0;
@@ -34,7 +36,8 @@ struct Color {
     * Params: 
     *        packedString = a string in the format (r|g|b)
     */
-    this(string packedString) {
+    this(string packedString)
+    {
         string[] fields = packedString[1 .. $ - 1].split('|');
         this.r = to!ubyte(fields[0]);
         this.g = to!ubyte(fields[1]);
@@ -49,7 +52,8 @@ struct Color {
     *        b =    blue component of rgba
     *        g =    green component of rgba
     */
-    this(ubyte r, ubyte g, ubyte b) {
+    this(ubyte r, ubyte g, ubyte b)
+    {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -58,35 +62,40 @@ struct Color {
     /**
     * Getter method -- gets the red component of the color.
     */
-    public ubyte getRed() {
+    public ubyte getRed()
+    {
         return this.r;
     }
 
     /**
     * Getter method -- gets the blue component of the color.
     */
-    public ubyte getBlue() {
+    public ubyte getBlue()
+    {
         return this.b;
     }
 
     /**
     * Getter method -- gets the green component of the color.
     */
-    public ubyte getGreen() {
+    public ubyte getGreen()
+    {
         return this.g;
     }
 
     /**
     * Checks whether a color is intended to be valid or not.
     */
-    public bool isValidColor() {
+    public bool isValidColor()
+    {
         return this.isValid;
     }
 
     /**
     * Returns an encoded tuple representing the color value.
     */
-    public string toEncodedString() {
+    public string toEncodedString()
+    {
         return format("(%s|%s|%s)", to!string(this.r), to!string(this.g), to!string(this.b));
     }
 

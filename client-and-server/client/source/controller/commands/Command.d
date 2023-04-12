@@ -1,6 +1,7 @@
 module controller.commands.Command;
 
 protected import cairo.Context;
+
 protected import cairo.ImageSurface; //ImageSurface
 protected import gdk.Pixbuf; //PixBuf
 protected import gdk.Cairo;
@@ -12,7 +13,8 @@ protected import gdk.RGBA; // RGBA.
 import std.stdio;
 
 /// The Command interface -- used in MyDrawing.d.
-abstract class Command{
+abstract class Command
+{
 protected:
     static immutable CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
@@ -24,7 +26,8 @@ protected:
     Pixbuf oldPB;
 
 public:
-    this(MyDrawing myDrawing, RGBA color, int ulx, int uly){
+    this(MyDrawing myDrawing, RGBA color, int ulx, int uly)
+    {
         this.currentColor = color;
         this.myDrawing = myDrawing;
         this.surface = myDrawing.getImageSurface();
@@ -37,7 +40,8 @@ public:
     abstract public int execute();
 
     /// Function for undoing an Execute command.
-    public int undo(){
+    public int undo()
+    {
 
         //this.executeUndo(this.x - this.width / 2, this.y - this.width/4, this.oldPB, this.context);
         writeln("Undo called");
@@ -46,9 +50,7 @@ public:
         this.context.paint();
         this.context.restore();
 
-
         this.myDrawing.queueDraw();
-
 
         return 0;
     }
@@ -56,7 +58,8 @@ public:
     abstract char[] encode();
 
     /// Function to save specified area to the given ImageSurface
-    final void saveOldRect(int width, int height){
+    final void saveOldRect(int width, int height)
+    {
         //capture the region in question
         oldPB = getFromSurface(this.surface, this.ulX, this.ulY, width, height);
         //getFromSurface(this.surface, x, y, width, height);
@@ -72,7 +75,8 @@ public:
         */
     }
 
-    final void executeUndo(){
+    final void executeUndo()
+    {
 
     }
 }

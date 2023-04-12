@@ -1,22 +1,23 @@
 module view.components.ConnectGrid;
 
 // Imports.
-private import std.stdio;                   // writeln.
-private import std.typecons;                // Tuple.
+private import std.stdio; // writeln.
+private import std.typecons; // Tuple.
 
 private import view.components.PadLabel;
 private import view.components.PadEntry;
 private import controller.BoxJustify;
 
-private import gtk.Label;                   // Label.
-private import gtk.Entry;                   // Entry.
-private import gtk.Grid;                    // Grid.
+private import gtk.Label; // Label.
+private import gtk.Entry; // Entry.
+private import gtk.Grid; // Grid.
 
 /// Class representing the Grid in the ConnectDialog.
-class ConnectGrid : Grid {
+class ConnectGrid : Grid
+{
     // Instance variables.
-    private:
-    int _borderWidth = 10;        // Keeps the widgets from crowding each other in the grid.
+private:
+    int _borderWidth = 10; // Keeps the widgets from crowding each other in the grid.
     PadLabel usernameLabel;
     string usernameLabelText = "Chat username:";
     PadEntry usernameEntry;
@@ -35,11 +36,12 @@ class ConnectGrid : Grid {
     string _username;
 
     /// Constructor.
-    public:
-    this() {
+public:
+    this()
+    {
         super();
         writeln("ConnectGrid constructor");
-        setBorderWidth(this._borderWidth);               // Keeps the grid separated from the window edges.
+        setBorderWidth(this._borderWidth); // Keeps the grid separated from the window edges.
 
         // Row 0.
         this.usernameLabel = new PadLabel(BoxJustify.RIGHT, this.usernameLabelText);
@@ -69,12 +71,14 @@ class ConnectGrid : Grid {
     }
 
     /// Destructor.
-    ~this(){
+    ~this()
+    {
         writeln("ConnectGrid destructor");
     }
 
     /// Getter method -- get the username, IP Address, and port number the user typed in (or the default).
-    public Tuple!(string, string, string) getData() {
+    public Tuple!(string, string, string) getData()
+    {
         this._username = this.usernameEntry.getText();
         this._ipAddress = this.ipAddressEntry.getText();
         this._portNum = this.portNumEntry.getText();

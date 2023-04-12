@@ -1,15 +1,16 @@
 module controller.commands.DrawArcCommand;
 
 // Imports.
-private import std.stdio;                       // writeln.
-private import std.math;                        // PI.
+private import std.stdio; // writeln.
+private import std.math; // PI.
 
 private import controller.commands.Command;
 
-private import gtk.SpinButton;                  // SpinButton.
+private import gtk.SpinButton; // SpinButton.
 
 /// Class representing the draw command with an arc brush type.
-class DrawArcCommand : Command {
+class DrawArcCommand : Command
+{
     // Instance variables.
 private:
     int x;
@@ -19,9 +20,10 @@ private:
     /// Constructor.
 
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    {
         super(myDrawing, currentColor, x - width / 2, y - width / 2);
-	
+
         writeln("DrawArcCommand constructor");
         this.x = x;
         this.y = y;
@@ -29,12 +31,14 @@ public:
     }
 
     /// Destructor.
-    ~this() {
+    ~this()
+    {
         writeln("DrawArcCommand destructor");
     }
 
     /// The execute method -- draw/paint.
-    override public int execute() {
+    override public int execute()
+    {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -55,9 +59,8 @@ public:
         return 0;
     }
 
-
-
-    override public char[] encode() {
+    override public char[] encode()
+    {
         return ['c', 'h', 'a'];
     }
 }

@@ -1,20 +1,20 @@
 module controller.commands.DrawPointCommand;
 
 // Imports.
-private import std.stdio;                       // writeln.
-private import std.math;                        // PI.
+private import std.stdio; // writeln.
+private import std.math; // PI.
 
 private import controller.commands.Command;
 
-private import gtk.SpinButton;                  // SpinButton.
+private import gtk.SpinButton; // SpinButton.
 
 /// Class representing the draw command with a point brush type.
-class DrawPointCommand : Command {
+class DrawPointCommand : Command
+{
     // Instance variables.
 private:
     int x;
     int y;
-
 
     int width;
 
@@ -22,8 +22,9 @@ private:
 
     /// Constructor.
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
-      
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    {
+
         super(myDrawing, currentColor, x, y);
         writeln("DrawPointCommand constructor");
         this.x = x;
@@ -33,7 +34,8 @@ public:
     }
 
     /// Destructor.
-    ~this() {
+    ~this()
+    {
         writeln("DrawPointCommand destructor");
     }
 
@@ -60,7 +62,8 @@ public:
         return 0;
     }
 
-    override public char[] encode() {
+    override public char[] encode()
+    {
         return ['c', 'h', 'a'];
     }
 }

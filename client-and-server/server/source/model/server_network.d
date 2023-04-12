@@ -121,12 +121,14 @@ class Server
         }
     }
     //todo remove this
-    unittest{
+    unittest
+    {
         assert(42 == 42);
     }
 
     //todo remove
-    unittest{
+    unittest
+    {
         assert(51 == 51);
     }
 
@@ -140,7 +142,8 @@ class Server
     }
 
     //todo remove this later
-    unittest{
+    unittest
+    {
         assert(5 == 5);
     }
 }

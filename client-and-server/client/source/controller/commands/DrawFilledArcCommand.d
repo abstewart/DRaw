@@ -1,15 +1,16 @@
 module controller.commands.DrawFilledArcCommand;
 
 // Imports.
-private import std.stdio;                   // writeln.
-private import std.math;                    // PI.
+private import std.stdio; // writeln.
+private import std.math; // PI.
 
 private import controller.commands.Command;
 
-private import gtk.SpinButton;              // SpinButton.
+private import gtk.SpinButton; // SpinButton.
 
 /// Class representing the draw command with a filled arc brush type.
-class DrawFilledArcCommand : Command {
+class DrawFilledArcCommand : Command
+{
     // Instance variables.
 private:
     int x;
@@ -18,9 +19,10 @@ private:
 
     /// Constructor.
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    {
         super(myDrawing, currentColor, x - width / 2, y - width / 2);
-	
+
         writeln("DrawFilledArcCommand constructor");
         this.x = x;
         this.y = y;
@@ -29,12 +31,14 @@ public:
     }
 
     /// Destructor.
-    ~this() {
+    ~this()
+    {
         writeln("DrawFilledArcCommand destructor");
     }
 
     /// The execute method -- draw/paint.
-    override public int execute() {
+    override public int execute()
+    {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -55,7 +59,8 @@ public:
         return 0;
     }
 
-    override public char[] encode() {
+    override public char[] encode()
+    {
         return ['c', 'h', 'a'];
     }
 }
