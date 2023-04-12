@@ -1,35 +1,39 @@
 module view.components.ChatBox;
 
 // Imports.
-private import std.stdio;                           // writeln.
+private import std.stdio; // writeln.
 
 private import view.components.MyChatBox;
 private import view.MyWindow;
 
-private import gtk.Box;                             // Box.
+private import gtk.Box; // Box.
 
 /// ChatBox used to arrange myDrawingBox using the notion of packing.
-class ChatBox : Box {
+class ChatBox : Box
+{
     // Instance variable.
-    private:
+private:
     MyChatBox myChatBox;
 
     /// Constructor.
-    public:
-    this(MyWindow myWindow, string username) {
+public:
+    this(MyWindow myWindow, string username)
+    {
         super(Orientation.VERTICAL, 10);
         writeln("ChatBox constructor");
         this.myChatBox = new MyChatBox(myWindow, username);
-        packStart(this.myChatBox, true, true, 0);       // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
+        packStart(this.myChatBox, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
 
     /// Descructor.
-    ~this(){
+    ~this()
+    {
         writeln("ChatBox destructor");
     }
 
     /// Getter method -- gets myChatBox.
-    public MyChatBox getMyChatBox() {
+    public MyChatBox getMyChatBox()
+    {
         return this.myChatBox;
     }
 }

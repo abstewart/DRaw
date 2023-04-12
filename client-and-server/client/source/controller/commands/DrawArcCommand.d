@@ -1,52 +1,44 @@
 module controller.commands.DrawArcCommand;
 
 // Imports.
-private import std.stdio;                       // writeln.
-private import std.math;                        // PI.
+private import std.stdio; // writeln.
+private import std.math; // PI.
 
 private import controller.commands.Command;
-private import view.components.MyDrawing;
 
-private import cairo.Context;                   // Context.
-private import cairo.ImageSurface;              // ImageSurface.
-
-private import gdk.RGBA;                        // RGBA.
-
-private import gtk.SpinButton;                  // SpinButton.
+private import gtk.SpinButton; // SpinButton.
 
 /// Class representing the draw command with an arc brush type.
-class DrawArcCommand : Command {
+class DrawArcCommand : Command
+{
     // Instance variables.
-    private:
-    CairoOperator operator = CairoOperator.OVER;
+private:
     int x;
     int y;
-    RGBA currentColor;
-    ImageSurface surface;
-    Context context;
     int width;
-    MyDrawing myDrawing;
 
     /// Constructor.
-    public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
+
+public:
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    {
+        super(myDrawing, currentColor, x - width / 2, y - width / 2);
+
         writeln("DrawArcCommand constructor");
         this.x = x;
         this.y = y;
-        this.currentColor = currentColor;
         this.width = width;
-        this.myDrawing = myDrawing;
-        this.surface = myDrawing.getImageSurface();
-        this.context = Context.create(this.surface);
     }
 
     /// Destructor.
-    ~this() {
+    ~this()
+    {
         writeln("DrawArcCommand destructor");
     }
 
     /// The execute method -- draw/paint.
-    public int execute() {
+    override public int execute()
+    {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -56,7 +48,10 @@ class DrawArcCommand : Command {
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        this.context.arc(this.x - this.width / 2, this.y - this.width / 2, this.width, 0, 2 * PI);
+        //save the old img
+        this.saveOldRect(this.width, this.width);
+
+        this.context.arc(this.x - this.width / 4, this.y - this.width / 4, this.width / 2, 0, 2 * PI);
         this.context.stroke();
 
         // Redraw the Widget.
@@ -64,15 +59,8 @@ class DrawArcCommand : Command {
         return 0;
     }
 
-    /// The undo method -- undo the Execute command.
-    public int undo() {
-        // ===================================================================================
-        // TODO: Get this functionality to work.
-        // ===================================================================================
-        return 0;
-    }
-
-    public char[] encode() {
+    override public char[] encode()
+    {
         return ['c', 'h', 'a'];
     }
 }
