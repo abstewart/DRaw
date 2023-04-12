@@ -1,15 +1,15 @@
 module controller.commands.DrawRectangleCommand;
+
 // Imports.
-private import std.stdio; // writeln.
-private import std.math; // PI.
+    private import std.stdio;                   // writeln.
+private import std.math;                        // PI.
 
 private import controller.commands.Command;
 
-private import gtk.SpinButton; // SpinButton.
+private import gtk.SpinButton;                  // SpinButton.
 
 /// Class representing the draw command with a rectangle brush type.
-class DrawRectangleCommand : Command
-{
+class DrawRectangleCommand : Command {
     // Instance variables.
 private:
     int x;
@@ -18,9 +18,9 @@ private:
 
 
     /// Constructor.
+
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
-    {
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
         super(myDrawing, currentColor, x - width / 2, y - width / 4);
         writeln("DrawRectangleCommand constructor");
         this.x = x;
@@ -30,14 +30,12 @@ public:
     }
 
     /// Destructor.
-    ~this()
-    {
+    ~this() {
         writeln("DrawRectangleCommand destructor");
     }
 
     /// The execute method -- draw/paint.
-    override public int execute()
-    {
+    override public int execute() {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -58,8 +56,7 @@ public:
         return 0;
     }
 
-    override public char[] encode()
-    {
+    override public char[] encode() {
         return ['c', 'h', 'a'];
     }
 }

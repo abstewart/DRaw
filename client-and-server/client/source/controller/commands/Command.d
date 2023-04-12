@@ -33,7 +33,6 @@ public:
         this.ulX = ulx;
         this.ulY = uly;
     }
-
     /// Function for updating the pixels (drawing/painting).
     abstract public int execute();
 
