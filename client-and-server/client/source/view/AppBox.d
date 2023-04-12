@@ -12,15 +12,15 @@ class AppBox : Box
 {
     // Instance variable.
 private:
-    MyDrawingBox myDrawingArea;
+    MyDrawingBox myDrawingBox;
 
     /// Constructor.
 public:
     this()
     {
         super(Orientation.VERTICAL, 10);
-        this.myDrawingArea = new MyDrawingBox();
-        packStart(this.myDrawingArea, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
+        this.myDrawingBox = new MyDrawingBox();
+        packStart(this.myDrawingBox, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
 
     /// Descructor.
