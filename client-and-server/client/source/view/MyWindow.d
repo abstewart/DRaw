@@ -83,7 +83,7 @@ public:
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
 
         // ========================================
-        // TODO: This does not seem to work!!!
+        // TODO: This may only work on Window's machines.
         setIconFromFile("images/icon.png");
         // ========================================
 
