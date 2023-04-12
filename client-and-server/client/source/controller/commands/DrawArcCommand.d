@@ -1,22 +1,23 @@
 module controller.commands.DrawArcCommand;
-private import std.stdio; // writeln.
-private import std.math; // PI.
+
+// Imports.
+private import std.stdio;                       // writeln.
+private import std.math;                        // PI.
 
 private import controller.commands.Command;
 private import view.components.MyDrawing;
 
-private import cairo.Context; // Context.
-private import cairo.ImageSurface; // ImageSurface.
+private import cairo.Context;                   // Context.
+private import cairo.ImageSurface;              // ImageSurface.
 
-private import gdk.RGBA; // RGBA.
+private import gdk.RGBA;                        // RGBA.
 
-private import gtk.SpinButton; // SpinButton.
+private import gtk.SpinButton;                  // SpinButton.
 
 /// Class representing the draw command with an arc brush type.
-class DrawArcCommand : Command
-{
+class DrawArcCommand : Command {
     // Instance variables.
-private:
+    private:
     CairoOperator operator = CairoOperator.OVER;
     int x;
     int y;
@@ -27,9 +28,8 @@ private:
     MyDrawing myDrawing;
 
     /// Constructor.
-public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
-    {
+    public:
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing) {
         writeln("DrawArcCommand constructor");
         this.x = x;
         this.y = y;
@@ -41,14 +41,12 @@ public:
     }
 
     /// Destructor.
-    ~this()
-    {
+    ~this() {
         writeln("DrawArcCommand destructor");
     }
 
     /// The execute method -- draw/paint.
-    public int execute()
-    {
+    public int execute() {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -67,16 +65,14 @@ public:
     }
 
     /// The undo method -- undo the Execute command.
-    public int undo()
-    {
+    public int undo() {
         // ===================================================================================
         // TODO: Get this functionality to work.
         // ===================================================================================
         return 0;
     }
 
-    public char[] encode()
-    {
+    public char[] encode() {
         return ['c', 'h', 'a'];
     }
 }
