@@ -9,6 +9,8 @@ private import std.conv;                                // to.
 
 private import view.MyWindow;
 
+private import gdk.c.types;                         // GtkWindowPosition.
+
 private import gtk.VBox;                                // VBox.
 private import gtk.Button;                              // Button.
 private import gtk.HBox;                                // HBox.
@@ -96,6 +98,7 @@ class MyChatBox : VBox {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(),
             GtkDialogFlags.MODAL, MessageType.WARNING,
             ButtonsType.OK, "You not connected, so you cannot chat.");
+            notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
             notConnectedMsg.run();
             notConnectedMsg.destroy();
 
