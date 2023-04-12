@@ -99,9 +99,9 @@ public:
 
         // Buttons.
         Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard, true);
-        connectButton.setTooltipText(cast(string)StockID.CONNECT);
+        connectButton.setTooltipText("Connect");
         Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard, true);
-        disconnectButton.setTooltipText(cast(string)StockID.DISCONNECT);
+        disconnectButton.setTooltipText("Disconnect");
         ButtonBox bBox = HButtonBox.createActionBox();
         bBox.packEnd(connectButton, 0, 0, 10);
         bBox.packEnd(disconnectButton, 0, 0, 10);

@@ -36,11 +36,11 @@ public:
 
         // Buttons.
         Button colorButton = new Button(StockID.SELECT_COLOR, &showColor, true);
-        colorButton.setTooltipText(cast(string)StockID.SELECT_COLOR);
+        colorButton.setTooltipText("Select Color");
         Button undoButton = new Button(StockID.UNDO, &undoWhiteboard, true);
-        undoButton.setTooltipText(cast(string)StockID.UNDO);
+        undoButton.setTooltipText("Undo");
         Button saveButton = new Button(StockID.SAVE, &saveWhiteboard, true);
-        saveButton.setTooltipText(cast(string)StockID.SAVE);
+        saveButton.setTooltipText("Save");
 
         // Hbox is a container that organizes child widgets into a single row.
         HBox hbox = new HBox(false, 4);

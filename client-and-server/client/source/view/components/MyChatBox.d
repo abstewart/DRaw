@@ -50,7 +50,7 @@ public:
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
-        sw1.setMinContentHeight(500);                       // Set the height of the chat feature.
+        sw1.setMinContentHeight(400);                       // Set the height of the chat feature.
         sw1.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);
@@ -64,7 +64,7 @@ public:
 
         // The scroll window for typing a message.
         ScrolledWindow sw2 = new ScrolledWindow(null, null);
-        sw2.setMinContentHeight(10);
+        sw2.setMinContentHeight(10);                        // Set the height of the message input area.
         sw2.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         TextView textView2 = new TextView();
         textView2.setEditable(true);
@@ -76,7 +76,7 @@ public:
         // Buttons.
         Button sendButton = new Button("Send Message", &sendMessage);
         Button quitButton = new Button(StockID.QUIT, &quitApplication, true);
-        quitButton.setTooltipText(cast(string)StockID.QUIT);
+        quitButton.setTooltipText("Quit");
         HBox hbox = new HBox(false, 4);
         hbox.packStart(sendButton, false, false, 2);
         hbox.packEnd(quitButton, false, false, 2);
