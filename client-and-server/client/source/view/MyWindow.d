@@ -82,6 +82,11 @@ public:
     {
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
 
+        // ========================================
+        // TODO: This does not seem to work!!!
+        setIconFromFile("images/icon.png");
+        // ========================================
+
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
