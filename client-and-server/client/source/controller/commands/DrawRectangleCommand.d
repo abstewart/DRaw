@@ -61,11 +61,14 @@ public:
         return 0;
     }
 
-    override public int getCmdType() {
+    override public int getCmdType()
+    {
         return RECT_TYPE;
     }
 
-    override public string encode() {
-        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(), this.width, this.x, this.y, this.getColorString());
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }

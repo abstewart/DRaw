@@ -60,7 +60,8 @@ public:
 
     /// Destructor
     ~this()
-    {}
+    {
+    }
 
     /// Getter method -- gets the isConnected variable value.
     public bool getConnection()

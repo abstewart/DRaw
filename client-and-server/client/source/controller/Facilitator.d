@@ -1,10 +1,12 @@
 module controller.facilitator;
 
-class Facilitator {
-    public:
-        this() {
-            
-        }
+class Facilitator
+{
+public:
+    this()
+    {
 
-    private:
+    }
+
+private:
 }

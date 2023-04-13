@@ -44,7 +44,8 @@ public:
     abstract public int getCmdType();
 
     /// Function for getting the command id
-    final public int getCmdId() {
+    final public int getCmdId()
+    {
         return this.id;
     }
     /// Function for updating the pixels (drawing/painting).
@@ -83,8 +84,10 @@ public:
         */
     }
 
-    final string getColorString() {
-        return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green, this.currentColor.blue, this.currentColor.alpha);
+    final string getColorString()
+    {
+        return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green,
+                this.currentColor.blue, this.currentColor.alpha);
     }
 
     abstract string encode();

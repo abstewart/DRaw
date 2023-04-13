@@ -18,6 +18,7 @@ private import gtk.Dialog; // Dialog.
 private import gtk.Box; // Box.
 private import gtk.MessageDialog; // MessageDialog.
 private import model.Communicator;
+
 // private import model.network.
 
 /// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long (technically this means a space or new line character, for example, count) -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
@@ -74,7 +75,8 @@ public:
         this.areaContent = new AreaContent(this.contentArea);
     }
 
-    private void attemptConnection(string username, string ipAddr, ushort port) {
+    private void attemptConnection(string username, string ipAddr, ushort port)
+    {
         Communicator.getCommunicator(port, ipAddr, username);
         this.myWindow.setConnection(true);
         MessageDialog message = new MessageDialog(this, GtkDialogFlags.MODAL,
@@ -86,33 +88,38 @@ public:
     // React based on which response the user picked.
     private void handleClick(int response, Dialog d)
     {
-        switch (response) {
-            case ResponseType.OK:
-                string ipAddr = this.areaContent.getConnectGrid.getData()[1];
-                string uname = this.areaContent.getConnectGrid.getData()[0];
-                string port = this.areaContent.getConnectGrid.getData()[2];
-                if (this.isConnected) {
-                    MessageDialog alreadyConnectedMsg = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
-                            .OK, "You are already connected. If you would like to connect to a different IP adddress and/or port, please disconnect first.");
-                    alreadyConnectedMsg.run();
-                    alreadyConnectedMsg.destroy();
-                    return;
-                }
-                if (isValidUsername(uname) && isValidPort(port) && isValidIPAddress(ipAddr)) {
-                    this.username = uname;
-                    attemptConnection(this.username, ipAddr, to!ushort(port));
-                } else {
-                    MessageDialog messageWarning = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
-                    .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
-                    messageWarning.run();
-                    messageWarning.destroy();
-                }
-                break;
-            case ResponseType.CANCEL:
-                writeln("clicked cancel connection button");
-                break;
-            default:
-                break;
+        switch (response)
+        {
+        case ResponseType.OK:
+            string ipAddr = this.areaContent.getConnectGrid.getData()[1];
+            string uname = this.areaContent.getConnectGrid.getData()[0];
+            string port = this.areaContent.getConnectGrid.getData()[2];
+            if (this.isConnected)
+            {
+                MessageDialog alreadyConnectedMsg = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
+                        .OK, "You are already connected. If you would like to connect to a different IP adddress and/or port, please disconnect first.");
+                alreadyConnectedMsg.run();
+                alreadyConnectedMsg.destroy();
+                return;
+            }
+            if (isValidUsername(uname) && isValidPort(port) && isValidIPAddress(ipAddr))
+            {
+                this.username = uname;
+                attemptConnection(this.username, ipAddr, to!ushort(port));
+            }
+            else
+            {
+                MessageDialog messageWarning = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
+                        .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
+                messageWarning.run();
+                messageWarning.destroy();
+            }
+            break;
+        case ResponseType.CANCEL:
+            writeln("clicked cancel connection button");
+            break;
+        default:
+            break;
         }
     }
 

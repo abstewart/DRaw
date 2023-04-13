@@ -184,7 +184,8 @@ public:
             // Add the command to the history.
             this.applicationState.addToHistory(newCommand);
             // send to server if applicable
-            string packet = encodeUserDrawCommand(Communicator.getUsername(), Communicator.getClientId(), newCommand);
+            string packet = encodeUserDrawCommand(Communicator.getUsername(),
+                    Communicator.getClientId(), newCommand);
             Communicator.queueMessageSend(packet);
         }
         return false;
@@ -225,7 +226,8 @@ public:
             // Add the command to the history.
             this.applicationState.addToHistory(newCommand);
             // send the command to the server
-            string packetToSend = encodeUserDrawCommand(Communicator.getUsername(), Communicator.getClientId(), newCommand);
+            string packetToSend = encodeUserDrawCommand(Communicator.getUsername(),
+                    Communicator.getClientId(), newCommand);
             Communicator.queueMessageSend(packetToSend);
         }
         return true;
@@ -252,13 +254,17 @@ public:
         switch (this.brushType)
         {
         case "Arc":
-            return new DrawArcCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this, id);
+            return new DrawArcCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Filled Arc":
-            return new DrawFilledArcCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this, id);
+            return new DrawFilledArcCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Line":
-            return new DrawLineCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this, id);
+            return new DrawLineCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Point":
-            return new DrawPointCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this, id);
+            return new DrawPointCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Rectangle":
             return new DrawRectangleCommand(x, y, this.currentColor,
                     this.spin.getValueAsInt(), this, id);

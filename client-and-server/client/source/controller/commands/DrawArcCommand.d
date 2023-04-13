@@ -6,7 +6,7 @@ private import std.math; // PI.
 
 private import controller.commands.Command;
 
-private import gtk.SpinButton; 
+private import gtk.SpinButton;
 
 immutable int ARC_TYPE = 0;
 
@@ -62,11 +62,14 @@ public:
         return 0;
     }
 
-    override public int getCmdType() {
+    override public int getCmdType()
+    {
         return ARC_TYPE;
     }
 
-    override public string encode() {
-        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(), this.width, this.x, this.y, this.getColorString());
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }

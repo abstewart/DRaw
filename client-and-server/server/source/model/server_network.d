@@ -10,12 +10,13 @@ import std.conv;
 import std.typecons;
 
 import model.packets.packet;
+
 ushort MAX_ALLOWED_CONNECTIONS = 1;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 51111;
 int MESSAGE_BUFFER_SIZE = 4096;
 
-Tuple!(string,int,Command) parseCommand(string message, long size)
+Tuple!(string, int, Command) parseCommand(string message, long size)
 {
     return decodeUserDrawCommand(message, size);
 }
@@ -34,9 +35,11 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
     }
 }
 
-void notifyAll(Socket[int] clients, string message) {
+void notifyAll(Socket[int] clients, string message)
+{
     int[] curKeys = clients.keys();
-    foreach (key; parallel(curKeys)) {
+    foreach (key; parallel(curKeys))
+    {
         Socket client = clients[key];
         client.send(message);
     }
@@ -56,10 +59,9 @@ class Server
     private static int clientCount;
     private Command[] commandStack = [];
 
-    this(string ipAddress = DEFAULT_SOCKET_IP, 
-         ushort portNumber = DEFAULT_PORT_NUMBER,
-         ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
-         long bufferSize = MESSAGE_BUFFER_SIZE)
+    this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
+            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+            long bufferSize = MESSAGE_BUFFER_SIZE)
     {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;

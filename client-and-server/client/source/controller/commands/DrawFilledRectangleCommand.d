@@ -13,29 +13,28 @@ immutable int FILLED_RECT_TYPE = 2;
 class DrawFilledRectangleCommand : Command
 {
     // Instance variables.
-    private:
-        int x;
-        int y;
-        int width;
+private:
+    int x;
+    int y;
+    int width;
 
     /// Constructor.
-    public:
-        this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
-        {
-            super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
-            writeln("DrawFilledRectangleCommand constructor");
-            this.x = x;
-            this.y = y;
-            this.width = width;
+public:
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
+    {
+        super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
+        writeln("DrawFilledRectangleCommand constructor");
+        this.x = x;
+        this.y = y;
+        this.width = width;
 
-        }
+    }
 
-        /// Destructor.
-        ~this()
-        {
-            writeln("DrawFilledRectangleCommand destructor");
-        }
-
+    /// Destructor.
+    ~this()
+    {
+        writeln("DrawFilledRectangleCommand destructor");
+    }
 
     /// The execute method -- draw/paint.
     override public int execute()
@@ -55,16 +54,19 @@ class DrawFilledRectangleCommand : Command
         this.context.rectangle(this.x - this.width / 2, this.y - this.width / 4, this.width, height);
         this.context.fill();
 
-            // Redraw the Widget.
-            this.myDrawing.queueDraw();
-            return 0;
-        }
+        // Redraw the Widget.
+        this.myDrawing.queueDraw();
+        return 0;
+    }
 
-        override public int getCmdType() {
-            return FILLED_RECT_TYPE;
-        }
+    override public int getCmdType()
+    {
+        return FILLED_RECT_TYPE;
+    }
 
-        override public string encode() {
-            return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(), this.width, this.x, this.y, this.getColorString());
-        }
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
+    }
 }
