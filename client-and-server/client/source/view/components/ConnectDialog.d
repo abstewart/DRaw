@@ -88,9 +88,9 @@ public:
     {
         switch (response) {
             case ResponseType.OK:
-                string ipAddr = this.areaContent.getConnectGrid.getData()[0];
-                string uname = this.areaContent.getConnectGrid.getData()[2];
-                string port = this.areaContent.getConnectGrid.getData()[1];
+                string ipAddr = this.areaContent.getConnectGrid.getData()[1];
+                string uname = this.areaContent.getConnectGrid.getData()[0];
+                string port = this.areaContent.getConnectGrid.getData()[2];
                 if (this.isConnected) {
                     MessageDialog alreadyConnectedMsg = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
                             .OK, "You are already connected. If you would like to connect to a different IP adddress and/or port, please disconnect first.");
@@ -98,7 +98,7 @@ public:
                     alreadyConnectedMsg.destroy();
                     return;
                 }
-                if (isValidUsername(uname) && isValidPort(port) && isIPAddress(ipAddr)) {
+                if (isValidUsername(uname) && isValidPort(port) && isValidIPAddress(ipAddr)) {
                     this.username = uname;
                     attemptConnection(this.username, ipAddr, to!ushort(port));
                 } else {

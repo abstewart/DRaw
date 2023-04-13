@@ -8,16 +8,18 @@ import std.concurrency;
 import std.datetime;
 
 import model.network.client;
-auto TIMEOUT_DUR = 1.usecs;
+auto TIMEOUT_DUR = 1.msecs;
 
 void handleNetworking(Tid parent, string ipAddr, ushort port) {
+    writeln(ownerTid());
     Client network = new Client(ipAddr, port);
 
     for( bool active = true; active && network.isSocketOpen(); ) {
+        writeln("checking for message");
         // checks briefly for information to send
         auto recv = receiveTimeout(TIMEOUT_DUR,
             (string packet) { 
-                writeln("received a packet to send");
+                writeln(packet);
                 network.sendToServer(packet);
             },
             (immutable bool shutdown) {
@@ -27,6 +29,9 @@ void handleNetworking(Tid parent, string ipAddr, ushort port) {
             (OwnerTerminated error) { 
                 writeln("shutting networking thread down upon owner termination");
                 active = false; 
+            },
+            (Variant any) {
+                writeln(any);
             }
         );
         // receives data from our server, note our socket is non-blocking
@@ -40,4 +45,6 @@ void handleNetworking(Tid parent, string ipAddr, ushort port) {
             send(parent, encodedCmd, recvLen);
         }
     }
+
+    writeln("thread has exited");
 }

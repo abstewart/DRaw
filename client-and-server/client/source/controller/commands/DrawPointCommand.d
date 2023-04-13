@@ -23,10 +23,10 @@ private:
 
     /// Constructor.
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
 
-        super(myDrawing, currentColor, x, y);
+        super(myDrawing, currentColor, x, y, id);
         writeln("DrawPointCommand constructor");
         this.x = x;
         this.y = y;
@@ -63,7 +63,11 @@ public:
         return 0;
     }
 
-    public int getCmdType() {
+    override public int getCmdType() {
         return POINT_TYPE;
+    }
+
+    override public string encode() {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(), this.width, this.x, this.y, this.getColorString());
     }
 }

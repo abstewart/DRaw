@@ -20,9 +20,9 @@ class DrawFilledRectangleCommand : Command
 
     /// Constructor.
     public:
-        this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+        this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
         {
-            super(myDrawing, currentColor, x - width / 2, y - width / 4);
+            super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
             writeln("DrawFilledRectangleCommand constructor");
             this.x = x;
             this.y = y;
@@ -60,8 +60,11 @@ class DrawFilledRectangleCommand : Command
             return 0;
         }
 
-        public int getCmdType() {
+        override public int getCmdType() {
             return FILLED_RECT_TYPE;
         }
 
+        override public string encode() {
+            return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(), this.width, this.x, this.y, this.getColorString());
+        }
 }

@@ -15,15 +15,13 @@ string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 51111;
 int MESSAGE_BUFFER_SIZE = 4096;
 
-Command parseCommand(char[] message, long size)
+Tuple!(string,int,Command) parseCommand(string message, long size)
 {
-    Command someCommand = decodePacketToCommand(message, size);
-    return someCommand;
+    return decodeUserDrawCommand(message, size);
 }
 
-void notifyAllExcept(Socket[int] clients, Command command, int ckey)
+void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
-    char[] message = command.encode();
     int[] curKeys = clients.keys();
     foreach (key; parallel(curKeys))
     {
@@ -105,8 +103,9 @@ class Server
                     if (recv > 0)
                     {
                         writeln("received", buffer[0 .. recv]);
-                        Command recvCommand = parseCommand(buffer, recv);
-                        notifyAllExcept(this.connectedClients, recvCommand, key);
+                        // auto toProp = parseCommand(to!string(buffer), recv);
+
+                        notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }
                     else if (recv == 0)
                     {

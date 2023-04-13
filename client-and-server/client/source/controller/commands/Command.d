@@ -10,9 +10,11 @@ protected import view.components.MyDrawing;
 
 protected import gdk.RGBA; // RGBA.
 
+protected import std.format;
+
 import std.stdio;
 
-/// The Command interface -- used in MyDrawing.d.
+/// Represents a set of common characteristics for a drawing command.
 abstract class Command
 {
 protected:
@@ -24,9 +26,10 @@ protected:
     int ulX;
     int ulY;
     Pixbuf oldPB;
+    int id;
 
 public:
-    this(MyDrawing myDrawing, RGBA color, int ulx, int uly)
+    this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
     {
         this.currentColor = color;
         this.myDrawing = myDrawing;
@@ -35,9 +38,17 @@ public:
         //set the uppser left x & y
         this.ulX = ulx;
         this.ulY = uly;
+        this.id = id;
     }
     /// Function for getting the command type
     abstract public int getCmdType();
+
+    /// Function for getting the command id
+    final public int getCmdId() {
+        return this.id;
+    }
+    /// Function for updating the pixels (drawing/painting).
+    abstract public int execute();
 
     /// Function for undoing an Execute command.
     public int undo()
@@ -53,8 +64,6 @@ public:
 
         return 0;
     }
-
-    abstract char[] encode();
 
     /// Function to save specified area to the given ImageSurface
     final void saveOldRect(int width, int height)
@@ -74,8 +83,14 @@ public:
         */
     }
 
+    final string getColorString() {
+        return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green, this.currentColor.blue, this.currentColor.alpha);
+    }
+
+    abstract string encode();
+
     final void executeUndo()
     {
-
+        // comment
     }
 }

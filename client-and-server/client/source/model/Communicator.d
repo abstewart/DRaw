@@ -4,6 +4,7 @@ import std.concurrency;
 
 import std.stdio : writeln;
 import std.typecons;
+import std.algorithm;
 
 import model.network.thread_entry;
 import controller.commands.Command;
@@ -14,60 +15,80 @@ class Communicator {
     private:
         static bool threadActive = false;
         static Tid childThread;
-        static int clientId;
-        static string username;
-        static string[int] connectedUsers;
+        int clientId = -1;
+        string username = "";
+        string[int] connectedUsers;
         static Tuple!(string, int, char[255])[] chatHistory;
+        static int curCmd = 0;
         static Communicator instance = null;
 
         this(ushort port, string ip, string username) {
             threadActive = true;
-            clientId = -1;
             childThread = spawn(&handleNetworking, thisTid, ip, port);
             string connReqPacket = encodeUserConnPacket(username, clientId);
-            writeln(connReqPacket);
             send(childThread, connReqPacket);
             receive(
                 (string packet, immutable long recvLen) {
                     if (recvLen > 0) {
                         Tuple!(string, int) usernameId = decodeUserConnPacket(packet, recvLen);
-                        username = usernameId[0];
-                        clientId = usernameId[1];
-                        connectedUsers[clientId] = username;
+                        this.username = usernameId[0];
+                        this.clientId = usernameId[1];
+                        this.connectedUsers[clientId] = username;
                         writeln("user ", username, " with client id ", clientId, " has been acknowledged");
                     }
                 }
             );
-
-
         }
 
         ~this() {
 
         }
 
+        int getCid() {
+            return this.clientId;
+        }
+
+        string getUname() {
+            return this.username;
+        }
+
+        void addConnectedUser(string username, int id) {
+            this.connectedUsers[id] = username;
+        }
+
+        void removeConnectedUser(int id) {
+            this.connectedUsers.remove(id);
+        }
+
+        void shutdown() {
+            immutable bool shutdown = true;
+            send(this.childThread, shutdown);
+        }
+
+        void sendToChild(string message) {
+            send(this.childThread, message);
+        }
+
     public:
-        static Communicator getCommunicator(ushort port, string ip, string username) {
+        static Communicator getCommunicator(ushort port = 0, string ip = "-1", string username = "-1") {
             if (instance is null) {
                 instance = new Communicator(port, ip, username);
+                writeln("instanace has been set");
             } 
             return instance;
         }
 
         static void disconnect() {
             if (!(instance is null)) {
-                immutable bool shutdown = true;
-                send(childThread, shutdown);
+                instance.shutdown();
                 instance = null;
-                string[int] emptyConnTable;
-                connectedUsers = emptyConnTable;
             }
         }
 
         static void queueMessageSend(string message) {
             if (!(instance is null)) {
-                immutable bool sendData = true;
-                send(childThread, sendData, message);
+                writeln(message);
+                instance.sendToChild(message);
             }
         }
 
@@ -77,7 +98,7 @@ class Communicator {
                     messageReceived = receiveTimeout(TIMEOUT_DUR,
                         (string commandEnc, immutable long recv) {
                             // Command command = Packet.dispatchDecoder(messageReceived);
-                            // commandStack ~= [command];
+                            // commandStack ~= [command];                     
                         },
                         (bool closedSocket) {
                             instance = null;
@@ -88,14 +109,36 @@ class Communicator {
         }
 
         static int getClientId() {
-            return clientId;
+            if (!(instance is null)) {
+                return instance.getCid();
+            }
+            return -1;
         }
 
-        static addConnectedUser(string username, int id) {
-            connectedUsers[id] = username;
+        static string getUsername() {
+            if (!(instance is null)) {
+                return instance.getUname();
+            }
+            return "";
         }
 
-        static removeConnectedUser(int id) {
-            connectedUsers.remove(id);
+        static void addUser(string username, int id) {
+            if (!(instance is null)) {
+                instance.addConnectedUser(username, id);
+            }
+        }
+
+        static void removeUser(int id) {
+            if (!(instance is null)) {
+                instance.removeConnectedUser(id);
+            }
+        }
+
+        static int getCurCommandId() {
+            return curCmd;
+        }
+
+        static void nextCommand() {
+            curCmd += 1;
         }
 }

@@ -1,23 +1,10 @@
 module controller.commands.DrawArcCommand;
-<<<<<<< HEAD
-private import std.stdio : writeln; 
-private import std.math : PI;
-
-private import controller.commands.Command;
-private import view.components.MyDrawing;
-
-private import cairo.Context;
-private import cairo.ImageSurface; 
-
-private import gdk.RGBA; 
-=======
 
 // Imports.
 private import std.stdio; // writeln.
 private import std.math; // PI.
 
 private import controller.commands.Command;
->>>>>>> master
 
 private import gtk.SpinButton; 
 
@@ -35,14 +22,12 @@ private:
     /// Constructor.
 
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-<<<<<<< HEAD
-=======
-        super(myDrawing, currentColor, x - width / 2, y - width / 2);
+
+        super(myDrawing, currentColor, x - width / 2, y - width / 2, id);
 
         writeln("DrawArcCommand constructor");
->>>>>>> master
         this.x = x;
         this.y = y;
         this.width = width;
@@ -77,7 +62,11 @@ public:
         return 0;
     }
 
-    public int getCmdType() {
+    override public int getCmdType() {
         return ARC_TYPE;
+    }
+
+    override public string encode() {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(), this.width, this.x, this.y, this.getColorString());
     }
 }
