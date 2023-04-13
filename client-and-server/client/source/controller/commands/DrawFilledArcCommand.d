@@ -8,6 +8,8 @@ private import controller.commands.Command;
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int FILLED_ARC_TYPE = 1;
+
 /// Class representing the draw command with a filled arc brush type.
 class DrawFilledArcCommand : Command
 {
@@ -19,11 +21,9 @@ private:
 
     /// Constructor.
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x - width / 2, y - width / 2);
-
-        writeln("DrawFilledArcCommand constructor");
+        super(myDrawing, currentColor, x - width / 2, y - width / 2, id);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -33,7 +33,6 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("DrawFilledArcCommand destructor");
     }
 
     /// The execute method -- draw/paint.
@@ -59,8 +58,14 @@ public:
         return 0;
     }
 
-    override public char[] encode()
+    override public int getCmdType()
     {
-        return ['c', 'h', 'a'];
+        return FILLED_ARC_TYPE;
+    }
+
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }

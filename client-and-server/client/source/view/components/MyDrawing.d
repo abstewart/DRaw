@@ -14,6 +14,8 @@ private import controller.commands.DrawFilledRectangleCommand;
 private import controller.commands.DrawLineCommand;
 private import controller.commands.DrawPointCommand;
 private import controller.commands.DrawRectangleCommand;
+private import model.Communicator;
+private import model.packets.packet;
 
 private import cairo.Context; // Context.
 private import cairo.ImageSurface; // ImageSurface.
@@ -177,10 +179,15 @@ public:
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
             // Draw/paint. Get the command based on the current brush type and then execute it.
-            Command newCommand = getCommand(x, y);
+            int id = Communicator.getCurCommandId();
+            Command newCommand = getCommand(x, y, id);
             newCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newCommand);
+            // send to server if applicable
+            string packet = encodeUserDrawCommand(Communicator.getUsername(),
+                    Communicator.getClientId(), newCommand);
+            Communicator.queueMessageSend(packet);
         }
         return false;
     }
@@ -191,6 +198,7 @@ public:
         if (event.type == EventType.BUTTON_RELEASE && event.button.button == 1)
         {
             this.buttonIsDown = false;
+            Communicator.nextCommand();
         }
         return false;
     }
@@ -213,10 +221,15 @@ public:
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
             // Draw/paint. Get the command based on the current brush type and then execute it.
-            Command newCommand = getCommand(x, y);
+            int id = Communicator.getCurCommandId();
+            Command newCommand = getCommand(x, y, id);
             newCommand.execute();
             // Add the command to the history.
             this.applicationState.addToHistory(newCommand);
+            // send the command to the server
+            string packetToSend = encodeUserDrawCommand(Communicator.getUsername(),
+                    Communicator.getClientId(), newCommand);
+            Communicator.queueMessageSend(packetToSend);
         }
         return true;
     }
@@ -237,28 +250,31 @@ public:
     }
 
     // Get the command type associated with the brush type.
-    private Command getCommand(int x, int y)
+    private Command getCommand(int x, int y, int id)
     {
         switch (this.brushType)
         {
         case "Arc":
-            return new DrawArcCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            return new DrawArcCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Filled Arc":
             return new DrawFilledArcCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this);
+                    this.spin.getValueAsInt(), this, id);
         case "Line":
-            return new DrawLineCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            return new DrawLineCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Point":
-            return new DrawPointCommand(x, y, this.currentColor, this.spin.getValueAsInt(), this);
+            return new DrawPointCommand(x, y, this.currentColor,
+                    this.spin.getValueAsInt(), this, id);
         case "Rectangle":
             return new DrawRectangleCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this);
+                    this.spin.getValueAsInt(), this, id);
         case "Filled Rectangle":
             return new DrawFilledRectangleCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this);
+                    this.spin.getValueAsInt(), this, id);
         default:
             return new DrawFilledArcCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this);
+                    this.spin.getValueAsInt(), this, id);
         }
     }
 

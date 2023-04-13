@@ -8,6 +8,8 @@ private import controller.commands.Command;
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int POINT_TYPE = 4;
+
 /// Class representing the draw command with a point brush type.
 class DrawPointCommand : Command
 {
@@ -15,17 +17,16 @@ class DrawPointCommand : Command
 private:
     int x;
     int y;
-
     int width;
 
     Pixbuf oldPB;
 
     /// Constructor.
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
 
-        super(myDrawing, currentColor, x, y);
+        super(myDrawing, currentColor, x, y, id);
         writeln("DrawPointCommand constructor");
         this.x = x;
         this.y = y;
@@ -62,8 +63,14 @@ public:
         return 0;
     }
 
-    override public char[] encode()
+    override public int getCmdType()
     {
-        return ['c', 'h', 'a'];
+        return POINT_TYPE;
+    }
+
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }

@@ -8,7 +8,6 @@ private import gtkd.Loader;
 private import view.MyWindow;
 
 private import gio.Application : GioApplication = Application; // GioApplication.
-
 private import gtk.Application; // Application.
 
 /// Class representing the main DRaw application.
