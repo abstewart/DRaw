@@ -49,6 +49,7 @@ jobs:
           dmd --version
           pwd
           sudo apt-get install libgtkd-3-dev -y
+          sudo apt-get install libgtksourceview2.0-0
           echo MADE IT!!!!!
 
       - name: Check Top-Level /Source Formatting
