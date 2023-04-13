@@ -51,12 +51,12 @@
 				"gtk-d:vte": "~>3.10.0"
 			},
 			"excludedSourceFiles": [
-				"source/app.d"
+				"source/app.d",
+				"../server/source/server_move_coverage_files.d"
 			],
 			"name": "cov",
+			"buildOptions": ["coverage"],
 			"postRunCommands": [
-				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-server-\"",
-				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"..-source-\"",
 				"sh ../../support/cicd_scripts/remove-excess-coverage-files.sh ./coverage \"dub-packages\""
 			],
 			"targetType": "executable"
