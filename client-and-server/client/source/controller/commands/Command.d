@@ -32,7 +32,7 @@ public:
     this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
     {
         this.currentColor = color;
-        this.myDrawing = myDrawing;
+        this.
         this.surface = myDrawing.getImageSurface();
         this.context = Context.create(this.surface);
         //set the uppser left x & y

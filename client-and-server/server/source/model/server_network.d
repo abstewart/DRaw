@@ -11,9 +11,9 @@ import std.typecons;
 
 import model.packets.packet;
 
-ushort MAX_ALLOWED_CONNECTIONS = 1;
+ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
-ushort DEFAULT_PORT_NUMBER = 51111;
+ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 4096;
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
