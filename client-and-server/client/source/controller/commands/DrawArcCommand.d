@@ -6,12 +6,14 @@ private import std.math; // PI.
 
 private import controller.commands.Command;
 
-private import gtk.SpinButton; // SpinButton.
+private import gtk.SpinButton;
 
-/// Class representing the draw command with an arc brush type.
+immutable int ARC_TYPE = 0;
+
+/// Implements functionality for drawing and undoing an 'Arc' on a Cairo Canvas
 class DrawArcCommand : Command
 {
-    // Instance variables.
+
 private:
     int x;
     int y;
@@ -20,9 +22,10 @@ private:
     /// Constructor.
 
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x - width / 2, y - width / 2);
+
+        super(myDrawing, currentColor, x - width / 2, y - width / 2, id);
 
         writeln("DrawArcCommand constructor");
         this.x = x;
@@ -33,7 +36,7 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("DrawArcCommand destructor");
+
     }
 
     /// The execute method -- draw/paint.
@@ -59,8 +62,14 @@ public:
         return 0;
     }
 
-    override public char[] encode()
+    override public int getCmdType()
     {
-        return ['c', 'h', 'a'];
+        return ARC_TYPE;
+    }
+
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }

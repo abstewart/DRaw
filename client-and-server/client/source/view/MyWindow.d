@@ -42,7 +42,6 @@ public:
     this(Application application)
     {
         super(application);
-        writeln("MyWindow constructor");
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         showAll();
@@ -59,10 +58,9 @@ public:
         this.isConnected = false;
     }
 
-    /// Deconstructor.
+    /// Destructor
     ~this()
     {
-        writeln("MyWindow destructor");
     }
 
     /// Getter method -- gets the isConnected variable value.

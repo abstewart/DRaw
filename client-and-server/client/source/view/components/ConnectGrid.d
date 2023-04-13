@@ -40,7 +40,6 @@ public:
     this()
     {
         super();
-        writeln("ConnectGrid constructor");
         setBorderWidth(this._borderWidth); // Keeps the grid separated from the window edges.
 
         // Row 0.
@@ -73,7 +72,6 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("ConnectGrid destructor");
     }
 
     /// Getter method -- get the username, IP Address, and port number the user typed in (or the default).

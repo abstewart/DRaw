@@ -70,7 +70,7 @@ Command decodePacketToCommand(char[] message, long size)
     writeln(fields);
     // Color cmdColor = Color(to!string(fields[2]));
     RGBA cmdColor = new RGBA(255, 255, 255, 255);
-    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing());
+    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing(), 1);
 }
 
 Command decodePacketToCommandString(string message, long size)
@@ -81,7 +81,7 @@ Command decodePacketToCommandString(string message, long size)
     writeln(fields);
     // Color cmdColor = Color(to!string(fields[2]));
     RGBA cmdColor = new RGBA(255, 255, 255, 255);
-    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing());
+    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing(), 1);
 }
 
 //unittest {

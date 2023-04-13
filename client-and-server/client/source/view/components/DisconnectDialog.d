@@ -11,6 +11,8 @@ private import gdk.c.types; // GtkWindowPosition.
 private import gtk.Dialog; // Dialog.
 private import gtk.MessageDialog; // MessageDialog.
 
+private import model.Communicator;
+
 /// Class representing what opens when the user clicks the Disconnect button.
 class DisconnectDialog : Dialog
 {
@@ -69,6 +71,7 @@ public:
             // ===================================================================================
 
             this.myWindow.setConnection(false); // Let myWindow know you are no longer connected.
+            Communicator.disconnect();
 
             MessageDialog message = new MessageDialog(this, GtkDialogFlags.MODAL,
                     MessageType.INFO, ButtonsType.OK, "You are now disconnceted!");

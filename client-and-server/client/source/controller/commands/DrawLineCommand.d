@@ -8,6 +8,8 @@ private import controller.commands.Command;
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int LINE_TYPE = 3;
+
 /// Class representing the draw command with a line brush type.
 class DrawLineCommand : Command
 {
@@ -20,9 +22,9 @@ private:
 
     /// Constructor.
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x, y);
+        super(myDrawing, currentColor, x, y, id);
 
         writeln("DrawLineCommand constructor");
         this.x = x;
@@ -61,8 +63,14 @@ public:
         return 0;
     }
 
-    override public char[] encode()
+    override public int getCmdType()
     {
-        return ['c', 'h', 'a'];
+        return LINE_TYPE;
+    }
+
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }

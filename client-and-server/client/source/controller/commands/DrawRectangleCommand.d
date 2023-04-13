@@ -8,6 +8,8 @@ private import controller.commands.Command;
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int RECT_TYPE = 5;
+
 /// Class representing the draw command with a rectangle brush type.
 class DrawRectangleCommand : Command
 {
@@ -20,9 +22,9 @@ private:
     /// Constructor.
 
 public:
-    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
+    this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x - width / 2, y - width / 4);
+        super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
         writeln("DrawRectangleCommand constructor");
         this.x = x;
         this.y = y;
@@ -59,8 +61,14 @@ public:
         return 0;
     }
 
-    override public char[] encode()
+    override public int getCmdType()
     {
-        return ['c', 'h', 'a'];
+        return RECT_TYPE;
+    }
+
+    override public string encode()
+    {
+        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+                this.width, this.x, this.y, this.getColorString());
     }
 }
