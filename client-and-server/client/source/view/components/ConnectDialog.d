@@ -1,4 +1,5 @@
 module view.components.ConnectDialog;
+
 // Imports.
 private import std.stdio; // writeln.
 private import std.conv; // to.
@@ -9,7 +10,7 @@ private import std.algorithm.comparison : equal; // equal.
 private import std.regex; // Regular expressions.
 
 private import view.components.AreaContent;
-private import view.ApplicationWindow;
+private import view.MyWindow;
 
 private import gdk.c.types; // GtkWindowPosition.
 
@@ -20,6 +21,7 @@ private import model.Communicator;
 // private import model.network.
 
 /// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long (technically this means a space or new line character, for example, count) -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
+// (https://gtkdcoding.com/2019/06/14/0044-custom-dialog-iii.html)
 class ConnectDialog : Dialog
 {
     // Instance variables.
@@ -96,7 +98,6 @@ public:
                     alreadyConnectedMsg.destroy();
                     return;
                 }
-
                 if (isValidUsername(uname) && isValidPort(port) && isIPAddress(ipAddr)) {
                     this.username = uname;
                     attemptConnection(this.username, ipAddr, to!ushort(port));
@@ -118,6 +119,7 @@ public:
     // Check for a valid username. A username has to have at least one character. It cannot have
     // any leading or trailing white space. And the character(s) must be either a letter or number.
     // Spaces in between words are accepted.
+    // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
     private bool isValidUsername(string username)
     {
         // Regular expression that prevents symbols and only allows letters and numbers.
@@ -130,7 +132,7 @@ public:
     // Format: an IPv4 address string in the dotted-decimal form a.b.c.d,
     // or a host name which will be resolved using an InternetHost object.
     // where a, b, c, d are in the range 0-255, inclusive. (Example IPv4: 192.168.0.5)
-    private bool isIPAddress(string ipAddress)
+    private bool isValidIPAddress(string ipAddress)
     {
         // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
         auto r4 = regex(

@@ -1,4 +1,5 @@
 module view.components.BrushTypeComboBoxText;
+
 // Imports.
 private import view.components.MyDrawing;
 

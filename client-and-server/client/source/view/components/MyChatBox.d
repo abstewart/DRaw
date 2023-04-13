@@ -1,4 +1,5 @@
 module view.components.MyChatBox;
+
 // Imports.
 private import std.stdio; // writeln.
 private import stdlib = core.stdc.stdlib : exit; // exit.
@@ -6,7 +7,9 @@ private import std.algorithm; // equal.
 private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
 private import std.conv; // to.
 
-private import view.ApplicationWindow;
+private import view.MyWindow;
+
+private import gdk.c.types; // GtkWindowPosition.
 
 private import gtk.VBox; // VBox.
 private import gtk.Button; // Button.
@@ -47,6 +50,7 @@ public:
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
+        sw1.setMinContentHeight(150);
         sw1.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);
@@ -60,6 +64,7 @@ public:
 
         // The scroll window for typing a message.
         ScrolledWindow sw2 = new ScrolledWindow(null, null);
+        sw2.setMinContentHeight(10);
         sw2.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         TextView textView2 = new TextView();
         textView2.setEditable(true);
@@ -98,6 +103,9 @@ public:
         {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
                     MessageType.WARNING, ButtonsType.OK, "You not connected, so you cannot chat.");
+            // Sets a position constraint for this window.
+            // CENTER_ALWAYS = Keep window centered as it changes size, etc.
+            notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
             notConnectedMsg.run();
             notConnectedMsg.destroy();
 

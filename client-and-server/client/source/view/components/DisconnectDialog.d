@@ -1,9 +1,10 @@
 module view.components.DisconnectDialog;
+
 // Imports.
 private import std.stdio; // writeln.
 private import std.socket; // socket.
 
-private import view.ApplicationWindow;
+private import view.MyWindow;
 
 private import gdk.c.types; // GtkWindowPosition.
 

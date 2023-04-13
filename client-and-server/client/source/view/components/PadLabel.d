@@ -1,4 +1,5 @@
 module view.components.PadLabel;
+
 // Imports.
 private import std.stdio; // writeln.
 

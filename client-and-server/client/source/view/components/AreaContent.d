@@ -1,4 +1,5 @@
 module view.components.AreaContent;
+
 // Imports.
 private import std.stdio; // writeln.
 

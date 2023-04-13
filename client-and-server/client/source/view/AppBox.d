@@ -1,4 +1,5 @@
 module view.AppBox;
+
 // Imports.
 private import std.stdio; // writeln.
 

@@ -1,4 +1,5 @@
 module view.components.ConnectGrid;
+
 // Imports.
 private import std.stdio; // writeln.
 private import std.typecons; // Tuple.
@@ -42,28 +43,28 @@ public:
         setBorderWidth(this._borderWidth); // Keeps the grid separated from the window edges.
 
         // Row 0.
-        this.ipAddressLabel = new PadLabel(BoxJustify.RIGHT, this.ipAddressLabelText);
-        attach(this.ipAddressLabel, 0, 0, 1, 1);
-
-        this.ipAddressEntry = new PadEntry(BoxJustify.LEFT, this.ipAddressPlaceholderText);
-        this.ipAddressEntry.setWidthInCharacters(30);
-        attach(this.ipAddressEntry, 1, 0, 2, 1);
-
-        // Row 1.
-        this.portNumLabel = new PadLabel(BoxJustify.RIGHT, this.portNumLabelText);
-        attach(this.portNumLabel, 0, 1, 1, 1);
-
-        this.portNumEntry = new PadEntry(BoxJustify.LEFT, this.portNumPlaceholderText);
-        this.portNumEntry.setWidthInCharacters(30);
-        attach(this.portNumEntry, 1, 1, 1, 1);
-
-        // Row 2.
         this.usernameLabel = new PadLabel(BoxJustify.RIGHT, this.usernameLabelText);
-        attach(this.usernameLabel, 0, 2, 1, 1);
+        attach(this.usernameLabel, 0, 0, 1, 1);
 
         this.usernameEntry = new PadEntry(BoxJustify.LEFT, this.usernamePlaceholderText);
         this.usernameEntry.setWidthInCharacters(30);
-        attach(this.usernameEntry, 1, 2, 1, 1);
+        attach(this.usernameEntry, 1, 0, 2, 1);
+
+        // Row 1.
+        this.ipAddressLabel = new PadLabel(BoxJustify.RIGHT, this.ipAddressLabelText);
+        attach(this.ipAddressLabel, 0, 1, 1, 1);
+
+        this.ipAddressEntry = new PadEntry(BoxJustify.LEFT, this.ipAddressPlaceholderText);
+        this.ipAddressEntry.setWidthInCharacters(30);
+        attach(this.ipAddressEntry, 1, 1, 1, 1);
+
+        // Row 2.
+        this.portNumLabel = new PadLabel(BoxJustify.RIGHT, this.portNumLabelText);
+        attach(this.portNumLabel, 0, 2, 1, 1);
+
+        this.portNumEntry = new PadEntry(BoxJustify.LEFT, this.portNumPlaceholderText);
+        this.portNumEntry.setWidthInCharacters(30);
+        attach(this.portNumEntry, 1, 2, 1, 1);
 
         setMarginBottom(7);
     }
@@ -73,12 +74,12 @@ public:
     {
     }
 
-    /// Getter method -- get the IP Address and port number the user typed in (or the default).
+    /// Getter method -- get the username, IP Address, and port number the user typed in (or the default).
     public Tuple!(string, string, string) getData()
     {
+        this._username = this.usernameEntry.getText();
         this._ipAddress = this.ipAddressEntry.getText();
         this._portNum = this.portNumEntry.getText();
-        this._username = this.usernameEntry.getText();
-        return tuple(this._ipAddress, this._portNum, this._username);
+        return tuple(this._username, this._ipAddress, this._portNum);
     }
 }

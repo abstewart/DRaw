@@ -1,4 +1,5 @@
 module view.components.PadEntry;
+
 // Imports.
 private import std.stdio; // writeln.
 

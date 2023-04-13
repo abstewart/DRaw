@@ -1,4 +1,5 @@
 module model.ApplicationState;
+
 // Imports.
 private import std.stdio; // writeln.
 private import std.string;
@@ -30,10 +31,10 @@ public:
         this.history = cmd ~ this.history;
     }
 
-
     //todo remove this test
     @("Test default")
-    unittest{
+    unittest
+    {
         assert(1 == 1);
     }
 

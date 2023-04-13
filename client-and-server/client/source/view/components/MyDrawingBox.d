@@ -1,4 +1,5 @@
 module view.components.MyDrawingBox;
+
 // Imports.
 private import std.stdio; // writeln.
 
