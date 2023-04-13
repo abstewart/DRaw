@@ -7,21 +7,22 @@ import std.socket;
 import std.stdio;
 import std.parallelism;
 import std.conv;
+import std.typecons;
+
+import model.packets.packet;
 
 ushort MAX_ALLOWED_CONNECTIONS = 1;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 51111;
 int MESSAGE_BUFFER_SIZE = 4096;
 
-Command parseCommand(char[] message, long size)
+Tuple!(string, int, Command) parseCommand(string message, long size)
 {
-    Command someCommand = decodePacketToCommand(message, size);
-    return someCommand;
+    return decodeUserDrawCommand(message, size);
 }
 
-void notifyAllExcept(Socket[int] clients, Command command, int ckey)
+void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
-    char[] message = command.encode();
     int[] curKeys = clients.keys();
     foreach (key; parallel(curKeys))
     {
@@ -34,6 +35,16 @@ void notifyAllExcept(Socket[int] clients, Command command, int ckey)
     }
 }
 
+void notifyAll(Socket[int] clients, string message)
+{
+    int[] curKeys = clients.keys();
+    foreach (key; parallel(curKeys))
+    {
+        Socket client = clients[key];
+        client.send(message);
+    }
+}
+
 class Server
 {
     private string ipAddress;
@@ -41,6 +52,7 @@ class Server
     private TcpSocket sock;
     private SocketSet sockSet;
     private Socket[int] connectedClients;
+    private string[int] users;
     private int countMessages;
     private bool isRunning;
     private long bufferSize;
@@ -75,6 +87,12 @@ class Server
                 Socket newSocket = this.sock.accept();
                 this.connectedClients[++this.clientCount] = newSocket;
                 writeln("> client", this.clientCount, " added to connectedClients list");
+                char[1024] buffer;
+                long recv = newSocket.receive(buffer);
+                Tuple!(string, int) userId = decodeUserConnPacket(to!string(buffer), recv);
+                writeln("> user ", userId[0], " successfully connected");
+                this.users[this.clientCount] = userId[0];
+                notifyAll(this.connectedClients, encodeUserConnPacket(userId[0], this.clientCount));
             }
             int[] curKeys = this.connectedClients.keys();
             foreach (key; parallel(curKeys))
@@ -87,8 +105,9 @@ class Server
                     if (recv > 0)
                     {
                         writeln("received", buffer[0 .. recv]);
-                        Command recvCommand = parseCommand(buffer, recv);
-                        notifyAllExcept(this.connectedClients, recvCommand, key);
+                        // auto toProp = parseCommand(to!string(buffer), recv);
+
+                        notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }
                     else if (recv == 0)
                     {
@@ -120,15 +139,6 @@ class Server
             this.sockSet.add(client);
         }
     }
-    //todo remove this
-    unittest{
-        assert(42 == 42);
-    }
-
-    //todo remove
-    unittest{
-        assert(51 == 51);
-    }
 
     void handleReception()
     {
@@ -137,10 +147,5 @@ class Server
             this.initializeSocketSet();
             this.pollForMessagesAndClients();
         }
-    }
-
-    //todo remove this later
-    unittest{
-        assert(5 == 5);
     }
 }

@@ -1,30 +1,32 @@
 module controller.DRawApp;
 
 // Imports.
-private import std.stdio;                                       // writeln.
+private import std.stdio; // writeln.
 
 private import gtkd.Loader;
 
 private import view.MyWindow;
 
-private import gio.Application : GioApplication = Application;  // GioApplication.
-
-private import gtk.Application;                                 // Application.
+private import gio.Application : GioApplication = Application; // GioApplication.
+private import gtk.Application; // Application.
 
 /// Class representing the main DRaw application.
-class DRawApp {
+class DRawApp
+{
     // Instance variable.
     string[] args;
 
     /// Constructor.
-    public:
-    this(string[] args) {
+public:
+    this(string[] args)
+    {
         writeln("DRawApp constructor");
         this.args = args;
     }
 
     /// Destructor.
-    ~this() {
+    ~this()
+    {
         writeln("DRawApp destructor. Ending application--good bye!");
 
         // ===================================================================================
@@ -33,10 +35,11 @@ class DRawApp {
     }
 
     /// Run the application.
-    public int runMainApplication() {
+    public int runMainApplication()
+    {
         Linker.dumpLoadLibraries();
         Linker.dumpFailedLoads();
-        auto application = new Application("demo.MyWindow", GApplicationFlags.FLAGS_NONE);
+        auto application = new Application("dRaw.project", GApplicationFlags.FLAGS_NONE);
         application.addOnActivate(delegate void(GioApplication app) {
             new MyWindow(application);
         });

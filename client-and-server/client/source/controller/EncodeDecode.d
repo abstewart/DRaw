@@ -15,7 +15,8 @@ import gdk.RGBA; // RGBA.
 
 int SKIP_VALUE = -1;
 
-char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int yPos) {
+char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int yPos)
+{
     char[] encoded = [];
     string cmdType = (commandType == SKIP_VALUE) ? "" : to!string(commandType);
     string brush = (brushSize == SKIP_VALUE) ? "" : to!string(brushSize);
@@ -63,22 +64,24 @@ char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int 
 //    assert("1,1,(1|1|1),1,\r" == encoded);
 //}
 
-Command decodePacketToCommand(char[] message, long size) {
+Command decodePacketToCommand(char[] message, long size)
+{
     char[][] fields = message[0 .. size].split(',');
     writeln(fields);
     // Color cmdColor = Color(to!string(fields[2]));
     RGBA cmdColor = new RGBA(255, 255, 255, 255);
-    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing());
+    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing(), 1);
 }
 
-Command decodePacketToCommandString(string message, long size) {
+Command decodePacketToCommandString(string message, long size)
+{
     char[] m;
     m ~= message;
     char[][] fields = m[0 .. size - 1].split(',');
     writeln(fields);
     // Color cmdColor = Color(to!string(fields[2]));
     RGBA cmdColor = new RGBA(255, 255, 255, 255);
-    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing());
+    return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing(), 1);
 }
 
 //unittest {
