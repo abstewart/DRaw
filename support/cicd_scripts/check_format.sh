@@ -30,7 +30,7 @@ done
 # Run the formatter on the copied files:
 dub fetch dfmt
 for val in $DFILES; do
-  dub run dfmt -- -i $D_COPY_PATH/$(basename $val)
+  dub run dfmt -y --verror -- -i $D_COPY_PATH/$(basename $val)
 done
 
 # Record if any of the files are different so we can fail later:
@@ -38,7 +38,7 @@ ANY_DIFFERENT=false
 for val in $DFILES; do
   COPIED_PATH=$D_COPY_PATH/$(basename $val)
   if ! cmp -s $val $COPIED_PATH; then
-    cmp $val $COPIED_PATH
+    cmp $val $COPIED_PATH --print-bytes
     ANY_DIFFERENT=true
   fi
 done
