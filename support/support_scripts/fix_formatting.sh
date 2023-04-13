@@ -11,6 +11,6 @@ DFILES=`find $SEARCH_FOLDER -name '*.d'`
 
 # Format each file:
 for val in $DFILES; do
-  dub run dfmt -- -i $val
+  dub run dfmt -y -- -i $val
 done
 
