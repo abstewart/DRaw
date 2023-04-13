@@ -22,6 +22,7 @@ private import gtk.Widget; // Widget.
 private import gtk.MenuBar; // MenuBar.
 private import gtk.Button; // Button.
 private import gtk.VBox; // VBox.
+private import gtk.HBox; // HBox.
 private import gtk.HButtonBox; // HButtonBox.
 private import gtk.Statusbar; // Statusbar.
 private import gtk.Menu; // Menu.
@@ -42,6 +43,7 @@ public:
     this(Application application)
     {
         super(application);
+        writeln("MyWindow constructor");
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         showAll();
@@ -78,6 +80,16 @@ public:
     // Method used to set up the window.
     private void setup()
     {
+        setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
+
+        version(Windows) {
+            setIconFromFile("images/icon.png");
+        }
+
+        version(linux) {
+            setIconFromFile("images/icon.png");
+        }
+
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -85,6 +97,7 @@ public:
         // Do not allow users to resize the application.
         setResizable(false);
 
+        // VBox is a container that organizes child widgets into a single column.
         VBox mainBox = new VBox(false, 0);
         mainBox.packStart(getMenuBar(), false, false, 0);
 
@@ -93,8 +106,10 @@ public:
         mainBox.packStart(appBox, false, false, 0);
 
         // Buttons.
-        Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard);
-        Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard);
+        Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard, true);
+        connectButton.setTooltipText("Connect");
+        Button disconnectButton = new Button(StockID.DISCONNECT, &disconnectWhiteboard, true);
+        disconnectButton.setTooltipText("Disconnect");
         ButtonBox bBox = HButtonBox.createActionBox();
         bBox.packEnd(connectButton, 0, 0, 10);
         bBox.packEnd(disconnectButton, 0, 0, 10);
@@ -104,12 +119,17 @@ public:
         Statusbar statusbar = new Statusbar();
         mainBox.packStart(statusbar, false, true, 0);
 
+        // Hbox is a container that organizes child widgets into a single row.
+        // Create an HBox so that the chat window is the right of the whiteboard.
+        HBox hbox = new HBox(false, 4);
+        hbox.packStart(mainBox, false, false, 2);
+
         // ChatBox.
         this.chatBox = new ChatBox(this, ""); // Initially the username is set to an empty string.
-        mainBox.packStart(this.chatBox, false, false, 0);
+        hbox.packStart(this.chatBox, false, false, 0);
 
-        // Add mainBox to Window.
-        add(mainBox);
+        // Add hbox to Window.
+        add(hbox);
     }
 
     // Method that creates a new ConnectDialog.

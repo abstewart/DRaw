@@ -8,6 +8,8 @@ private import view.components.MyColorChooserDialog;
 private import controller.commands.Command;
 private import view.components.BrushTypeComboBoxText;
 
+private import gdk.c.types; // GtkWindowPosition.
+
 private import gtk.VBox; // VBox.
 private import gtk.Button; // Button.
 private import gtk.Label; // Label.
@@ -30,16 +32,21 @@ public:
 
         this.drawingArea = new MyDrawing();
         BrushTypeComboBoxText brushTypes = new BrushTypeComboBoxText(this.drawingArea);
-        packStart(this.drawingArea, true, true, 0); // Adds child to box, packed with reference to the start of box.
+        packEnd(this.drawingArea, true, true, 0); // Adds child to box, packed with reference to the end of box.
 
-        Button colorButton = new Button("Color Dialog", &showColor);
-        Button undoButton = new Button(StockID.UNDO, &undoWhiteboard);
-        Button saveButton = new Button(StockID.SAVE, &saveWhiteboard);
+        // Buttons.
+        Button colorButton = new Button(StockID.SELECT_COLOR, &showColor, true);
+        colorButton.setTooltipText("Select Color");
+        Button undoButton = new Button(StockID.UNDO, &undoWhiteboard, true);
+        undoButton.setTooltipText("Undo");
+        Button saveButton = new Button(StockID.SAVE, &saveWhiteboard, true);
+        saveButton.setTooltipText("Save");
 
+        // Hbox is a container that organizes child widgets into a single row.
         HBox hbox = new HBox(false, 4);
-        hbox.packStart(new Label("Brush type"), false, false, 2);
+        hbox.packStart(new Label("Brush Type"), false, false, 2);
         hbox.packStart(brushTypes, false, false, 2);
-        hbox.packStart(new Label("Brush size"), false, false, 2);
+        hbox.packStart(new Label("Brush Size"), false, false, 2);
         hbox.packStart(this.drawingArea.getSpin(), false, false, 2);
         hbox.packStart(colorButton, false, false, 2);
         hbox.packStart(undoButton, false, false, 2);
