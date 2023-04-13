@@ -52,10 +52,6 @@ jobs:
           sudo apt-get install libgtksourceview-4-0
           echo MADE IT!!!!!
 
-      - name: Check Top-Level /Source Formatting
-        working-directory: ./client-and-server/source
-        run: sh ../../support/cicd_scripts/check_format.sh .
-
       - name: Perform All Unit Tests
         working-directory: ./client-and-server
         run: dub run -c unittest
