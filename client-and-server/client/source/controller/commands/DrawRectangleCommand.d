@@ -24,7 +24,7 @@ private:
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
+        super(myDrawing, currentColor, x - width / 2 - 2, y - width / 4 - 2, id);
         writeln("DrawRectangleCommand constructor");
         this.x = x;
         this.y = y;
@@ -51,7 +51,7 @@ public:
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
         //save old img
-        this.saveOldRect(this.width, height);
+        this.saveOldRect(this.width + 4, height + 4);
 
         this.context.rectangle(this.x - this.width / 2, this.y - this.width / 4, this.width, height);
         this.context.stroke();

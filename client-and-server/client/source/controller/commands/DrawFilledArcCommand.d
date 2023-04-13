@@ -50,7 +50,7 @@ public:
         //save old img
         this.saveOldRect(this.width, this.width);
 
-        this.context.arc(this.x - this.width / 4, this.y - this.width / 4, this.width / 2, 0, 2 * PI);
+        this.context.arc(this.x, this.y, this.width / 2, 0, 2 * PI);
         this.context.fill();
 
         // Redraw the Widget.
