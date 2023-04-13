@@ -25,7 +25,7 @@ public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
 
-        super(myDrawing, currentColor, x - width / 2, y - width / 2, id);
+        super(myDrawing, currentColor, x - width / 2 - 2, y - width / 2 - 2, id);
 
         writeln("DrawArcCommand constructor");
         this.x = x;
@@ -42,7 +42,6 @@ public:
     /// The execute method -- draw/paint.
     override public int execute()
     {
-        int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
         double rValue = this.currentColor.red();
@@ -52,9 +51,9 @@ public:
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
         //save the old img
-        this.saveOldRect(this.width, this.width);
+        this.saveOldRect(this.width + 4, this.width + 4);
 
-        this.context.arc(this.x - this.width / 4, this.y - this.width / 4, this.width / 2, 0, 2 * PI);
+        this.context.arc(this.x, this.y, this.width / 2, 0, 2 * PI);
         this.context.stroke();
 
         // Redraw the Widget.

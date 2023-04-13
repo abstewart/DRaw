@@ -24,7 +24,7 @@ private:
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x, y, id);
+        super(myDrawing, currentColor, x, y - 2, id);
 
         writeln("DrawLineCommand constructor");
         this.x = x;
@@ -52,7 +52,7 @@ public:
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
         //save old img
-        this.saveOldRect(this.width, 2);
+        this.saveOldRect(this.width, 3);
 
         this.context.moveTo(this.x, this.y);
         this.context.lineTo(this.x + this.width, this.y);
