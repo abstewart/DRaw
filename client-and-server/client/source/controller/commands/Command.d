@@ -30,7 +30,7 @@ public:
     {
         this.currentColor = color;
         this.myDrawing = myDrawing;
-        this.surface = myDrawing.getImageSurface();
+        this.surface = this.myDrawing.getImageSurface();
         this.context = Context.create(this.surface);
         //set the uppser left x & y
         this.ulX = ulx;
