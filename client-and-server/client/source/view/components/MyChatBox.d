@@ -103,7 +103,7 @@ public:
         if (!this.isConnected)
         {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-                    MessageType.WARNING, ButtonsType.OK, "You not connected, so you cannot chat.");
+                    MessageType.WARNING, ButtonsType.OK, "You are not connected, so you cannot chat.");
             // Sets a position constraint for this window.
             // CENTER_ALWAYS = Keep window centered as it changes size, etc.
             notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
