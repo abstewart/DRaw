@@ -48,6 +48,7 @@ jobs:
           dub --version
           dmd --version
           pwd
+          sudo apt-get install libgtkd-3-dev -y
 
       - name: Check Top-Level /Source Formatting
         working-directory: ./client-and-server/source
