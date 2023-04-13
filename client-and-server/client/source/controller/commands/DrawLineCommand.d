@@ -13,6 +13,8 @@ private import gdk.RGBA; // RGBA.
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int LINE_TYPE = 3;
+
 /// Class representing the draw command with a line brush type.
 class DrawLineCommand : Command
 {
@@ -77,8 +79,7 @@ public:
         return 0;
     }
 
-    public char[] encode()
-    {
-        return ['c', 'h', 'a'];
+    public int getCmdType() {
+        return LINE_TYPE;
     }
 }

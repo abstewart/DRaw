@@ -13,6 +13,8 @@ private import gdk.RGBA; // RGBA.
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int FILLED_ARC_TYPE = 1;
+
 /// Class representing the draw command with a filled arc brush type.
 class DrawFilledArcCommand : Command
 {
@@ -31,7 +33,6 @@ private:
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
     {
-        writeln("DrawFilledArcCommand constructor");
         this.x = x;
         this.y = y;
         this.currentColor = currentColor;
@@ -44,7 +45,6 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("DrawFilledArcCommand destructor");
     }
 
     /// The execute method -- draw/paint.
@@ -76,8 +76,7 @@ public:
         return 0;
     }
 
-    public char[] encode()
-    {
-        return ['c', 'h', 'a'];
+    public int getCmdType() {
+        return FILLED_ARC_TYPE;
     }
 }

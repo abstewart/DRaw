@@ -19,7 +19,6 @@ public:
     this(MyWindow myWindow, string username)
     {
         super(Orientation.VERTICAL, 10);
-        writeln("ChatBox constructor");
         this.myChatBox = new MyChatBox(myWindow, username);
         packStart(this.myChatBox, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
@@ -27,7 +26,6 @@ public:
     /// Descructor.
     ~this()
     {
-        writeln("ChatBox destructor");
     }
 
     /// Getter method -- gets myChatBox.

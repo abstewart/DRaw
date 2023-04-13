@@ -1,21 +1,23 @@
 module controller.commands.DrawArcCommand;
-private import std.stdio; // writeln.
-private import std.math; // PI.
+private import std.stdio : writeln; 
+private import std.math : PI;
 
 private import controller.commands.Command;
 private import view.components.MyDrawing;
 
-private import cairo.Context; // Context.
-private import cairo.ImageSurface; // ImageSurface.
+private import cairo.Context;
+private import cairo.ImageSurface; 
 
-private import gdk.RGBA; // RGBA.
+private import gdk.RGBA; 
 
-private import gtk.SpinButton; // SpinButton.
+private import gtk.SpinButton; 
 
-/// Class representing the draw command with an arc brush type.
+immutable int ARC_TYPE = 0;
+
+/// Implements functionality for drawing and undoing an 'Arc' on a Cairo Canvas
 class DrawArcCommand : Command
 {
-    // Instance variables.
+
 private:
     CairoOperator operator = CairoOperator.OVER;
     int x;
@@ -30,7 +32,6 @@ private:
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing)
     {
-        writeln("DrawArcCommand constructor");
         this.x = x;
         this.y = y;
         this.currentColor = currentColor;
@@ -43,7 +44,7 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("DrawArcCommand destructor");
+
     }
 
     /// The execute method -- draw/paint.
@@ -75,8 +76,7 @@ public:
         return 0;
     }
 
-    public char[] encode()
-    {
-        return ['c', 'h', 'a'];
+    public int getCmdType() {
+        return ARC_TYPE;
     }
 }

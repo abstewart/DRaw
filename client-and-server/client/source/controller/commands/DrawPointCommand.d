@@ -14,6 +14,8 @@ private import gdk.RGBA; // RGBA.
 
 private import gtk.SpinButton; // SpinButton.
 
+immutable int POINT_TYPE = 4;
+
 /// Class representing the draw command with a point brush type.
 class DrawPointCommand : Command
 {
@@ -77,8 +79,7 @@ public:
         return 0;
     }
 
-    public char[] encode()
-    {
-        return ['c', 'h', 'a'];
+    public int getCmdType() {
+        return POINT_TYPE;
     }
 }

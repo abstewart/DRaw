@@ -5,7 +5,6 @@ import std.stdio;
 import std.format;
 import std.array;
 
-import controller.commands.CommandEnum;
 import controller.commands.Command;
 import view.components.MyDrawing;
 import controller.commands.DrawPointCommand : DrawPointCommand;

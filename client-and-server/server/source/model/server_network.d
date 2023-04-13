@@ -7,7 +7,9 @@ import std.socket;
 import std.stdio;
 import std.parallelism;
 import std.conv;
+import std.typecons;
 
+import model.packets.packet;
 ushort MAX_ALLOWED_CONNECTIONS = 1;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 51111;
@@ -34,6 +36,14 @@ void notifyAllExcept(Socket[int] clients, Command command, int ckey)
     }
 }
 
+void notifyAll(Socket[int] clients, string message) {
+    int[] curKeys = clients.keys();
+    foreach (key; parallel(curKeys)) {
+        Socket client = clients[key];
+        client.send(message);
+    }
+}
+
 class Server
 {
     private string ipAddress;
@@ -41,15 +51,17 @@ class Server
     private TcpSocket sock;
     private SocketSet sockSet;
     private Socket[int] connectedClients;
+    private string[int] users;
     private int countMessages;
     private bool isRunning;
     private long bufferSize;
     private static int clientCount;
     private Command[] commandStack = [];
 
-    this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
-            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
-            long bufferSize = MESSAGE_BUFFER_SIZE)
+    this(string ipAddress = DEFAULT_SOCKET_IP, 
+         ushort portNumber = DEFAULT_PORT_NUMBER,
+         ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+         long bufferSize = MESSAGE_BUFFER_SIZE)
     {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
@@ -75,6 +87,12 @@ class Server
                 Socket newSocket = this.sock.accept();
                 this.connectedClients[++this.clientCount] = newSocket;
                 writeln("> client", this.clientCount, " added to connectedClients list");
+                char[1024] buffer;
+                long recv = newSocket.receive(buffer);
+                Tuple!(string, int) userId = decodeUserConnPacket(to!string(buffer), recv);
+                writeln("> user ", userId[0], " successfully connected");
+                this.users[this.clientCount] = userId[0];
+                notifyAll(this.connectedClients, encodeUserConnPacket(userId[0], this.clientCount));
             }
             int[] curKeys = this.connectedClients.keys();
             foreach (key; parallel(curKeys))
@@ -120,15 +138,6 @@ class Server
             this.sockSet.add(client);
         }
     }
-    //todo remove this
-    unittest{
-        assert(42 == 42);
-    }
-
-    //todo remove
-    unittest{
-        assert(51 == 51);
-    }
 
     void handleReception()
     {
@@ -137,10 +146,5 @@ class Server
             this.initializeSocketSet();
             this.pollForMessagesAndClients();
         }
-    }
-
-    //todo remove this later
-    unittest{
-        assert(5 == 5);
     }
 }

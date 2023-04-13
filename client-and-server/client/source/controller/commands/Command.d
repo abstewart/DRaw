@@ -8,5 +8,5 @@ interface Command
     /// Function for undoing an Execute command.
     public int undo();
 
-    char[] encode();
+    public int getCmdType();
 }

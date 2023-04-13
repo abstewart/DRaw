@@ -18,7 +18,6 @@ private:
 public:
     this(Box contentArea)
     {
-        writeln("AreaContent constructor");
         this._contentArea = contentArea;
         this._connectGrid = new ConnectGrid();
         this._contentArea.add(this._connectGrid);
@@ -28,7 +27,6 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("AreaContent destructor");
     }
 
     /// Getter method -- gets the ConnectGrid of this AreaContent.

@@ -1,8 +1,8 @@
-import std.stdio;
-import model.server_network;
+// Imports.
+private import std.stdio; // writeln.
 
-/// Main function. Entry point for the program.
+/// Main method -- run the application. Entry point for the program.
 void main(string[] args)
 {
-    writeln("Awaiting client connections");
+    writeln("Starting the DRaw server.");
 }
