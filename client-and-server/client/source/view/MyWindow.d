@@ -82,11 +82,13 @@ public:
     {
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
 
-        version(Windows) {
+        version (Windows)
+        {
             setIconFromFile("images/icon.png");
         }
 
-        version(linux) {
+        version (linux)
+        {
             setIconFromFile("images/icon.png");
         }
 

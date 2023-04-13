@@ -50,7 +50,7 @@ public:
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
-        sw1.setMinContentHeight(400);                       // Set the height of the chat feature.
+        sw1.setMinContentHeight(400); // Set the height of the chat feature.
         sw1.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);
@@ -64,7 +64,7 @@ public:
 
         // The scroll window for typing a message.
         ScrolledWindow sw2 = new ScrolledWindow(null, null);
-        sw2.setMinContentHeight(10);                        // Set the height of the message input area.
+        sw2.setMinContentHeight(10); // Set the height of the message input area.
         sw2.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         TextView textView2 = new TextView();
         textView2.setEditable(true);
@@ -103,7 +103,8 @@ public:
         if (!this.isConnected)
         {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-                    MessageType.WARNING, ButtonsType.OK, "You are not connected, so you cannot chat.");
+                    MessageType.WARNING, ButtonsType.OK,
+                    "You are not connected, so you cannot chat.");
             // Sets a position constraint for this window.
             // CENTER_ALWAYS = Keep window centered as it changes size, etc.
             notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
