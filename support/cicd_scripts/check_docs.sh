@@ -11,14 +11,16 @@ DOC_COPY_PATH=$SEARCH_FOLDER/$DOC_COPY_DIR
 
 mv $ORIGINAL_DOC_PATH $DOC_COPY_PATH
 
-dub --build=docs
+dub build --build=docs
 
+echo OG $ORIGINAL_DOC_PATH
 DOC_FILES=`find $ORIGINAL_DOC_PATH -name '*.html'`
 
 # Record if any of the files are different so we can fail later:
 ANY_DIFFERENT=false
 for val in $DOC_FILES; do
-  COPY_PATH=$DOC_COPY_PATH/$(basename $val)
+  CHILD_PATH=${val#${ORIGINAL_DOC_PATH}}
+  COPY_PATH=$DOC_COPY_PATH/$CHILD_PATH
   if ! cmp -s $val $COPY_PATH; then
     cmp $val $COPY_PATH
     ANY_DIFFERENT=true
