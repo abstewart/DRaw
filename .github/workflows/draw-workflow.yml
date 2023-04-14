@@ -23,7 +23,7 @@ jobs:
     name: Dub Tests
     strategy:
       matrix:
-        os: [windows-latest] # [ubuntu-20.04, windows-latest, macOS-latest]
+        os: [ubuntu-20.04] # [ubuntu-20.04, windows-latest, macOS-latest]
         dc: [dmd-latest]
         exclude:
           - { os: macOS-latest, dc: dmd-2.085.0 }
