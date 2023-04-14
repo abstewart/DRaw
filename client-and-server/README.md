@@ -44,7 +44,10 @@ and not in the `docs` folder.
 #### Harbored-mod generation ####
 From the `client-and-server` directory, run (you may need to accept the option to download harbored-mod): `dub run harbored-mod -- $(find ./client/source ./server/source -iname '*.d')`  
 
-View the resulting documentation HTML in the `doc` directory. This will build interactive HTML documentation (start from the `index.html` file), for just the 
+View the resulting documentation HTML in the `doc` directory. This will build an interactive HTML documentation (start from the `index.html` file), for just the 
 source files located in the `client/source` and `server/source` directories.
 
-Alternatively, you can also run `dub run adrdox -- -i ./client-and-server` from the `DRaw` directory to build an interactive HTML documentation. View the resulting documentation HTML in the `generated-docs` directory.
+#### Harbored-mod generation ####
+From the `DRaw` directory, run `dub run adrdox -- -i ./client-and-server`
+
+View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.
