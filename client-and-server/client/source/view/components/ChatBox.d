@@ -10,11 +10,11 @@ private import gtk.Box; // Box.
 class ChatBox : Box
 {
     // Instance variable.
-    private:
+private:
     MyChatBox myChatBox;
 
     /// Constructor.
-    public:
+public:
     this(MyWindow myWindow, string username)
     {
         super(Orientation.VERTICAL, 10);

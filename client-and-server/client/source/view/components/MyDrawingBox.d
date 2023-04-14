@@ -17,12 +17,12 @@ private import gtk.HBox; // HBox.
 class MyDrawingBox : VBox
 {
     // Instance variables.
-    private:
+private:
     MyDrawing drawingArea;
     MyColorChooserDialog d;
 
     /// Constructor.
-    public:
+public:
     this()
     {
         super(false, 4); // this(bool homogeneous, int spacing).

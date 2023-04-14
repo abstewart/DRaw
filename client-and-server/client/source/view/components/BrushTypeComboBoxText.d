@@ -9,14 +9,14 @@ private import gtk.ComboBoxText; // CombBoxText.
 class BrushTypeComboBoxText : ComboBoxText
 {
     // Instance variables.
-    private:
+private:
     string[] brushTypes = [
         "Filled Arc", "Arc", "Line", "Point", "Rectangle", "Filled Rectangle"
     ];
     bool entryOn = false;
 
     /// Constructor.
-    public:
+public:
     this(MyDrawing drawingArea)
     {
         super(entryOn);

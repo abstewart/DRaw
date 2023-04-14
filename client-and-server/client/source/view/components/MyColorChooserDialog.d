@@ -13,14 +13,14 @@ private import gtk.Dialog; // Dialog.
 class MyColorChooserDialog : ColorChooserDialog
 {
     // Instance variables.
-    private:
+private:
     string title = "Color Selection";
     DialogFlags flags = GtkDialogFlags.MODAL;
     RGBA selectedColor;
     MyDrawing drawingArea;
 
     /// Constructor.
-    public:
+public:
     this(MyDrawing drawingArea)
     {
         super(title, null);

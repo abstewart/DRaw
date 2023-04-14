@@ -25,7 +25,7 @@ private import gtk.Dialog; // Dialog.
 class MyChatBox : VBox
 {
     // Instance variables.
-    private:
+private:
     TextView textView1;
     TextBuffer chatBuffer;
     TextBuffer messageBuffer;
@@ -35,7 +35,7 @@ class MyChatBox : VBox
     string username;
 
     /// Constructor.
-    public:
+public:
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
@@ -100,8 +100,8 @@ class MyChatBox : VBox
         if (!this.isConnected)
         {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-            MessageType.WARNING, ButtonsType.OK,
-            "You are not connected, so you cannot chat.");
+                    MessageType.WARNING, ButtonsType.OK,
+                    "You are not connected, so you cannot chat.");
             // Sets a position constraint for this window.
             // CENTER_ALWAYS = Keep window centered as it changes size, etc.
             notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -110,7 +110,7 @@ class MyChatBox : VBox
 
             // Clear the text buffer -- even if it is already empty.
             this.messageBuffer.setText("");
-            return ;
+            return;
         }
 
         this.message = this.messageBuffer.getText();
@@ -118,7 +118,7 @@ class MyChatBox : VBox
         // If the bugger is "empty" do not send an empty message.
         if (this.message.equal(""))
         {
-            return ;
+            return;
         }
 
         SysTime currentTime = Clock.currTime();
@@ -138,7 +138,7 @@ class MyChatBox : VBox
             minutes = "0" ~ minutes;
         }
         string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
-        ~ ":\n\t" ~ this.message ~ "\n\n";
+            ~ ":\n\t" ~ this.message ~ "\n\n";
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
 
         // ===================================================================================

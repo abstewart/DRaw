@@ -9,11 +9,11 @@ private import gtk.Box; // Box.
 class AppBox : Box
 {
     // Instance variable.
-    private:
+private:
     MyDrawingBox myDrawingBox;
 
     /// Constructor.
-    public:
+public:
     this()
     {
         super(Orientation.VERTICAL, 10);

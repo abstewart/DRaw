@@ -10,12 +10,12 @@ private import gtk.Entry; // Entry.
 class PadEntry : HPadBox
 {
     // Instance variables.
-    private:
+private:
     Entry _entry;
     string _placeholderText;
 
     /// Constructor.
-    public:
+public:
     this(BoxJustify pJustify, string placeholderText = null)
     {
         if (placeholderText !is null)

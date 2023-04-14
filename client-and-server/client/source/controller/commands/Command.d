@@ -18,7 +18,7 @@ protected import std.stdio;
 /// Represents a set of common characteristics for a drawing command.
 abstract class Command
 {
-    protected:
+protected:
     static immutable CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
     Context context;
@@ -30,7 +30,7 @@ abstract class Command
     int id;
 
     /// Constructor.
-    public:
+public:
     this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
     {
         this.currentColor = color;
@@ -82,7 +82,7 @@ abstract class Command
     final string getColorString()
     {
         return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green,
-        this.currentColor.blue, this.currentColor.alpha);
+                this.currentColor.blue, this.currentColor.alpha);
     }
 
     /// Encode the command.

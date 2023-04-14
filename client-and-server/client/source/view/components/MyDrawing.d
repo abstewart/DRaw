@@ -35,7 +35,7 @@ private import gtk.Adjustment; // Adjustment.
 class MyDrawing : DrawingArea
 {
     // Instance variables.
-    private:
+private:
     CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
     RGBA currentColor;
@@ -55,7 +55,7 @@ class MyDrawing : DrawingArea
     ApplicationState applicationState = new ApplicationState();
 
     /// Constructor.
-    public:
+public:
     this()
     {
         // Set the size of the whiteboard.
@@ -89,7 +89,7 @@ class MyDrawing : DrawingArea
         getAllocation(this.size); // Grab the widget's size as allocated by its parent.
         // Transfer image data from a cairo_surface and convert it to an RGB(A) representation inside a gdk.Pixbuf.
         this.pixbuf = getFromSurface(context.getTarget(), this.xOffset,
-        this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
+                this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
     }
 
     /// Getter method -- gets the spin button.
@@ -176,7 +176,7 @@ class MyDrawing : DrawingArea
             this.applicationState.addToHistory(newCommand);
             // send to server if applicable
             string packet = encodeUserDrawCommand(Communicator.getUsername(),
-            Communicator.getClientId(), newCommand);
+                    Communicator.getClientId(), newCommand);
             Communicator.queueMessageSend(packet);
         }
         return false;
@@ -218,7 +218,7 @@ class MyDrawing : DrawingArea
             this.applicationState.addToHistory(newCommand);
             // send the command to the server
             string packetToSend = encodeUserDrawCommand(Communicator.getUsername(),
-            Communicator.getClientId(), newCommand);
+                    Communicator.getClientId(), newCommand);
             Communicator.queueMessageSend(packetToSend);
         }
         return true;
@@ -235,7 +235,7 @@ class MyDrawing : DrawingArea
             float ww = width * this.scaledPixbuf.getWidth() / 30;
             float hh = width * this.scaledPixbuf.getHeight() / 30;
             this.scaledPixbuf = scaledPixbuf.scaleSimple(cast(int) ww,
-            cast(int) hh, GdkInterpType.HYPER);
+                    cast(int) hh, GdkInterpType.HYPER);
         }
     }
 
@@ -244,27 +244,27 @@ class MyDrawing : DrawingArea
     {
         switch (this.brushType)
         {
-            case "Arc":
+        case "Arc":
             return new DrawArcCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
-            case "Filled Arc":
+                    this.spin.getValueAsInt(), this, id);
+        case "Filled Arc":
             return new DrawFilledArcCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
-            case "Line":
+                    this.spin.getValueAsInt(), this, id);
+        case "Line":
             return new DrawLineCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
-            case "Point":
+                    this.spin.getValueAsInt(), this, id);
+        case "Point":
             return new DrawPointCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
-            case "Rectangle":
+                    this.spin.getValueAsInt(), this, id);
+        case "Rectangle":
             return new DrawRectangleCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
-            case "Filled Rectangle":
+                    this.spin.getValueAsInt(), this, id);
+        case "Filled Rectangle":
             return new DrawFilledRectangleCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
-            default:
+                    this.spin.getValueAsInt(), this, id);
+        default:
             return new DrawFilledArcCommand(x, y, this.currentColor,
-            this.spin.getValueAsInt(), this, id);
+                    this.spin.getValueAsInt(), this, id);
         }
     }
 

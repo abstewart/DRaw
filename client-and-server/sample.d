@@ -16,9 +16,7 @@ void handleNetworking(Tid parent)
             {
                 network.sendToServer(commandToSend.encode());
             }
-        }, (OwnerTerminated) {
-            active = false;
-        });
+        }, (OwnerTerminated) { active = false; });
         // Receives data from our server, note our server is non-blocking.
         writeln("checking for data from server");
         Command remoteCommand = network.receiveFromServer();

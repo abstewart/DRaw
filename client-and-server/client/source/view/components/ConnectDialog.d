@@ -25,7 +25,7 @@ private import model.Communicator;
 class ConnectDialog : Dialog
 {
     // Instance variables.
-    private:
+private:
     GtkDialogFlags flags = GtkDialogFlags.MODAL;
     MessageType messageType = MessageType.INFO;
     string[] buttonLabels = ["OK", "Cancel"];
@@ -40,7 +40,7 @@ class ConnectDialog : Dialog
     string username;
 
     /// Constructor.
-    public:
+public:
     this(MyWindow myWindow)
     {
         super(titleText, null, this.flags, this.buttonLabels, this.responseTypes);
@@ -79,7 +79,7 @@ class ConnectDialog : Dialog
         Communicator.getCommunicator(port, ipAddr, username);
         this.myWindow.setConnection(true);
         MessageDialog message = new MessageDialog(this, GtkDialogFlags.MODAL,
-        MessageType.INFO, ButtonsType.OK, "You are now connceted!");
+                MessageType.INFO, ButtonsType.OK, "You are now connceted!");
         message.run();
         message.destroy();
     }
@@ -89,17 +89,17 @@ class ConnectDialog : Dialog
     {
         switch (response)
         {
-            case ResponseType.OK:
+        case ResponseType.OK:
             string ipAddr = this.areaContent.getConnectGrid.getData()[1];
             string uname = this.areaContent.getConnectGrid.getData()[0];
             string port = this.areaContent.getConnectGrid.getData()[2];
             if (this.isConnected)
             {
                 MessageDialog alreadyConnectedMsg = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
-                .OK, "You are already connected. If you would like to connect to a different IP adddress and/or port, please disconnect first.");
+                        .OK, "You are already connected. If you would like to connect to a different IP adddress and/or port, please disconnect first.");
                 alreadyConnectedMsg.run();
                 alreadyConnectedMsg.destroy();
-                return ;
+                return;
             }
             if (isValidUsername(uname) && isValidPort(port) && isValidIPAddress(ipAddr))
             {
@@ -109,15 +109,15 @@ class ConnectDialog : Dialog
             else
             {
                 MessageDialog messageWarning = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
-                .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
+                        .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
                 messageWarning.run();
                 messageWarning.destroy();
             }
-            break ;
-            case ResponseType.CANCEL:
-            break ;
-            default:
-            break ;
+            break;
+        case ResponseType.CANCEL:
+            break;
+        default:
+            break;
         }
     }
 
@@ -141,7 +141,7 @@ class ConnectDialog : Dialog
     {
         // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
         auto r4 = regex(
-            r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+                r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
         return ipAddress.equal("localhost") || matchFirst(ipAddress, r4);
     }
 

@@ -10,11 +10,11 @@ private import gtk.Label; // Label.
 class PadLabel : HPadBox
 {
     // Instance variable.
-    private:
+private:
     Label label;
 
     /// Constructor.
-    public:
+public:
     this(BoxJustify pJustify, string text = null)
     {
         this.label = new Label(text);

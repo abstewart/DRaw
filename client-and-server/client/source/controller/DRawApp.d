@@ -15,7 +15,7 @@ class DRawApp
     string[] args;
 
     /// Constructor.
-    public:
+public:
     this(string[] args)
     {
         this.args = args;

@@ -13,13 +13,13 @@ immutable int FILLED_ARC_TYPE = 1;
 class DrawFilledArcCommand : Command
 {
     // Instance variables.
-    private:
+private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-    public:
+public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x - width / 2, y - width / 2, id);
@@ -66,6 +66,6 @@ class DrawFilledArcCommand : Command
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-        this.width, this.x, this.y, this.getColorString());
+                this.width, this.x, this.y, this.getColorString());
     }
 }

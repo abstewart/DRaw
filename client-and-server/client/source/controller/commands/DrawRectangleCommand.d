@@ -13,13 +13,13 @@ immutable int RECT_TYPE = 5;
 class DrawRectangleCommand : Command
 {
     // Instance variables.
-    private:
+private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-    public:
+public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x - width / 2 - 2, y - width / 4 - 2, id);
@@ -67,6 +67,6 @@ class DrawRectangleCommand : Command
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-        this.width, this.x, this.y, this.getColorString());
+                this.width, this.x, this.y, this.getColorString());
     }
 }

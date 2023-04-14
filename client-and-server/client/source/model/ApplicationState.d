@@ -9,11 +9,11 @@ private import controller.commands.Command;
 class ApplicationState
 {
     // Instance variable.
-    private:
+private:
     Command[] history;
 
     /// Constructor.
-    public:
+public:
     this()
     {
     }

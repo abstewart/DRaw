@@ -16,13 +16,13 @@ int MESSAGE_BUFFER_SIZE = 1024;
 
 class Client
 {
-    private:
+private:
     string ipAddress;
     ushort portNumber;
     TcpSocket sock;
     bool socketOpen;
 
-    public:
+public:
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER)
     {
         this.ipAddress = ipAddress;
@@ -56,22 +56,22 @@ class Client
                 this.socketOpen = false;
             }
             else if (recv == Socket.ERROR)
+            {
+                if (wouldHaveBlocked())
                 {
-                    if (wouldHaveBlocked())
-                    {
-                        writeln("Socket would have blocked");
-                    }
-                    else
-                    {
-                        writeln("Socket lerror");
-                        this.sock.close();
-                        this.socketOpen = false;
-                    }
+                    writeln("Socket would have blocked");
                 }
                 else
                 {
-                    writeln("Unknown received value.");
+                    writeln("Socket lerror");
+                    this.sock.close();
+                    this.socketOpen = false;
                 }
+            }
+            else
+            {
+                writeln("Unknown received value.");
+            }
         }
         return Tuple!(char[1024], long)(message, recv);
     }

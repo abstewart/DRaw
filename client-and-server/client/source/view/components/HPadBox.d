@@ -10,7 +10,7 @@ private import gtk.Widget; // Widget.
 class HPadBox : Box
 {
     // Instance variables.
-    private:
+private:
     Widget _widget;
     int globalPadding = 0;
     int padding = 0;
@@ -20,7 +20,7 @@ class HPadBox : Box
     BoxJustify _pJustify;
 
     /// Constructor.
-    public:
+public:
     this(Widget widget, BoxJustify pJustify)
     {
         this._widget = widget;

@@ -10,7 +10,7 @@ private import gtk.AboutDialog; // AboutDialog.
 class DRawAbout : AboutDialog
 {
     /// Constructor.
-    public:
+public:
     this()
     {
         string itemLabel = "About";
