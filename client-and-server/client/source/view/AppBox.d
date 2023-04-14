@@ -1,8 +1,6 @@
 module view.AppBox;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.MyDrawingBox; // MyDrawingBox.
 
 private import gtk.Box; // Box.
@@ -11,11 +9,11 @@ private import gtk.Box; // Box.
 class AppBox : Box
 {
     // Instance variable.
-private:
+    private:
     MyDrawingBox myDrawingBox;
 
     /// Constructor.
-public:
+    public:
     this()
     {
         super(Orientation.VERTICAL, 10);
@@ -26,6 +24,5 @@ public:
     /// Descructor.
     ~this()
     {
-        writeln("AppBox destructor");
     }
 }

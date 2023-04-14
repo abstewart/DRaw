@@ -8,8 +8,8 @@ void main(string[] args)
 {
     bool disable_main_loop = false;
     auto helpInformation = getopt(args, "disable_main_loop",
-            "Set to true to prevent blocking via main loop. Defaults to false.",
-            &disable_main_loop);
+    "Set to true to prevent blocking via main loop. Defaults to false.",
+    &disable_main_loop);
 
     if (helpInformation.helpWanted)
     {

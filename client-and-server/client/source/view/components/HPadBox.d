@@ -1,8 +1,6 @@
 module view.components.HPadBox;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import controller.BoxJustify;
 
 private import gtk.Box; // Box.
@@ -12,7 +10,7 @@ private import gtk.Widget; // Widget.
 class HPadBox : Box
 {
     // Instance variables.
-private:
+    private:
     Widget _widget;
     int globalPadding = 0;
     int padding = 0;
@@ -22,10 +20,9 @@ private:
     BoxJustify _pJustify;
 
     /// Constructor.
-public:
+    public:
     this(Widget widget, BoxJustify pJustify)
     {
-        writeln("HPadBox constructor");
         this._widget = widget;
         this._pJustify = pJustify;
         super(Orientation.HORIZONTAL, this.globalPadding);
@@ -49,6 +46,5 @@ public:
     /// Deconstructor.
     ~this()
     {
-        writeln("HPadBox destructor");
     }
 }

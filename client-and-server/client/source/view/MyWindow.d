@@ -1,8 +1,8 @@
 module view.MyWindow;
 
 // Imports.
-private import std.stdio; // writeln.
-import std.algorithm.comparison : equal; // equal.
+private import stdlib = core.stdc.stdlib : exit; // exit.
+private import std.algorithm.comparison : equal; // equal.
 
 private import view.components.DisconnectDialog;
 private import view.components.ConnectDialog;
@@ -10,6 +10,7 @@ private import view.AppBox;
 private import controller.DRawAbout;
 private import view.components.ChatBox;
 private import view.components.MyChatBox;
+private import model.Communicator;
 
 private import gdk.c.types; // GtkWindowPosition.
 
@@ -43,9 +44,9 @@ public:
     this(Application application)
     {
         super(application);
-        writeln("MyWindow constructor");
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
+        addOnDestroy(&quitApp);
         showAll();
         string versionCompare = Version.checkVersion(3, 0, 0);
         if (versionCompare.length > 0)
@@ -182,5 +183,12 @@ public:
         menu.append(new MenuItem(&onMenuActivate, "_About", "help.about", true,
                 accelGroup, 'a', GdkModifierType.CONTROL_MASK | GdkModifierType.SHIFT_MASK));
         return menuBar;
+    }
+
+    void quitApp(Widget widget)
+    {
+        // Disconnect from server, if connected.
+        Communicator.disconnect();
+        stdlib.exit(0);
     }
 }

@@ -1,13 +1,13 @@
 module view.components.MyChatBox;
 
 // Imports.
-private import std.stdio; // writeln.
 private import stdlib = core.stdc.stdlib : exit; // exit.
 private import std.algorithm; // equal.
 private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
 private import std.conv; // to.
 
 private import view.MyWindow;
+private import model.Communicator;
 
 private import gdk.c.types; // GtkWindowPosition.
 
@@ -25,7 +25,7 @@ private import gtk.Dialog; // Dialog.
 class MyChatBox : VBox
 {
     // Instance variables.
-private:
+    private:
     TextView textView1;
     TextBuffer chatBuffer;
     TextBuffer messageBuffer;
@@ -35,11 +35,10 @@ private:
     string username;
 
     /// Constructor.
-public:
+    public:
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
-        writeln("MyChatBox constructor");
         // Store instance variables.
         this.myWindow = myWindow;
         this.username = username;
@@ -86,14 +85,12 @@ public:
     /// Deconstructor.
     ~this()
     {
-        writeln("MyChatBox destructor");
     }
 
     /// Setter method -- sets the username to be a new username.
     public void setUsername(string newUsername)
     {
         this.username = newUsername;
-        writeln("In setUsername. this.username = ", this.username);
     }
 
     // Send the message to the chat.
@@ -103,8 +100,8 @@ public:
         if (!this.isConnected)
         {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-                    MessageType.WARNING, ButtonsType.OK,
-                    "You are not connected, so you cannot chat.");
+            MessageType.WARNING, ButtonsType.OK,
+            "You are not connected, so you cannot chat.");
             // Sets a position constraint for this window.
             // CENTER_ALWAYS = Keep window centered as it changes size, etc.
             notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -113,8 +110,7 @@ public:
 
             // Clear the text buffer -- even if it is already empty.
             this.messageBuffer.setText("");
-
-            return;
+            return ;
         }
 
         this.message = this.messageBuffer.getText();
@@ -122,11 +118,8 @@ public:
         // If the bugger is "empty" do not send an empty message.
         if (this.message.equal(""))
         {
-            writeln("No message to send");
-            return;
+            return ;
         }
-
-        writeln("Sent this message: ", this.message);
 
         SysTime currentTime = Clock.currTime();
         string amPm = "AM";
@@ -145,7 +138,7 @@ public:
             minutes = "0" ~ minutes;
         }
         string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
-            ~ ":\n\t" ~ this.message ~ "\n\n";
+        ~ ":\n\t" ~ this.message ~ "\n\n";
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
 
         // ===================================================================================
@@ -164,12 +157,8 @@ public:
     // What happens when the user exits the window.
     private void quitApplication(Button button)
     {
-        writeln("Exit program");
-
-        // ===================================================================================
-        // TODO: Disconnect from server, if connected.
-        // ===================================================================================
-
+        // Disconnect from server, if connected.
+        Communicator.disconnect();
         stdlib.exit(0);
     }
 }

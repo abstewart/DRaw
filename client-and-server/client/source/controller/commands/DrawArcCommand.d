@@ -1,7 +1,6 @@
 module controller.commands.DrawArcCommand;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.math; // PI.
 
 private import controller.commands.Command;
@@ -13,21 +12,17 @@ immutable int ARC_TYPE = 0;
 /// Implements functionality for drawing and undoing an 'Arc' on a Cairo Canvas
 class DrawArcCommand : Command
 {
-
-private:
+    // Instance variables.
+    private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-
-public:
+    public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-
         super(myDrawing, currentColor, x - width / 2 - 2, y - width / 2 - 2, id);
-
-        writeln("DrawArcCommand constructor");
         this.x = x;
         this.y = y;
         this.width = width;
@@ -36,7 +31,6 @@ public:
     /// Destructor.
     ~this()
     {
-
     }
 
     /// The execute method -- draw/paint.
@@ -50,7 +44,7 @@ public:
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        //save the old img
+        // Save the old image.
         this.saveOldRect(this.width + 4, this.width + 4);
 
         this.context.arc(this.x, this.y, this.width / 2, 0, 2 * PI);
@@ -61,14 +55,16 @@ public:
         return 0;
     }
 
+    /// Getter method -- get the command type.
     override public int getCmdType()
     {
         return ARC_TYPE;
     }
 
+    /// Encode the command with its information.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-                this.width, this.x, this.y, this.getColorString());
+        this.width, this.x, this.y, this.getColorString());
     }
 }

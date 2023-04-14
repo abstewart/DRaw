@@ -1,7 +1,6 @@
 module controller.commands.DrawFilledArcCommand;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.math; // PI.
 
 private import controller.commands.Command;
@@ -14,13 +13,13 @@ immutable int FILLED_ARC_TYPE = 1;
 class DrawFilledArcCommand : Command
 {
     // Instance variables.
-private:
+    private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-public:
+    public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x - width / 2, y - width / 2, id);
@@ -38,7 +37,6 @@ public:
     /// The execute method -- draw/paint.
     override public int execute()
     {
-        int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
         double rValue = this.currentColor.red();
@@ -47,7 +45,7 @@ public:
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        //save old img
+        // Save old image.
         this.saveOldRect(this.width, this.width);
 
         this.context.arc(this.x, this.y, this.width / 2, 0, 2 * PI);
@@ -58,14 +56,16 @@ public:
         return 0;
     }
 
+    /// Getter method -- get the command type.
     override public int getCmdType()
     {
         return FILLED_ARC_TYPE;
     }
 
+    /// Encode the command with its information.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-                this.width, this.x, this.y, this.getColorString());
+        this.width, this.x, this.y, this.getColorString());
     }
 }

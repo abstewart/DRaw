@@ -1,7 +1,6 @@
 module controller.commands.DrawRectangleCommand;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.math; // PI.
 
 private import controller.commands.Command;
@@ -14,18 +13,16 @@ immutable int RECT_TYPE = 5;
 class DrawRectangleCommand : Command
 {
     // Instance variables.
-private:
+    private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-
-public:
+    public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x - width / 2 - 2, y - width / 4 - 2, id);
-        writeln("DrawRectangleCommand constructor");
         this.x = x;
         this.y = y;
         this.width = width;
@@ -35,7 +32,6 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("DrawRectangleCommand destructor");
     }
 
     /// The execute method -- draw/paint.
@@ -50,7 +46,7 @@ public:
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        //save old img
+        // Save old image.
         this.saveOldRect(this.width + 4, height + 4);
 
         this.context.rectangle(this.x - this.width / 2, this.y - this.width / 4, this.width, height);
@@ -61,14 +57,16 @@ public:
         return 0;
     }
 
+    /// Getter method -- get the command type.
     override public int getCmdType()
     {
         return RECT_TYPE;
     }
 
+    /// Encode the command with its information.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-                this.width, this.x, this.y, this.getColorString());
+        this.width, this.x, this.y, this.getColorString());
     }
 }

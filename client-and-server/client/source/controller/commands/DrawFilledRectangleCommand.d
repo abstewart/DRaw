@@ -1,6 +1,5 @@
 module controller.commands.DrawFilledRectangleCommand;
 // Imports.
-private import std.stdio; // writeln.
 private import std.math; // PI.
 
 private import controller.commands.Command;
@@ -13,27 +12,24 @@ immutable int FILLED_RECT_TYPE = 2;
 class DrawFilledRectangleCommand : Command
 {
     // Instance variables.
-private:
+    private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-public:
+    public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
-        writeln("DrawFilledRectangleCommand constructor");
         this.x = x;
         this.y = y;
         this.width = width;
-
     }
 
     /// Destructor.
     ~this()
     {
-        writeln("DrawFilledRectangleCommand destructor");
     }
 
     /// The execute method -- draw/paint.
@@ -48,7 +44,7 @@ public:
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        //save old oldPB
+        //s ave old oldPB.
         this.saveOldRect(this.width, height);
 
         this.context.rectangle(this.x - this.width / 2, this.y - this.width / 4, this.width, height);
@@ -59,11 +55,13 @@ public:
         return 0;
     }
 
+    /// Getter method -- get the command type.
     override public int getCmdType()
     {
         return FILLED_RECT_TYPE;
     }
 
+    /// Encode the command with its information.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),

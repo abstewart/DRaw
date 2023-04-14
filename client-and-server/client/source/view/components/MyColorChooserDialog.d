@@ -1,8 +1,6 @@
 module view.components.MyColorChooserDialog;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.MyDrawing;
 
 private import gdk.RGBA; // RGBA.
@@ -15,18 +13,17 @@ private import gtk.Dialog; // Dialog.
 class MyColorChooserDialog : ColorChooserDialog
 {
     // Instance variables.
-private:
+    private:
     string title = "Color Selection";
     DialogFlags flags = GtkDialogFlags.MODAL;
     RGBA selectedColor;
     MyDrawing drawingArea;
 
     /// Constructor.
-public:
+    public:
     this(MyDrawing drawingArea)
     {
         super(title, null);
-        writeln("MyColorChooserDialog constructor");
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -37,14 +34,12 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("MyColorChooserDialog destructor");
     }
 
     // React based on which response the user picked.
     private void doSomething(int response, Dialog d)
     {
         getRgba(selectedColor);
-        writeln("New color selection: ", selectedColor);
         this.drawingArea.updateBrushColor(selectedColor);
     }
 }

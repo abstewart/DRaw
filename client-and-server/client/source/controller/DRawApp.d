@@ -1,8 +1,6 @@
 module controller.DRawApp;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import gtkd.Loader;
 
 private import view.MyWindow;
@@ -17,21 +15,15 @@ class DRawApp
     string[] args;
 
     /// Constructor.
-public:
+    public:
     this(string[] args)
     {
-        writeln("DRawApp constructor");
         this.args = args;
     }
 
     /// Destructor.
     ~this()
     {
-        writeln("DRawApp destructor. Ending application--good bye!");
-
-        // ===================================================================================
-        // TODO: Disconnect from server, if connected.
-        // ===================================================================================A
     }
 
     /// Run the application.

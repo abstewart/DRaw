@@ -1,8 +1,6 @@
 module view.components.PadEntry;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.HPadBox : HPadBox;
 private import controller.BoxJustify;
 
@@ -12,15 +10,14 @@ private import gtk.Entry; // Entry.
 class PadEntry : HPadBox
 {
     // Instance variables.
-private:
+    private:
     Entry _entry;
     string _placeholderText;
 
     /// Constructor.
-public:
+    public:
     this(BoxJustify pJustify, string placeholderText = null)
     {
-        writeln("PadEntry constructor");
         if (placeholderText !is null)
         {
             this._placeholderText = placeholderText;
@@ -38,7 +35,6 @@ public:
     /// Deconstructor.
     ~this()
     {
-        writeln("PadEntry destructor");
     }
 
     // Setter method -- sets the visibilty of the entry widget.

@@ -1,8 +1,6 @@
 module view.components.AreaContent;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.ConnectGrid;
 
 private import gtk.Box; // Box.
@@ -11,12 +9,12 @@ private import gtk.Box; // Box.
 class AreaContent
 {
     // Instance variables.
-private:
+    private:
     Box _contentArea;
     ConnectGrid _connectGrid;
 
     /// Constructor.
-public:
+    public:
     this(Box contentArea)
     {
         this._contentArea = contentArea;
