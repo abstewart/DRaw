@@ -1,5 +1,6 @@
 module controller.commands.Command;
 
+// Imports.
 protected import cairo.Context;
 
 protected import cairo.ImageSurface; //ImageSurface
@@ -12,7 +13,7 @@ protected import gdk.RGBA; // RGBA.
 
 protected import std.format;
 
-import std.stdio;
+protected import std.stdio;
 
 /// Represents a set of common characteristics for a drawing command.
 abstract class Command
@@ -28,6 +29,7 @@ protected:
     Pixbuf oldPB;
     int id;
 
+    /// Constructor.
 public:
     this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
     {
@@ -35,65 +37,59 @@ public:
         this.myDrawing = myDrawing;
         this.surface = this.myDrawing.getImageSurface();
         this.context = Context.create(this.surface);
-        //set the uppser left x & y
+        // Set the uppser left x & y.
         this.ulX = ulx;
         this.ulY = uly;
         this.id = id;
     }
-    /// Function for getting the command type
+
+    /// Destructor.
+    ~this()
+    {
+    }
+
+    /// Function for getting the command type.
     abstract public int getCmdType();
 
-    /// Function for getting the command id
+    /// Function for getting the command id.
     final public int getCmdId()
     {
         return this.id;
     }
+
     /// Function for updating the pixels (drawing/painting).
     abstract public int execute();
 
     /// Function for undoing an Execute command.
     public int undo()
     {
-        //this.executeUndo(this.x - this.width / 2, this.y - this.width/4, this.oldPB, this.context);
-        writeln("Undo called");
         this.context.save();
         setSourcePixbuf(this.context, oldPB, this.ulX, this.ulY);
         this.context.paint();
         this.context.restore();
-
         this.myDrawing.queueDraw();
-
         return 0;
     }
 
-    /// Function to save specified area to the given ImageSurface
+    /// Function to save specified area to the given ImageSurface.
     final void saveOldRect(int width, int height)
     {
-        //capture the region in question
+        // Capture the region in question.
         oldPB = getFromSurface(this.surface, this.ulX, this.ulY, width, height);
-        //getFromSurface(this.surface, x, y, width, height);
-        /*
-        //create the surface to store the region
-        destImgSurface = ImageSurface.create(CairoFormat.ARGB32, width, height);
-        //create the context to paint with
-        auto ctx = Context.create(destImgSurface);
-        //set the source pixbuf to created one
-        setSourcePixbuf(ctx, oldPB, 0, 0);
-        //paint to the destSurface
-        ctx.paint();
-        */
     }
 
+    /// Getter method -- gets the color is string format.
     final string getColorString()
     {
         return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green,
                 this.currentColor.blue, this.currentColor.alpha);
     }
 
+    /// Encode the command.
     abstract string encode();
 
+    /// Execute undo.
     final void executeUndo()
     {
-        // comment
     }
 }

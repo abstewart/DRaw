@@ -25,9 +25,7 @@ private:
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-
         super(myDrawing, currentColor, x, y, id);
-        writeln("DrawPointCommand constructor");
         this.x = x;
         this.y = y;
         this.width = width;
@@ -37,13 +35,11 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("DrawPointCommand destructor");
     }
 
     /// The execute method -- draw/paint.
     override public int execute()
     {
-        int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
         double rValue = this.currentColor.red();
@@ -52,7 +48,7 @@ public:
         // Set the color of the brush/pen.
         this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
 
-        //save the point
+        // Save the point.
         this.saveOldRect(1, 1);
 
         this.context.rectangle(this.x, this.y, 1, 1);
@@ -63,11 +59,13 @@ public:
         return 0;
     }
 
+    /// Getter method -- get the command type.
     override public int getCmdType()
     {
         return POINT_TYPE;
     }
 
+    /// Encode the command with its information.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
