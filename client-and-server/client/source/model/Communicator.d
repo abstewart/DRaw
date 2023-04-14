@@ -106,18 +106,21 @@ public:
         }
     }
 
-    static void receiveNetworkMessages(ref Command[] commandStack)
+    static Tuple!(string, long)[] receiveNetworkMessages()
     {
+        Tuple!(string,long)[] packetsToHandle = [];
         if (!(instance is null))
         {
             for (bool messageReceived = true; messageReceived;)
             {
-                messageReceived = receiveTimeout(TIMEOUT_DUR, (string commandEnc, immutable long recv) {
-                    // Command command = Packet.dispatchDecoder(messageReceived);
-                    // commandStack ~= [command];                     
-                }, (bool closedSocket) { instance = null; });
+                messageReceived = receiveTimeout(TIMEOUT_DUR, (string message, immutable long recv) {
+                    auto messageAndLen = tuple(message, recv);
+                    packetsToHandle ~= messageAndLen;         
+                }, 
+                (bool closedSocket) { Communicator.disconnect(); });
             }
         }
+        return packetsToHandle;
     }
 
     static int getClientId()

@@ -11,51 +11,61 @@ import gdk.RGBA;
 import controller.commands.Command;
 import controller.commands.DrawPointCommand;
 import model.packets.packet_key;
+import model.Communicator;
 
 immutable char END_MESSAGE = '\r';
 
-/// provides a general packet decoder that returns the function to use on a packet to decode it.
-void* getPacketDecoder(string packet)
-{
-    char packetType = packet[0];
-    switch (to!int(packetType))
-    {
-    case (USER_CONNECT_PACKET):
-        return &decodeUserConnPacket;
-    case (DRAW_COMMAND_PACKET):
-        return &decodeUserDrawCommand;
-    default:
-        return &decodeUserConnPacket;
+void resolveRemotePackets() {
+    Tuple!(string, long)[] packetsToResolve = Communicator.receiveNetworkMessages();
+    foreach(Tuple!(string, long) packet ; packetsToResolve) {
+        char packetType = packet[0][0];
+        switch (to!int(packetType))
+        {
+            case (USER_CONNECT_PACKET):
+                return parseAndExecuteUserConnPacket(packet[0], packet[1]);
+            case (DRAW_COMMAND_PACKET):
+                return parseAndExecuteUserDrawPacket(packet[0], packet[1]);
+            case (CHAT_MESSAGE_PACKET):
+                return parseAndExecuteChatMessage(packet[0], packet[1]);
+            case (UNDO_COMMAND_PACKET):
+                return parseAndExecuteUndoCommand(packet[0], packet[1]);
+            // case (CANVAS_SYNCH_PACKET):
+            //     return &decodeCanvasSyncPacket;
+            default:
+                return &decodeUserConnPacket;
+        }
     }
 }
 
-void* getPacketEncoder(int packetType)
-{
-    switch (packetType)
-    {
-    case (USER_CONNECT_PACKET):
-        return &encodeUserConnPacket;
-    case (DRAW_COMMAND_PACKET):
-        return &encodeUserDrawCommand;
-    default:
-        return &decodeUserConnPacket;
+
+void parseAndExecuteUserConnPacket(string packet, long recv) {
+    Tuple!(string, int, bool) info = decodeUserConnPacket(packet, recv);
+    if (info[3]) {
+        Communicator.addConnectedUser(info[1], info[2]);
+    } else {
+        Communicator.removeConnectedUser(info[2]);
     }
 }
 
-/// FORMAT:  0,username,id\r
-/// FIELDS: [0,1       ,2]
-Tuple!(string, int) decodeUserConnPacket(string packet, long recv)
+/// FORMAT:  0,username,id,c/d\r
+/// FIELDS: [0,1       ,2 ,3   ]
+Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
     auto fields = packet[0 .. recv - 1].split(',');
-    return tuple(fields[1], to!int(fields[2]));
+    return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
 }
 
 /// FORMAT:  0,username,id\r
 /// FIELDS: [0,1       ,2]
-string encodeUserConnPacket(string username, int id)
+string encodeUserConnPacket(string username, int id, bool connStatus)
 {
-    string packet = "%s,%s,%s\r".format(USER_CONNECT_PACKET, username, to!string(id));
+    string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username, to!string(id), to!string(connStatus));
     return packet;
+}
+
+void parseAndExecuteUserDrawPacket(string packet, long recv) {
+    Tuple!(string, int, Command) info = decodeUserDrawCommand(packet, recv);
+    // TODO: submit command to drawing window and command history
 }
 
 /// FORMAT:  1,username,id,cmdId,brushType,brushSize,x,y,color\r
@@ -80,6 +90,11 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
     return packet;
 }
 
+void parseAndExecuteUndoCommand(string packet, long recv) {
+    Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
+    // TODO: iterate though the command history and undo any command with id == cid
+}
+
 /// FORMAT:  2,username,id,cid\r
 /// FIELDS: [0,1       ,2 ,3 ]
 Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
@@ -97,6 +112,11 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
 {
     string packet = "%s,%s,%s,%s\r".format(UNDO_COMMAND_PACKET, username, uid, cid);
     return packet;
+}
+
+void parseAndExecuteChatMessage(string packet, long recv) {
+    Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
+    // TODO: add message into the chat queue
 }
 
 /// FORMAT:  3,username,id,timestamp,message\r
@@ -120,7 +140,13 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
     return packet;
 }
 
-// TODO: FIGURE OUT CANVAS SYNC PACKET
+
+
+// TODO: FIGURE OUT CANVAS SYNC behavior
+// void parseAndExecuteCanvasSync(string packet, long recv) {
+//     Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
+//     //TODO update canvase
+// }
 // Tuple!(Canvas) decodeCanvasSyncPacket(string packet, long recv) {
 
 // }
