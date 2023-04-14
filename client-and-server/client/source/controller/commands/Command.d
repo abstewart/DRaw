@@ -18,6 +18,7 @@ protected import std.stdio;
 /// Represents a set of common characteristics for a drawing command.
 abstract class Command
 {
+    // Instance variables.
 protected:
     static immutable CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
@@ -29,7 +30,15 @@ protected:
     Pixbuf oldPB;
     int id;
 
-    /// Constructor.
+    /**
+    * Constructor used amongst all the non-abstract classes that inherit this class.
+    * Params:
+    *        myDrawing = the client's drawing surface
+    *        color = the color of the paint brush for this command
+    *        ulx = the upper left x
+    *        uly = the upper left y
+    *        id = the command id
+    */
 public:
     this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
     {
@@ -37,7 +46,7 @@ public:
         this.myDrawing = myDrawing;
         this.surface = this.myDrawing.getImageSurface();
         this.context = Context.create(this.surface);
-        // Set the uppser left x & y.
+        // Set the upper left x & y.
         this.ulX = ulx;
         this.ulY = uly;
         this.id = id;
@@ -48,10 +57,10 @@ public:
     {
     }
 
-    /// Function for getting the command type.
+    /// Getter method -- gets the command type.
     abstract public int getCmdType();
 
-    /// Function for getting the command id.
+    /// Getter method -- gets the command id.
     final public int getCmdId()
     {
         return this.id;
@@ -85,11 +94,6 @@ public:
                 this.currentColor.blue, this.currentColor.alpha);
     }
 
-    /// Encode the command.
+    /// Abstract method to encode the command. Child classes will override this method.
     abstract string encode();
-
-    /// Execute undo.
-    final void executeUndo()
-    {
-    }
 }

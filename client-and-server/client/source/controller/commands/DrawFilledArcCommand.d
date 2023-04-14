@@ -26,7 +26,6 @@ public:
         this.x = x;
         this.y = y;
         this.width = width;
-
     }
 
     /// Destructor.

@@ -15,6 +15,7 @@ import gdk.RGBA; // RGBA.
 
 int SKIP_VALUE = -1;
 
+/// Encode the command. Take in the command type, brush size, color, and x and y coordinates. Translate that information into a char[].
 char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int yPos)
 {
     char[] encoded = [];
@@ -27,6 +28,7 @@ char[] encodeCommand(int commandType, int brushSize, Color color, int xPos, int 
     return encoded;
 }
 
+/// Decode the command packet taking the message in as a char[].
 Command decodePacketToCommand(char[] message, long size)
 {
     char[][] fields = message[0 .. size].split(',');
@@ -34,6 +36,7 @@ Command decodePacketToCommand(char[] message, long size)
     return new DrawPointCommand(100, 100, cmdColor, 5, new MyDrawing(), 1);
 }
 
+/// Decode the command packet taking the message in as a string.
 Command decodePacketToCommandString(string message, long size)
 {
     char[] m;

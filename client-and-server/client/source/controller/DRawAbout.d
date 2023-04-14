@@ -9,7 +9,7 @@ private import gtk.AboutDialog; // AboutDialog.
 /// Class representing the DRaw AboutDialog.
 class DRawAbout : AboutDialog
 {
-    /// Constructor.
+    /// Constructs a DRawAbout instance.
 public:
     this()
     {

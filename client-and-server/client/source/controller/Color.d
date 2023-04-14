@@ -5,9 +5,7 @@ import std.conv;
 import std.array;
 import std.format;
 
-/**
-* Represents a color in RGBA format.
-*/
+/// Represents a color in RGBA format.
 struct Color
 {
     // Instance variables.
@@ -59,41 +57,32 @@ public:
         this.b = b;
         this.isValid = true;
     }
-    /**
-    * Getter method -- gets the red component of the color.
-    */
+
+    /// Getter method -- gets the red component of the color.
     public ubyte getRed()
     {
         return this.r;
     }
 
-    /**
-    * Getter method -- gets the blue component of the color.
-    */
+    /// Getter method -- gets the blue component of the color.
     public ubyte getBlue()
     {
         return this.b;
     }
 
-    /**
-    * Getter method -- gets the green component of the color.
-    */
+    /// Getter method -- gets the green component of the color.
     public ubyte getGreen()
     {
         return this.g;
     }
 
-    /**
-    * Checks whether a color is intended to be valid or not.
-    */
+    /// Checks whether a color is intended to be valid or not.
     public bool isValidColor()
     {
         return this.isValid;
     }
 
-    /**
-    * Returns an encoded tuple representing the color value.
-    */
+    /// Returns an encoded tuple representing the color value.
     public string toEncodedString()
     {
         return format("(%s|%s|%s)", to!string(this.r), to!string(this.g), to!string(this.b));

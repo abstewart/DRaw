@@ -18,7 +18,16 @@ private:
     int y;
     int width;
 
-    /// Constructor.
+    /**
+    * Constructs a DrawRectangleCommand instance.
+    * Params:
+    *        x = the x coordinate of the mouse
+    *        y = the y coordinate of the mouse
+    *        currentColor = the color of the paint brush for this command
+    *        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
+    *        myDrawing = the client's drawing surface
+    *        id = the command id
+    */
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
@@ -26,7 +35,6 @@ public:
         this.x = x;
         this.y = y;
         this.width = width;
-
     }
 
     /// Destructor.

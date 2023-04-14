@@ -6,6 +6,7 @@ private import gtkd.Loader;
 private import view.MyWindow;
 
 private import gio.Application : GioApplication = Application; // GioApplication.
+
 private import gtk.Application; // Application.
 
 /// Class representing the main DRaw application.
@@ -14,7 +15,7 @@ class DRawApp
     // Instance variable.
     string[] args;
 
-    /// Constructor.
+    /// Constructs a DRawApp instance.
 public:
     this(string[] args)
     {
