@@ -1,5 +1,6 @@
 module model.server_network;
 
+// Imports.
 import controller.commands.Command;
 import controller.EncodeDecode;
 
@@ -28,7 +29,7 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
     {
         if (key == ckey)
         {
-            continue;
+            continue ;
         }
         Socket client = clients[key];
         client.send(message);
@@ -60,8 +61,8 @@ class Server
     private Command[] commandStack = [];
 
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
-            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
-            long bufferSize = MESSAGE_BUFFER_SIZE)
+        ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+        long bufferSize = MESSAGE_BUFFER_SIZE)
     {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
@@ -116,13 +117,13 @@ class Server
                         this.connectedClients.remove(key);
                     }
                     else if (recv == Socket.ERROR)
-                    {
-                        writeln("Socket error");
-                    }
-                    else
-                    {
-                        writeln("Unknown socket reception return value");
-                    }
+                        {
+                            writeln("Socket error");
+                        }
+                        else
+                        {
+                            writeln("Unknown socket reception return value");
+                        }
                 }
             }
         }
