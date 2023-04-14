@@ -34,7 +34,12 @@ private:
     bool isConnected;
     string username;
 
-    /// Constructor.
+    /**
+    * Constructs a MyChatBox instnace.
+    * Params:
+    *        myWindow = the main application window
+    *        username = the client's username
+    */
 public:
     this(MyWindow myWindow, string username)
     {
@@ -131,12 +136,14 @@ public:
             hour = to!string(h);
             amPm = "PM";
         }
+
         string minutes = to!string(currentTime.minute);
         // If there is only 1 digit/character in minutes then you know you need to add a 0.
         if (minutes.length == 1)
         {
             minutes = "0" ~ minutes;
         }
+
         string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
             ~ ":\n\t" ~ this.message ~ "\n\n";
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.

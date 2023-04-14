@@ -19,7 +19,11 @@ private:
     RGBA selectedColor;
     MyDrawing drawingArea;
 
-    /// Constructor.
+    /**
+    * Constructs a MyColorChooserDialog instnace.
+    * Params:
+    *        drawingArea = the whiteboard the user is drawing on
+    */
 public:
     this(MyDrawing drawingArea)
     {

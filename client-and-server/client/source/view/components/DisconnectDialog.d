@@ -24,7 +24,11 @@ private:
     MyWindow myWindow;
     bool isConnected;
 
-    /// Constructor.
+    /**
+    * Constructs a DisconnectDialog instnace.
+    * Params:
+    *        myWindow = the main application window
+    */
 public:
     this(MyWindow myWindow)
     {

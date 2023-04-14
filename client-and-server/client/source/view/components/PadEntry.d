@@ -14,7 +14,12 @@ private:
     Entry _entry;
     string _placeholderText;
 
-    /// Constructor.
+    /**
+    * Constructs a PadEntry instnace.
+    * Params:
+    *        pJustify = the alignment of the widget
+    *        placeholderText = the default text in the entry
+    */
 public:
     this(BoxJustify pJustify, string placeholderText = null)
     {

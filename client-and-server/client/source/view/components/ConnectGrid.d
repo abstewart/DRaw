@@ -34,7 +34,7 @@ private:
     string _portNum;
     string _username;
 
-    /// Constructor.
+    /// Constructs a ConnectGrid instance.
 public:
     this()
     {

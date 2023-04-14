@@ -12,7 +12,7 @@ class AppBox : Box
 private:
     MyDrawingBox myDrawingBox;
 
-    /// Constructor.
+    /// Constructs an AppBox instance.
 public:
     this()
     {

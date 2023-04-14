@@ -13,7 +13,11 @@ private:
     Box _contentArea;
     ConnectGrid _connectGrid;
 
-    /// Constructor.
+    /**
+    * Constructs an AreaContent instance.
+    * Params:
+    *        contentArea = the content area of an instance of the Connect Dialog
+    */
 public:
     this(Box contentArea)
     {

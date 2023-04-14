@@ -13,7 +13,12 @@ class PadLabel : HPadBox
 private:
     Label label;
 
-    /// Constructor.
+    /**
+    * Constructs a PadEntry instnace.
+    * Params:
+    *        pJustify = the alignment of the widget
+    *        text = the label text
+    */
 public:
     this(BoxJustify pJustify, string text = null)
     {

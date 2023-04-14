@@ -19,7 +19,12 @@ private:
     int _borderWidth = 5;
     BoxJustify _pJustify;
 
-    /// Constructor.
+    /**
+    * Constructs a HPadBox instnace.
+    * Params:
+    *        widget = a widget (an entry in PadEntry and a label in PadLabel)
+    *        pJustify = the alignment of the widget
+    */
 public:
     this(Widget widget, BoxJustify pJustify)
     {

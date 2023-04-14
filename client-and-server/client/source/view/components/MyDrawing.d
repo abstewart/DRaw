@@ -54,7 +54,7 @@ private:
     int yOffset = 0;
     ApplicationState applicationState = new ApplicationState();
 
-    /// Constructor.
+    /// Constructs a MyDrawing instance.
 public:
     this()
     {
@@ -82,16 +82,6 @@ public:
     {
     }
 
-    // Helper method used in constructor, saveWhiteboard(), onButtonPress(), and onMotionNotify().
-    private void setPixbuf()
-    {
-        Context context = Context.create(this.surface);
-        getAllocation(this.size); // Grab the widget's size as allocated by its parent.
-        // Transfer image data from a cairo_surface and convert it to an RGB(A) representation inside a gdk.Pixbuf.
-        this.pixbuf = getFromSurface(context.getTarget(), this.xOffset,
-                this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
-    }
-
     /// Getter method -- gets the spin button.
     public SpinButton getSpin()
     {
@@ -113,7 +103,11 @@ public:
     /// Method called when the user clicks the Save button.
     public void saveWhiteboard()
     {
-        setPixbuf();
+        Context context = Context.create(this.surface);
+        getAllocation(this.size); // Grab the widget's size as allocated by its parent.
+        // Transfer image data from a cairo_surface and convert it to an RGB(A) representation inside a gdk.Pixbuf.
+        this.pixbuf = getFromSurface(context.getTarget(), this.xOffset,
+        this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
 
         // Prepare and write PNG file.
         this.pngOptions = ["x-dpi", "y-dpi", "compression"];

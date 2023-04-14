@@ -21,12 +21,11 @@ private:
     MyDrawing drawingArea;
     MyColorChooserDialog d;
 
-    /// Constructor.
+    /// Constructs a MyDrawingBox instance.
 public:
     this()
     {
         super(false, 4); // this(bool homogeneous, int spacing).
-
         this.drawingArea = new MyDrawing();
         BrushTypeComboBoxText brushTypes = new BrushTypeComboBoxText(this.drawingArea);
         packEnd(this.drawingArea, true, true, 0); // Adds child to box, packed with reference to the end of box.
@@ -48,7 +47,6 @@ public:
         hbox.packStart(colorButton, false, false, 2);
         hbox.packStart(undoButton, false, false, 2);
         hbox.packStart(saveButton, false, false, 2);
-
         packStart(hbox, false, false, 0); // Adds child to box, packed with reference to the start of box.
     }
 

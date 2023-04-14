@@ -13,7 +13,12 @@ class ChatBox : Box
 private:
     MyChatBox myChatBox;
 
-    /// Constructor.
+    /**
+    * Constructs a ChatBox instnace.
+    * Params:
+    *        myWindow = the main application window
+    *        username = the client's username
+    */
 public:
     this(MyWindow myWindow, string username)
     {

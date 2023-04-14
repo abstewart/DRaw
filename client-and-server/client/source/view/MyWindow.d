@@ -31,7 +31,7 @@ private import gtk.ButtonBox; // ButtonBox.
 private import gtk.Dialog; // Dialog.
 private import gtk.MessageDialog; // MessageDialog.
 
-/// Class representing the main window of the application.
+/// Class representing the main window of the application. Used in runMainApplication() method in DRawApp.d.
 class MyWindow : ApplicationWindow
 {
     // Instance variable.
@@ -39,7 +39,11 @@ private:
     bool isConnected;
     ChatBox chatBox;
 
-    /// Constructor.
+    /**
+    * Constructs a MyWindow instnace.
+    * Params:
+    *        application = an application instance
+    */
 public:
     this(Application application)
     {

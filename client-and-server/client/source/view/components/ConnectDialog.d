@@ -39,7 +39,11 @@ private:
     bool isConnected;
     string username;
 
-    /// Constructor.
+    /**
+    * Constructs a ConnectDialog instnace.
+    * Params:
+    *        myWindow = the main application window
+    */
 public:
     this(MyWindow myWindow)
     {
