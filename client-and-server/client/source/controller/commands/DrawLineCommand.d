@@ -14,13 +14,13 @@ immutable int LINE_TYPE = 3;
 class DrawLineCommand : Command
 {
     // Instance variables.
-private:
+    private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-public:
+    public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x, y - 2, id);
@@ -67,6 +67,6 @@ public:
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-                this.width, this.x, this.y, this.getColorString());
+        this.width, this.x, this.y, this.getColorString());
     }
 }

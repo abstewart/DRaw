@@ -13,13 +13,13 @@ immutable int FILLED_RECT_TYPE = 2;
 class DrawFilledRectangleCommand : Command
 {
     // Instance variables.
-private:
+    private:
     int x;
     int y;
     int width;
 
     /// Constructor.
-public:
+    public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
         super(myDrawing, currentColor, x - width / 2, y - width / 4, id);
