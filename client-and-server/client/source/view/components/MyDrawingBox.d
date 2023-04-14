@@ -1,8 +1,6 @@
 module view.components.MyDrawingBox;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.MyDrawing;
 private import view.components.MyColorChooserDialog;
 private import controller.commands.Command;
@@ -19,16 +17,15 @@ private import gtk.HBox; // HBox.
 class MyDrawingBox : VBox
 {
     // Instance variables.
-private:
+    private:
     MyDrawing drawingArea;
     MyColorChooserDialog d;
 
     /// Constructor.
-public:
+    public:
     this()
     {
         super(false, 4); // this(bool homogeneous, int spacing).
-        writeln("MyDrawingBox constructor");
 
         this.drawingArea = new MyDrawing();
         BrushTypeComboBoxText brushTypes = new BrushTypeComboBoxText(this.drawingArea);
@@ -58,7 +55,6 @@ public:
     /// Deconstructor.
     ~this()
     {
-        writeln("MyDrawingBox destructor");
     }
 
     // What happens when the coloButton is clicked on by the user.
@@ -81,7 +77,6 @@ public:
     // What happens when the undoButton is clicked on by the user.
     private void undoWhiteboard(Button button)
     {
-        writeln("Undo command on whiteboard");
         this.drawingArea.undoWhiteboard();
     }
 }

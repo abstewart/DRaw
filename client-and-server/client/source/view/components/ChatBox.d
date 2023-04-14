@@ -1,8 +1,6 @@
 module view.components.ChatBox;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.MyChatBox;
 private import view.MyWindow;
 
@@ -12,11 +10,11 @@ private import gtk.Box; // Box.
 class ChatBox : Box
 {
     // Instance variable.
-private:
+    private:
     MyChatBox myChatBox;
 
     /// Constructor.
-public:
+    public:
     this(MyWindow myWindow, string username)
     {
         super(Orientation.VERTICAL, 10);

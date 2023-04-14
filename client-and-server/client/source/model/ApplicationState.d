@@ -1,7 +1,6 @@
 module model.ApplicationState;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.string;
 
 private import controller.commands.Command;
@@ -10,11 +9,11 @@ private import controller.commands.Command;
 class ApplicationState
 {
     // Instance variable.
-private:
+    private:
     Command[] history;
 
     /// Constructor.
-public:
+    public:
     this()
     {
     }
@@ -22,7 +21,6 @@ public:
     /// Destructor.
     ~this()
     {
-        writeln("ApplicationState destructor");
     }
 
     /// Add the given command to the front of the history array.

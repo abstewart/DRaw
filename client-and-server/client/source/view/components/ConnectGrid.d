@@ -1,7 +1,6 @@
 module view.components.ConnectGrid;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.typecons; // Tuple.
 
 private import view.components.PadLabel;
@@ -16,7 +15,7 @@ private import gtk.Grid; // Grid.
 class ConnectGrid : Grid
 {
     // Instance variables.
-private:
+    private:
     int _borderWidth = 10; // Keeps the widgets from crowding each other in the grid.
     PadLabel usernameLabel;
     string usernameLabelText = "Chat username:";
@@ -36,7 +35,7 @@ private:
     string _username;
 
     /// Constructor.
-public:
+    public:
     this()
     {
         super();

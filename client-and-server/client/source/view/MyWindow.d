@@ -1,7 +1,6 @@
 module view.MyWindow;
 
 // Imports.
-private import std.stdio; // writeln.
 private import stdlib = core.stdc.stdlib : exit; // exit.
 private import std.algorithm.comparison : equal; // equal.
 
@@ -45,7 +44,6 @@ public:
     this(Application application)
     {
         super(application);
-        writeln("MyWindow constructor");
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         addOnDestroy(&quitApp);
@@ -189,11 +187,8 @@ public:
 
     void quitApp(Widget widget)
     {
-        writeln("Bye bye MyWindow.d");
-
         // Disconnect from server, if connected.
         Communicator.disconnect();
-
         stdlib.exit(0);
     }
 }

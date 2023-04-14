@@ -1,8 +1,6 @@
 module view.components.PadLabel;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import view.components.HPadBox : HPadBox;
 private import controller.BoxJustify;
 
@@ -12,14 +10,13 @@ private import gtk.Label; // Label.
 class PadLabel : HPadBox
 {
     // Instance variable.
-private:
+    private:
     Label label;
 
     /// Constructor.
-public:
+    public:
     this(BoxJustify pJustify, string text = null)
     {
-        writeln("PadLabel constructor");
         this.label = new Label(text);
         super(this.label, pJustify);
     }
@@ -27,6 +24,5 @@ public:
     /// Deconstructor.
     ~this()
     {
-        writeln("PadLabel destructor");
     }
 }

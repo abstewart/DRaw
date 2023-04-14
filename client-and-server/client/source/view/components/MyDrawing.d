@@ -1,7 +1,6 @@
 module view.components.MyDrawing;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.array; // appender.
 private import std.math; // PI.
 private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
@@ -36,7 +35,7 @@ private import gtk.Adjustment; // Adjustment.
 class MyDrawing : DrawingArea
 {
     // Instance variables.
-private:
+    private:
     CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
     RGBA currentColor;
@@ -56,10 +55,9 @@ private:
     ApplicationState applicationState = new ApplicationState();
 
     /// Constructor.
-public:
+    public:
     this()
     {
-        writeln("MyDrawing constructor");
         // Set the size of the whiteboard.
         setSizeRequest(900, 500); // Width, height.
         this.width = getWidth();
@@ -68,7 +66,6 @@ public:
 
         this.currentColor = new RGBA(cast(double) 1, cast(double) 1, cast(double) 1, 1.0); // Intially opaque black.
 
-        writeln("MyDrawing constructor. The initial brush color is: ", this.currentColor.toString());
         this.spin = new SpinButton(new Adjustment(15, 1, 400, 1, 10, 0), 1, 0); // 15 is the initial brush size.
         sizeSpinChanged(this.spin);
         this.spin.addOnValueChanged(&sizeSpinChanged);
@@ -83,7 +80,6 @@ public:
     /// Deconstructor.
     ~this()
     {
-        writeln("MyDrawing destructor");
     }
 
     // Helper method used in constructor, saveWhiteboard(), onButtonPress(), and onMotionNotify().
@@ -93,7 +89,7 @@ public:
         getAllocation(this.size); // Grab the widget's size as allocated by its parent.
         // Transfer image data from a cairo_surface and convert it to an RGB(A) representation inside a gdk.Pixbuf.
         this.pixbuf = getFromSurface(context.getTarget(), this.xOffset,
-                this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
+        this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
     }
 
     /// Getter method -- gets the spin button.
@@ -112,7 +108,6 @@ public:
     public void updateBrushColor(RGBA newColor)
     {
         this.currentColor = newColor;
-        writeln("updateBrushColor. The new brush color is: ", this.currentColor.toString());
     }
 
     /// Method called when the user clicks the Save button.
@@ -137,17 +132,12 @@ public:
         filePath.put('p');
         filePath.put('n');
         filePath.put('g');
-
-        if (this.pixbuf.savev(filePath[], "png", pngOptions, pngOptionValues))
-        {
-            writeln(filePath[], " was successfully saved.");
-        }
+        this.pixbuf.savev(filePath[], "png", pngOptions, pngOptionValues);
     }
 
     /// Method called when the user clicks the Undo button.
     public void undoWhiteboard()
     {
-        writeln("Undoing: History length = ", this.applicationState.getHistory().length);
         // Retrieve the most recent command and remove it from the history array.
         Command cmd = this.applicationState.popHistory();
 
@@ -186,7 +176,7 @@ public:
             this.applicationState.addToHistory(newCommand);
             // send to server if applicable
             string packet = encodeUserDrawCommand(Communicator.getUsername(),
-                    Communicator.getClientId(), newCommand);
+            Communicator.getClientId(), newCommand);
             Communicator.queueMessageSend(packet);
         }
         return false;
@@ -228,7 +218,7 @@ public:
             this.applicationState.addToHistory(newCommand);
             // send the command to the server
             string packetToSend = encodeUserDrawCommand(Communicator.getUsername(),
-                    Communicator.getClientId(), newCommand);
+            Communicator.getClientId(), newCommand);
             Communicator.queueMessageSend(packetToSend);
         }
         return true;
@@ -245,7 +235,7 @@ public:
             float ww = width * this.scaledPixbuf.getWidth() / 30;
             float hh = width * this.scaledPixbuf.getHeight() / 30;
             this.scaledPixbuf = scaledPixbuf.scaleSimple(cast(int) ww,
-                    cast(int) hh, GdkInterpType.HYPER);
+            cast(int) hh, GdkInterpType.HYPER);
         }
     }
 
@@ -254,27 +244,27 @@ public:
     {
         switch (this.brushType)
         {
-        case "Arc":
+            case "Arc":
             return new DrawArcCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
-        case "Filled Arc":
+            this.spin.getValueAsInt(), this, id);
+            case "Filled Arc":
             return new DrawFilledArcCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
-        case "Line":
+            this.spin.getValueAsInt(), this, id);
+            case "Line":
             return new DrawLineCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
-        case "Point":
+            this.spin.getValueAsInt(), this, id);
+            case "Point":
             return new DrawPointCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
-        case "Rectangle":
+            this.spin.getValueAsInt(), this, id);
+            case "Rectangle":
             return new DrawRectangleCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
-        case "Filled Rectangle":
+            this.spin.getValueAsInt(), this, id);
+            case "Filled Rectangle":
             return new DrawFilledRectangleCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
-        default:
+            this.spin.getValueAsInt(), this, id);
+            default:
             return new DrawFilledArcCommand(x, y, this.currentColor,
-                    this.spin.getValueAsInt(), this, id);
+            this.spin.getValueAsInt(), this, id);
         }
     }
 
