@@ -1,7 +1,6 @@
 module controller.commands.DrawRectangleCommand;
 
 // Imports.
-private import std.stdio; // writeln.
 private import std.math; // PI.
 
 private import controller.commands.Command;

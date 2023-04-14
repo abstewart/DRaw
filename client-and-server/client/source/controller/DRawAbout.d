@@ -1,8 +1,6 @@
 module controller.DRawAbout;
 
 // Imports.
-private import std.stdio; // writeln.
-
 private import gdk.Pixbuf; // Pixbuf.
 private import gdk.c.types; // GtkWindowPosition.
 
@@ -12,10 +10,9 @@ private import gtk.AboutDialog; // AboutDialog.
 class DRawAbout : AboutDialog
 {
     /// Constructor.
-public:
+    public:
     this()
     {
-        writeln("GtkDAbout constructor");
         string itemLabel = "About";
         string[] people = [
             "Andrew Briasco-Stewart", "Benjamin Mallett", "Elizabeth Williams",
@@ -43,9 +40,8 @@ public:
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
     }
 
-    /// Deconstructor
+    /// Deconstructor.
     ~this()
     {
-        writeln("GtkDAbout destructor");
     }
 }

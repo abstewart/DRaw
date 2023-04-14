@@ -11,7 +11,7 @@ import std.format;
 struct Color
 {
     // Instance variables.
-private:
+    private:
     ubyte r;
     ubyte g;
     ubyte b;
@@ -22,7 +22,7 @@ private:
     * Params:
     *        validity = a boolean representing the intended validity of the color
     */
-public:
+    public:
     this(bool validity)
     {
         this.r = 0;
@@ -98,5 +98,4 @@ public:
     {
         return format("(%s|%s|%s)", to!string(this.r), to!string(this.g), to!string(this.b));
     }
-
 }
