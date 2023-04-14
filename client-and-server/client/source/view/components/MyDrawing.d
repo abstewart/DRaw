@@ -107,7 +107,7 @@ public:
         getAllocation(this.size); // Grab the widget's size as allocated by its parent.
         // Transfer image data from a cairo_surface and convert it to an RGB(A) representation inside a gdk.Pixbuf.
         this.pixbuf = getFromSurface(context.getTarget(), this.xOffset,
-        this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
+                this.yOffset, this.size.width, this.size.height); // The contents of the surface go into the buffer.
 
         // Prepare and write PNG file.
         this.pngOptions = ["x-dpi", "y-dpi", "compression"];
