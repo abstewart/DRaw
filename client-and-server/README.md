@@ -27,8 +27,12 @@ configuration specified in the dub.json) doesn't actually run any tests. This ma
 #### Server Coverage ####
 From the `client-and-server` directory, run: `dub run :server -c cov`
 
+Alternatively, from the `server` directory, run: `dub run -c cov`
+
 #### Client Coverage ####
 From the `client-and-server` directory, run: `dub run :client -c cov`
+
+Alternatively, from the `client` directory, run: `dub run -c cov`
 
 ### Documentation ###
 #### Basic ddocs Documentation Generation ####
