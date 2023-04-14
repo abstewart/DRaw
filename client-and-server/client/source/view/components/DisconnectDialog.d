@@ -65,11 +65,6 @@ public:
                 break;
             }
 
-            // ===================================================================================
-            // TODO: If they are connected, disconnect them.
-            // this.socket.close();
-            // ===================================================================================
-
             this.myWindow.setConnection(false); // Let myWindow know you are no longer connected.
             Communicator.disconnect();
 

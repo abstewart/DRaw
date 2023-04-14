@@ -8,6 +8,7 @@ private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
 private import std.conv; // to.
 
 private import view.MyWindow;
+private import model.Communicator;
 
 private import gdk.c.types; // GtkWindowPosition.
 
@@ -164,11 +165,10 @@ public:
     // What happens when the user exits the window.
     private void quitApplication(Button button)
     {
-        writeln("Exit program");
+        writeln("Exit program MyChatBox.d");
 
-        // ===================================================================================
-        // TODO: Disconnect from server, if connected.
-        // ===================================================================================
+        // Disconnect from server, if connected.
+        Communicator.disconnect();
 
         stdlib.exit(0);
     }
