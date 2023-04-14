@@ -1,9 +1,10 @@
+// Imports.
 import std.stdio;
 import std.getopt;
 
 import model.server_network;
 
-/// Main function. Entry point for the program.
+/// Server app. Main method -- run the application. Entry point for the program.
 void main(string[] args)
 {
     bool disable_main_loop = false;
