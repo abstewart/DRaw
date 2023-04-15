@@ -25,15 +25,16 @@ protected:
     Pixbuf oldPB;
     int id;
 
-    /**
-    * Constructor used amongst all the non-abstract classes that inherit this class.
-    * Params:
-    *        myDrawing = the client's drawing surface
-    *        color = the color of the paint brush for this command
-    *        ulx = the upper left x
-    *        uly = the upper left y
-    *        id = the command id
-    */
+/**
+ * Constructor used amongst all the non-abstract classes that inherit this class.
+ *
+ * Params:
+ *        myDrawing = the client's drawing surface
+ *        color = the color of the paint brush for this command
+ *        ulx = the upper left x
+ *        uly = the upper left y
+ *        id = the command id
+ */
 public:
     this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
     {
@@ -61,8 +62,10 @@ public:
         return this.id;
     }
 
-    /// Function for updating the pixels (drawing/painting).
-    abstract public int execute();
+    /**
+     * Executes the command on the canvas
+     */
+    abstract public void execute();
 
     /// Function for undoing an Execute command.
     public int undo()

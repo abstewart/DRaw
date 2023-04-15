@@ -42,7 +42,7 @@ public:
     }
 
     /// The execute method -- draw/paint.
-    override public int execute()
+    override public void execute()
     {
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -61,7 +61,6 @@ public:
 
         // Redraw the Widget.
         this.myDrawing.queueDraw();
-        return 0;
     }
 
     /// Gets the command type. For the line this is 3.

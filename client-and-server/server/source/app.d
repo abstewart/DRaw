@@ -20,7 +20,7 @@ void main(string[] args)
     writeln("Awaiting client connections");
     if (!disable_main_loop)
     {
-        Server ourServer = new Server("localhost", 50002, 100);
+        Server ourServer = new Server();
         ourServer.handleReception();
     }
 }

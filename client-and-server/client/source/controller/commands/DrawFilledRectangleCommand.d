@@ -41,7 +41,7 @@ public:
     }
 
     /// The execute method -- draw/paint.
-    override public int execute()
+    override public void execute()
     {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
@@ -60,7 +60,6 @@ public:
 
         // Redraw the Widget.
         this.myDrawing.queueDraw();
-        return 0;
     }
 
     /// Gets the command type. For the Filled Rectangle this is 2. 

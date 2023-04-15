@@ -1,80 +1,75 @@
 module model.Communicator;
 
 import std.concurrency;
-
 import std.stdio : writeln;
 import std.typecons;
 import std.algorithm;
+import std.datetime;
 
 import model.network.thread_entry;
-import controller.commands.Command;
+import model.ApplicationState;
 import model.packets.packet;
+import controller.commands.Command;
 
+/**
+ * Class intended to represent a communication object between the main and network thread.
+ */
 class Communicator
 {
-
 private:
+    static final threadTimeoutDuration = 3.secs;
     static bool threadActive = false;
     static Tid childThread;
-    int clientId = -1;
-    string username = "";
-    string[int] connectedUsers;
-    static Tuple!(string, int, char[255])[] chatHistory;
-    static int curCmd = 0;
     static Communicator instance = null;
 
+    /**
+     * Constructs a Communicator object given a port, ip, and username.
+     * Attempts to connect to given and port ip with given username.
+     *
+     * Params:
+     *       - port     : ushort : port number to connect to 
+     *       - ip       : string : ip address to connect to 
+     *       - username : string : username to connect with
+     */
     this(ushort port, string ip, string username)
     {
+        // spawn thread and wait for connection 
         threadActive = true;
         childThread = spawn(&handleNetworking, thisTid, ip, port);
+        int clientId = ApplicationState.getClientId();
         string connReqPacket = encodeUserConnPacket(username, clientId);
         send(childThread, connReqPacket);
-        receive((string packet, immutable long recvLen) {
+
+        // receive an acknowledgement packet from the server and update the application state
+        bool serverAck = receiveTimeout(threadTimeoutDuration, (string packet, immutable long recvLen) {
             if (recvLen > 0)
             {
                 Tuple!(string, int) usernameId = decodeUserConnPacket(packet, recvLen);
-                this.username = usernameId[0];
-                this.clientId = usernameId[1];
-                this.connectedUsers[clientId] = username;
+                string uname = usernameId[0];
+                int cid = usernameId[1];
+                ApplicationState.setUsername(uname);
+                ApplicationState.setClientId(cid);
+                ApplicationState.addConnectedUser(uname, cid);
                 writeln("user ", username, " with client id ", clientId, " has been acknowledged");
             }
         });
-    }
 
-    ~this()
-    {
-
-    }
-
-    int getCid()
-    {
-        return this.clientId;
-    }
-
-    string getUname()
-    {
-        return this.username;
-    }
-
-    void addConnectedUser(string username, int id)
-    {
-        this.connectedUsers[id] = username;
-    }
-
-    void removeConnectedUser(int id)
-    {
-        this.connectedUsers.remove(id);
+        // shutdown our thread if we are not able to connect to the server
+        if (!serverAck) {
+            shutdown();
+        }
     }
 
     void shutdown()
     {
         immutable bool shutdown = true;
         send(this.childThread, shutdown);
+        threadActive = false;
     }
 
     void sendToChild(string message)
     {
-        send(this.childThread, message);
+        send(childThread, message);
     }
 
 public:
@@ -83,7 +78,6 @@ public:
         if (instance is null)
         {
             instance = new Communicator(port, ip, username);
-            writeln("instanace has been set");
         }
         return instance;
     }
@@ -106,61 +100,20 @@ public:
         }
     }
 
-    static void receiveNetworkMessages(ref Command[] commandStack)
+    static Tuple!(string, long)[] receiveNetworkMessages()
     {
+        Tuple!(string,long)[] packetsToHandle = [];
         if (!(instance is null))
         {
             for (bool messageReceived = true; messageReceived;)
             {
-                messageReceived = receiveTimeout(TIMEOUT_DUR, (string commandEnc, immutable long recv) {
-                    // Command command = Packet.dispatchDecoder(messageReceived);
-                    // commandStack ~= [command];                     
-                }, (bool closedSocket) { instance = null; });
+                messageReceived = receiveTimeout(TIMEOUT_DUR, (string message, immutable long recv) {
+                    auto messageAndLen = tuple(message, recv);
+                    packetsToHandle ~= messageAndLen;         
+                }, 
+                (bool closedSocket) { Communicator.disconnect(); });
             }
         }
-    }
-
-    static int getClientId()
-    {
-        if (!(instance is null))
-        {
-            return instance.getCid();
-        }
-        return -1;
-    }
-
-    static string getUsername()
-    {
-        if (!(instance is null))
-        {
-            return instance.getUname();
-        }
-        return "";
-    }
-
-    static void addUser(string username, int id)
-    {
-        if (!(instance is null))
-        {
-            instance.addConnectedUser(username, id);
-        }
-    }
-
-    static void removeUser(int id)
-    {
-        if (!(instance is null))
-        {
-            instance.removeConnectedUser(id);
-        }
-    }
-
-    static int getCurCommandId()
-    {
-        return curCmd;
-    }
-
-    static void nextCommand()
-    {
-        curCmd += 1;
+        return packetsToHandle;
     }
 }

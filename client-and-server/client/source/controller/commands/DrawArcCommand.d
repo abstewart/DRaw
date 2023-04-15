@@ -41,8 +41,10 @@ public:
     {
     }
 
-    /// The execute method -- draw/paint.
-    override public int execute()
+    /** 
+     * Draws an arc on the canvas. 
+     */
+    override public void execute()
     {
         this.context.setOperator(this.operator);
         const double ALPHAVALUE = 1.0;
@@ -60,10 +62,14 @@ public:
 
         // Redraw the Widget.
         this.myDrawing.queueDraw();
-        return 0;
     }
 
-    /// Gets the command type. For the Arc Command this is 0.
+    /**
+     * Gets the command type. For the Arc Command this is 0.
+     *
+     * Returns: 
+     *         - type : int : the type of this commmand
+     */
     override public int getCmdType()
     {
         return ARC_TYPE;

@@ -5,7 +5,7 @@ private import std.typecons; // Tuple.
 
 private import view.components.PadLabel;
 private import view.components.PadEntry;
-private import controller.BoxJustify;
+private import view.components.BoxJustify;
 
 private import gtk.Label; // Label.
 private import gtk.Entry; // Entry.
