@@ -100,6 +100,11 @@ public:
         this.currentColor = newColor;
     }
 
+    /// Getter method -- gets the current color. Only used for unittests.
+    public RGBA getBrushColor() {
+        return this.currentColor;
+    }
+
     /// Method called when the user clicks the Save button.
     public void saveWhiteboard()
     {

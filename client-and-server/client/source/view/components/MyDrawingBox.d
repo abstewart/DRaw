@@ -77,4 +77,9 @@ public:
     {
         this.drawingArea.undoWhiteboard();
     }
+
+    /// Getter method -- gets the drawing area in the MyDrawingBox instance. Only used for unittests.
+    public MyDrawing getMyDrawing() {
+        return this.drawingArea;
+    }
 }

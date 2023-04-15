@@ -25,4 +25,9 @@ public:
     ~this()
     {
     }
+
+    /// Getter method -- gets myDrawingBox. Only used for unittests.
+    public MyDrawingBox getMyDrawingBox() {
+        return this.myDrawingBox;
+    }
 }

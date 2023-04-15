@@ -38,6 +38,7 @@ class MyWindow : ApplicationWindow
 private:
     bool isConnected;
     ChatBox chatBox;
+    AppBox appBox;
 
     /**
     * Constructs a MyWindow instnace.
@@ -109,8 +110,8 @@ public:
         mainBox.packStart(getMenuBar(), false, false, 0);
 
         // AppBox.
-        AppBox appBox = new AppBox();
-        mainBox.packStart(appBox, false, false, 0);
+        this.appBox = new AppBox();
+        mainBox.packStart(this.appBox, false, false, 0);
 
         // Buttons.
         Button connectButton = new Button(StockID.CONNECT, &connectWhiteboard, true);
@@ -137,6 +138,11 @@ public:
 
         // Add hbox to Window.
         add(hbox);
+    }
+
+    /// Getter method -- gets the appBox inside of MyWindow. Only used for unittests.
+    public AppBox getAppBox() {
+        return this.appBox;
     }
 
     // Method that creates a new ConnectDialog.
@@ -189,7 +195,8 @@ public:
         return menuBar;
     }
 
-    void quitApp(Widget widget)
+    ///
+    public void quitApp(Widget widget)
     {
         // Disconnect from server, if connected.
         Communicator.disconnect();
