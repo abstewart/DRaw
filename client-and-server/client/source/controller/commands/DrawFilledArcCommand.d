@@ -12,22 +12,22 @@ immutable int FILLED_ARC_TYPE = 1;
 /// Class representing the draw command with a filled arc brush type.
 class DrawFilledArcCommand : Command
 {
-    // Instance variables.
+
 private:
     int x;
     int y;
     int width;
 
-    /**
-    * Constructs a DrawArcCommand instance.
-    * Params:
-    *        x = the x coordinate of the mouse
-    *        y = the y coordinate of the mouse
-    *        currentColor = the color of the paint brush for this command
-    *        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
-    *        myDrawing = the client's drawing surface
-    *        id = the command id
-    */
+/**
+* Constructs a DrawArcCommand instance.
+* Params:
+*        x = the x coordinate of the mouse
+*        y = the y coordinate of the mouse
+*        currentColor = the color of the paint brush for this command
+*        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
+*        myDrawing = the client's drawing surface
+*        id = the command id
+*/
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
@@ -64,13 +64,13 @@ public:
         return 0;
     }
 
-    /// Getter method -- get the command type.
+    /// Gets the command type. For a filled arc this is 1.
     override public int getCmdType()
     {
         return FILLED_ARC_TYPE;
     }
 
-    /// Encode the command with its information.
+    /// Encodes the command as a string of its id, type, width, x, y, and color.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),

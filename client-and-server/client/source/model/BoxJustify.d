@@ -1,4 +1,4 @@
-module controller.BoxJustify;
+module model.BoxJustify;
 
 /// Enum used to identify alignment.
 enum BoxJustify

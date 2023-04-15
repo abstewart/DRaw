@@ -9,8 +9,20 @@ import std.datetime;
 
 import model.network.client;
 
-auto TIMEOUT_DUR = 1.msecs;
+auto TIMEOUT_DUR = 1.msecs; // timeout for checking interthread messages
 
+/**
+ * Runs the main networking loop for the application. 
+ * - Checks for messages from main thread
+ * - Sends any queued packets
+ * - Receives any packets from server
+ * - Notifies main thread of received packets
+ * 
+ * Params:
+ *        - parent : Tid : the thread id of the parent thread
+ *        - ipAddr : string : the ip address to connect to
+ *        - port   : ushort : the port number to connect to
+ */ 
 void handleNetworking(Tid parent, string ipAddr, ushort port)
 {
     writeln(ownerTid());

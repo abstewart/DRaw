@@ -10,7 +10,12 @@ import gdk.RGBA;
 
 import controller.commands.Command;
 import controller.commands.DrawPointCommand;
-import model.packets.packet_key;
+
+immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet
+immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet
+immutable int UNDO_COMMAND_PACKET = 2; // packet type for an undo command packet
+immutable int CHAT_MESSAGE_PACKET = 3; // packet type for a chat message packet
+immutable int CANVAS_SYNCH_PACKET = 4; // packet type for a canvas sync packet
 
 immutable char END_MESSAGE = '\r';
 

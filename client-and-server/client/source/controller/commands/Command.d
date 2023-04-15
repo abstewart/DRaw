@@ -1,24 +1,19 @@
 module controller.commands.Command;
 
-// Imports.
 protected import cairo.Context;
-
-protected import cairo.ImageSurface; //ImageSurface
-protected import gdk.Pixbuf; //PixBuf
+protected import cairo.ImageSurface; 
+protected import gdk.Pixbuf; 
 protected import gdk.Cairo;
-
-protected import view.components.MyDrawing;
-
-protected import gdk.RGBA; // RGBA.
+protected import gdk.RGBA;
 
 protected import std.format;
-
 protected import std.stdio;
+
+protected import view.components.MyDrawing;
 
 /// Represents a set of common characteristics for a drawing command.
 abstract class Command
 {
-    // Instance variables.
 protected:
     static immutable CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
@@ -57,10 +52,10 @@ public:
     {
     }
 
-    /// Getter method -- gets the command type.
+    /// Gets the command type.
     abstract public int getCmdType();
 
-    /// Getter method -- gets the command id.
+    /// Gets the command id.
     final public int getCmdId()
     {
         return this.id;
@@ -83,17 +78,16 @@ public:
     /// Function to save specified area to the given ImageSurface.
     final void saveOldRect(int width, int height)
     {
-        // Capture the region in question.
         oldPB = getFromSurface(this.surface, this.ulX, this.ulY, width, height);
     }
 
-    /// Getter method -- gets the color is string format.
+    /// Gets the color in string format.
     final string getColorString()
     {
         return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green,
                 this.currentColor.blue, this.currentColor.alpha);
     }
 
-    /// Abstract method to encode the command. Child classes will override this method.
+    /// Abstract method to encode the command into a string. Child classes will override this method.
     abstract string encode();
 }

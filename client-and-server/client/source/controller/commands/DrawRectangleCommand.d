@@ -12,22 +12,21 @@ immutable int RECT_TYPE = 5;
 /// Class representing the draw command with a rectangle brush type.
 class DrawRectangleCommand : Command
 {
-    // Instance variables.
 private:
     int x;
     int y;
     int width;
 
-    /**
-    * Constructs a DrawRectangleCommand instance.
-    * Params:
-    *        x = the x coordinate of the mouse
-    *        y = the y coordinate of the mouse
-    *        currentColor = the color of the paint brush for this command
-    *        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
-    *        myDrawing = the client's drawing surface
-    *        id = the command id
-    */
+/**
+* Constructs a DrawRectangleCommand instance.
+* Params:
+*        x = the x coordinate of the mouse
+*        y = the y coordinate of the mouse
+*        currentColor = the color of the paint brush for this command
+*        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
+*        myDrawing = the client's drawing surface
+*        id = the command id
+*/
 public:
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
@@ -65,13 +64,13 @@ public:
         return 0;
     }
 
-    /// Getter method -- get the command type.
+    /// Gets the command type. For the Rectangle this is 5.
     override public int getCmdType()
     {
         return RECT_TYPE;
     }
 
-    /// Encode the command with its information.
+    /// Encodes the command as a string of its id, type, width, x, y, and color.
     override public string encode()
     {
         return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),

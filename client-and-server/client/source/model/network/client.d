@@ -8,21 +8,27 @@ import std.datetime;
 
 import controller.commands.Command;
 
-auto SOCKET_TIMEOUT = 1.msecs;
+auto SOCKET_TIMEOUT = 1.msecs; 
+string DEFAULT_SOCKET_IP = "localhost"; 
+ushort DEFAULT_PORT_NUMBER = 50002; 
 
-string DEFAULT_SOCKET_IP = "localhost";
-ushort DEFAULT_PORT_NUMBER = 51111;
-int MESSAGE_BUFFER_SIZE = 1024;
-
+/// Class providing client networking features. Provides functionatity for binding to, sending to, and receiving from a socket.
 class Client
 {
 private:
-    string ipAddress;
-    ushort portNumber;
-    TcpSocket sock;
-    bool socketOpen;
+    string ipAddress; // ipAdress to bind
+    ushort portNumber; // port number to bind
+    TcpSocket sock; // TCP socket object
+    bool socketOpen; // socket status
 
 public:
+    /**
+     * Constructs a client socket object with a given IP and port number.
+     *
+     * Params: 
+     *        - ipAdress   : string : the IP address to bind, defaults to localhost
+     *        - portNumber : ushort : the port number to bind, defaults to 50002
+     */
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER)
     {
         this.ipAddress = ipAddress;
@@ -34,11 +40,20 @@ public:
         this.socketOpen = true;
     }
 
+    /**
+     * Closes the socket upon object deconstruction.
+     */
     ~this()
     {
         this.sock.close();
     }
 
+    /**
+     * Receives any data coming in from the server within the timeout period. Closes the socket upon socket errors outside of blocking.
+     * 
+     * Returns:
+     *          - (message, recv) : Tuple!(char[1024], long) : message contents receieved and length in bytes
+     */
     Tuple!(char[1024], long) receiveFromServer()
     {
         char[1024] message;
@@ -76,23 +91,25 @@ public:
         return Tuple!(char[1024], long)(message, recv);
     }
 
-    void sendToServer(char[] packetData)
-    {
-        if (this.socketOpen)
-        {
-            this.sock.send(packetData);
-        }
-
-    }
-
+    /**
+     * Sends the given packet data to the server
+     *
+     * Params:
+     *        - packetData : string : the packet data to send
+     */
     void sendToServer(string packetData)
     {
-        writeln("sending", packetData);
-        char[] packet;
-        packet ~= packetData;
-        this.sock.send(packet);
+        if (this.socketOpen) {
+            writeln("sending", packetData);
+            this.sock.send(packetData);
+        }
     }
 
+    /**
+     *
+     * Returns:
+     *         - bool : whether or not the socket is currently open.
+     */
     bool isSocketOpen()
     {
         return this.socketOpen;

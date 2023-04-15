@@ -1,4 +1,4 @@
-module controller.DRawAbout;
+module model.DRawAbout;
 
 // Imports.
 private import gdk.Pixbuf; // Pixbuf.
