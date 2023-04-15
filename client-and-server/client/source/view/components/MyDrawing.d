@@ -1,11 +1,26 @@
 module view.components.MyDrawing;
 
-// Imports.
-private import std.array; // appender.
-private import std.math; // PI.
-private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
+private import std.array;
+private import std.math; 
+private import std.datetime.systime : SysTime, Clock; 
+private import std.typecons;
+private import std.algorithm;
+private import gdk.RGBA;
+private import gdk.Pixbuf;
+private import gdk.Event;
+private import gtk.Image; 
+private import gtk.DrawingArea; 
+private import gtk.SpinButton;
+private import gtk.Widget; 
+private import gtk.ComboBoxText; 
+private import gtk.Dialog; 
+private import gtk.Adjustment;
+private import cairo.Context; 
+private import cairo.ImageSurface; 
 
 private import model.ApplicationState;
+private import model.Communicator;
+private import model.packets.packet;
 private import controller.commands.Command;
 private import controller.commands.DrawArcCommand;
 private import controller.commands.DrawFilledArcCommand;
@@ -13,28 +28,13 @@ private import controller.commands.DrawFilledRectangleCommand;
 private import controller.commands.DrawLineCommand;
 private import controller.commands.DrawPointCommand;
 private import controller.commands.DrawRectangleCommand;
-private import model.Communicator;
-private import model.packets.packet;
 
-private import cairo.Context; // Context.
-private import cairo.ImageSurface; // ImageSurface.
 
-private import gdk.RGBA; // RGBA.
-private import gdk.Pixbuf; // Pixbuf.
-private import gdk.Event; // Event.
-
-private import gtk.Image; // Image.
-private import gtk.DrawingArea; // DrawingArea.
-private import gtk.SpinButton; // SpinButton.
-private import gtk.Widget; // Widget.
-private import gtk.ComboBoxText; // CombBoxText.
-private import gtk.Dialog; // Dialog.
-private import gtk.Adjustment; // Adjustment.
-
-/// Class representing the drawing area that the user is drawing/painting on.
+/**
+ * Class representing the drawing area that the user is drawing/painting on.
+ */ 
 class MyDrawing : DrawingArea
 {
-    // Instance variables.
 private:
     CairoOperator operator = CairoOperator.OVER;
     ImageSurface surface;
@@ -54,8 +54,10 @@ private:
     int yOffset = 0;
     ApplicationState applicationState = new ApplicationState();
 
-    /// Constructs a MyDrawing instance.
 public:
+    /**
+     * Constructs a myDrawing instance
+     */
     this()
     {
         // Set the size of the whiteboard.
@@ -76,36 +78,49 @@ public:
         addOnButtonPress(&onButtonPress); // This button press event signal will be emitted when a button (typically from a mouse) is pressed.
         addOnButtonRelease(&onButtonRelease); // This button press event signal will be emitted when a button (typically from a mouse) is released.
     }
-
-    /// Deconstructor.
-    ~this()
-    {
-    }
-
-    /// Getter method -- gets the spin button.
+    /**
+     * Gets the spin button.
+     *
+     * Returns:
+     *        - button : SpinButton : the spin button
+     */
     public SpinButton getSpin()
     {
         return this.spin;
     }
 
-    /// Getter method -- gets the image surface.
+    /** 
+     * Gets the image surface.
+     */
     public ImageSurface getImageSurface()
     {
         return this.surface;
     }
 
-    /// Method called when the user selects a color in the color chooser dialog.
+    /**
+     * Method called when the user selects a color in the color chooser dialog.
+     * 
+     * Params:
+     *       - newColor : RGBA : the color selected within the dialogue.
+     */ 
     public void updateBrushColor(RGBA newColor)
     {
         this.currentColor = newColor;
     }
 
-    /// Getter method -- gets the current color. Only used for unittests.
+    /**
+     * Gets the current color. Only used for unittests.
+     *
+     * Returns:
+     *        - color : RGBA : RGBA object of color selected
+     */ 
     public RGBA getBrushColor() {
         return this.currentColor;
     }
 
-    /// Method called when the user clicks the Save button.
+    /** 
+     * Saves the images as a png to disk.
+     */ 
     public void saveWhiteboard()
     {
         Context context = Context.create(this.surface);
@@ -134,20 +149,39 @@ public:
         this.pixbuf.savev(filePath[], "png", pngOptions, pngOptionValues);
     }
 
-    /// Method called when the user clicks the Undo button.
+    /**
+     * Undos all commands in the command history with the id of the most recent command.
+     */ 
     public void undoWhiteboard()
     {
         // Retrieve the most recent command and remove it from the history array.
-        Command cmd = this.applicationState.popHistory();
-
-        // Call the undo function.
-        if (cmd !is null)
+        Tuple!(string, int, Command) unameIdCmd = ApplicationState.popFromCommandHistory();
+        string usernameToUndo = unameIdCmd[0];
+        int cidToUndo = unameIdCmd[1];
+        if (unameIdCmd[2] !is null)
         {
-            cmd.undo();
+            Tuple!(string, int, Command)[] validCmds = [];
+            foreach(Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory()) {
+                string user = uIdCmd[0];
+                int cid = uIdCmd[1];
+                Command cmd = uIdCmd[2];
+                if (usernameToUndo.equal(user) && cidToUndo == cid) {
+                    cmd.undo();
+                    continue;
+                }
+                validCmds ~= uIdCmd;
+            }
+            ApplicationState.setCommandHistory(validCmds);
         }
     }
 
-    // Set width, height, and surface.
+    /**
+     * Sets the width and the height of the surface.
+     *
+     * Params:
+     *       - allocation : GtkAllocation* : pointer to the allocated GTK object
+     *       - widget     : Widget : widget object to size allocate
+     */
     private void onSizeAllocate(GtkAllocation* allocation, Widget widget)
     {
         this.width = allocation.width;
@@ -159,7 +193,16 @@ public:
         ctx.paint();
     }
 
-    // When the mouse is held down this.buttonIsDown = true and execute (draw/paint).
+    /**
+     * Executes control flow when the button is pressed down.
+     *
+     * Params:
+     *       - event  : Event : the button press event
+     *       - widget : Widget : the widget to update
+     *
+     * Returns:
+     *        - false
+     */
     private bool onButtonPress(Event event, Widget widget)
     {
         if (event.type == EventType.BUTTON_PRESS && event.button.button == 1)
@@ -168,31 +211,46 @@ public:
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
             // Draw/paint. Get the command based on the current brush type and then execute it.
-            int id = Communicator.getCurCommandId();
+            int id = ApplicationState.getCurCommandId();
             Command newCommand = getCommand(x, y, id);
             newCommand.execute();
-            // Add the command to the history.
-            this.applicationState.addToHistory(newCommand);
+            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(), id, newCommand);
+            ApplicationState.addToCommandHistory(commandPackage);
             // send to server if applicable
-            string packet = encodeUserDrawCommand(Communicator.getUsername(),
-                    Communicator.getClientId(), newCommand);
+            string packet = encodeUserDrawCommand(ApplicationState.getUsername(),
+                    ApplicationState.getClientId(), newCommand);
             Communicator.queueMessageSend(packet);
         }
         return false;
     }
 
-    // When the mouse is held down this.buttonIsDown = false.
+    /**
+     * Executes control flow when the button is pressed released.
+     *
+     * Params:
+     *       - event  : Event : the button press event
+     *       - widget : Widget : the widget to update
+     *
+     * Returns:
+     *        - false
+     */
     private bool onButtonRelease(Event event, Widget widget)
     {
         if (event.type == EventType.BUTTON_RELEASE && event.button.button == 1)
         {
             this.buttonIsDown = false;
-            Communicator.nextCommand();
+            ApplicationState.goToNextCommandId();
         }
         return false;
     }
 
-    // This will be called from the expose event call back.
+    /**
+     * Updates the surface with whatever has been painted
+     *
+     * Params:
+     *       - context : Scoped!Context : the context to update
+     *       - widget  : Widget : the widget to update
+     */ 
     private bool onDraw(Scoped!Context context, Widget widget)
     {
         // Fill the Widget with the surface we are drawing on.
@@ -201,8 +259,16 @@ public:
         return true;
     }
 
-    // This detects motion on the whiteboard. If the mouse is still in motion and the
-    // mouse is being held down execute (draw/paint).
+    /**
+     * Executes control flow when the button is pressed released. 
+     *
+     * Params:
+     *       - event  : Event : the button press event
+     *       - widget : Widget : the widget to update
+     *
+     * Returns:
+     *        - true
+     */
     private bool onMotionNotify(Event event, Widget widget)
     {
         if (this.buttonIsDown && event.type == EventType.MOTION_NOTIFY)
@@ -210,21 +276,26 @@ public:
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
             // Draw/paint. Get the command based on the current brush type and then execute it.
-            int id = Communicator.getCurCommandId();
+            int id = ApplicationState.getCurCommandId();
             Command newCommand = getCommand(x, y, id);
             newCommand.execute();
             // Add the command to the history.
-            this.applicationState.addToHistory(newCommand);
+            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(), id, newCommand);
+            ApplicationState.addToCommandHistory(commandPackage);
             // send the command to the server
-            string packetToSend = encodeUserDrawCommand(Communicator.getUsername(),
-                    Communicator.getClientId(), newCommand);
+            string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
+                    ApplicationState.getClientId(), newCommand);
             Communicator.queueMessageSend(packetToSend);
         }
         return true;
     }
 
-    // What is called when the brush/pen size is changed. It will be called when the app initially opens
-    // and when the user updates the brush/pen size.
+    /**
+     * Changes the brush size upon button interaction.
+     *
+     * Params:
+     *       - spinButton : SpinButton : button to interact with
+     */
     private void sizeSpinChanged(SpinButton spinButton)
     {
         if (!(this.scaledPixbuf is null))
@@ -238,7 +309,17 @@ public:
         }
     }
 
-    // Get the command type associated with the brush type.
+    /**
+     * Gets the command to build given the x, y, and id of the current command.
+     *
+     * Params:
+     *       - x  : int : x pos of desired command
+     *       - y  : int : y pos of desired command
+     *       - id : int : cid of desired command
+     * 
+     * Returns:
+     *       - command : Command : the created command
+     */
     private Command getCommand(int x, int y, int id)
     {
         switch (this.brushType)
@@ -267,7 +348,12 @@ public:
         }
     }
 
-    /// Method used in MyDrawingArea.d file. Used to set the brush type.
+    /**
+     * Sets the brush type upon combo box interaction
+     * 
+     * Params:
+     *       - comboBoxText : ComboBoxTest : the combo box to interact with.
+     */ 
     public void onBrushOptionChanged(ComboBoxText comboBoxText)
     {
         this.brushType = comboBoxText.getActiveText();

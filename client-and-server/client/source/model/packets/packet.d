@@ -8,8 +8,10 @@ import std.string;
 import std.typecons;
 import gdk.RGBA;
 
+import controller.commands.Command;
 import controller.commands.CommandBuilder;
 import model.Communicator;
+import model.ApplicationState;
 
 immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet
 immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet
@@ -25,20 +27,24 @@ void resolveRemotePackets() {
     Tuple!(string, long)[] packetsToResolve = Communicator.receiveNetworkMessages();
     foreach(Tuple!(string, long) packet ; packetsToResolve) {
         char packetType = packet[0][0];
-        switch (to!int(packetType))
-        {
+        switch (to!int(packetType)) {
             case (USER_CONNECT_PACKET):
-                return parseAndExecuteUserConnPacket(packet[0], packet[1]);
+                parseAndExecuteUserConnPacket(packet[0], packet[1]);
+                break;
             case (DRAW_COMMAND_PACKET):
-                return parseAndExecuteUserDrawPacket(packet[0], packet[1]);
+                parseAndExecuteUserDrawPacket(packet[0], packet[1]);
+                break;
             case (CHAT_MESSAGE_PACKET):
-                return parseAndExecuteChatMessage(packet[0], packet[1]);
+                parseAndExecuteChatMessage(packet[0], packet[1]);
+                break;
             case (UNDO_COMMAND_PACKET):
-                return parseAndExecuteUndoCommand(packet[0], packet[1]);
-            // case (CANVAS_SYNCH_PACKET):
-            //     return &decodeCanvasSyncPacket;
+                parseAndExecuteUndoCommand(packet[0], packet[1]);
+                break;
+            case (CANVAS_SYNCH_PACKET):
+            //  &decodeCanvasSyncPacket;
+                break;
             default:
-                return &decodeUserConnPacket;
+                break;
         }
     }
 }
@@ -53,10 +59,10 @@ void resolveRemotePackets() {
  */
 void parseAndExecuteUserConnPacket(string packet, long recv) {
     Tuple!(string, int, bool) info = decodeUserConnPacket(packet, recv);
-    if (info[3]) {
-        Communicator.addConnectedUser(info[1], info[2]);
+    if (info[2]) {
+        ApplicationState.addConnectedUser(info[0], info[1]);
     } else {
-        Communicator.removeConnectedUser(info[2]);
+        ApplicationState.removeConnectedUser(info[1]);
     }
 }
 

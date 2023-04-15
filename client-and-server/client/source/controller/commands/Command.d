@@ -1,13 +1,12 @@
 module controller.commands.Command;
 
-protected import cairo.Context;
-protected import cairo.ImageSurface; 
+protected import std.format;
+protected import std.stdio;
 protected import gdk.Pixbuf; 
 protected import gdk.Cairo;
 protected import gdk.RGBA;
-
-protected import std.format;
-protected import std.stdio;
+protected import cairo.Context;
+protected import cairo.ImageSurface; 
 
 protected import view.components.MyDrawing;
 
@@ -24,19 +23,20 @@ protected:
     int ulY;
     Pixbuf oldPB;
     int id;
+    int cType;
 
-/**
- * Constructor used amongst all the non-abstract classes that inherit this class.
- *
- * Params:
- *        myDrawing = the client's drawing surface
- *        color = the color of the paint brush for this command
- *        ulx = the upper left x
- *        uly = the upper left y
- *        id = the command id
- */
 public:
-    this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id)
+    /**
+    * Constructor used amongst all the non-abstract classes that inherit this class.
+    *
+    * Params:
+    *        myDrawing = the client's drawing surface
+    *        color = the color of the paint brush for this command
+    *        ulx = the upper left x
+    *        uly = the upper left y
+    *        id = the command id
+    */
+    this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id, int type)
     {
         this.currentColor = color;
         this.myDrawing = myDrawing;
@@ -45,19 +45,16 @@ public:
         // Set the upper left x & y.
         this.ulX = ulx;
         this.ulY = uly;
+
+        // Set id and cmd type
         this.id = id;
+        this.cType = type;
     }
 
-    /// Destructor.
-    ~this()
-    {
-    }
-
-    /// Gets the command type.
-    abstract public int getCmdType();
-
-    /// Gets the command id.
-    final public int getCmdId()
+    /**
+     * Gets the command ID
+     */
+    final int getCmdId()
     {
         return this.id;
     }
@@ -65,10 +62,12 @@ public:
     /**
      * Executes the command on the canvas
      */
-    abstract public void execute();
+    abstract void execute();
 
-    /// Function for undoing an Execute command.
-    public int undo()
+    /**
+     * Function for undoing an Execute command.
+     */ 
+    int undo()
     {
         this.context.save();
         setSourcePixbuf(this.context, oldPB, this.ulX, this.ulY);
@@ -78,19 +77,26 @@ public:
         return 0;
     }
 
-    /// Function to save specified area to the given ImageSurface.
+    /**
+     * Function to save specified area to the given ImageSurface.
+     */
     final void saveOldRect(int width, int height)
     {
         oldPB = getFromSurface(this.surface, this.ulX, this.ulY, width, height);
     }
 
-    /// Gets the color in string format.
+    /** 
+     * Gets the color in string format.
+     */
     final string getColorString()
     {
         return "%s|%s|%s|%s".format(this.currentColor.red, this.currentColor.green,
                 this.currentColor.blue, this.currentColor.alpha);
     }
 
-    /// Abstract method to encode the command into a string. Child classes will override this method.
+    /**
+     * Abstract method to encode the command into a string. 
+     * Child classes will override this method and encode their relevant information.
+     */
     abstract string encode();
 }

@@ -1,24 +1,24 @@
 module view.components.AreaContent;
 
-// Imports.
+private import gtk.Box;
+
 private import view.components.ConnectGrid;
 
-private import gtk.Box; // Box.
-
-/// Class used in the ConnectDialog.d file.
+/**
+ * Class used in the ConnectDialog.d file.
+ */
 class AreaContent
 {
-    // Instance variables.
 private:
     Box _contentArea;
     ConnectGrid _connectGrid;
 
+public:
     /**
     * Constructs an AreaContent instance.
     * Params:
-    *        contentArea = the content area of an instance of the Connect Dialog
+    *        contentArea : Box : the content area of an instance of the Connect Dialog
     */
-public:
     this(Box contentArea)
     {
         this._contentArea = contentArea;
@@ -27,12 +27,12 @@ public:
         this._contentArea.showAll();
     }
 
-    /// Destructor.
-    ~this()
-    {
-    }
-
-    /// Getter method -- gets the ConnectGrid of this AreaContent.
+    /**
+     * Gets the connect grid of the content area.
+     *
+     * Returns:
+     *        - connectGrid : ConnectGrid : the connection grid of this component
+     */
     public ConnectGrid getConnectGrid()
     {
         return this._connectGrid;

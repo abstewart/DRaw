@@ -2,7 +2,6 @@ module model.network.client;
 
 import std.socket;
 import std.stdio;
-import std.parallelism;
 import std.typecons;
 import std.datetime;
 
@@ -12,14 +11,16 @@ auto SOCKET_TIMEOUT = 1.msecs;
 string DEFAULT_SOCKET_IP = "localhost"; 
 ushort DEFAULT_PORT_NUMBER = 50002; 
 
-/// Class providing client networking features. Provides functionatity for binding to, sending to, and receiving from a socket.
+/**
+ * Class providing client networking features. Provides functionatity for binding to, sending to, and receiving from a socket.
+ */
 class Client
 {
 private:
-    string ipAddress; // ipAdress to bind
-    ushort portNumber; // port number to bind
-    TcpSocket sock; // TCP socket object
-    bool socketOpen; // socket status
+    string ipAddress; 
+    ushort portNumber; 
+    TcpSocket sock;
+    bool socketOpen; 
 
 public:
     /**

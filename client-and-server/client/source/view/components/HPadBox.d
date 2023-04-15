@@ -1,15 +1,15 @@
 module view.components.HPadBox;
 
-// Imports.
-private import controller.BoxJustify;
-
 private import gtk.Box; // Box.
 private import gtk.Widget; // Widget.
 
-/// Class used in PadEntry and PadLabel.
+private import view.components.BoxJustify;
+
+/**
+ * Class used in PadEntry and PadLabel.
+ */
 class HPadBox : Box
 {
-    // Instance variables.
 private:
     Widget _widget;
     int globalPadding = 0;
@@ -19,13 +19,13 @@ private:
     int _borderWidth = 5;
     BoxJustify _pJustify;
 
+public:
     /**
     * Constructs a HPadBox instnace.
     * Params:
-    *        widget = a widget (an entry in PadEntry and a label in PadLabel)
-    *        pJustify = the alignment of the widget
+    *        widget   : Widget : a widget (an entry in PadEntry and a label in PadLabel)
+    *        pJustify : BoxJustify : the alignment of the widget
     */
-public:
     this(Widget widget, BoxJustify pJustify)
     {
         this._widget = widget;
@@ -46,10 +46,5 @@ public:
         }
 
         setBorderWidth(this._borderWidth); // Sets the border width of the container. The border width of a container is the amount of space to leave around the outside of the container.
-    }
-
-    /// Deconstructor.
-    ~this()
-    {
     }
 }

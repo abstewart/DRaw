@@ -3,7 +3,6 @@ module model.network.thread_entry;
 import std.stdio;
 import std.string;
 import std.conv;
-import std.parallelism;
 import std.concurrency;
 import std.datetime;
 

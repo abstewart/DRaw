@@ -1,20 +1,19 @@
 module view.components.ConnectGrid;
 
-// Imports.
-private import std.typecons; // Tuple.
+private import std.typecons; 
+private import gtk.Label;
+private import gtk.Entry;
+private import gtk.Grid;
 
 private import view.components.PadLabel;
 private import view.components.PadEntry;
 private import view.components.BoxJustify;
 
-private import gtk.Label; // Label.
-private import gtk.Entry; // Entry.
-private import gtk.Grid; // Grid.
-
-/// Class representing the Grid in the ConnectDialog.
+/**
+ * Class representing the Grid in the ConnectDialog.
+ */ 
 class ConnectGrid : Grid
 {
-    // Instance variables.
 private:
     int _borderWidth = 10; // Keeps the widgets from crowding each other in the grid.
     PadLabel usernameLabel;
@@ -34,8 +33,10 @@ private:
     string _portNum;
     string _username;
 
-    /// Constructs a ConnectGrid instance.
 public:
+    /**
+     * Constructs a ConnectGrid instance.
+     */
     this()
     {
         super();
@@ -68,12 +69,9 @@ public:
         setMarginBottom(7);
     }
 
-    /// Destructor.
-    ~this()
-    {
-    }
-
-    /// Getter method -- get the username, IP Address, and port number the user typed in (or the default).
+    /**
+     * Gets the username, IP Address, and port number the user typed in (or the default).
+     */
     public Tuple!(string, string, string) getData()
     {
         this._username = this.usernameEntry.getText();

@@ -1,6 +1,8 @@
-module model.BoxJustify;
+module view.components.BoxJustify;
 
-/// Enum used to identify alignment.
+/**
+ * Enum used to identify alignment.
+ */
 enum BoxJustify
 {
     LEFT = 0,

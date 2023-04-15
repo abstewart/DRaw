@@ -1,30 +1,26 @@
 module view.components.ConnectDialog;
 
-// Imports.
-private import std.conv; // to.
-private import std.socket; // socket.
-private import std.conv; // to.
-private import std.string; // isNumeric.
-private import std.algorithm.comparison : equal; // equal.
-private import std.regex; // Regular expressions.
+private import std.conv;
+private import std.string : isNumeric;
+private import std.algorithm.comparison : equal;
+private import std.regex;
+private import gdk.c.types;
+private import gtk.Dialog;
+private import gtk.Box;
+private import gtk.MessageDialog;
 
+private import model.Communicator;
 private import view.components.AreaContent;
 private import view.MyWindow;
 
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.Dialog; // Dialog.
-private import gtk.Box; // Box.
-private import gtk.MessageDialog; // MessageDialog.
-private import model.Communicator;
-
-// private import model.network.
-
-/// Class representing what opens when the user clicks the Connect button. The username has to be at least one character long (technically this means a space or new line character, for example, count) -- does not have to be unique from other users' usernames -- no way of checking for that in this version of the application.
-// (https://gtkdcoding.com/2019/06/14/0044-custom-dialog-iii.html)
+/**
+ * Class representing what opens when the user clicks the Connect button. 
+ * Provides functionality for entering a username, ip address and port.
+ * Routes clicks to their appropriate functions.
+ */
 class ConnectDialog : Dialog
 {
-    // Instance variables.
+// (https://gtkdcoding.com/2019/06/14/0044-custom-dialog-iii.html)
 private:
     GtkDialogFlags flags = GtkDialogFlags.MODAL;
     MessageType messageType = MessageType.INFO;
@@ -39,12 +35,12 @@ private:
     bool isConnected;
     string username;
 
+public:
     /**
     * Constructs a ConnectDialog instnace.
     * Params:
     *        myWindow = the main application window
     */
-public:
     this(MyWindow myWindow)
     {
         super(titleText, null, this.flags, this.buttonLabels, this.responseTypes);
@@ -55,41 +51,61 @@ public:
         this.isConnected = this.myWindow.getConnection();
         this.username = ""; // Initially the username is set to an empty string.
         farmOutContent();
-        addOnResponse(&handleClick); // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
+        addOnResponse(&handleResponse); // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
         run(); // Blocks in a recursive main loop until the dialog either emits the response signal, or is destroyed.
         destroy();
     }
 
-    /// Deconstructor.
-    ~this()
-    {
-    }
-
-    /// Getter method -- gets the username the user typed in.
+    /**
+     * Gets the username this component holds
+     *
+     * Returns:
+     *        - username : string : the username this component holds
+     */
     public string getUsername()
     {
         return this.username;
     }
 
-    // FARM it out to AreaContent class.
+    /**
+     * FARMS out content area to area content
+     */
     private void farmOutContent()
     {
         this.contentArea = getContentArea();
         this.areaContent = new AreaContent(this.contentArea);
     }
 
+    /**
+     * Given a username, ip address and port, will attempt to instantiate a Communicator object
+     *
+     * Params:
+     *       - username : string : the username to connect with
+     *       - ipAddr   : string : the ip address to connect to
+     *       - port     : ushort : the port number to connect to
+     */
     private void attemptConnection(string username, string ipAddr, ushort port)
     {
         Communicator.getCommunicator(port, ipAddr, username);
-        this.myWindow.setConnection(true);
-        MessageDialog message = new MessageDialog(this, GtkDialogFlags.MODAL,
-                MessageType.INFO, ButtonsType.OK, "You are now connceted!");
+        bool connected = Communicator.getThreadStatus();
+        this.myWindow.setConnection(connected);
+        MessageDialog message = connected ? 
+                                new MessageDialog(this, GtkDialogFlags.MODAL,
+                                    MessageType.INFO, ButtonsType.OK, "You are now connceted!") :
+                                new MessageDialog(this, GtkDialogFlags.MODAL,
+                                    MessageType.INFO, ButtonsType.OK, "Connection failed, please try again");
         message.run();
         message.destroy();
     }
 
-    // React based on which response the user picked.
-    private void handleClick(int response, Dialog d)
+    /**
+     * Executes the control flow depending on the option the user selected within the dialogue
+     *
+     * Params:
+     *       - response : int : represents which dialogue option the user chose
+     *       - d        : Dialogue : the dialogue object
+     */
+    private void handleResponse(int response, Dialog d)
     {
         switch (response)
         {
@@ -125,22 +141,38 @@ public:
         }
     }
 
-    // Check for a valid username. A username has to have at least one character. It cannot have
-    // any leading or trailing white space. And the character(s) must be either a letter or number.
-    // Spaces in between words are accepted.
-    // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
+    /**
+     * Validates the given username.
+     *
+     * A username is valid if it has at least one letter or number and no trailing whitespace.
+     *
+     * Params:
+     *       - username : string : the username to validate
+     *
+     * Returns:
+     *       - status : bool : true if the username is valid, false if not
+     */
     private bool isValidUsername(string username)
     {
+        // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
         // Regular expression that prevents symbols and only allows letters and numbers.
         // Allows for spaces between words. But there cannot be any leading or trailing spaces.
         auto r = regex(r"^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$");
         return !username.equal("") && matchFirst(username, r);
     }
 
-    // Check for a valid IP address (IPv4 (Internet Protocol version 4)).
-    // Format: an IPv4 address string in the dotted-decimal form a.b.c.d,
-    // or a host name which will be resolved using an InternetHost object.
-    // where a, b, c, d are in the range 0-255, inclusive. (Example IPv4: 192.168.0.5)
+    /** 
+     * Validates the given IP address.
+     *
+     * An IP address is valid if it is in IPv4 dotted-decimal form a.b.c.d where 0 <= a,b,c,d <= 255
+     * or if IP address is a hostname that will resolve.
+     *
+     * Params: 
+     *       - ipAddress : string : the IP address to validate
+     *
+     * Returns:
+     *       - status : bool : true if the IP address is valid, false if not
+     */
     private bool isValidIPAddress(string ipAddress)
     {
         // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
@@ -149,9 +181,17 @@ public:
         return ipAddress.equal("localhost") || matchFirst(ipAddress, r4);
     }
 
-    // Check to see if a port number is valid -- reserved ports are considered invalid.
-    // A port number is an unsigned short from 1-65535.
-    // Port numbers under 1024 are reserved for system services http, ftp, etc.
+    /**
+     * Validates the given port
+     *
+     * A valid port is any port that is not reserved (1-1024) and is a valid port number (1-65535)
+     *
+     * Params:
+     *       - port : string : the port number to check
+     * 
+     * Returns:
+     *       - status : bool : true if the port is valid, false if not
+     */
     private bool isValidPort(string port)
     {
         const ushort LOWRANGE = 1;

@@ -1,19 +1,21 @@
 module view.AppBox;
 
-// Imports.
-private import view.components.MyDrawingBox; // MyDrawingBox.
+private import view.components.MyDrawingBox; 
 
-private import gtk.Box; // Box.
+private import gtk.Box; 
 
-/// AppBox used to arrange myDrawingBox using the notion of packing.
+/**
+ * AppBox used to arrange myDrawingBox using the notion of packing.
+ */ 
 class AppBox : Box
 {
-    // Instance variable.
 private:
     MyDrawingBox myDrawingBox;
 
-    /// Constructs an AppBox instance.
 public:
+    /**
+     * Constructs an AppBox instance.
+     */
     this()
     {
         super(Orientation.VERTICAL, 10);
@@ -21,12 +23,9 @@ public:
         packStart(this.myDrawingBox, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
 
-    /// Descructor.
-    ~this()
-    {
-    }
-
-    /// Getter method -- gets myDrawingBox. Only used for unittests.
+    /** 
+     * Gets myDrawingBox. Only used for unittests.
+     */
     public MyDrawingBox getMyDrawingBox() {
         return this.myDrawingBox;
     }

@@ -1,30 +1,29 @@
 module view.components.MyChatBox;
 
 // Imports.
-private import stdlib = core.stdc.stdlib : exit; // exit.
-private import std.algorithm; // equal.
-private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
-private import std.conv; // to.
+private import stdlib = core.stdc.stdlib : exit;
+private import std.algorithm : equal;
+private import std.datetime.systime : SysTime, Clock;
+private import std.conv : to; 
+private import gdk.c.types; 
+private import gtk.VBox; 
+private import gtk.Button;
+private import gtk.HBox;
+private import gtk.ScrolledWindow; 
+private import gtk.TextView;
+private import gtk.TextBuffer;
+private import gtk.Label; 
+private import gtk.MessageDialog;
+private import gtk.Dialog;
 
 private import view.MyWindow;
 private import model.Communicator;
 
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.VBox; // VBox.
-private import gtk.Button; // Button.
-private import gtk.HBox; // HBox.
-private import gtk.ScrolledWindow; // ScrolledWindow.
-private import gtk.TextView; // TextView.
-private import gtk.TextBuffer; // TextBuffer.
-private import gtk.Label; // Label.
-private import gtk.MessageDialog; // MessageDialog.
-private import gtk.Dialog; // Dialog.
-
-/// Class representing the user chats in.
+/**
+ * Class representing box the user chats in.
+ */
 class MyChatBox : VBox
 {
-    // Instance variables.
 private:
     TextView textView1;
     TextBuffer chatBuffer;
@@ -34,13 +33,13 @@ private:
     bool isConnected;
     string username;
 
+public:
     /**
     * Constructs a MyChatBox instnace.
     * Params:
-    *        myWindow = the main application window
-    *        username = the client's username
+    *        myWindow : MyWindow :  the main application window
+    *        username : string : the client's username
     */
-public:
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
@@ -87,18 +86,23 @@ public:
         packStart(hbox, false, false, 0); // Adds child to box, packed with reference to the start of box.
     }
 
-    /// Deconstructor.
-    ~this()
-    {
-    }
-
-    /// Setter method -- sets the username to be a new username.
+    /**
+     * Sets the username to be a new username.
+     * 
+     * Params:
+     *       - newUsername : string : the username to set our username to.
+     */ 
     public void setUsername(string newUsername)
     {
         this.username = newUsername;
     }
 
-    // Send the message to the chat.
+    /**
+     * Send the message to the chat.
+     *
+     * Params:
+     *       - button : Button : the button clicked when sending a message
+     */ 
     private void sendMessage(Button button)
     {
         this.isConnected = this.myWindow.getConnection();
@@ -161,7 +165,12 @@ public:
         this.messageBuffer.setText("");
     }
 
-    // What happens when the user exits the window.
+    /**
+     * Quits the application
+     *
+     * Params:
+     *       - button : Button : the button to react to
+     */
     private void quitApplication(Button button)
     {
         // Disconnect from server, if connected.

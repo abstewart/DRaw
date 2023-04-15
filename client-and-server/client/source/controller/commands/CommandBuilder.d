@@ -1,5 +1,8 @@
 module controller.commands.CommandBuilder;
 
+private import std.array : split;
+private import std.conv : to;
+
 private import controller.commands.Command;
 private import controller.commands.DrawArcCommand;
 private import controller.commands.DrawFilledArcCommand;
@@ -22,30 +25,23 @@ private import controller.commands.DrawRectangleCommand;
  */
 Command commandMux(int cId, int cType, int cWidth, int x, int y, string color)
 {
-    int arcCmdT = DrawArcCommand.getCmdType();
-    int farcCmdT = DrawFilledArcCommand.getCmdType();
-    int frectCmdT = DrawFilledRectangleCommand.getCmdType();
-    int lineCmdT = DrawLineCommand.getCmdType();
-    int pointCmdT = DrawPointCommand.getCmdType();
-    int rectCmdT = DrawRectangleCommand.getCmdType();
-
     auto col = color.split('|');
     RGBA cmdColor = new RGBA(to!int(col[0]), to!int(col[1]), to!int(col[2]), to!int(col[3]));
 
     switch(cType) {
-        case arcCmdT:
-            return new DrawArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
-        case farcCmdT:
-            return new DrawFilledArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
-        case frectCmdT:
-            return new DrawFilledRectangleCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
-        case lineCmdT:
-            return new DrawLineCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
-        case pointCmdT:
-            return new DrawPointCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
-        case rectCmdT:
-            return new DrawRectangleCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
+        case DrawArcCommand.cType:
+            return new DrawArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        case DrawFilledArcCommand.cType:
+            return new DrawFilledArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        case DrawFilledRectangleCommand.cType:
+            return new DrawFilledRectangleCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        case DrawLineCommand.cType:
+            return new DrawLineCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        case DrawPointCommand.cType:
+            return new DrawPointCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        case DrawRectangleCommand.cType:
+            return new DrawRectangleCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
         default:
-            return new DrawFilledArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cid);
+            return new DrawFilledArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
     }
 }

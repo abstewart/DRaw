@@ -1,51 +1,49 @@
 module view.MyWindow;
 
-// Imports.
-private import stdlib = core.stdc.stdlib : exit; // exit.
-private import std.algorithm.comparison : equal; // equal.
+private import stdlib = core.stdc.stdlib : exit; 
+private import std.algorithm.comparison : equal; 
+private import gdk.c.types; 
+private import gtk.Version; 
+private import gtk.Application; 
+private import gtk.ApplicationWindow;
+private import gtk.AccelGroup; 
+private import gtk.MenuItem; 
+private import gtk.Widget; 
+private import gtk.MenuBar; 
+private import gtk.Button; 
+private import gtk.VBox; 
+private import gtk.HBox;
+private import gtk.HButtonBox; 
+private import gtk.Statusbar; 
+private import gtk.Menu; 
+private import gtk.ButtonBox;
+private import gtk.Dialog; 
+private import gtk.MessageDialog; 
 
 private import view.components.DisconnectDialog;
 private import view.components.ConnectDialog;
 private import view.AppBox;
-private import controller.DRawAbout;
+private import view.components.DRawAbout;
 private import view.components.ChatBox;
 private import view.components.MyChatBox;
 private import model.Communicator;
 
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.Version; // Version.
-private import gtk.Application; // Application.
-private import gtk.ApplicationWindow; // ApplicationWindow.
-private import gtk.AccelGroup; // AccelGroup.
-private import gtk.MenuItem; // MenuItem.
-private import gtk.Widget; // Widget.
-private import gtk.MenuBar; // MenuBar.
-private import gtk.Button; // Button.
-private import gtk.VBox; // VBox.
-private import gtk.HBox; // HBox.
-private import gtk.HButtonBox; // HButtonBox.
-private import gtk.Statusbar; // Statusbar.
-private import gtk.Menu; // Menu.
-private import gtk.ButtonBox; // ButtonBox.
-private import gtk.Dialog; // Dialog.
-private import gtk.MessageDialog; // MessageDialog.
-
-/// Class representing the main window of the application. Used in runMainApplication() method in DRawApp.d.
+/**
+ * Class representing the main window of the application. 
+ */
 class MyWindow : ApplicationWindow
 {
-    // Instance variable.
 private:
     bool isConnected;
     ChatBox chatBox;
     AppBox appBox;
 
+public:
     /**
     * Constructs a MyWindow instnace.
     * Params:
-    *        application = an application instance
+    *        application : Application : an application instance
     */
-public:
     this(Application application)
     {
         super(application);
@@ -66,24 +64,31 @@ public:
         this.isConnected = false;
     }
 
-    /// Destructor
-    ~this()
-    {
-    }
-
-    /// Getter method -- gets the isConnected variable value.
+    /** 
+     * Gets the isConnected variable value.
+     * 
+     * Returns:
+     *        - isConnected : bool : status of server connection
+     */
     public bool getConnection()
     {
         return this.isConnected;
     }
 
-    /// Setter method -- sets the isConnected variable value.
+    /** 
+     * Sets the isConnected variable value.
+     *
+     * Params:
+     *       - value : bool : connection value to set
+     */
     public void setConnection(bool value)
     {
         this.isConnected = value;
     }
 
-    // Method used to set up the window.
+    /** 
+     * Sets up the window structure.
+     */
     private void setup()
     {
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
@@ -140,12 +145,22 @@ public:
         add(hbox);
     }
 
-    /// Getter method -- gets the appBox inside of MyWindow. Only used for unittests.
+    /**
+     * Gets the appBox inside of MyWindow. Only used for unittests.
+     *
+     * Returns: 
+     *        - appbox : AppBox : the application box
+     */
     public AppBox getAppBox() {
         return this.appBox;
     }
 
-    // Method that creates a new ConnectDialog.
+    /**
+     * Creates a new connection dialogue.
+     *
+     * Params: 
+     *       - button : Button : button to click to create new dialogue.
+     */
     private void connectWhiteboard(Button button)
     {
         ConnectDialog connectDialog = new ConnectDialog(this);
@@ -156,13 +171,23 @@ public:
         }
     }
 
-    // Method that creates a new DisconnectDialog.
+    /**
+     * Creates a new disconnection dialogue.
+     *
+     * Params: 
+     *       - button : Button : button to click to create new dialogue.
+     */
     private void disconnectWhiteboard(Button button)
     {
         DisconnectDialog disconnectDialog = new DisconnectDialog(this);
     }
 
-    // What happens when the user clicks the About item in the Help menu.
+    /**
+     * Activates the about menu window on item click.
+     *
+     * Params:
+     *       - menuItem : MenuItem : menu item to click
+     */
     private void onMenuActivate(MenuItem menuItem)
     {
         string action = menuItem.getActionName();
@@ -183,7 +208,12 @@ public:
         }
     }
 
-    // Helper method to get the menu bar for the window.
+    /**
+     * Gets the menu bar for the window.
+     *
+     * Returns:
+     *        - menubar : MenuBar : the menu bar widget
+     */
     private MenuBar getMenuBar()
     {
         AccelGroup accelGroup = new AccelGroup();
@@ -195,7 +225,12 @@ public:
         return menuBar;
     }
 
-    ///
+    /**
+     * Quits the application if connected.
+     *
+     * Params: 
+     *       - widget : Widget : the widget to interact with to quit
+     */
     public void quitApp(Widget widget)
     {
         // Disconnect from server, if connected.

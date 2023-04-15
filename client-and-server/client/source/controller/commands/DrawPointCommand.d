@@ -1,15 +1,12 @@
 module controller.commands.DrawPointCommand;
 
-// Imports.
-private import std.math; // PI.
-
 private import controller.commands.Command;
-
-private import gtk.SpinButton; // SpinButton.
 
 immutable int POINT_TYPE = 4;
 
-/// Class representing the draw command with a point brush type.
+/** 
+ * Implements functionality for drawing and undoing a 'Point' on a Cairo Canvas.
+ */
 class DrawPointCommand : Command
 {
 private:
@@ -18,32 +15,31 @@ private:
     int width;
     Pixbuf oldPB;
 
-/**
-* Constructs a DrawPointCommand instance.
-* Params:
-*        x = the x coordinate of the mouse
-*        y = the y coordinate of the mouse
-*        currentColor = the color of the paint brush for this command
-*        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
-*        myDrawing = the client's drawing surface
-*        id = the command id
-*/
+
 public:
+    static immutable int cType = POINT_TYPE;
+
+    /**
+    * Constructs a DrawPointCommand instance.
+    * Params:
+    *        x = the x coordinate of the mouse
+    *        y = the y coordinate of the mouse
+    *        currentColor = the color of the paint brush for this command
+    *        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
+    *        myDrawing = the client's drawing surface
+    *        id = the command id
+    */
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x, y, id);
+        super(myDrawing, currentColor, x, y, id, POINT_TYPE);
         this.x = x;
         this.y = y;
         this.width = width;
-
     }
 
-    /// Destructor.
-    ~this()
-    {
-    }
-
-    /// The execute method -- draw/paint.
+    /** 
+     * Draws a point on the canvas. 
+     */
     override public void execute()
     {
         this.context.setOperator(this.operator);
@@ -64,16 +60,12 @@ public:
         this.myDrawing.queueDraw();
     }
 
-    /// Gets the command type. For the Point this is 4.
-    override public int getCmdType()
-    {
-        return POINT_TYPE;
-    }
-
-    /// /// Encodes the command as a string of its id, type, width, x, y, and color.
+    /**
+     * Encodes the command id, type, width, x, y and color in a string
+     */
     override public string encode()
     {
-        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
+        return "%s,%s,%s,%s,%s,%s".format(this.id, cType,
                 this.width, this.x, this.y, this.getColorString());
     }
 }

@@ -2,6 +2,7 @@ module model.ApplicationState;
 
 private import std.string;
 private import std.typecons;
+private import std.array;
 
 private import controller.commands.Command;
 
@@ -14,14 +15,10 @@ class ApplicationState
 private:
     static int clientId = -1;
     static string username = "";
-    static string[int] connectedUsers = [];
-    static Tuple!(string, int, char[255])[] chatHistory = [];
+    static string[int] connectedUsers;
+    static Tuple!(string, int, long, string)[] chatHistory = [];
     static Tuple!(string, int, Command)[] commandHistory = [];
     static int curCmd = 0;
-
-    this(){}
-
-    ~this(){}
 
 public:
     /** 
@@ -51,7 +48,7 @@ public:
      *        - username : string : the current username
      */
     static string getUsername() {
-        return ApplciationState.username;
+        return ApplicationState.username;
     }
 
     /**
@@ -101,7 +98,7 @@ public:
      * Returns:
      *        - chatHistory : Tuple!(string, int, long, string)[] : the current chat history
      */
-    static Tuple!(string, int, long, string) getChatHistory() {
+    static Tuple!(string, int, long, string)[] getChatHistory() {
         return ApplicationState.chatHistory;
     }
 
@@ -111,8 +108,8 @@ public:
      * Params:
      *       - chatPackage : Tuple!(string, int, long, string) : a username, id, timestamp, message package
      */
-    static void addConnectedUser(string username, int uid) {
-        ApplicationState.chatHistory.append(chatPackage);
+    static void addChatPacket(Tuple!(string, int, long, string) chatPackage) {
+        ApplicationState.chatHistory ~= chatPackage;
     }
 
     /**
@@ -123,7 +120,7 @@ public:
      */
     static void addToCommandHistory(Tuple!(string, int, Command) cmd)
     {
-        ApplciationState.history = [cmd] ~ ApplicationState.history;
+        ApplicationState.commandHistory = [cmd] ~ ApplicationState.commandHistory;
     }
 
     /**
@@ -135,15 +132,14 @@ public:
      */
     static Tuple!(string, int, Command) popFromCommandHistory()
     {
-        if (ApplicationState.history.length >= 1)
+        if (ApplicationState.commandHistory.length >= 1)
         {
-            auto lastCommand = ApplicationState.history[0];
-            ApplicationState.history = ApplicationState.history[1 .. $];
+            auto lastCommand = ApplicationState.commandHistory[0];
+            ApplicationState.commandHistory = ApplicationState.commandHistory[1 .. $];
             return lastCommand;
-        }
-        else
-        {
-            return null;
+        } else {
+            Command badCmd = null;
+            return tuple("", -1, badCmd);
         }
     }
 
@@ -153,9 +149,19 @@ public:
      * Returns:
      *        - commandHistory : Tuple!(string, int, Command)[] : the current command history
      */
-    static Tuple!(string, int, Command)[] getHistory()
+    static Tuple!(string, int, Command)[] getCommandHistory()
     {
-        return ApplicationState.history;
+        return ApplicationState.commandHistory;
+    }
+
+    /**
+     * Sets the current command tuple history.
+     *
+     * Params:
+     *       - history : Tuple!(string, int, Command)[] : the history to set
+     */
+    static void setCommandHistory(Tuple!(string, int, Command)[] history) {
+        ApplicationState.commandHistory = history;
     }
 
     /**

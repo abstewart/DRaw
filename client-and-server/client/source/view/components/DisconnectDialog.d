@@ -1,21 +1,17 @@
 module view.components.DisconnectDialog;
 
-// Imports.
-private import std.socket; // socket.
-
-private import view.MyWindow;
-
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.Dialog; // Dialog.
-private import gtk.MessageDialog; // MessageDialog.
+private import gdk.c.types;
+private import gtk.Dialog; 
+private import gtk.MessageDialog; 
 
 private import model.Communicator;
+private import view.MyWindow;
 
-/// Class representing what opens when the user clicks the Disconnect button.
+/**
+ * Class representing what opens when the user clicks the Disconnect button.
+ */ 
 class DisconnectDialog : Dialog
 {
-    // Instance variables.
 private:
     DialogFlags flags = DialogFlags.MODAL;
     ResponseType[] responseTypes = [ResponseType.YES, ResponseType.NO];
@@ -24,12 +20,12 @@ private:
     MyWindow myWindow;
     bool isConnected;
 
+public:
     /**
     * Constructs a DisconnectDialog instnace.
     * Params:
-    *        myWindow = the main application window
+    *        myWindow : MyWindow : the main application window
     */
-public:
     this(MyWindow myWindow)
     {
         super(this.titleText, null, this.flags, this.buttonLabels, this.responseTypes);
@@ -38,18 +34,19 @@ public:
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
         this.myWindow = myWindow;
         this.isConnected = this.myWindow.getConnection();
-        addOnResponse(&doSomething); // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
+        addOnResponse(&handleResponse); // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
         run(); // Blocks in a recursive main loop until the dialog either emits the response signal, or is destroyed.
         destroy();
     }
 
-    /// Deconstructor.
-    ~this()
-    {
-    }
-
-    // React based on which response the user picked.
-    private void doSomething(int response, Dialog d)
+    /**
+     * Executes the control flow depending on the option the user selected within the dialogue
+     *
+     * Params:
+     *       - response : int : represents which dialogue option the user chose
+     *       - d        : Dialogue : the dialogue object
+     */
+    private void handleResponse(int response, Dialog d)
     {
         switch (response)
         {

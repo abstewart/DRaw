@@ -11,13 +11,14 @@ import model.ApplicationState;
 import model.packets.packet;
 import controller.commands.Command;
 
+auto THREAD_TIMEOUT_DUR = 5000.msecs;
+
 /**
  * Class intended to represent a communication object between the main and network thread.
  */
 class Communicator
 {
 private:
-    static final threadTimeoutDuration = 3.secs;
     static bool threadActive = false;
     static Tid childThread;
     static Communicator instance = null;
@@ -37,14 +38,14 @@ private:
         threadActive = true;
         childThread = spawn(&handleNetworking, thisTid, ip, port);
         int clientId = ApplicationState.getClientId();
-        string connReqPacket = encodeUserConnPacket(username, clientId);
+        string connReqPacket = encodeUserConnPacket(username, clientId, true);
         send(childThread, connReqPacket);
 
         // receive an acknowledgement packet from the server and update the application state
-        bool serverAck = receiveTimeout(threadTimeoutDuration, (string packet, immutable long recvLen) {
+        bool serverAck = receiveTimeout(THREAD_TIMEOUT_DUR, (string packet, immutable long recvLen) {
             if (recvLen > 0)
             {
-                Tuple!(string, int) usernameId = decodeUserConnPacket(packet, recvLen);
+                Tuple!(string, int, bool) usernameId = decodeUserConnPacket(packet, recvLen);
                 string uname = usernameId[0];
                 int cid = usernameId[1];
                 ApplicationState.setUsername(uname);
@@ -60,6 +61,9 @@ private:
         }
     }
 
+    /**
+     * Sends a message to the child thread to shutdown and marks our thread as closed
+     */
     void shutdown()
     {
         immutable bool shutdown = true;
@@ -67,12 +71,28 @@ private:
         threadActive = false;
     }
 
+    /**
+     * Sends the given message to the child thread
+     *
+     * Params:
+     *       - message : string : message to send;
+     */
     void sendToChild(string message)
     {
         send(childThread, message);
     }
 
 public:
+    /**
+     * Gets the current Communicator object
+     *
+     * Params:
+     *       - port     : ushort : the port to connect to
+     *       - ip       : string : the ip to connect to
+     *       - username : string : the username to connect with
+     * Returns:
+     *       - communicator : Communicator : a communicator object
+     */
     static Communicator getCommunicator(ushort port = 0, string ip = "-1", string username = "-1")
     {
         if (instance is null)
@@ -82,6 +102,9 @@ public:
         return instance;
     }
 
+    /**
+     * Shuts down our networking thread if one exists
+     */
     static void disconnect()
     {
         if (!(instance is null))
@@ -91,6 +114,12 @@ public:
         }
     }
 
+    /**
+     * Sends a message to our child thread if one exists
+     *
+     * Params:
+     *       - message : string : the message to send
+     */
     static void queueMessageSend(string message)
     {
         if (!(instance is null))
@@ -100,6 +129,12 @@ public:
         }
     }
 
+    /**
+     * Receives all waiting messages from the child thread if there is one and returns them.
+     *
+     * Returns:
+     *        - messages : Tuple!(string, long)[] : an array of received messages and their lengths
+     */
     static Tuple!(string, long)[] receiveNetworkMessages()
     {
         Tuple!(string,long)[] packetsToHandle = [];
@@ -108,12 +143,23 @@ public:
             for (bool messageReceived = true; messageReceived;)
             {
                 messageReceived = receiveTimeout(TIMEOUT_DUR, (string message, immutable long recv) {
-                    auto messageAndLen = tuple(message, recv);
+                    long recvLen = recv;
+                    auto messageAndLen = tuple(message, recvLen);
                     packetsToHandle ~= messageAndLen;         
                 }, 
                 (bool closedSocket) { Communicator.disconnect(); });
             }
         }
         return packetsToHandle;
+    }
+
+    /**
+     * Gets the status of the child thread
+     *
+     * Returns:
+     *        - threadStatus : bool : a boolean representing whether or not the internal thread is active
+     */
+    static bool getThreadStatus() {
+        return threadActive;
     }
 }

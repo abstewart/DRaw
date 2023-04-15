@@ -2,7 +2,6 @@ module model.server_network;
 
 // Imports.
 import controller.commands.Command;
-import controller.EncodeDecode;
 
 import std.socket;
 import std.stdio;
@@ -21,6 +20,7 @@ Tuple!(string, int, Command) parseCommand(string message, long size)
 {
     return decodeUserDrawCommand(message, size);
 }
+
 
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
@@ -90,10 +90,10 @@ class Server
                 writeln("> client", this.clientCount, " added to connectedClients list");
                 char[1024] buffer;
                 long recv = newSocket.receive(buffer);
-                Tuple!(string, int) userId = decodeUserConnPacket(to!string(buffer), recv);
-                writeln("> user ", userId[0], " successfully connected");
-                this.users[this.clientCount] = userId[0];
-                notifyAll(this.connectedClients, encodeUserConnPacket(userId[0], this.clientCount));
+                Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer), recv);
+                writeln("> user ", userIdConnStatus[0], " successfully connected");
+                this.users[this.clientCount] = userIdConnStatus[0];
+                notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0], this.clientCount, userIdConnStatus[2]));
             }
             int[] curKeys = this.connectedClients.keys();
             foreach (key; parallel(curKeys))

@@ -1,26 +1,26 @@
 module view.components.BrushTypeComboBoxText;
 
-// Imports.
-private import view.components.MyDrawing;
-
 private import gtk.ComboBoxText; // CombBoxText.
 
-/// Class representing the ComboBoxText that is made up of the brush types.
+private import view.components.MyDrawing;
+
+/**
+ * Class representing the ComboBoxText that is made up of the brush types.
+ */
 class BrushTypeComboBoxText : ComboBoxText
 {
-    // Instance variables.
 private:
     string[] brushTypes = [
         "Filled Arc", "Arc", "Line", "Point", "Rectangle", "Filled Rectangle"
     ];
     bool entryOn = false;
 
+public:
     /**
     * Constructs BrushTypeComboBoxText instance.
     * Params:
-    *        drawingArea = the client's drawing surface
+    *        drawingArea : MyDrawing : the client's drawing surface
     */
-public:
     this(MyDrawing drawingArea)
     {
         super(entryOn);
@@ -36,10 +36,5 @@ public:
 
         // How the widge signal addOnChanged() is harnessed.
         addOnChanged(&drawingArea.onBrushOptionChanged);
-    }
-
-    /// Destructor.
-    ~this()
-    {
     }
 }
