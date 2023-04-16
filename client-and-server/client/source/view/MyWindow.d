@@ -3,6 +3,10 @@ module view.MyWindow;
 private import stdlib = core.stdc.stdlib : exit;
 private import std.algorithm.comparison : equal;
 private import glib.Timeout;
+private import gtk.CssProvider;
+private import gtk.StyleContext;
+private import gdk.Screen;
+private import gio.FileIF;
 private import gdk.c.types;
 private import gtk.Version;
 private import gtk.Application;
@@ -50,6 +54,11 @@ public:
     this(Application application)
     {
         super(application);
+        CssProvider provider = new CssProvider();
+        FileIF file = FileIF.parseName("./gtk.css");
+        provider.loadFromFile(file);
+        Screen def = Screen.getDefault();
+        StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         addOnDestroy(&quitApp);
@@ -64,7 +73,7 @@ public:
             d.run();
             d.destroy();
         }
-        this.timeout = new Timeout(50, () { return resolveRemotePackets(this); }, false);
+        this.timeout = new Timeout(10, () { return resolveRemotePackets(this); }, false);
         this.isConnected = false;
 
     }
