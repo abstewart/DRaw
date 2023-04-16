@@ -13,6 +13,7 @@ import controller.commands.Command;
 import controller.commands.CommandBuilder;
 import model.Communicator;
 import model.ApplicationState;
+import view.MyWindow;
 
 immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet
 immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet
@@ -24,33 +25,36 @@ immutable char END_MESSAGE = '\r'; // end packet delimiter
 /**
  * Parses and executes any packets that have come in from the server.
  */
-void resolveRemotePackets()
+bool resolveRemotePackets(MyWindow window)
 {
     Tuple!(string, long)[] packetsToResolve = Communicator.receiveNetworkMessages();
     foreach (Tuple!(string, long) packet; packetsToResolve)
     {
-        char packetType = packet[0][0];
-        switch (to!int(packetType))
+        char packetOld = packet[0][0];
+        immutable int packetType = to!int(packet[0][0]) - '0';
+        switch (packetType)
         {
         case (USER_CONNECT_PACKET):
             parseAndExecuteUserConnPacket(packet[0], packet[1]);
             break;
         case (DRAW_COMMAND_PACKET):
-            parseAndExecuteUserDrawPacket(packet[0], packet[1]);
+            parseAndExecuteUserDrawPacket(packet[0], packet[1], window);
             break;
         case (CHAT_MESSAGE_PACKET):
-            parseAndExecuteChatMessage(packet[0], packet[1]);
+            parseAndExecuteChatMessage(packet[0], packet[1], window);
             break;
         case (UNDO_COMMAND_PACKET):
-            parseAndExecuteUndoCommand(packet[0], packet[1]);
+            parseAndExecuteUndoCommand(packet[0], packet[1], window);
             break;
         case (CANVAS_SYNCH_PACKET):
-            //  &decodeCanvasSyncPacket;
+            //  &parseAndExecuteCanvasSynch;
             break;
         default:
+            writeln("no case found");
             break;
         }
     }
+    return true;
 }
 
 /**
@@ -121,10 +125,11 @@ string encodeUserConnPacket(string username, int id, bool connStatus)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUserDrawPacket(string packet, long recv)
+void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
 {
-    Tuple!(string, int, Command) info = decodeUserDrawCommand(packet, recv);
-    // TODO: submit command to drawing window and command history
+    Tuple!(string, int, Command) userIdCmd = decodeUserDrawCommand(packet, recv, window);
+    writeln(userIdCmd[2].encode);
+    ApplicationState.addToCommandHistory(userIdCmd);
 }
 
 /**
@@ -140,14 +145,14 @@ void parseAndExecuteUserDrawPacket(string packet, long recv)
  * Returns: 
  *        - a tuple of username, user id, Command : Tuple!(string, int, Command) :
  */
-Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv)
+Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyWindow window)
 {
     auto fields = packet[0 .. recv - 1].split(',');
     writeln(fields);
     string username = to!string(fields[1]);
     int uid = to!int(fields[2]);
     Command cmd = commandMux(to!int(fields[3]), to!int(fields[4]),
-            to!int(fields[5]), to!int(fields[6]), to!int(fields[7]), fields[8]);
+            to!int(fields[5]), to!int(fields[6]), to!int(fields[7]), fields[8], window);
 
     return tuple(username, uid, cmd);
 }
@@ -179,27 +184,29 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUndoCommand(string packet, long recv)
+void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
 {
-    // Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
-    // string usernameToUndo = userIdCid[0];
-    // int userIdToUndo = userIdCid[1];
-    // int cidToUndo
-    // if (userIdCid[2] is null)
-    // {
-    //     Tuple!(string, int, Command)[] validCmds = [];
-    //     foreach(Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory()) {
-    //         string user = uIdCmd[0];
-    //         int cid = uIdCmd[1];
-    //         Command cmd = uIdCmd[2];
-    //         if (usernameToUndo.equal(user) && cidToUndo == cid) {
-    //             cmd.undo();
-    //             continue;
-    //         }
-    //         validCmds ~= uIdCmd;
-    //     }
-    //     ApplicationState.setCommandHistory(validCmds);
-    // }
+    writeln("received undo packet");
+    Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
+    string usernameToUndo = userIdCid[0];
+    int idToUndo = userIdCid[1];
+    int cidToUndo = userIdCid[2];
+    writeln("attempting to undo ", usernameToUndo, " ", idToUndo, " ", cidToUndo);
+    Tuple!(string, int, Command)[] validCmds = [];
+    foreach (Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory())
+    {
+        string user = uIdCmd[0];
+        int id = uIdCmd[1];
+        Command cmd = uIdCmd[2];
+        int cid = cmd.getCmdId();
+        if (usernameToUndo.equal(user) && idToUndo == id && cidToUndo == cid)
+        {
+            cmd.undo();
+            continue;
+        }
+        validCmds ~= uIdCmd;
+    }
+    ApplicationState.setCommandHistory(validCmds);
 }
 
 /**
@@ -221,6 +228,7 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
     string username = to!string(fields[1]);
     int uid = to!int(fields[2]);
     int cid = to!int(fields[3]);
+    writeln("parsed undo packet");
     return tuple(username, uid, cid);
 }
 
@@ -251,7 +259,7 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteChatMessage(string packet, long recv)
+void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
     // TODO: add message into the chat queue

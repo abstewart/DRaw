@@ -10,6 +10,7 @@ private import controller.commands.DrawFilledRectangleCommand;
 private import controller.commands.DrawLineCommand;
 private import controller.commands.DrawPointCommand;
 private import controller.commands.DrawRectangleCommand;
+private import view.MyWindow;
 
 /**
  * Constructs a command object from a command id, command type, width, x, y, and color
@@ -22,31 +23,34 @@ private import controller.commands.DrawRectangleCommand;
  *        - y      : int : the y position of the command to create
  *        - color  : string : the color of the command to create
  */
-Command commandMux(int cId, int cType, int cWidth, int x, int y, string color)
+Command commandMux(int cId, int cType, int cWidth, int x, int y, string color, MyWindow window)
 {
     auto col = color.split('|');
-    RGBA cmdColor = new RGBA(to!int(col[0]), to!int(col[1]), to!int(col[2]), to!int(col[3]));
+    RGBA cmdColor = new RGBA(to!double(col[0]), to!double(col[1]),
+            to!double(col[2]), to!double(col[3]));
 
     switch (cType)
     {
     case DrawArcCommand.cType:
-        return new DrawArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        return new DrawArcCommand(x, y, cmdColor, cWidth,
+                window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     case DrawFilledArcCommand.cType:
-        return new DrawFilledArcCommand(x, y,
-                cmdColor, cWidth, new MyDrawing(), cId);
+        return new DrawFilledArcCommand(x, y, cmdColor,
+                cWidth, window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     case DrawFilledRectangleCommand.cType:
-        return new DrawFilledRectangleCommand(x,
-                y, cmdColor, cWidth, new MyDrawing(), cId);
+        return new DrawFilledRectangleCommand(x, y,
+                cmdColor, cWidth, window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     case DrawLineCommand.cType:
         return new DrawLineCommand(x, y, cmdColor,
-                cWidth, new MyDrawing(), cId);
+                cWidth, window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     case DrawPointCommand.cType:
         return new DrawPointCommand(x, y, cmdColor,
-                cWidth, new MyDrawing(), cId);
+                cWidth, window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     case DrawRectangleCommand.cType:
-        return new DrawRectangleCommand(x, y,
-                cmdColor, cWidth, new MyDrawing(), cId);
+        return new DrawRectangleCommand(x, y, cmdColor,
+                cWidth, window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     default:
-        return new DrawFilledArcCommand(x, y, cmdColor, cWidth, new MyDrawing(), cId);
+        return new DrawFilledArcCommand(x, y, cmdColor, cWidth,
+                window.getAppBox().getMyDrawingBox().getMyDrawing(), cId);
     }
 }

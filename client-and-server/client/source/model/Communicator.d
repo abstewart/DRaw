@@ -51,7 +51,6 @@ private:
                 ApplicationState.setUsername(uname);
                 ApplicationState.setClientId(cid);
                 ApplicationState.addConnectedUser(uname, cid);
-                writeln("user ", username, " with client id ", clientId, " has been acknowledged");
             }
         });
 
