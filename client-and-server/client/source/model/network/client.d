@@ -7,9 +7,9 @@ import std.datetime;
 
 import controller.commands.Command;
 
-auto SOCKET_TIMEOUT = 1.msecs; 
-string DEFAULT_SOCKET_IP = "localhost"; 
-ushort DEFAULT_PORT_NUMBER = 50002; 
+auto SOCKET_TIMEOUT = 1.msecs;
+string DEFAULT_SOCKET_IP = "localhost";
+ushort DEFAULT_PORT_NUMBER = 50002;
 
 /**
  * Class providing client networking features. Provides functionatity for binding to, sending to, and receiving from a socket.
@@ -17,10 +17,10 @@ ushort DEFAULT_PORT_NUMBER = 50002;
 class Client
 {
 private:
-    string ipAddress; 
-    ushort portNumber; 
+    string ipAddress;
+    ushort portNumber;
     TcpSocket sock;
-    bool socketOpen; 
+    bool socketOpen;
 
 public:
     /**
@@ -100,7 +100,8 @@ public:
      */
     void sendToServer(string packetData)
     {
-        if (this.socketOpen) {
+        if (this.socketOpen)
+        {
             writeln("sending", packetData);
             this.sock.send(packetData);
         }

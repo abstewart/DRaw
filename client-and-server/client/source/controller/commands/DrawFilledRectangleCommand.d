@@ -64,7 +64,7 @@ public:
      */
     override public string encode()
     {
-        return "%s,%s,%s,%s,%s,%s".format(this.id, cType,
-                this.width, this.x, this.y, this.getColorString());
+        return "%s,%s,%s,%s,%s,%s".format(this.id, cType, this.width, this.x,
+                this.y, this.getColorString());
     }
 }

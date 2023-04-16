@@ -1,4 +1,3 @@
-
 private import std.stdio : writeln;
 
 /** 

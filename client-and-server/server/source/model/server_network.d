@@ -21,7 +21,6 @@ Tuple!(string, int, Command) parseCommand(string message, long size)
     return decodeUserDrawCommand(message, size);
 }
 
-
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();
@@ -90,10 +89,12 @@ class Server
                 writeln("> client", this.clientCount, " added to connectedClients list");
                 char[1024] buffer;
                 long recv = newSocket.receive(buffer);
-                Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer), recv);
+                Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer),
+                        recv);
                 writeln("> user ", userIdConnStatus[0], " successfully connected");
                 this.users[this.clientCount] = userIdConnStatus[0];
-                notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0], this.clientCount, userIdConnStatus[2]));
+                notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
+                        this.clientCount, userIdConnStatus[2]));
             }
             int[] curKeys = this.connectedClients.keys();
             foreach (key; parallel(curKeys))

@@ -1,12 +1,12 @@
 module view.AppBox;
 
-private import view.components.MyDrawingBox; 
+private import view.components.MyDrawingBox;
 
-private import gtk.Box; 
+private import gtk.Box;
 
 /**
  * AppBox used to arrange myDrawingBox using the notion of packing.
- */ 
+ */
 class AppBox : Box
 {
 private:
@@ -26,7 +26,8 @@ public:
     /** 
      * Gets myDrawingBox. Only used for unittests.
      */
-    public MyDrawingBox getMyDrawingBox() {
+    public MyDrawingBox getMyDrawingBox()
+    {
         return this.myDrawingBox;
     }
 }

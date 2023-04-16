@@ -4,6 +4,7 @@ import std.conv : to;
 import std.format : format;
 import std.array : split;
 import std.stdio : writeln;
+import std.algorithm : equal;
 import std.string;
 import std.typecons;
 import gdk.RGBA;
@@ -18,33 +19,36 @@ immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet
 immutable int UNDO_COMMAND_PACKET = 2; // packet type for an undo command packet
 immutable int CHAT_MESSAGE_PACKET = 3; // packet type for a chat message packet
 immutable int CANVAS_SYNCH_PACKET = 4; // packet type for a canvas sync packet
-immutable char END_MESSAGE = '\r';     // end packet delimiter
+immutable char END_MESSAGE = '\r'; // end packet delimiter
 
 /**
  * Parses and executes any packets that have come in from the server.
  */
-void resolveRemotePackets() {
+void resolveRemotePackets()
+{
     Tuple!(string, long)[] packetsToResolve = Communicator.receiveNetworkMessages();
-    foreach(Tuple!(string, long) packet ; packetsToResolve) {
+    foreach (Tuple!(string, long) packet; packetsToResolve)
+    {
         char packetType = packet[0][0];
-        switch (to!int(packetType)) {
-            case (USER_CONNECT_PACKET):
-                parseAndExecuteUserConnPacket(packet[0], packet[1]);
-                break;
-            case (DRAW_COMMAND_PACKET):
-                parseAndExecuteUserDrawPacket(packet[0], packet[1]);
-                break;
-            case (CHAT_MESSAGE_PACKET):
-                parseAndExecuteChatMessage(packet[0], packet[1]);
-                break;
-            case (UNDO_COMMAND_PACKET):
-                parseAndExecuteUndoCommand(packet[0], packet[1]);
-                break;
-            case (CANVAS_SYNCH_PACKET):
+        switch (to!int(packetType))
+        {
+        case (USER_CONNECT_PACKET):
+            parseAndExecuteUserConnPacket(packet[0], packet[1]);
+            break;
+        case (DRAW_COMMAND_PACKET):
+            parseAndExecuteUserDrawPacket(packet[0], packet[1]);
+            break;
+        case (CHAT_MESSAGE_PACKET):
+            parseAndExecuteChatMessage(packet[0], packet[1]);
+            break;
+        case (UNDO_COMMAND_PACKET):
+            parseAndExecuteUndoCommand(packet[0], packet[1]);
+            break;
+        case (CANVAS_SYNCH_PACKET):
             //  &decodeCanvasSyncPacket;
-                break;
-            default:
-                break;
+            break;
+        default:
+            break;
         }
     }
 }
@@ -57,11 +61,15 @@ void resolveRemotePackets() {
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUserConnPacket(string packet, long recv) {
+void parseAndExecuteUserConnPacket(string packet, long recv)
+{
     Tuple!(string, int, bool) info = decodeUserConnPacket(packet, recv);
-    if (info[2]) {
+    if (info[2])
+    {
         ApplicationState.addConnectedUser(info[0], info[1]);
-    } else {
+    }
+    else
+    {
         ApplicationState.removeConnectedUser(info[1]);
     }
 }
@@ -101,7 +109,8 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
  */
 string encodeUserConnPacket(string username, int id, bool connStatus)
 {
-    string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username, to!string(id), to!string(connStatus));
+    string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username,
+            to!string(id), to!string(connStatus));
     return packet;
 }
 
@@ -112,7 +121,8 @@ string encodeUserConnPacket(string username, int id, bool connStatus)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUserDrawPacket(string packet, long recv) {
+void parseAndExecuteUserDrawPacket(string packet, long recv)
+{
     Tuple!(string, int, Command) info = decodeUserDrawCommand(packet, recv);
     // TODO: submit command to drawing window and command history
 }
@@ -169,9 +179,27 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUndoCommand(string packet, long recv) {
-    Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
-    // TODO: iterate though the command history and undo any command with id == cid
+void parseAndExecuteUndoCommand(string packet, long recv)
+{
+    // Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
+    // string usernameToUndo = userIdCid[0];
+    // int userIdToUndo = userIdCid[1];
+    // int cidToUndo
+    // if (userIdCid[2] is null)
+    // {
+    //     Tuple!(string, int, Command)[] validCmds = [];
+    //     foreach(Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory()) {
+    //         string user = uIdCmd[0];
+    //         int cid = uIdCmd[1];
+    //         Command cmd = uIdCmd[2];
+    //         if (usernameToUndo.equal(user) && cidToUndo == cid) {
+    //             cmd.undo();
+    //             continue;
+    //         }
+    //         validCmds ~= uIdCmd;
+    //     }
+    //     ApplicationState.setCommandHistory(validCmds);
+    // }
 }
 
 /**
@@ -223,7 +251,8 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteChatMessage(string packet, long recv) {
+void parseAndExecuteChatMessage(string packet, long recv)
+{
     Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
     // TODO: add message into the chat queue
 }
@@ -273,8 +302,6 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
     return packet;
 }
 
-
-
 // TODO: FIGURE OUT CANVAS SYNC behavior
 // void parseAndExecuteCanvasSync(string packet, long recv) {
 //     Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
@@ -286,4 +313,3 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
 // string encodeCanvasSyncPacket(Canvas canvas) {
 
 // }
-

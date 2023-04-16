@@ -1,15 +1,15 @@
 module view.components.DisconnectDialog;
 
 private import gdk.c.types;
-private import gtk.Dialog; 
-private import gtk.MessageDialog; 
+private import gtk.Dialog;
+private import gtk.MessageDialog;
 
 private import model.Communicator;
 private import view.MyWindow;
 
 /**
  * Class representing what opens when the user clicks the Disconnect button.
- */ 
+ */
 class DisconnectDialog : Dialog
 {
 private:

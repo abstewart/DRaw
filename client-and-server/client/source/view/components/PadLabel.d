@@ -1,6 +1,6 @@
 module view.components.PadLabel;
 
-private import gtk.Label; 
+private import gtk.Label;
 
 private import view.components.HPadBox : HPadBox;
 private import view.components.BoxJustify;

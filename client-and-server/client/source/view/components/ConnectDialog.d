@@ -20,7 +20,7 @@ private import view.MyWindow;
  */
 class ConnectDialog : Dialog
 {
-// (https://gtkdcoding.com/2019/06/14/0044-custom-dialog-iii.html)
+    // (https://gtkdcoding.com/2019/06/14/0044-custom-dialog-iii.html)
 private:
     GtkDialogFlags flags = GtkDialogFlags.MODAL;
     MessageType messageType = MessageType.INFO;
@@ -89,11 +89,10 @@ public:
         Communicator.getCommunicator(port, ipAddr, username);
         bool connected = Communicator.getThreadStatus();
         this.myWindow.setConnection(connected);
-        MessageDialog message = connected ? 
-                                new MessageDialog(this, GtkDialogFlags.MODAL,
-                                    MessageType.INFO, ButtonsType.OK, "You are now connceted!") :
-                                new MessageDialog(this, GtkDialogFlags.MODAL,
-                                    MessageType.INFO, ButtonsType.OK, "Connection failed, please try again");
+        MessageDialog message = connected ? new MessageDialog(this, GtkDialogFlags.MODAL,
+                MessageType.INFO, ButtonsType.OK, "You are now connceted!") : new MessageDialog(this,
+                GtkDialogFlags.MODAL,
+                MessageType.INFO, ButtonsType.OK, "Connection failed, please try again");
         message.run();
         message.destroy();
     }

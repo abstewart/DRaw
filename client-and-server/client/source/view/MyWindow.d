@@ -1,24 +1,24 @@
 module view.MyWindow;
 
-private import stdlib = core.stdc.stdlib : exit; 
-private import std.algorithm.comparison : equal; 
-private import gdk.c.types; 
-private import gtk.Version; 
-private import gtk.Application; 
+private import stdlib = core.stdc.stdlib : exit;
+private import std.algorithm.comparison : equal;
+private import gdk.c.types;
+private import gtk.Version;
+private import gtk.Application;
 private import gtk.ApplicationWindow;
-private import gtk.AccelGroup; 
-private import gtk.MenuItem; 
-private import gtk.Widget; 
-private import gtk.MenuBar; 
-private import gtk.Button; 
-private import gtk.VBox; 
+private import gtk.AccelGroup;
+private import gtk.MenuItem;
+private import gtk.Widget;
+private import gtk.MenuBar;
+private import gtk.Button;
+private import gtk.VBox;
 private import gtk.HBox;
-private import gtk.HButtonBox; 
-private import gtk.Statusbar; 
-private import gtk.Menu; 
+private import gtk.HButtonBox;
+private import gtk.Statusbar;
+private import gtk.Menu;
 private import gtk.ButtonBox;
-private import gtk.Dialog; 
-private import gtk.MessageDialog; 
+private import gtk.Dialog;
+private import gtk.MessageDialog;
 
 private import view.components.DisconnectDialog;
 private import view.components.ConnectDialog;
@@ -151,7 +151,8 @@ public:
      * Returns: 
      *        - appbox : AppBox : the application box
      */
-    public AppBox getAppBox() {
+    public AppBox getAppBox()
+    {
         return this.appBox;
     }
 

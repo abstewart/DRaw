@@ -1,6 +1,6 @@
 module view.components.ConnectGrid;
 
-private import std.typecons; 
+private import std.typecons;
 private import gtk.Label;
 private import gtk.Entry;
 private import gtk.Grid;
@@ -11,7 +11,7 @@ private import view.components.BoxJustify;
 
 /**
  * Class representing the Grid in the ConnectDialog.
- */ 
+ */
 class ConnectGrid : Grid
 {
 private:

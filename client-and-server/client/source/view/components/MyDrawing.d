@@ -1,22 +1,22 @@
 module view.components.MyDrawing;
 
 private import std.array;
-private import std.math; 
-private import std.datetime.systime : SysTime, Clock; 
+private import std.math;
+private import std.datetime.systime : SysTime, Clock;
 private import std.typecons;
 private import std.algorithm;
 private import gdk.RGBA;
 private import gdk.Pixbuf;
 private import gdk.Event;
-private import gtk.Image; 
-private import gtk.DrawingArea; 
+private import gtk.Image;
+private import gtk.DrawingArea;
 private import gtk.SpinButton;
-private import gtk.Widget; 
-private import gtk.ComboBoxText; 
-private import gtk.Dialog; 
+private import gtk.Widget;
+private import gtk.ComboBoxText;
+private import gtk.Dialog;
 private import gtk.Adjustment;
-private import cairo.Context; 
-private import cairo.ImageSurface; 
+private import cairo.Context;
+private import cairo.ImageSurface;
 
 private import model.ApplicationState;
 private import model.Communicator;
@@ -29,10 +29,9 @@ private import controller.commands.DrawLineCommand;
 private import controller.commands.DrawPointCommand;
 private import controller.commands.DrawRectangleCommand;
 
-
 /**
  * Class representing the drawing area that the user is drawing/painting on.
- */ 
+ */
 class MyDrawing : DrawingArea
 {
 private:
@@ -102,7 +101,7 @@ public:
      * 
      * Params:
      *       - newColor : RGBA : the color selected within the dialogue.
-     */ 
+     */
     public void updateBrushColor(RGBA newColor)
     {
         this.currentColor = newColor;
@@ -113,14 +112,15 @@ public:
      *
      * Returns:
      *        - color : RGBA : RGBA object of color selected
-     */ 
-    public RGBA getBrushColor() {
+     */
+    public RGBA getBrushColor()
+    {
         return this.currentColor;
     }
 
     /** 
      * Saves the images as a png to disk.
-     */ 
+     */
     public void saveWhiteboard()
     {
         Context context = Context.create(this.surface);
@@ -151,21 +151,24 @@ public:
 
     /**
      * Undos all commands in the command history with the id of the most recent command.
-     */ 
+     */
     public void undoWhiteboard()
     {
         // Retrieve the most recent command and remove it from the history array.
         Tuple!(string, int, Command) unameIdCmd = ApplicationState.popFromCommandHistory();
         string usernameToUndo = unameIdCmd[0];
         int cidToUndo = unameIdCmd[1];
-        if (unameIdCmd[2] !is null)
+        if (unameIdCmd[2]!is null)
         {
+            unameIdCmd[2].undo();
             Tuple!(string, int, Command)[] validCmds = [];
-            foreach(Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory()) {
+            foreach (Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory())
+            {
                 string user = uIdCmd[0];
                 int cid = uIdCmd[1];
                 Command cmd = uIdCmd[2];
-                if (usernameToUndo.equal(user) && cidToUndo == cid) {
+                if (usernameToUndo.equal(user) && cidToUndo == cid)
+                {
                     cmd.undo();
                     continue;
                 }
@@ -214,7 +217,8 @@ public:
             int id = ApplicationState.getCurCommandId();
             Command newCommand = getCommand(x, y, id);
             newCommand.execute();
-            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(), id, newCommand);
+            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
+                    id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
             // send to server if applicable
             string packet = encodeUserDrawCommand(ApplicationState.getUsername(),
@@ -250,7 +254,7 @@ public:
      * Params:
      *       - context : Scoped!Context : the context to update
      *       - widget  : Widget : the widget to update
-     */ 
+     */
     private bool onDraw(Scoped!Context context, Widget widget)
     {
         // Fill the Widget with the surface we are drawing on.
@@ -280,7 +284,8 @@ public:
             Command newCommand = getCommand(x, y, id);
             newCommand.execute();
             // Add the command to the history.
-            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(), id, newCommand);
+            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
+                    id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
             // send the command to the server
             string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
@@ -353,7 +358,7 @@ public:
      * 
      * Params:
      *       - comboBoxText : ComboBoxTest : the combo box to interact with.
-     */ 
+     */
     public void onBrushOptionChanged(ComboBoxText comboBoxText)
     {
         this.brushType = comboBoxText.getActiveText();

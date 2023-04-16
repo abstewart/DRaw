@@ -56,7 +56,8 @@ private:
         });
 
         // shutdown our thread if we are not able to connect to the server
-        if (!serverAck) {
+        if (!serverAck)
+        {
             shutdown();
         }
     }
@@ -137,7 +138,7 @@ public:
      */
     static Tuple!(string, long)[] receiveNetworkMessages()
     {
-        Tuple!(string,long)[] packetsToHandle = [];
+        Tuple!(string, long)[] packetsToHandle = [];
         if (!(instance is null))
         {
             for (bool messageReceived = true; messageReceived;)
@@ -145,9 +146,8 @@ public:
                 messageReceived = receiveTimeout(TIMEOUT_DUR, (string message, immutable long recv) {
                     long recvLen = recv;
                     auto messageAndLen = tuple(message, recvLen);
-                    packetsToHandle ~= messageAndLen;         
-                }, 
-                (bool closedSocket) { Communicator.disconnect(); });
+                    packetsToHandle ~= messageAndLen;
+                }, (bool closedSocket) { Communicator.disconnect(); });
             }
         }
         return packetsToHandle;
@@ -159,7 +159,8 @@ public:
      * Returns:
      *        - threadStatus : bool : a boolean representing whether or not the internal thread is active
      */
-    static bool getThreadStatus() {
+    static bool getThreadStatus()
+    {
         return threadActive;
     }
 }

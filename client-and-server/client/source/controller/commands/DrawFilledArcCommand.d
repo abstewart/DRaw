@@ -37,7 +37,7 @@ public:
         this.width = width;
     }
 
-     /** 
+    /** 
      * Draws a filled arc on the canvas. 
      */
     override public void execute()
@@ -65,7 +65,7 @@ public:
      */
     override public string encode()
     {
-        return "%s,%s,%s,%s,%s,%s".format(this.id, cType,
-                this.width, this.x, this.y, this.getColorString());
+        return "%s,%s,%s,%s,%s,%s".format(this.id, cType, this.width, this.x,
+                this.y, this.getColorString());
     }
 }

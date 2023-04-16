@@ -1,16 +1,24 @@
 module controller.commands.Command;
 
 protected import std.format;
+
 protected import std.stdio;
-protected import gdk.Pixbuf; 
+
+protected import gdk.Pixbuf;
+
 protected import gdk.Cairo;
+
 protected import gdk.RGBA;
+
 protected import cairo.Context;
-protected import cairo.ImageSurface; 
+
+protected import cairo.ImageSurface;
 
 protected import view.components.MyDrawing;
 
-/// Represents a set of common characteristics for a drawing command.
+/**
+ * Represents a set of common characteristics for a drawing command.
+ */
 abstract class Command
 {
 protected:
@@ -66,7 +74,7 @@ public:
 
     /**
      * Function for undoing an Execute command.
-     */ 
+     */
     int undo()
     {
         this.context.save();

@@ -9,7 +9,7 @@ private import view.components.MyDrawing;
 
 /**
  * Class representing the color chooser dialog the user clicks on.
- */ 
+ */
 class MyColorChooserDialog : ColorChooserDialog
 {
 private:

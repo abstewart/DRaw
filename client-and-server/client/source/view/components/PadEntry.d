@@ -7,7 +7,7 @@ private import view.components.BoxJustify;
 
 /**
  * Class used in ConnectGrid. Class representing the entry in a ConnectGrid.
- */ 
+ */
 class PadEntry : HPadBox
 {
 private:
@@ -60,7 +60,7 @@ public:
      *
      * Returns:
      *        - text : string : the contents of the entry widget
-     */ 
+     */
     public string getText()
     {
         return this._entry.getText();

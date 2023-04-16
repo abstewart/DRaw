@@ -2,7 +2,7 @@ module view.components.MyDrawingBox;
 
 private import gdk.c.types;
 private import gtk.VBox;
-private import gtk.Button; 
+private import gtk.Button;
 private import gtk.Label;
 private import gtk.HBox;
 
@@ -11,11 +11,9 @@ private import view.components.MyColorChooserDialog;
 private import view.components.BrushTypeComboBoxText;
 private import controller.commands.Command;
 
-
-
 /**
  * Class representing the box that the users drawing sits in. Includes the brush type, brush size, color picker, undo, and save options.
- */ 
+ */
 class MyDrawingBox : VBox
 {
 private:
@@ -94,7 +92,8 @@ public:
     /** 
      * Gets the drawing area in the MyDrawingBox instance. Only used for unittests.
      */
-    public MyDrawing getMyDrawing() {
+    public MyDrawing getMyDrawing()
+    {
         return this.drawingArea;
     }
 }

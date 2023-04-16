@@ -1,19 +1,18 @@
 module controller.DRawApp;
 
 private import gtkd.Loader;
-private import gtk.Application; 
+private import gtk.Application;
 private import gio.Application : GioApplication = Application;
 
 private import view.MyWindow;
 
 /**
  * Class representing the main DRaw application.
- */ 
+ */
 class DRawApp
 {
     string[] args;
 
-    
 public:
     /**
      * Constructs a DRawApp instance.

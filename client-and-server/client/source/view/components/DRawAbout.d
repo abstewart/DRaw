@@ -1,7 +1,7 @@
 module view.components.DRawAbout;
 
 private import gdk.Pixbuf;
-private import gdk.c.types; 
+private import gdk.c.types;
 private import gtk.AboutDialog;
 
 /**

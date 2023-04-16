@@ -4,15 +4,15 @@ module view.components.MyChatBox;
 private import stdlib = core.stdc.stdlib : exit;
 private import std.algorithm : equal;
 private import std.datetime.systime : SysTime, Clock;
-private import std.conv : to; 
-private import gdk.c.types; 
-private import gtk.VBox; 
+private import std.conv : to;
+private import gdk.c.types;
+private import gtk.VBox;
 private import gtk.Button;
 private import gtk.HBox;
-private import gtk.ScrolledWindow; 
+private import gtk.ScrolledWindow;
 private import gtk.TextView;
 private import gtk.TextBuffer;
-private import gtk.Label; 
+private import gtk.Label;
 private import gtk.MessageDialog;
 private import gtk.Dialog;
 
@@ -91,7 +91,7 @@ public:
      * 
      * Params:
      *       - newUsername : string : the username to set our username to.
-     */ 
+     */
     public void setUsername(string newUsername)
     {
         this.username = newUsername;
@@ -102,7 +102,7 @@ public:
      *
      * Params:
      *       - button : Button : the button clicked when sending a message
-     */ 
+     */
     private void sendMessage(Button button)
     {
         this.isConnected = this.myWindow.getConnection();

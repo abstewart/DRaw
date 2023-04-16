@@ -21,7 +21,7 @@ auto TIMEOUT_DUR = 1.msecs; // timeout for checking interthread messages
  *        - parent : Tid : the thread id of the parent thread
  *        - ipAddr : string : the ip address to connect to
  *        - port   : ushort : the port number to connect to
- */ 
+ */
 void handleNetworking(Tid parent, string ipAddr, ushort port)
 {
     Client network = new Client(ipAddr, port);
@@ -41,10 +41,10 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             // if our owner thread fails, we will shut down this thread as well
             writeln("shutting networking thread down upon owner termination");
             active = false;
-        }, (Variant any) { 
+        }, (Variant any) {
             // in the case of any other packet we will simply log the info
             writeln(any);
-         });
+        });
 
         // receives information from the server if there is any
         auto msgAndLen = network.receiveFromServer();

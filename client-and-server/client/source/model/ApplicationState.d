@@ -27,7 +27,8 @@ public:
      * Returns:
      *        - clientId : int : the current client id
      */
-    static int getClientId() {
+    static int getClientId()
+    {
         return ApplicationState.clientId;
     }
 
@@ -37,7 +38,8 @@ public:
      * Params: 
      *       - clientId : int : the client id to set to
      */
-    static void setClientId(int clientId) {
+    static void setClientId(int clientId)
+    {
         ApplicationState.clientId = clientId;
     }
 
@@ -47,7 +49,8 @@ public:
      * Returns:
      *        - username : string : the current username
      */
-    static string getUsername() {
+    static string getUsername()
+    {
         return ApplicationState.username;
     }
 
@@ -57,7 +60,8 @@ public:
      * Params: 
      *       - username : string : the desired username
      */
-    static void setUsername(string username) {
+    static void setUsername(string username)
+    {
         ApplicationState.username = username;
     }
 
@@ -67,7 +71,8 @@ public:
      * Returns:
      *        - users : string[int] : a hashmap of user id to username
      */
-    static string[int] getConnectedUsers() {
+    static string[int] getConnectedUsers()
+    {
         return ApplicationState.connectedUsers;
     }
 
@@ -78,7 +83,8 @@ public:
      *       - username : string : the username of the user to add
      *       - uid      : int : the user id of the user to add
      */
-    static void addConnectedUser(string username, int uid) {
+    static void addConnectedUser(string username, int uid)
+    {
         ApplicationState.connectedUsers[uid] = username;
     }
 
@@ -88,7 +94,8 @@ public:
      * Params:
      *       - uid : int : the user id of the user to remove
      */
-    static void removeConnectedUser(int uid) {
+    static void removeConnectedUser(int uid)
+    {
         ApplicationState.connectedUsers.remove(uid);
     }
 
@@ -98,7 +105,8 @@ public:
      * Returns:
      *        - chatHistory : Tuple!(string, int, long, string)[] : the current chat history
      */
-    static Tuple!(string, int, long, string)[] getChatHistory() {
+    static Tuple!(string, int, long, string)[] getChatHistory()
+    {
         return ApplicationState.chatHistory;
     }
 
@@ -108,7 +116,8 @@ public:
      * Params:
      *       - chatPackage : Tuple!(string, int, long, string) : a username, id, timestamp, message package
      */
-    static void addChatPacket(Tuple!(string, int, long, string) chatPackage) {
+    static void addChatPacket(Tuple!(string, int, long, string) chatPackage)
+    {
         ApplicationState.chatHistory ~= chatPackage;
     }
 
@@ -137,7 +146,9 @@ public:
             auto lastCommand = ApplicationState.commandHistory[0];
             ApplicationState.commandHistory = ApplicationState.commandHistory[1 .. $];
             return lastCommand;
-        } else {
+        }
+        else
+        {
             Command badCmd = null;
             return tuple("", -1, badCmd);
         }
@@ -160,7 +171,8 @@ public:
      * Params:
      *       - history : Tuple!(string, int, Command)[] : the history to set
      */
-    static void setCommandHistory(Tuple!(string, int, Command)[] history) {
+    static void setCommandHistory(Tuple!(string, int, Command)[] history)
+    {
         ApplicationState.commandHistory = history;
     }
 
@@ -170,14 +182,16 @@ public:
      * Returns:
      *        - cid : int : the current command id
      */
-    static int getCurCommandId() {
+    static int getCurCommandId()
+    {
         return ApplicationState.curCmd;
     }
 
     /**
      * Increments the current command id
      */
-    static void goToNextCommandId() {
+    static void goToNextCommandId()
+    {
         ApplicationState.curCmd += 1;
     }
 }
