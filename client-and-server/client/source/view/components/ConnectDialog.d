@@ -39,7 +39,7 @@ public:
     /**
     * Constructs a ConnectDialog instnace.
     * Params:
-    *        myWindow = the main application window
+    *        - myWindow = the main application window
     */
     this(MyWindow myWindow)
     {
@@ -57,7 +57,7 @@ public:
     }
 
     /**
-     * Gets the username this component holds
+     * Gets the username this component holds.
      *
      * Returns:
      *        - username : string : the username this component holds
@@ -68,7 +68,7 @@ public:
     }
 
     /**
-     * FARMS out content area to area content
+     * FARMS out content area to area content.
      */
     private void farmOutContent()
     {
@@ -77,7 +77,7 @@ public:
     }
 
     /**
-     * Given a username, ip address and port, will attempt to instantiate a Communicator object
+     * Given a username, ip address and port, will attempt to instantiate a Communicator object.
      *
      * Params:
      *       - username : string : the username to connect with
@@ -98,7 +98,7 @@ public:
     }
 
     /**
-     * Executes the control flow depending on the option the user selected within the dialogue
+     * Executes the control flow depending on the option the user selected within the dialogue.
      *
      * Params:
      *       - response : int : represents which dialogue option the user chose
@@ -181,9 +181,9 @@ public:
     }
 
     /**
-     * Validates the given port
+     * Validates the given port.
      *
-     * A valid port is any port that is not reserved (1-1024) and is a valid port number (1-65535)
+     * A valid port is any port that is not reserved (1-1024) and is a valid port number (1-65535).
      *
      * Params:
      *       - port : string : the port number to check
@@ -200,7 +200,7 @@ public:
             try
             {
                 ushort portNum = to!ushort(port);
-                // Do not need to check fo the high range of 65535 because to!ushort will handle that for us.
+                // Do not need to check for the high range of 65535 because to!ushort will handle that for us.
                 if (portNum < LOWRANGE)
                 {
                     return false;

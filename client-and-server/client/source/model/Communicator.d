@@ -35,14 +35,14 @@ private:
      */
     this(ushort port, string ip, string username)
     {
-        // spawn thread and wait for connection 
+        // Spawn thread and wait for connection.
         threadActive = true;
         childThread = spawn(&handleNetworking, thisTid, ip, port);
         int clientId = ApplicationState.getClientId();
         string connReqPacket = encodeUserConnPacket(username, clientId, true);
         send(childThread, connReqPacket);
 
-        // receive an acknowledgement packet from the server and update the application state
+        // Receive an acknowledgement packet from the server and update the application state.
         bool serverAck = receiveTimeout(THREAD_TIMEOUT_DUR, (string packet, immutable long recvLen) {
             if (recvLen > 0)
             {
@@ -55,7 +55,7 @@ private:
             }
         });
 
-        // shutdown our thread if we are not able to connect to the server
+        // Shutdown our thread if we are not able to connect to the server.
         if (serverAck)
         {
             connectionStatus = true;
@@ -63,7 +63,7 @@ private:
     }
 
     /**
-     * Sends a message to the child thread to shutdown and marks our thread as closed
+     * Sends a message to the child thread to shutdown and marks our thread as closed.
      */
     void shutdown()
     {
@@ -73,10 +73,10 @@ private:
     }
 
     /**
-     * Sends the given message to the child thread
+     * Sends the given message to the child thread.
      *
      * Params:
-     *       - message : string : message to send;
+     *       - message : string : message to send
      */
     void sendToChild(string message)
     {
@@ -85,7 +85,7 @@ private:
 
 public:
     /**
-     * Gets the current Communicator object
+     * Gets the current Communicator object.
      *
      * Params:
      *       - port     : ushort : the port to connect to
@@ -109,7 +109,7 @@ public:
     }
 
     /**
-     * Shuts down our networking thread if one exists
+     * Shuts down our networking thread if one exists.
      */
     static void disconnect()
     {
@@ -121,7 +121,7 @@ public:
     }
 
     /**
-     * Sends a message to our child thread if one exists
+     * Sends a message to our child thread if one exists.
      *
      * Params:
      *       - message : string : the message to send
@@ -158,7 +158,7 @@ public:
     }
 
     /**
-     * Gets the status of the child thread
+     * Gets the status of the child thread.
      *
      * Returns:
      *        - threadStatus : bool : a boolean representing whether or not the internal thread is active
@@ -169,7 +169,7 @@ public:
     }
 
     /**
-     * Gets the status of the connection
+     * Gets the status of the connection.
      *
      * Returns:
      *        - connStatus : bool : a boolean representing whether or not we are connected

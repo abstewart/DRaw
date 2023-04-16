@@ -55,7 +55,7 @@ private:
 
 public:
     /**
-     * Constructs a myDrawing instance
+     * Constructs a myDrawing instance.
      */
     this()
     {
@@ -100,22 +100,11 @@ public:
      * Method called when the user selects a color in the color chooser dialog.
      * 
      * Params:
-     *       - newColor : RGBA : the color selected within the dialogue.
+     *       - newColor : RGBA : the color selected within the dialogue
      */
     public void updateBrushColor(RGBA newColor)
     {
         this.currentColor = newColor;
-    }
-
-    /**
-     * Gets the current color. Only used for unittests.
-     *
-     * Returns:
-     *        - color : RGBA : RGBA object of color selected
-     */
-    public RGBA getBrushColor()
-    {
-        return this.currentColor;
     }
 
     /** 
@@ -150,7 +139,7 @@ public:
     }
 
     /**
-     * Undos all commands in the command history with the id of the most recent command.
+     * Undo all commands in the command history with the id of the most recent command.
      */
     public void undoWhiteboard()
     {
@@ -252,7 +241,7 @@ public:
     }
 
     /**
-     * Updates the surface with whatever has been painted
+     * Updates the surface with whatever has been painted.
      *
      * Params:
      *       - context : Scoped!Context : the context to update
@@ -356,10 +345,10 @@ public:
     }
 
     /**
-     * Sets the brush type upon combo box interaction
+     * Sets the brush type upon combo box interaction.
      * 
      * Params:
-     *       - comboBoxText : ComboBoxTest : the combo box to interact with.
+     *       - comboBoxText : ComboBoxTest : the combo box to interact with
      */
     public void onBrushOptionChanged(ComboBoxText comboBoxText)
     {

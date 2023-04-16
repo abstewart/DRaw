@@ -8,7 +8,7 @@ private import controller.commands.Command;
 
 /** 
  * Class that represents the state of the application. 
- * Holds user list, chat history, command history, current local command id, and drawing state
+ * Holds user list, chat history, command history, current local command id, and drawing state.
  */
 class ApplicationState
 {
@@ -22,7 +22,7 @@ private:
 
 public:
     /** 
-     * Gets the current clientId
+     * Gets the current clientId.
      * 
      * Returns:
      *        - clientId : int : the current client id
@@ -33,7 +33,7 @@ public:
     }
 
     /**
-     * Sets the current clientId
+     * Sets the current clientId.
      * 
      * Params: 
      *       - clientId : int : the client id to set to
@@ -44,7 +44,7 @@ public:
     }
 
     /**
-     * Gets the current username
+     * Gets the current username.
      *
      * Returns:
      *        - username : string : the current username
@@ -55,7 +55,7 @@ public:
     }
 
     /**
-     * Sets the current username
+     * Sets the current username.
      *
      * Params: 
      *       - username : string : the desired username
@@ -66,7 +66,7 @@ public:
     }
 
     /**
-     * Gets the current set of connected users
+     * Gets the current set of connected users.
      *
      * Returns:
      *        - users : string[int] : a hashmap of user id to username
@@ -77,7 +77,7 @@ public:
     }
 
     /**
-     * Adds a user to the set of connected users
+     * Adds a user to the set of connected users.
      *
      * Params:
      *       - username : string : the username of the user to add
@@ -89,7 +89,7 @@ public:
     }
 
     /**
-     * Removes a user from the set of connected users
+     * Removes a user from the set of connected users.
      *
      * Params:
      *       - uid : int : the user id of the user to remove
@@ -100,7 +100,7 @@ public:
     }
 
     /**
-     * Gets the current chat history
+     * Gets the current chat history.
      *
      * Returns:
      *        - chatHistory : Tuple!(string, int, long, string)[] : the current chat history
@@ -111,7 +111,7 @@ public:
     }
 
     /**
-     * Adds a chat to the chat history
+     * Adds a chat to the chat history.
      *
      * Params:
      *       - chatPackage : Tuple!(string, int, long, string) : a username, id, timestamp, message package
@@ -122,7 +122,7 @@ public:
     }
 
     /**
-     * Prepends the given command tuple to the command history after executing it
+     * Prepends the given command tuple to the command history after executing it.
      * 
      * Params: 
      *        - cmd : Tuple!(string, int, Command) : a username, user id, Command tuple
@@ -135,7 +135,7 @@ public:
     }
 
     /**
-     * Pops the last command tuple off the front of the history array. 
+     * Pops the last command tuple off the front of the history array.
      * 
      * Returns:
      *        - commandTuple : Tuple!(string, int, Command) : if len(history) > 0
@@ -190,7 +190,7 @@ public:
     }
 
     /**
-     * Increments the current command id
+     * Increments the current command id.
      */
     static void goToNextCommandId()
     {

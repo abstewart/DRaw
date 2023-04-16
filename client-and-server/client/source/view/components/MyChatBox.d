@@ -1,6 +1,5 @@
 module view.components.MyChatBox;
 
-// Imports.
 private import stdlib = core.stdc.stdlib : exit;
 private import std.algorithm : equal;
 private import std.datetime.systime : SysTime, Clock;
@@ -151,21 +150,12 @@ public:
             ~ ":\n\t" ~ this.message ~ "\n\n";
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
 
-        // ===================================================================================
-        // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
-        // that they have access to all the other messages.
-        // ===================================================================================
-
-        // ===================================================================================
-        // TODO: Send the message over the network to all other clients.
-        // ===================================================================================
-
         // Clear the text buffer.
         this.messageBuffer.setText("");
     }
 
     /**
-     * Quits the application
+     * Quits the application.
      *
      * Params:
      *       - button : Button : the button to react to

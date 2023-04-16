@@ -15,12 +15,12 @@ import model.Communicator;
 import model.ApplicationState;
 import view.MyWindow;
 
-immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet
-immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet
-immutable int UNDO_COMMAND_PACKET = 2; // packet type for an undo command packet
-immutable int CHAT_MESSAGE_PACKET = 3; // packet type for a chat message packet
-immutable int CANVAS_SYNCH_PACKET = 4; // packet type for a canvas sync packet
-immutable char END_MESSAGE = '\r'; // end packet delimiter
+immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet.
+immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet.
+immutable int UNDO_COMMAND_PACKET = 2; // packet type for an undo command packet.
+immutable int CHAT_MESSAGE_PACKET = 3; // packet type for a chat message packet.
+immutable int CANVAS_SYNCH_PACKET = 4; // packet type for a canvas sync packet.
+immutable char END_MESSAGE = '\r'; // end packet delimiter.
 
 /**
  * Parses and executes any packets that have come in from the server.
@@ -79,7 +79,7 @@ void parseAndExecuteUserConnPacket(string packet, long recv)
 }
 
 /**
- * Decodes a user connection packet into a tuple of username, user id, and connection status
+ * Decodes a user connection packet into a tuple of username, user id, and connection status.
  * Intended packet format:
  *          0,username,id,c/d\r
  *         [0,1       ,2 ,3   ] 
@@ -89,7 +89,7 @@ void parseAndExecuteUserConnPacket(string packet, long recv)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, connection status : Tuple!(string, int, bool) :
+ *        - a tuple of username, user id, connection status : Tuple!(string, int, bool)
  */
 Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
@@ -99,7 +99,7 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 }
 
 /**
- * Encodes a user connection packet into a string given username, id, and status
+ * Encodes a user connection packet into a string given username, id, and status.
  * Intended packet format:
  *          0,username,id,c/d\r
  *         [0,1       ,2 ,3   ] 
@@ -110,7 +110,7 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
  *        - connStatus : bool : desired connection operation
  *
  * Returns: 
- *        - a user connection packet : string :
+ *        - a user connection packet : string
  */
 string encodeUserConnPacket(string username, int id, bool connStatus)
 {
@@ -133,7 +133,7 @@ void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
 }
 
 /**
- * Decodes a user draw packet into a tuple of username, user id, and command
+ * Decodes a user draw packet into a tuple of username, user id, and command.
  * Intended packet format:
  *          1,username,id,cmdId,brushType,brushSize,x,y,color\r
  *         [0,1       ,2 ,3    ,4        ,5        ,6,7,8    ]
@@ -143,7 +143,7 @@ void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, Command : Tuple!(string, int, Command) :
+ *        - a tuple of username, user id, Command : Tuple!(string, int, Command)
  */
 Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyWindow window)
 {
@@ -158,7 +158,7 @@ Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyW
 }
 
 /**
- * Encodes a user draw packet into a string given username, id, and command
+ * Encodes a user draw packet into a string given username, id, and command.
  * Intended packet format:
  *          0,username,id,c/d\r
  *         [0,1       ,2 ,3   ] 
@@ -169,7 +169,7 @@ Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyW
  *        - toEncode : Command : command object to encode
  *
  * Returns: 
- *        - a user draw packet : string :
+ *        - a user draw packet : string
  */
 string encodeUserDrawCommand(string username, int id, Command toEncode)
 {
@@ -178,7 +178,7 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
 }
 
 /**
- * Parses and executes undo packets. Undos all commands that have the parsed username and the parsed command type
+ * Parses and executes undo packets. Undos all commands that have the parsed username and the parsed command type.
  *
  * Params: 
  *        - packet : string : packet to decode
@@ -208,7 +208,7 @@ void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
 }
 
 /**
- * Decodes an undo packet into a tuple of username, user id, and command id
+ * Decodes an undo packet into a tuple of username, user id, and command id.
  * Intended packet format:
  *          2,username,id,cid\r
  *         [0,1       ,2 ,3   ] 
@@ -218,7 +218,7 @@ void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, command id : Tuple!(string, int, in) :
+ *        - a tuple of username, user id, command id : Tuple!(string, int, in)
  */
 Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
 {
@@ -231,7 +231,7 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
 }
 
 /**
- * Encodes an undo command packetinto a string given username, id, and command id
+ * Encodes an undo command packetinto a string given username, id, and command id.
  * Intended packet format:
  *          2,username,id,cid\r
  *         [0,1       ,2 ,3   ] 
@@ -242,7 +242,7 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
  *        - cid      : int : command id to encode
  *
  * Returns: 
- *        - an undo command packet : string :
+ *        - an undo command packet : string
  */
 string encodeUndoCommandPacket(string username, int uid, int cid)
 {
@@ -264,7 +264,7 @@ void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 }
 
 /**
- * Decodes a chat packet into a tuple of username, user id, timestamp and message
+ * Decodes a chat packet into a tuple of username, user id, timestamp and message.
  * Intended packet format:
  *          3,username,id,timestamp,message\r
  *         [0,1       ,2 ,3        ,4     ]
@@ -274,7 +274,7 @@ void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, timestamp, message: Tuple!(string, int, long, string) :
+ *        - a tuple of username, user id, timestamp, message: Tuple!(string, int, long, string)
  */
 Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
 {
@@ -288,7 +288,7 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
 }
 
 /**
- * Encodes a chat packet into a string given username, id, timestamp, and message
+ * Encodes a chat packet into a string given username, id, timestamp, and message.
  * Intended packet format:
  *          3,username,id,timestamp,message\r
  *         [0,1       ,2 ,3        ,4      ]
@@ -300,7 +300,7 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
  *        - message   : string : message to encode
  *
  * Returns: 
- *        - a chat packet : string :
+ *        - a chat packet : string
  */
 string encodeChatPacket(string username, int id, long timestamp, string message)
 {

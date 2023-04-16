@@ -60,7 +60,7 @@ public:
     }
 
     /**
-     * Encodes the command id, type, width, x, y and color in a string
+     * Encodes the command id, type, width, x, y and color in a string.
      */
     override public string encode()
     {
