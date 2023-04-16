@@ -10,6 +10,7 @@ import std.conv;
 import std.typecons;
 
 import model.packets.packet;
+import view.MyWindow;
 
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
@@ -18,7 +19,9 @@ int MESSAGE_BUFFER_SIZE = 4096;
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
 {
-    return decodeUserDrawCommand(message, size);
+    //todo fix this when server state is implemented, this will likely cause NPR exceptions
+    MyWindow window;
+    return decodeUserDrawCommand(message, size, window);
 }
 
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
