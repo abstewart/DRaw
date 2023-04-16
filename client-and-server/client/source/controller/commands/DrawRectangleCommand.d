@@ -1,41 +1,44 @@
 module controller.commands.DrawRectangleCommand;
 
-// Imports.
-private import std.math; // PI.
-
 private import controller.commands.Command;
-
-private import gtk.SpinButton; // SpinButton.
 
 immutable int RECT_TYPE = 5;
 
-/// Class representing the draw command with a rectangle brush type.
+/** 
+ * Implements functionality for drawing and undoing a 'Rectangle' on a Cairo Canvas.
+ */
 class DrawRectangleCommand : Command
 {
-    // Instance variables.
-    private:
+private:
     int x;
     int y;
     int width;
 
-    /// Constructor.
-    public:
+public:
+    static immutable int cType = RECT_TYPE;
+
+    /**
+    * Constructs a DrawRectangleCommand instance.
+    * Params:
+    *        x = the x coordinate of the mouse
+    *        y = the y coordinate of the mouse
+    *        currentColor = the color of the paint brush for this command
+    *        width = the brush size (dictated my what the user sets in the spin in MyDrawing.d)
+    *        myDrawing = the client's drawing surface
+    *        id = the command id
+    */
     this(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)
     {
-        super(myDrawing, currentColor, x - width / 2 - 2, y - width / 4 - 2, id);
+        super(myDrawing, currentColor, x - width / 2 - 2, y - width / 4 - 2, id, RECT_TYPE);
         this.x = x;
         this.y = y;
         this.width = width;
-
     }
 
-    /// Destructor.
-    ~this()
-    {
-    }
-
-    /// The execute method -- draw/paint.
-    override public int execute()
+    /** 
+     * Draws a rectangle on the canvas. 
+     */
+    override public void execute()
     {
         int height = this.width * 3 / 4;
         this.context.setOperator(this.operator);
@@ -54,19 +57,14 @@ class DrawRectangleCommand : Command
 
         // Redraw the Widget.
         this.myDrawing.queueDraw();
-        return 0;
     }
 
-    /// Getter method -- get the command type.
-    override public int getCmdType()
-    {
-        return RECT_TYPE;
-    }
-
-    /// Encode the command with its information.
+    /**
+     * Encodes the command id, type, width, x, y and color in a string
+     */
     override public string encode()
     {
-        return "%s,%s,%s,%s,%s,%s".format(this.id, this.getCmdType(),
-        this.width, this.x, this.y, this.getColorString());
+        return "%s,%s,%s,%s,%s,%s".format(this.id, cType, this.width, this.x,
+                this.y, this.getColorString());
     }
 }

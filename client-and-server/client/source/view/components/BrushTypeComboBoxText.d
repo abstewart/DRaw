@@ -1,22 +1,26 @@
 module view.components.BrushTypeComboBoxText;
 
-// Imports.
-private import view.components.MyDrawing;
-
 private import gtk.ComboBoxText; // CombBoxText.
 
-/// Class representing the ComboBoxText that is made up of the brush types.
+private import view.components.MyDrawing;
+
+/**
+ * Class representing the ComboBoxText that is made up of the brush types.
+ */
 class BrushTypeComboBoxText : ComboBoxText
 {
-    // Instance variables.
-    private:
+private:
     string[] brushTypes = [
         "Filled Arc", "Arc", "Line", "Point", "Rectangle", "Filled Rectangle"
     ];
     bool entryOn = false;
 
-    /// Constructor.
-    public:
+public:
+    /**
+    * Constructs BrushTypeComboBoxText instance.
+    * Params:
+    *        drawingArea : MyDrawing : the client's drawing surface
+    */
     this(MyDrawing drawingArea)
     {
         super(entryOn);

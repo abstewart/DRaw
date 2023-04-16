@@ -1,32 +1,32 @@
 module view.components.MyDrawingBox;
 
-// Imports.
+private import gdk.c.types;
+private import gtk.VBox;
+private import gtk.Button;
+private import gtk.Label;
+private import gtk.HBox;
+
 private import view.components.MyDrawing;
 private import view.components.MyColorChooserDialog;
-private import controller.commands.Command;
 private import view.components.BrushTypeComboBoxText;
+private import controller.commands.Command;
 
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.VBox; // VBox.
-private import gtk.Button; // Button.
-private import gtk.Label; // Label.
-private import gtk.HBox; // HBox.
-
-/// Class representing the box that the users drawing sits in. Includes the brush type, brush size, color picker, undo, and save options.
+/**
+ * Class representing the box that the users drawing sits in. Includes the brush type, brush size, color picker, undo, and save options.
+ */
 class MyDrawingBox : VBox
 {
-    // Instance variables.
-    private:
+private:
     MyDrawing drawingArea;
     MyColorChooserDialog d;
 
-    /// Constructor.
-    public:
+public:
+    /**
+     * Constructs a MyDrawingBox instance.
+     */
     this()
     {
         super(false, 4); // this(bool homogeneous, int spacing).
-
         this.drawingArea = new MyDrawing();
         BrushTypeComboBoxText brushTypes = new BrushTypeComboBoxText(this.drawingArea);
         packEnd(this.drawingArea, true, true, 0); // Adds child to box, packed with reference to the end of box.
@@ -48,16 +48,15 @@ class MyDrawingBox : VBox
         hbox.packStart(colorButton, false, false, 2);
         hbox.packStart(undoButton, false, false, 2);
         hbox.packStart(saveButton, false, false, 2);
-
         packStart(hbox, false, false, 0); // Adds child to box, packed with reference to the start of box.
     }
 
-    /// Deconstructor.
-    ~this()
-    {
-    }
-
-    // What happens when the coloButton is clicked on by the user.
+    /**
+     * Executes the control flow when the user selects the show Color button
+     *
+     * Params:
+     *       - button : Button : the button object clicked
+     */
     private void showColor(Button button)
     {
         if (this.d is null)
@@ -68,15 +67,33 @@ class MyDrawingBox : VBox
         this.d.hide();
     }
 
-    // What happens when the saveButton is clicked on by the user.
+    /**
+     * Executes the control flow when the user selects the save whiteboard button
+     *
+     * Params:
+     *       - button : Button : the button object clicked
+     */
     private void saveWhiteboard(Button button)
     {
         this.drawingArea.saveWhiteboard();
     }
 
-    // What happens when the undoButton is clicked on by the user.
+    /**
+     * Executes the control flow when the user selects the undoWhitboard button
+     *
+     * Params:
+     *       - button : Button : the button object clicked
+     */
     private void undoWhiteboard(Button button)
     {
         this.drawingArea.undoWhiteboard();
+    }
+
+    /** 
+     * Gets the drawing area in the MyDrawingBox instance. Only used for unittests.
+     */
+    public MyDrawing getMyDrawing()
+    {
+        return this.drawingArea;
     }
 }

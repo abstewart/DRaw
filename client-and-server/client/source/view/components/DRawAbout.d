@@ -1,16 +1,18 @@
-module controller.DRawAbout;
+module view.components.DRawAbout;
 
-// Imports.
-private import gdk.Pixbuf; // Pixbuf.
-private import gdk.c.types; // GtkWindowPosition.
+private import gdk.Pixbuf;
+private import gdk.c.types;
+private import gtk.AboutDialog;
 
-private import gtk.AboutDialog; // AboutDialog.
-
-/// Class representing the DRaw AboutDialog.
+/**
+ * Class representing the DRaw About page.
+ */
 class DRawAbout : AboutDialog
 {
-    /// Constructor.
-    public:
+public:
+    /**
+     * Constructs a DRawAbout instance.
+     */
     this()
     {
         string itemLabel = "About";
@@ -38,10 +40,5 @@ class DRawAbout : AboutDialog
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
-    }
-
-    /// Deconstructor.
-    ~this()
-    {
     }
 }

@@ -1,8 +1,9 @@
-// Imports.
-private import std.stdio; // writeln.
+private import std.stdio : writeln;
 
-/// Main method -- run the application. Entry point for the program.
+/** 
+ * Provides the coverage library an empty entry point.
+ */
 void main(string[] args)
 {
-    writeln("Starting the DRaw client.");
+    writeln("Coverage entry point");
 }

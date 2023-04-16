@@ -1,3 +1,6 @@
+/**
+ * In the coverage build creates needed output directories.
+ */
 version (D_Coverage) shared static this()
 {
     import core.runtime : dmd_coverDestPath;

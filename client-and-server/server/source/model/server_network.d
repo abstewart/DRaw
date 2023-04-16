@@ -2,7 +2,6 @@ module model.server_network;
 
 // Imports.
 import controller.commands.Command;
-import controller.EncodeDecode;
 
 import std.socket;
 import std.stdio;
@@ -12,9 +11,9 @@ import std.typecons;
 
 import model.packets.packet;
 
-ushort MAX_ALLOWED_CONNECTIONS = 1;
+ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
-ushort DEFAULT_PORT_NUMBER = 51111;
+ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 4096;
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
@@ -29,7 +28,7 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
     {
         if (key == ckey)
         {
-            continue ;
+            continue;
         }
         Socket client = clients[key];
         client.send(message);
@@ -61,8 +60,8 @@ class Server
     private Command[] commandStack = [];
 
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
-        ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
-        long bufferSize = MESSAGE_BUFFER_SIZE)
+            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+            long bufferSize = MESSAGE_BUFFER_SIZE)
     {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
@@ -90,10 +89,12 @@ class Server
                 writeln("> client", this.clientCount, " added to connectedClients list");
                 char[1024] buffer;
                 long recv = newSocket.receive(buffer);
-                Tuple!(string, int) userId = decodeUserConnPacket(to!string(buffer), recv);
-                writeln("> user ", userId[0], " successfully connected");
-                this.users[this.clientCount] = userId[0];
-                notifyAll(this.connectedClients, encodeUserConnPacket(userId[0], this.clientCount));
+                Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer),
+                        recv);
+                writeln("> user ", userIdConnStatus[0], " successfully connected");
+                this.users[this.clientCount] = userIdConnStatus[0];
+                notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
+                        this.clientCount, userIdConnStatus[2]));
             }
             int[] curKeys = this.connectedClients.keys();
             foreach (key; parallel(curKeys))
@@ -117,13 +118,13 @@ class Server
                         this.connectedClients.remove(key);
                     }
                     else if (recv == Socket.ERROR)
-                        {
-                            writeln("Socket error");
-                        }
-                        else
-                        {
-                            writeln("Unknown socket reception return value");
-                        }
+                    {
+                        writeln("Socket error");
+                    }
+                    else
+                    {
+                        writeln("Unknown socket reception return value");
+                    }
                 }
             }
         }

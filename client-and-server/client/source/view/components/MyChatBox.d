@@ -1,31 +1,30 @@
 module view.components.MyChatBox;
 
 // Imports.
-private import stdlib = core.stdc.stdlib : exit; // exit.
-private import std.algorithm; // equal.
-private import std.datetime.systime : SysTime, Clock; // SysTime and Clock.
-private import std.conv; // to.
+private import stdlib = core.stdc.stdlib : exit;
+private import std.algorithm : equal;
+private import std.datetime.systime : SysTime, Clock;
+private import std.conv : to;
+private import gdk.c.types;
+private import gtk.VBox;
+private import gtk.Button;
+private import gtk.HBox;
+private import gtk.ScrolledWindow;
+private import gtk.TextView;
+private import gtk.TextBuffer;
+private import gtk.Label;
+private import gtk.MessageDialog;
+private import gtk.Dialog;
 
 private import view.MyWindow;
 private import model.Communicator;
 
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.VBox; // VBox.
-private import gtk.Button; // Button.
-private import gtk.HBox; // HBox.
-private import gtk.ScrolledWindow; // ScrolledWindow.
-private import gtk.TextView; // TextView.
-private import gtk.TextBuffer; // TextBuffer.
-private import gtk.Label; // Label.
-private import gtk.MessageDialog; // MessageDialog.
-private import gtk.Dialog; // Dialog.
-
-/// Class representing the user chats in.
+/**
+ * Class representing box the user chats in.
+ */
 class MyChatBox : VBox
 {
-    // Instance variables.
-    private:
+private:
     TextView textView1;
     TextBuffer chatBuffer;
     TextBuffer messageBuffer;
@@ -34,8 +33,13 @@ class MyChatBox : VBox
     bool isConnected;
     string username;
 
-    /// Constructor.
-    public:
+public:
+    /**
+    * Constructs a MyChatBox instnace.
+    * Params:
+    *        myWindow : MyWindow :  the main application window
+    *        username : string : the client's username
+    */
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
@@ -82,26 +86,31 @@ class MyChatBox : VBox
         packStart(hbox, false, false, 0); // Adds child to box, packed with reference to the start of box.
     }
 
-    /// Deconstructor.
-    ~this()
-    {
-    }
-
-    /// Setter method -- sets the username to be a new username.
+    /**
+     * Sets the username to be a new username.
+     * 
+     * Params:
+     *       - newUsername : string : the username to set our username to.
+     */
     public void setUsername(string newUsername)
     {
         this.username = newUsername;
     }
 
-    // Send the message to the chat.
+    /**
+     * Send the message to the chat.
+     *
+     * Params:
+     *       - button : Button : the button clicked when sending a message
+     */
     private void sendMessage(Button button)
     {
         this.isConnected = this.myWindow.getConnection();
         if (!this.isConnected)
         {
             MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-            MessageType.WARNING, ButtonsType.OK,
-            "You are not connected, so you cannot chat.");
+                    MessageType.WARNING, ButtonsType.OK,
+                    "You are not connected, so you cannot chat.");
             // Sets a position constraint for this window.
             // CENTER_ALWAYS = Keep window centered as it changes size, etc.
             notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -110,7 +119,7 @@ class MyChatBox : VBox
 
             // Clear the text buffer -- even if it is already empty.
             this.messageBuffer.setText("");
-            return ;
+            return;
         }
 
         this.message = this.messageBuffer.getText();
@@ -118,7 +127,7 @@ class MyChatBox : VBox
         // If the bugger is "empty" do not send an empty message.
         if (this.message.equal(""))
         {
-            return ;
+            return;
         }
 
         SysTime currentTime = Clock.currTime();
@@ -131,14 +140,16 @@ class MyChatBox : VBox
             hour = to!string(h);
             amPm = "PM";
         }
+
         string minutes = to!string(currentTime.minute);
         // If there is only 1 digit/character in minutes then you know you need to add a 0.
         if (minutes.length == 1)
         {
             minutes = "0" ~ minutes;
         }
+
         string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
-        ~ ":\n\t" ~ this.message ~ "\n\n";
+            ~ ":\n\t" ~ this.message ~ "\n\n";
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
 
         // ===================================================================================
@@ -154,7 +165,12 @@ class MyChatBox : VBox
         this.messageBuffer.setText("");
     }
 
-    // What happens when the user exits the window.
+    /**
+     * Quits the application
+     *
+     * Params:
+     *       - button : Button : the button to react to
+     */
     private void quitApplication(Button button)
     {
         // Disconnect from server, if connected.

@@ -1,26 +1,29 @@
 module view.components.MyColorChooserDialog;
 
-// Imports.
+private import gdk.RGBA;
+private import gdk.c.types;
+private import gtk.ColorChooserDialog;
+private import gtk.Dialog;
+
 private import view.components.MyDrawing;
 
-private import gdk.RGBA; // RGBA.
-private import gdk.c.types; // GtkWindowPosition.
-
-private import gtk.ColorChooserDialog; // ColorChooserDialog.
-private import gtk.Dialog; // Dialog.
-
-/// Class representing the color chooser dialog the user clicks on.
+/**
+ * Class representing the color chooser dialog the user clicks on.
+ */
 class MyColorChooserDialog : ColorChooserDialog
 {
-    // Instance variables.
-    private:
+private:
     string title = "Color Selection";
     DialogFlags flags = GtkDialogFlags.MODAL;
     RGBA selectedColor;
     MyDrawing drawingArea;
 
-    /// Constructor.
-    public:
+public:
+    /**
+    * Constructs a MyColorChooserDialog instnace.
+    * Params:
+    *        drawingArea : MyDrawing : the whiteboard the user is drawing on
+    */
     this(MyDrawing drawingArea)
     {
         super(title, null);
@@ -31,12 +34,13 @@ class MyColorChooserDialog : ColorChooserDialog
         this.drawingArea = drawingArea;
     }
 
-    /// Destructor.
-    ~this()
-    {
-    }
-
-    // React based on which response the user picked.
+    /**
+     * Executes the control flow depending on the option the user selected within the dialogue
+     *
+     * Params:
+     *       - response : int : represents which dialogue option the user chose
+     *       - d        : Dialogue : the dialogue object
+     */
     private void doSomething(int response, Dialog d)
     {
         getRgba(selectedColor);

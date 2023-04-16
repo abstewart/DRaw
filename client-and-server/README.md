@@ -27,15 +27,15 @@ configuration specified in the dub.json) doesn't actually run any tests. This ma
 #### Server Coverage ####
 From the `client-and-server` directory, run: `dub run :server -c cov`
 
-Alternatively, from the `client` directory run: `dub run -c cov :server`
+Alternatively, from the `server` directory, run: `dub run -c cov`
 
 #### Client Coverage ####
 From the `client-and-server` directory, run: `dub run :client -c cov`
 
-Alternatively, from the `client` directory run: `dub run -c cov :client`
+Alternatively, from the `client` directory, run: `dub run -c cov`
 
 ### Documentation ###
-#### Basic ddocs generation ####
+#### Basic ddocs Documentation Generation ####
 From the `client-and-server` directory, run: `dub build -b docs`  
 And view the resulting documentation html in the `docs` directory. 
 
@@ -45,10 +45,13 @@ This _should_ build the documentation for the project. It may also build documen
 dependencies, however those files may be put with the source code for said dependencies, 
 and not in the `docs` folder.
 
-#### Harbored-mod generation ####
+#### Harbored-mod Documentation Generation ####
 From the `client-and-server` directory, run (you may need to accept the option to download harbored-mod): `dub run harbored-mod -- $(find ./client/source ./server/source -iname '*.d')`  
 
-View the resulting documentation HTML in the `doc` directory. This will build interactive HTML documentation (start from the `index.html` file), for just the 
+View the resulting documentation HTML in the `doc` directory. This will build an interactive HTML documentation (start from the `index.html` file), for just the 
 source files located in the `client/source` and `server/source` directories.
 
-Alternatively, you can also run `dub run adrdox -- -i ./client-and-server` from the `DRaw` directory to build an interactive HTML documentation. View the resulting documentation HTML in the `generated-docs` directory.
+#### Adrdox Documentation Generation ####
+From the `DRaw` directory, run `dub run adrdox -- -i ./client-and-server`
+
+View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.

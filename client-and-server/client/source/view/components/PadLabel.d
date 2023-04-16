@@ -1,28 +1,28 @@
 module view.components.PadLabel;
 
-// Imports.
+private import gtk.Label;
+
 private import view.components.HPadBox : HPadBox;
-private import controller.BoxJustify;
+private import view.components.BoxJustify;
 
-private import gtk.Label; // Label.
-
-/// Class used in ConnectGrid. Class representing the label for an entry in a ConnectGrid.
+/**
+ * Class used in ConnectGrid. Class representing the label for an entry in a ConnectGrid.
+ */
 class PadLabel : HPadBox
 {
-    // Instance variable.
-    private:
+private:
     Label label;
 
-    /// Constructor.
-    public:
+public:
+    /**
+    * Constructs a PadEntry instnace.
+    * Params:
+    *        pJustify : BoxJustify : the alignment of the widget
+    *        text     : string : the label text
+    */
     this(BoxJustify pJustify, string text = null)
     {
         this.label = new Label(text);
         super(this.label, pJustify);
-    }
-
-    /// Deconstructor.
-    ~this()
-    {
     }
 }
