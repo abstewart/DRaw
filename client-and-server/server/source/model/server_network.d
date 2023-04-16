@@ -107,7 +107,6 @@ class Server
                     if (recv > 0)
                     {
                         writeln("received", buffer[0 .. recv]);
-                        // auto toProp = parseCommand(to!string(buffer), recv);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }

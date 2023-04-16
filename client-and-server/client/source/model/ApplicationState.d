@@ -122,13 +122,15 @@ public:
     }
 
     /**
-     * Prepends the given command tuple to the command history
+     * Prepends the given command tuple to the command history after executing it
      * 
      * Params: 
      *        - cmd : Tuple!(string, int, Command) : a username, user id, Command tuple
      */
     static void addToCommandHistory(Tuple!(string, int, Command) cmd)
     {
+        Command cmdToExecute = cmd[2];
+        cmdToExecute.execute();
         ApplicationState.commandHistory = [cmd] ~ ApplicationState.commandHistory;
     }
 

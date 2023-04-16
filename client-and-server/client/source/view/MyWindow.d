@@ -2,6 +2,7 @@ module view.MyWindow;
 
 private import stdlib = core.stdc.stdlib : exit;
 private import std.algorithm.comparison : equal;
+private import glib.Timeout;
 private import gdk.c.types;
 private import gtk.Version;
 private import gtk.Application;
@@ -27,6 +28,7 @@ private import view.components.DRawAbout;
 private import view.components.ChatBox;
 private import view.components.MyChatBox;
 private import model.Communicator;
+private import model.packets.packet;
 
 /**
  * Class representing the main window of the application. 
@@ -37,6 +39,7 @@ private:
     bool isConnected;
     ChatBox chatBox;
     AppBox appBox;
+    Timeout timeout;
 
 public:
     /**
@@ -61,7 +64,9 @@ public:
             d.run();
             d.destroy();
         }
+        this.timeout = new Timeout(50, () { return resolveRemotePackets(this); }, false);
         this.isConnected = false;
+
     }
 
     /** 

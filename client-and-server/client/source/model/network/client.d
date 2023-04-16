@@ -73,11 +73,7 @@ public:
             }
             else if (recv == Socket.ERROR)
             {
-                if (wouldHaveBlocked())
-                {
-                    writeln("Socket would have blocked");
-                }
-                else
+                if (!wouldHaveBlocked())
                 {
                     writeln("Socket lerror");
                     this.sock.close();

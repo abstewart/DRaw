@@ -1,6 +1,6 @@
 module controller.DRawApp;
 
-private import gtkd.Loader;
+// private import gtkd.Loader;
 private import gtk.Application;
 private import gio.Application : GioApplication = Application;
 
@@ -27,8 +27,8 @@ public:
      */
     public int runMainApplication()
     {
-        Linker.dumpLoadLibraries();
-        Linker.dumpFailedLoads();
+        // Linker.dumpLoadLibraries();
+        // Linker.dumpFailedLoads();
         auto application = new Application("dRaw.project", GApplicationFlags.FLAGS_NONE);
         application.addOnActivate(delegate void(GioApplication app) {
             new MyWindow(application);

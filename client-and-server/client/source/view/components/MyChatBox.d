@@ -77,7 +77,9 @@ public:
         packStart(sw2, true, true, 0);
 
         // Buttons.
-        Button sendButton = new Button("Send Message", &sendMessage);
+        Button sendButton = new Button("Send Message", (Button button) {
+            updateMessageWindow();
+        });
         Button quitButton = new Button(StockID.QUIT, &quitApplication, true);
         quitButton.setTooltipText("Quit");
         HBox hbox = new HBox(false, 4);
@@ -99,11 +101,8 @@ public:
 
     /**
      * Send the message to the chat.
-     *
-     * Params:
-     *       - button : Button : the button clicked when sending a message
      */
-    private void sendMessage(Button button)
+    public void updateMessageWindow()
     {
         this.isConnected = this.myWindow.getConnection();
         if (!this.isConnected)

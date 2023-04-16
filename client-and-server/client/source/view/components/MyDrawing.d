@@ -157,17 +157,21 @@ public:
         // Retrieve the most recent command and remove it from the history array.
         Tuple!(string, int, Command) unameIdCmd = ApplicationState.popFromCommandHistory();
         string usernameToUndo = unameIdCmd[0];
-        int cidToUndo = unameIdCmd[1];
+        int idToUndo = unameIdCmd[1];
         if (unameIdCmd[2]!is null)
         {
+            int cmdIdToUndo = unameIdCmd[2].getCmdId();
+            string packetToSend = encodeUndoCommandPacket(usernameToUndo, idToUndo, cmdIdToUndo);
+            Communicator.queueMessageSend(packetToSend);
             unameIdCmd[2].undo();
             Tuple!(string, int, Command)[] validCmds = [];
             foreach (Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory())
             {
                 string user = uIdCmd[0];
-                int cid = uIdCmd[1];
+                int id = uIdCmd[1];
                 Command cmd = uIdCmd[2];
-                if (usernameToUndo.equal(user) && cidToUndo == cid)
+                int cid = cmd.getCmdId();
+                if (usernameToUndo.equal(user) && idToUndo == id && cmdIdToUndo == cid)
                 {
                     cmd.undo();
                     continue;
@@ -214,9 +218,9 @@ public:
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
             // Draw/paint. Get the command based on the current brush type and then execute it.
-            int id = ApplicationState.getCurCommandId();
-            Command newCommand = getCommand(x, y, id);
-            newCommand.execute();
+            int id = ApplicationState.getClientId();
+            Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());
+            writeln(newCommand.getCmdId());
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
@@ -280,9 +284,8 @@ public:
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
             // Draw/paint. Get the command based on the current brush type and then execute it.
-            int id = ApplicationState.getCurCommandId();
-            Command newCommand = getCommand(x, y, id);
-            newCommand.execute();
+            int id = ApplicationState.getClientId();
+            Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());
             // Add the command to the history.
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
