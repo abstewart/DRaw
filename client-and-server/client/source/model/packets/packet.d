@@ -93,7 +93,8 @@ void parseAndExecuteUserConnPacket(string packet, long recv)
  */
 Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
-    auto fields = packet[0 .. recv - 1].split(',');
+    string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
+    auto fields = raw.split(',');
     return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
 }
 
@@ -128,7 +129,6 @@ string encodeUserConnPacket(string username, int id, bool connStatus)
 void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, Command) userIdCmd = decodeUserDrawCommand(packet, recv, window);
-    writeln(userIdCmd[2].encode);
     ApplicationState.addToCommandHistory(userIdCmd);
 }
 
@@ -147,8 +147,8 @@ void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
  */
 Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyWindow window)
 {
-    auto fields = packet[0 .. recv - 1].split(',');
-    writeln(fields);
+    string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
+    auto fields = raw.split(',');
     string username = to!string(fields[1]);
     int uid = to!int(fields[2]);
     Command cmd = commandMux(to!int(fields[3]), to!int(fields[4]),
@@ -186,12 +186,10 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
  */
 void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
 {
-    writeln("received undo packet");
     Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
     string usernameToUndo = userIdCid[0];
     int idToUndo = userIdCid[1];
     int cidToUndo = userIdCid[2];
-    writeln("attempting to undo ", usernameToUndo, " ", idToUndo, " ", cidToUndo);
     Tuple!(string, int, Command)[] validCmds = [];
     foreach (Tuple!(string, int, Command) uIdCmd; ApplicationState.getCommandHistory())
     {
@@ -224,11 +222,11 @@ void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
  */
 Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
 {
-    auto fields = packet[0 .. recv - 1].split(',');
+    string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
+    auto fields = raw.split(',');
     string username = to!string(fields[1]);
     int uid = to!int(fields[2]);
     int cid = to!int(fields[3]);
-    writeln("parsed undo packet");
     return tuple(username, uid, cid);
 }
 
@@ -280,7 +278,8 @@ void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
  */
 Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
 {
-    auto fields = packet[0 .. recv - 1].split(',');
+    string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
+    auto fields = raw.split(',');
     string username = to!string(fields[1]);
     int uid = to!int(fields[2]);
     long time = to!long(fields[3]);

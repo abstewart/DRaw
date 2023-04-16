@@ -16,11 +16,6 @@ string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 4096;
 
-Tuple!(string, int, Command) parseCommand(string message, long size)
-{
-    return decodeUserDrawCommand(message, size);
-}
-
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();

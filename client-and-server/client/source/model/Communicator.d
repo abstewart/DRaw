@@ -20,6 +20,7 @@ class Communicator
 {
 private:
     static bool threadActive = false;
+    static bool connectionStatus = false;
     static Tid childThread;
     static Communicator instance = null;
 
@@ -55,9 +56,9 @@ private:
         });
 
         // shutdown our thread if we are not able to connect to the server
-        if (!serverAck)
+        if (serverAck)
         {
-            shutdown();
+            connectionStatus = true;
         }
     }
 
@@ -97,7 +98,11 @@ public:
     {
         if (instance is null)
         {
+            writeln("attempting to get a new communicator");
             instance = new Communicator(port, ip, username);
+            if (!Communicator.getConnectionStatus()) {
+                Communicator.disconnect();
+            }
         }
         return instance;
     }
@@ -124,7 +129,6 @@ public:
     {
         if (!(instance is null))
         {
-            writeln(message);
             instance.sendToChild(message);
         }
     }
@@ -161,5 +165,16 @@ public:
     static bool getThreadStatus()
     {
         return threadActive;
+    }
+
+    /**
+     * Gets the status of the connection
+     *
+     * Returns:
+     *        - connStatus : bool : a boolean representing whether or not we are connected
+     */
+    static bool getConnectionStatus()
+    {
+        return connectionStatus;
     }
 }

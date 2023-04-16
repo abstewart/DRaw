@@ -31,7 +31,6 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
         // checks briefly for messages from main thread
         auto recv = receiveTimeout(TIMEOUT_DUR, (string packet) {
             // if we get packet info, we will send that along to the server
-            writeln(packet);
             network.sendToServer(packet);
         }, (immutable bool shutdown) {
             // if we receive a shutdown request, we will shutdown this thread
@@ -59,6 +58,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
         }
     }
 
+    destroy(network);
     // log thread exit
     writeln("thread has exited");
 }
