@@ -100,7 +100,8 @@ public:
         {
             writeln("attempting to get a new communicator");
             instance = new Communicator(port, ip, username);
-            if (!Communicator.getConnectionStatus()) {
+            if (!Communicator.getConnectionStatus())
+            {
                 Communicator.disconnect();
             }
         }
