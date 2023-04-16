@@ -220,7 +220,6 @@ public:
             // Draw/paint. Get the command based on the current brush type and then execute it.
             int id = ApplicationState.getClientId();
             Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());
-            writeln(newCommand.getCmdId());
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);

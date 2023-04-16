@@ -87,7 +87,7 @@ public:
     private void attemptConnection(string username, string ipAddr, ushort port)
     {
         Communicator.getCommunicator(port, ipAddr, username);
-        bool connected = Communicator.getThreadStatus();
+        bool connected = Communicator.getConnectionStatus();
         this.myWindow.setConnection(connected);
         MessageDialog message = connected ? new MessageDialog(this, GtkDialogFlags.MODAL,
                 MessageType.INFO, ButtonsType.OK, "You are now connceted!") : new MessageDialog(this,

@@ -47,6 +47,7 @@ public:
     ~this()
     {
         this.sock.close();
+        writeln("closed socket");
     }
 
     /**
@@ -98,7 +99,6 @@ public:
     {
         if (this.socketOpen)
         {
-            writeln("sending", packetData);
             this.sock.send(packetData);
         }
     }
