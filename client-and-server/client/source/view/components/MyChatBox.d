@@ -46,6 +46,8 @@ public:
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
+        setBorderWidth(20); // Sets the border width of the container.
+        setSizeRequest(300, 500); // Width, height.
         // Store instance variables.
         this.myWindow = myWindow;
         this.username = username;
@@ -56,7 +58,7 @@ public:
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
-        sw1.setMinContentHeight(400); // Set the height of the chat feature.
+        sw1.setMinContentHeight(400); // Sets the minimum height that scrolled_window should keep visible.
         sw1.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);
@@ -70,7 +72,7 @@ public:
 
         // The scroll window for typing a message.
         ScrolledWindow sw2 = new ScrolledWindow(null, null);
-        sw2.setMinContentHeight(10); // Set the height of the message input area.
+        sw2.setMinContentHeight(10); // Sets the minimum height that scrolled_window should keep visible.
         sw2.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         TextView textView2 = new TextView();
         textView2.setEditable(true);

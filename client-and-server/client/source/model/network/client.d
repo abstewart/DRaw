@@ -35,7 +35,7 @@ public:
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
         this.sock = new TcpSocket(AddressFamily.INET);
-        // this timeout is broken on windows (500 ms offset)
+        // This timeout is broken on windows (500 ms offset).
         this.sock.setOption(SocketOptionLevel.SOCKET, SocketOption.RCVTIMEO, SOCKET_TIMEOUT);
         this.sock.connect(new InternetAddress(this.ipAddress, this.portNumber));
         this.socketOpen = true;

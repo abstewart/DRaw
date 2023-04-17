@@ -19,6 +19,7 @@ public:
     this()
     {
         super(Orientation.VERTICAL, 10);
+        setBorderWidth(20); // Sets the border width of the container.
         this.myDrawingBox = new MyDrawingBox();
         packStart(this.myDrawingBox, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }

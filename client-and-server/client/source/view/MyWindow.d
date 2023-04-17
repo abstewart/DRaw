@@ -118,6 +118,8 @@ public:
             setIconFromFile("images/icon.png");
         }
 
+        setBorderWidth(20); // Sets the border width of the container.
+
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);

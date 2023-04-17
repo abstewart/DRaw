@@ -23,6 +23,9 @@ private:
     static bool connectionStatus = false;
     static Tid childThread;
     static Communicator instance = null;
+    //static ushort port_c;
+    //static string ip_c;
+    //static string username_c;
 
     /**
      * Constructs a Communicator object given a port, ip, and username.
@@ -35,6 +38,9 @@ private:
      */
     this(ushort port, string ip, string username)
     {
+        //port_c = port;
+        //ip_c = ip;
+        //username_c = username;
         // Spawn thread and wait for connection.
         threadActive = true;
         childThread = spawn(&handleNetworking, thisTid, ip, port);
@@ -107,6 +113,24 @@ public:
         }
         return instance;
     }
+
+    //@("Testing getCommunicator")
+    //unittest
+    //{
+    //    Communicator commicator = getCommunicator(5002, "localhost", "Bob");
+    //    Communicator c = getCommunicator();
+    //    assert(commicator == c);
+    //}
+    //
+    //override bool opEquals(Object o) const
+    //{
+    //    auto comminicator = cast(const Communicator) o;
+    //
+    //    import std.algorithm.comparison : equal;
+    //
+    //    return port_c == comminicator.port_c && ip_c.equal(comminicator.ip_c)
+    //        && username_c.equal(comminicator.username_c);
+    //}
 
     /**
      * Shuts down our networking thread if one exists.
