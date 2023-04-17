@@ -45,7 +45,10 @@ public:
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
-        setBorderWidth(20); // Sets the border width of the container.
+        setMarginLeft(20); // Sets the left margin of widget.
+        setMarginRight(8); // Sets the right margin of widget.
+        setMarginTop(20); // Sets the top margin of widget.
+        setMarginBottom(20); // Sets the bottom margin of widget.
         setSizeRequest(300, 500); // Width, height.
         // Store instance variables.
         this.myWindow = myWindow;
