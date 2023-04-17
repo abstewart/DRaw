@@ -164,29 +164,16 @@ public:
     }
 
     /**
-     * Handle a chat message from someone else. This should be called when we have new chat messages.
-     */
-    public void processOtherChat(string packet, long recv){
-        //no need to check for connectedness, we must be connected
-        Tuple!(string, int, long, string) message = decodeChatPacket(packet, recv);
-        //update the window
-        this.updateMessageWindow(message[0], message[1], message[2], message[3]);
-
-
-
-    }
-
-    /**
      * Send the message to the chat.
      */
-    public void updateMessageWindow(string username, int cid, long time, string message)
+    public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
         //old formatting for message
             //string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
             //~ ":\n\t" ~ this.message ~ "\n\n";
 
         //construct the actual message to display
-        string chat = this.username ~ ":" ~ to!string(cid) ~ " @ " ~ to!string(time) ~ ":\n\t" ~ this.message ~ "\n\n";
+        string chat = uname ~ ":" ~ to!string(cid) ~ " @ " ~ to!string(time) ~ ":\n\t" ~ msg ~ "\n\n";
 
         //add chat message to the application state, and to the chat buffer
 

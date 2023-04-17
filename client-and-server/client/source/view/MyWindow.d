@@ -170,6 +170,10 @@ public:
         return this.appBox;
     }
 
+    public ChatBox getChatBox() {
+        return this.chatBox;
+    }
+
     /**
      * Creates a new connection dialogue.
      *
@@ -239,6 +243,9 @@ public:
                 accelGroup, 'a', GdkModifierType.CONTROL_MASK | GdkModifierType.SHIFT_MASK));
         return menuBar;
     }
+
+
+
 
     /**
      * Quits the application if connected.
