@@ -63,7 +63,11 @@ public:
             StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         }
         version(linux) {
-
+            CssProvider provider = new CssProvider();
+            FileIF file = FileIF.parseName("./gtk.css");
+            provider.loadFromFile(file);
+            Screen def = Screen.getDefault();
+            StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         }
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
