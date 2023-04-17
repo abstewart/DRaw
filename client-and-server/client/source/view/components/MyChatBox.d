@@ -168,15 +168,32 @@ public:
         // ===================================================================================
     }
 
+    /**
+    * Send the user connection update status (whether a user has joined or left the chat).
+    */
     public void userConnectionUpdate (string uname, int cid, bool connection) {
-        import std.stdio;
-        writeln("MyChatBox.d connection = " ~ to!string(connection));
         // Construct the actual update message to display.
         string updateMsg;
         if (connection) {
             updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " joined!!!~~~~\n\n";
         } else {
             updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " left!!!~~~~\n\n";
+        }
+
+        // Add update message to the chat buffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
+    }
+
+    /**
+    * Handle when you yourself join or leave the chat.
+    */
+    public void yourConnectionUpdate (string uname, bool connection) {
+        // Construct the actual update message to display.
+        string updateMsg;
+        if (connection) {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ " joined!!!~~~~\n\n";
+        } else {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ " left!!!~~~~\n\n";
         }
 
         // Add update message to the chat buffer.

@@ -68,8 +68,6 @@ bool resolveRemotePackets(MyWindow window)
 void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, bool) info = decodeUserConnPacket(packet, recv);
-    import std.stdio;
-    writeln("packet.d connection = " ~ to!string(info[2]));
     if (info[2])
     {
         ApplicationState.addConnectedUser(info[0], info[1]);

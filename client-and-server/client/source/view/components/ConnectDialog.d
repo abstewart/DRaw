@@ -95,6 +95,10 @@ public:
                 MessageType.INFO, ButtonsType.OK, "Connection failed, please try again");
         message.run();
         message.destroy();
+
+        if (connected) {
+            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate("You", connected);
+        }
     }
 
     /**
