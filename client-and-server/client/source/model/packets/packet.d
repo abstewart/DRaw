@@ -106,6 +106,7 @@ unittest
     Tuple!(string, int, bool) connectionPacket = decodeUserConnPacket(testPacket, lengthOfBytes);
 
     import std.algorithm.comparison : equal;
+
     assert(connectionPacket[0].equal("User"));
     assert(connectionPacket[1] == 1);
     assert(connectionPacket[2]);
@@ -141,6 +142,7 @@ unittest
 
     string testPacket = encodeUserConnPacket(testUsername, testId, testConnectionStatus);
     import std.algorithm.comparison : equal;
+
     assert(testPacket.equal("0,User,5,false\r"));
 }
 
@@ -263,6 +265,7 @@ unittest
     Tuple!(string, int, int) undoCommandPacket = decodeUndoCommandPacket(testPacket, lengthOfBytes);
 
     import std.algorithm.comparison : equal;
+
     assert(undoCommandPacket[0].equal("Bob"));
     assert(undoCommandPacket[1] == 2);
     assert(undoCommandPacket[2] == 0);
@@ -297,6 +300,7 @@ unittest
 
     string testPacket = encodeUndoCommandPacket(testUsername, testUId, testCId);
     import std.algorithm.comparison : equal;
+
     assert(testPacket.equal("2,User,3,2\r"));
 }
 
