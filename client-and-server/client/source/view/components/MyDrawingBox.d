@@ -52,7 +52,7 @@ public:
     }
 
     /**
-     * Executes the control flow when the user selects the show Color button
+     * Executes the control flow when the user selects the show Color button.
      *
      * Params:
      *       - button : Button : the button object clicked
@@ -68,7 +68,7 @@ public:
     }
 
     /**
-     * Executes the control flow when the user selects the save whiteboard button
+     * Executes the control flow when the user selects the save whiteboard button.
      *
      * Params:
      *       - button : Button : the button object clicked
@@ -79,7 +79,7 @@ public:
     }
 
     /**
-     * Executes the control flow when the user selects the undoWhitboard button
+     * Executes the control flow when the user selects the undoWhitboard button.
      *
      * Params:
      *       - button : Button : the button object clicked
@@ -90,7 +90,7 @@ public:
     }
 
     /** 
-     * Gets the drawing area in the MyDrawingBox instance. Only used for unittests.
+     * Gets the drawing area in the MyDrawingBox instance. Used in CommandBuilder.d.
      */
     public MyDrawing getMyDrawing()
     {

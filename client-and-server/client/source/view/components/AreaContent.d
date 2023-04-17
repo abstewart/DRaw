@@ -17,7 +17,7 @@ public:
     /**
     * Constructs an AreaContent instance.
     * Params:
-    *        contentArea : Box : the content area of an instance of the Connect Dialog
+    *        - contentArea : Box : the content area of an instance of the Connect Dialog
     */
     this(Box contentArea)
     {

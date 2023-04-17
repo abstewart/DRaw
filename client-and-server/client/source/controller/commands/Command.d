@@ -68,7 +68,7 @@ public:
     }
 
     /**
-     * Executes the command on the canvas
+     * Executes the command on the canvas.
      */
     abstract void execute();
 
