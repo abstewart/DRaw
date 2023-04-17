@@ -15,12 +15,12 @@ import model.Communicator;
 import model.ApplicationState;
 import view.MyWindow;
 
-immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet.
-immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet.
-immutable int UNDO_COMMAND_PACKET = 2; // packet type for an undo command packet.
-immutable int CHAT_MESSAGE_PACKET = 3; // packet type for a chat message packet.
-immutable int CANVAS_SYNCH_PACKET = 4; // packet type for a canvas sync packet.
-immutable char END_MESSAGE = '\r'; // end packet delimiter.
+immutable int USER_CONNECT_PACKET = 0; // Packet type for a user connection packet.
+immutable int DRAW_COMMAND_PACKET = 1; // Packet type for a draw command packet.
+immutable int UNDO_COMMAND_PACKET = 2; // Packet type for an undo command packet.
+immutable int CHAT_MESSAGE_PACKET = 3; // Packet type for a chat message packet.
+immutable int CANVAS_SYNCH_PACKET = 4; // Packet type for a canvas sync packet.
+immutable char END_MESSAGE = '\r'; // End packet delimiter.
 
 /**
  * Parses and executes any packets that have come in from the server.
@@ -98,6 +98,19 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
     return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
 }
 
+@("Testing decodeUserConnPacket")
+unittest
+{
+    string testPacket = "0,User,1,true\r";
+    long lengthOfBytes = 14;
+    Tuple!(string, int, bool) connectionPacket = decodeUserConnPacket(testPacket, lengthOfBytes);
+
+    import std.algorithm.comparison : equal;
+    assert(connectionPacket[0].equal("User"));
+    assert(connectionPacket[1] == 1);
+    assert(connectionPacket[2]);
+}
+
 /**
  * Encodes a user connection packet into a string given username, id, and status.
  * Intended packet format:
@@ -117,6 +130,18 @@ string encodeUserConnPacket(string username, int id, bool connStatus)
     string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username,
             to!string(id), to!string(connStatus));
     return packet;
+}
+
+@("Testing encodeUserConnPacket")
+unittest
+{
+    string testUsername = "User";
+    int testId = 5;
+    bool testConnectionStatus = false;
+
+    string testPacket = encodeUserConnPacket(testUsername, testId, testConnectionStatus);
+    import std.algorithm.comparison : equal;
+    assert(testPacket.equal("0,User,5,false\r"));
 }
 
 /**
@@ -230,6 +255,19 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
     return tuple(username, uid, cid);
 }
 
+@("Testing decodeUndoCommandPacket")
+unittest
+{
+    string testPacket = "2,Bob,2,0\r";
+    long lengthOfBytes = 10;
+    Tuple!(string, int, int) undoCommandPacket = decodeUndoCommandPacket(testPacket, lengthOfBytes);
+
+    import std.algorithm.comparison : equal;
+    assert(undoCommandPacket[0].equal("Bob"));
+    assert(undoCommandPacket[1] == 2);
+    assert(undoCommandPacket[2] == 0);
+}
+
 /**
  * Encodes an undo command packetinto a string given username, id, and command id.
  * Intended packet format:
@@ -248,6 +286,18 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
 {
     string packet = "%s,%s,%s,%s\r".format(UNDO_COMMAND_PACKET, username, uid, cid);
     return packet;
+}
+
+@("Testing encodeUndoCommandPacket")
+unittest
+{
+    string testUsername = "User";
+    int testUId = 3;
+    int testCId = 2;
+
+    string testPacket = encodeUndoCommandPacket(testUsername, testUId, testCId);
+    import std.algorithm.comparison : equal;
+    assert(testPacket.equal("2,User,3,2\r"));
 }
 
 /**
@@ -287,6 +337,12 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
     return tuple(username, uid, time, msg);
 }
 
+@("Testing decodeChatPacket")
+unittest
+{
+
+}
+
 /**
  * Encodes a chat packet into a string given username, id, timestamp, and message.
  * Intended packet format:
@@ -307,6 +363,12 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
     string packet = "%s,%s,%s,%s,%s\r".format(CHAT_MESSAGE_PACKET, username,
             id, timestamp, message);
     return packet;
+}
+
+@("Testing encodeChatPacket")
+unittest
+{
+
 }
 
 // TODO: FIGURE OUT CANVAS SYNC behavior
