@@ -35,7 +35,7 @@ bool resolveRemotePackets(MyWindow window)
         switch (packetType)
         {
         case (USER_CONNECT_PACKET):
-            parseAndExecuteUserConnPacket(packet[0], packet[1]);
+            parseAndExecuteUserConnPacket(packet[0], packet[1], window);
             break;
         case (DRAW_COMMAND_PACKET):
             parseAndExecuteUserDrawPacket(packet[0], packet[1], window);
@@ -65,15 +65,23 @@ bool resolveRemotePackets(MyWindow window)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUserConnPacket(string packet, long recv)
+void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, bool) info = decodeUserConnPacket(packet, recv);
+    import std.stdio;
+    writeln("packet.d connection = " ~ to!string(info[2]));
     if (info[2])
     {
         ApplicationState.addConnectedUser(info[0], info[1]);
+
+        window.getChatBox.getMyChatBox().userConnectionUpdate(info[0],
+        info[1], info[2]);
     }
     else
     {
+        window.getChatBox.getMyChatBox().userConnectionUpdate(info[0],
+        info[1], info[2]);
+
         ApplicationState.removeConnectedUser(info[1]);
     }
 }

@@ -159,13 +159,28 @@ public:
         string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(
                 time) ~ ":\n\t" ~ msg ~ "\n\n";
 
-        // Add chat message to the application state, and to the chat buffer
+        // Add chat message to the chat buffer.
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
 
         // ===================================================================================
         // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
         // that they have access to all the other messages.
         // ===================================================================================
+    }
+
+    public void userConnectionUpdate (string uname, int cid, bool connection) {
+        import std.stdio;
+        writeln("MyChatBox.d connection = " ~ to!string(connection));
+        // Construct the actual update message to display.
+        string updateMsg;
+        if (connection) {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " joined!!!~~~~\n\n";
+        } else {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " left!!!~~~~\n\n";
+        }
+
+        // Add update message to the chat buffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
     }
 
     /**
