@@ -107,12 +107,14 @@ public:
     /**
      * Handle a chat message from ourselves. This includes sending the message to the server.
      */
-    public void processSelfChat(){
-        if(!this.myWindow.getConnection()){
+    public void processSelfChat()
+    {
+        if (!this.myWindow.getConnection())
+        {
             {
-                MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-                MessageType.WARNING, ButtonsType.OK,
-                "You are not connected, so you cannot chat.");
+                MessageDialog notConnectedMsg = new MessageDialog(new Dialog(),
+                        GtkDialogFlags.MODAL, MessageType.WARNING,
+                        ButtonsType.OK, "You are not connected, so you cannot chat.");
                 // Sets a position constraint for this window.
                 // CENTER_ALWAYS = Keep window centered as it changes size, etc.
                 notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
@@ -135,11 +137,13 @@ public:
         SysTime currentTime = Clock.currTime();
 
         //call chat updator
-        this.updateMessageWindow(this.username, ApplicationState.getClientId(), currentTime.stdTime, this.message);
+        this.updateMessageWindow(this.username, ApplicationState.getClientId(),
+                currentTime.stdTime, this.message);
 
         //send chat message to server
         //username, id, timestamp, message
-        string packetToSend = encodeChatPacket(this.username, ApplicationState.getClientId(), currentTime.stdTime, this.message);
+        string packetToSend = encodeChatPacket(this.username,
+                ApplicationState.getClientId(), currentTime.stdTime, this.message);
         Communicator.queueMessageSend(packetToSend);
 
         // Clear the text buffer.
@@ -153,11 +157,12 @@ public:
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
         //old formatting for message
-            //string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
-            //~ ":\n\t" ~ this.message ~ "\n\n";
+        //string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
+        //~ ":\n\t" ~ this.message ~ "\n\n";
 
         //construct the actual message to display
-        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(time) ~ ":\n\t" ~ msg ~ "\n\n";
+        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(
+                time) ~ ":\n\t" ~ msg ~ "\n\n";
 
         //add chat message to the application state, and to the chat buffer
 
@@ -172,7 +177,8 @@ public:
     /**
      * Transform a long time into a pretty string version.
      */
-    string prettyTime(long numTime) {
+    string prettyTime(long numTime)
+    {
         SysTime time = SysTime(numTime);
         string amPm = "AM";
         string hour = to!string(time.hour);
@@ -190,14 +196,15 @@ public:
         {
             minutes = "0" ~ minutes;
         }
-        return(hour ~ ":" ~ minutes ~ amPm);
+        return (hour ~ ":" ~ minutes ~ amPm);
 
     }
 
     /**
      * Get the chat history as 1 giant string
      */
-    public void getChatHistory(){
+    public void getChatHistory()
+    {
         this.chatBuffer.getText();
     }
 

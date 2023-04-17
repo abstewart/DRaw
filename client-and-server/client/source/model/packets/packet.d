@@ -260,7 +260,8 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
 void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
-    window.getChatBox.getMyChatBox().updateMessageWindow(userIdTimeMsg[0], userIdTimeMsg[1], userIdTimeMsg[2], userIdTimeMsg[3]);
+    window.getChatBox.getMyChatBox().updateMessageWindow(userIdTimeMsg[0],
+            userIdTimeMsg[1], userIdTimeMsg[2], userIdTimeMsg[3]);
 }
 
 /**

@@ -170,7 +170,8 @@ public:
         return this.appBox;
     }
 
-    public ChatBox getChatBox() {
+    public ChatBox getChatBox()
+    {
         return this.chatBox;
     }
 
@@ -243,9 +244,6 @@ public:
                 accelGroup, 'a', GdkModifierType.CONTROL_MASK | GdkModifierType.SHIFT_MASK));
         return menuBar;
     }
-
-
-
 
     /**
      * Quits the application if connected.
