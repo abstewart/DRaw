@@ -4,6 +4,7 @@ private import stdlib = core.stdc.stdlib : exit;
 private import std.algorithm : equal;
 private import std.datetime.systime : SysTime, Clock;
 private import std.conv : to;
+private import std.typecons;
 private import gdk.c.types;
 private import gtk.VBox;
 private import gtk.Button;
@@ -17,6 +18,9 @@ private import gtk.Dialog;
 
 private import view.MyWindow;
 private import model.Communicator;
+private import model.Communicator;
+private import model.packets.packet;
+private import model.ApplicationState;
 
 /**
  * Class representing box the user chats in.
@@ -77,7 +81,7 @@ public:
 
         // Buttons.
         Button sendButton = new Button("Send Message", (Button button) {
-            updateMessageWindow();
+            processSelfChat();
         });
         Button quitButton = new Button(StockID.QUIT, &quitApplication, true);
         quitButton.setTooltipText("Quit");
@@ -99,29 +103,29 @@ public:
     }
 
     /**
-     * Send the message to the chat.
+     * Handle a chat message from ourselves. This includes sending the message to the server.
      */
-    public void updateMessageWindow()
+    public void processSelfChat()
     {
-        this.isConnected = this.myWindow.getConnection();
-        if (!this.isConnected)
+        if (!this.myWindow.getConnection())
         {
-            MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
-                    MessageType.WARNING, ButtonsType.OK,
-                    "You are not connected, so you cannot chat.");
-            // Sets a position constraint for this window.
-            // CENTER_ALWAYS = Keep window centered as it changes size, etc.
-            notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
-            notConnectedMsg.run();
-            notConnectedMsg.destroy();
+            {
+                MessageDialog notConnectedMsg = new MessageDialog(new Dialog(),
+                        GtkDialogFlags.MODAL, MessageType.WARNING,
+                        ButtonsType.OK, "You are not connected, so you cannot chat.");
+                // Sets a position constraint for this window.
+                // CENTER_ALWAYS = Keep window centered as it changes size, etc.
+                notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
+                notConnectedMsg.run();
+                notConnectedMsg.destroy();
 
-            // Clear the text buffer -- even if it is already empty.
-            this.messageBuffer.setText("");
-            return;
+                // Clear the text buffer -- even if it is already empty.
+                this.messageBuffer.setText("");
+                return;
+            }
         }
-
+        //we must be connected, so continue
         this.message = this.messageBuffer.getText();
-
         // If the bugger is "empty" do not send an empty message.
         if (this.message.equal(""))
         {
@@ -129,29 +133,77 @@ public:
         }
 
         SysTime currentTime = Clock.currTime();
+
+        //call chat updator
+        this.updateMessageWindow(this.username, ApplicationState.getClientId(),
+                currentTime.stdTime, this.message);
+
+        //send chat message to server
+        //username, id, timestamp, message
+        string packetToSend = encodeChatPacket(this.username,
+                ApplicationState.getClientId(), currentTime.stdTime, this.message);
+        Communicator.queueMessageSend(packetToSend);
+
+        // Clear the text buffer.
+        this.messageBuffer.setText("");
+
+    }
+
+    /**
+     * Send the message to the chat.
+     */
+    public void updateMessageWindow(string uname, int cid, long time, string msg)
+    {
+        //old formatting for message
+        //string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
+        //~ ":\n\t" ~ this.message ~ "\n\n";
+
+        //construct the actual message to display
+        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(
+                time) ~ ":\n\t" ~ msg ~ "\n\n";
+
+        //add chat message to the application state, and to the chat buffer
+
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
+
+        // ===================================================================================
+        // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
+        // that they have access to all the other messages.
+        // ===================================================================================
+    }
+
+    /**
+     * Transform a long time into a pretty string version.
+     */
+    string prettyTime(long numTime)
+    {
+        SysTime time = SysTime(numTime);
         string amPm = "AM";
-        string hour = to!string(currentTime.hour);
+        string hour = to!string(time.hour);
         // Check from military time to standard time.
-        if (currentTime.hour > 12)
+        if (time.hour > 12)
         {
-            ubyte h = currentTime.hour % 12;
+            ubyte h = time.hour % 12;
             hour = to!string(h);
             amPm = "PM";
         }
 
-        string minutes = to!string(currentTime.minute);
+        string minutes = to!string(time.minute);
         // If there is only 1 digit/character in minutes then you know you need to add a 0.
         if (minutes.length == 1)
         {
             minutes = "0" ~ minutes;
         }
+        return (hour ~ ":" ~ minutes ~ amPm);
 
-        string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
-            ~ ":\n\t" ~ this.message ~ "\n\n";
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
+    }
 
-        // Clear the text buffer.
-        this.messageBuffer.setText("");
+    /**
+     * Get the chat history as 1 giant string
+     */
+    public void getChatHistory()
+    {
+        this.chatBuffer.getText();
     }
 
     /**

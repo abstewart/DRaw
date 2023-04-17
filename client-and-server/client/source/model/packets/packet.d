@@ -314,7 +314,8 @@ unittest
 void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
-    // TODO: add message into the chat queue
+    window.getChatBox.getMyChatBox().updateMessageWindow(userIdTimeMsg[0],
+            userIdTimeMsg[1], userIdTimeMsg[2], userIdTimeMsg[3]);
 }
 
 /**

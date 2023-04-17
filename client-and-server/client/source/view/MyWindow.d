@@ -172,6 +172,17 @@ public:
     }
 
     /**
+     * Gets the chatBox inside of MyWindow.
+     *
+     * Returns:
+     *       - chatBox : ChatBox : the chat box
+     */
+    public ChatBox getChatBox()
+    {
+        return this.chatBox;
+    }
+
+    /**
      * Creates a new connection dialogue.
      *
      * Params: 
