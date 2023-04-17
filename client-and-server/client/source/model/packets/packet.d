@@ -78,7 +78,7 @@ void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
     {
         import std.stdio;
 
-        writeln("client left -- time to remove them from the user left");
+        writeln("client left -- time to remove them from the connected user list");
         ApplicationState.removeConnectedUser(info[1]);
     }
 }
