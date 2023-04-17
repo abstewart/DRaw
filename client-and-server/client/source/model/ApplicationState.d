@@ -166,6 +166,29 @@ public:
         ApplicationState.chatHistory ~= chatPackage;
     }
 
+    @("Testing addChatPacket and getChatHistory")
+    unittest {
+        Tuple!(string, int, long, string) testChatPacket1;
+        testChatPacket1[0] = "Bob";
+        testChatPacket1[1] = 1;
+        testChatPacket1[2] = 1253;
+        testChatPacket1[3] = "This is a test message!!!";
+        addChatPacket(testChatPacket1);
+
+        Tuple!(string, int, long, string)[] chatHistory1 = [testChatPacket1];
+        assert(getChatHistory() == chatHistory1);
+
+        Tuple!(string, int, long, string) testChatPacket2;
+        testChatPacket2[0] = "Sam";
+        testChatPacket2[1] = 1;
+        testChatPacket2[2] = 1300;
+        testChatPacket2[3] = "Testing testing. This is a message for a unittest.";
+        addChatPacket(testChatPacket2);
+
+        Tuple!(string, int, long, string)[] chatHistory2 = [testChatPacket1, testChatPacket2];
+        assert(getChatHistory() == chatHistory2);
+    }
+
     /**
      * Prepends the given command tuple to the command history after executing it.
      * 
