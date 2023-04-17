@@ -170,6 +170,12 @@ public:
         return this.appBox;
     }
 
+    /**
+     * Gets the chatBox inside of MyWindow.
+     *
+     * Returns:
+     *       - chatBox : ChatBox : the chat box
+     */
     public ChatBox getChatBox()
     {
         return this.chatBox;

@@ -36,7 +36,6 @@ private:
     MyWindow myWindow;
     bool isConnected;
     string username;
-    Communicator communicator;
 
 public:
     /**
