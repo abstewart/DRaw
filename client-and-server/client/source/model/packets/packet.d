@@ -98,6 +98,9 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
     return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
 }
 
+/**
+* Testing the decodeUserConnPacket() method.
+*/
 @("Testing decodeUserConnPacket")
 unittest
 {
@@ -133,6 +136,9 @@ string encodeUserConnPacket(string username, int id, bool connStatus)
     return packet;
 }
 
+/**
+* Testing the encodeUserConnPacket() method.
+*/
 @("Testing encodeUserConnPacket")
 unittest
 {
@@ -257,6 +263,9 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
     return tuple(username, uid, cid);
 }
 
+/**
+* Testing the decodeUndoCommandPacket() method.
+*/
 @("Testing decodeUndoCommandPacket")
 unittest
 {
@@ -291,6 +300,9 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
     return packet;
 }
 
+/**
+* Testing the encodeUndoCommandPacket() method.
+*/
 @("Testing encodeUndoCommandPacket")
 unittest
 {
@@ -341,6 +353,9 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
     return tuple(username, uid, time, msg);
 }
 
+/**
+* Testing the decodeChatPacket() method.
+*/
 @("Testing decodeChatPacket")
 unittest
 {
@@ -378,6 +393,9 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
     return packet;
 }
 
+/**
+* Testing the encodeChatPacket() method.
+*/
 @("Testing encodeChatPacket")
 unittest
 {
