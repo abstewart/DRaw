@@ -63,6 +63,7 @@ public:
             }
 
             this.myWindow.setConnection(false); // Let myWindow know you are no longer connected.
+            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate("You", false);
             Communicator.disconnect();
 
             MessageDialog message = new MessageDialog(this, GtkDialogFlags.MODAL,
