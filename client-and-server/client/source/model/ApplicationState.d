@@ -43,6 +43,13 @@ public:
         ApplicationState.clientId = clientId;
     }
 
+    @("Testing appplication state client id")
+    unittest
+    {
+        setClientId(3);
+        assert(getClientId() == 3);
+    }
+
     /**
      * Gets the current username.
      *
@@ -63,6 +70,16 @@ public:
     static void setUsername(string username)
     {
         ApplicationState.username = username;
+    }
+
+    @("Testing appplication state client id")
+    unittest
+    {
+        setUsername("Mike Shah");
+
+        import std.algorithm.comparison : equal;
+
+        assert(getUsername().equal("Mike Shah"));
     }
 
     /**
@@ -88,6 +105,16 @@ public:
         ApplicationState.connectedUsers[uid] = username;
     }
 
+    @("Testing addConnectedUser and getConnectedUsers")
+    unittest {
+        addConnectedUser("User 1", 1);
+        addConnectedUser("User 2", 2);
+        addConnectedUser("User 3", 3);
+
+        string[int] users = [1: "User 1", 2: "User 2", 3: "User 3"];
+        assert(getConnectedUsers == users);
+    }
+
     /**
      * Removes a user from the set of connected users.
      *
@@ -97,6 +124,24 @@ public:
     static void removeConnectedUser(int uid)
     {
         ApplicationState.connectedUsers.remove(uid);
+    }
+
+    @("Testing addConnectedUser, getConnectedUsers, and removeConnectedUser")
+    unittest {
+        addConnectedUser("User 1", 1);
+        addConnectedUser("User 2", 2);
+        addConnectedUser("User 3", 3);
+
+        string[int] users1 = [1: "User 1", 2: "User 2", 3: "User 3"];
+        assert(getConnectedUsers == users1);
+
+        removeConnectedUser(2);
+        addConnectedUser("User 4", 4);
+        addConnectedUser("User 5", 5);
+        removeConnectedUser(3);
+
+        string[int] users2 = [1: "User 1", 4 : "User 4", 5 : "User 5"];
+        assert(getConnectedUsers == users2);
     }
 
     /**
