@@ -183,7 +183,7 @@ public:
         this.width = allocation.width;
         this.height = allocation.height;
         this.surface = ImageSurface.create(CairoFormat.ARGB32, this.width, this.height);
-        //fill the surface with an initial color
+        // Fill the surface with an initial color.
         auto ctx = Context.create(this.surface);
         ctx.setSourceRgba(0, 0, 0, currentColor.alpha);
         ctx.paint();
@@ -212,7 +212,7 @@ public:
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
-            // send to server if applicable
+            // Send to server if applicable.
             string packet = encodeUserDrawCommand(ApplicationState.getUsername(),
                     ApplicationState.getClientId(), newCommand);
             Communicator.queueMessageSend(packet);
@@ -278,7 +278,7 @@ public:
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
-            // send the command to the server
+            // Send the command to the server.
             string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
                     ApplicationState.getClientId(), newCommand);
             Communicator.queueMessageSend(packetToSend);
