@@ -171,12 +171,16 @@ public:
     /**
     * Send the user connection update status (whether a user has joined or left the chat).
     */
-    public void userConnectionUpdate (string uname, int cid, bool connection) {
+    public void userConnectionUpdate(string uname, int cid, bool connection)
+    {
         // Construct the actual update message to display.
         string updateMsg;
-        if (connection) {
+        if (connection)
+        {
             updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " joined!!!~~~~\n\n";
-        } else {
+        }
+        else
+        {
             updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " left!!!~~~~\n\n";
         }
 
@@ -187,12 +191,16 @@ public:
     /**
     * Handle when you yourself join or leave the chat.
     */
-    public void yourConnectionUpdate (string uname, bool connection) {
+    public void yourConnectionUpdate(string uname, bool connection)
+    {
         // Construct the actual update message to display.
         string updateMsg;
-        if (connection) {
+        if (connection)
+        {
             updateMsg = "\t\t\t\t~~~~" ~ uname ~ " joined!!!~~~~\n\n";
-        } else {
+        }
+        else
+        {
             updateMsg = "\t\t\t\t~~~~" ~ uname ~ " left!!!~~~~\n\n";
         }
 
