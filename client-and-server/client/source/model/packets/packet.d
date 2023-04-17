@@ -101,7 +101,8 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
     string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
     auto fields = raw.split(',');
-    return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
+    int b = to!int(fields[3]);
+    return tuple(fields[1], to!int(fields[2]), to!bool(b));
 }
 
 /**
@@ -138,7 +139,7 @@ unittest
 string encodeUserConnPacket(string username, int id, bool connStatus)
 {
     string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username,
-            to!string(id), to!string(connStatus));
+            to!string(id), to!string(to!int(connStatus)));
     return packet;
 }
 
