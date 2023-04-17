@@ -106,7 +106,8 @@ public:
     }
 
     @("Testing addConnectedUser and getConnectedUsers")
-    unittest {
+    unittest
+    {
         addConnectedUser("User 1", 1);
         addConnectedUser("User 2", 2);
         addConnectedUser("User 3", 3);
@@ -127,7 +128,8 @@ public:
     }
 
     @("Testing addConnectedUser, getConnectedUsers, and removeConnectedUser")
-    unittest {
+    unittest
+    {
         addConnectedUser("User 1", 1);
         addConnectedUser("User 2", 2);
         addConnectedUser("User 3", 3);
@@ -140,7 +142,7 @@ public:
         addConnectedUser("User 5", 5);
         removeConnectedUser(3);
 
-        string[int] users2 = [1: "User 1", 4 : "User 4", 5 : "User 5"];
+        string[int] users2 = [1: "User 1", 4: "User 4", 5: "User 5"];
         assert(getConnectedUsers == users2);
     }
 
@@ -167,7 +169,8 @@ public:
     }
 
     @("Testing addChatPacket and getChatHistory")
-    unittest {
+    unittest
+    {
         Tuple!(string, int, long, string) testChatPacket1;
         testChatPacket1[0] = "Bob";
         testChatPacket1[1] = 1;
@@ -185,7 +188,9 @@ public:
         testChatPacket2[3] = "Testing testing. This is a message for a unittest.";
         addChatPacket(testChatPacket2);
 
-        Tuple!(string, int, long, string)[] chatHistory2 = [testChatPacket1, testChatPacket2];
+        Tuple!(string, int, long, string)[] chatHistory2 = [
+            testChatPacket1, testChatPacket2
+        ];
         assert(getChatHistory() == chatHistory2);
     }
 
