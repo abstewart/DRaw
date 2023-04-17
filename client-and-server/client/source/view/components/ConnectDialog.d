@@ -86,6 +86,8 @@ public:
      */
     private void attemptConnection(string username, string ipAddr, ushort port)
     {
+        // Get the communicator. If the communicator is null, it will be created.
+        // Creating the communicator, encodes and sends to the server a connection packet.
         Communicator.getCommunicator(port, ipAddr, username);
         bool connected = Communicator.getConnectionStatus();
         this.myWindow.setConnection(connected);

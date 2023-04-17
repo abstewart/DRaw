@@ -62,14 +62,20 @@ private:
         }
     }
 
+    ///**
+    //* Sends a connection packet to the server
+    //*/
+    //void sendShutdownPacket(string username) {
+    //    int clientId = ApplicationState.getClientId();
+    //    string connReqPacket = encodeUserConnPacket(username, clientId, false);
+    //    send(childThread, connReqPacket);
+    //}
+
     /**
      * Sends a message to the child thread to shutdown and marks our thread as closed.
      */
     void shutdown()
     {
-        //string connReqPacket = encodeUserConnPacket(username, clientId, false);
-        //send(childThread, connReqPacket);
-
         immutable bool shutdown = true;
         send(this.childThread, shutdown);
         threadActive = false;
