@@ -344,7 +344,16 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
 @("Testing decodeChatPacket")
 unittest
 {
+    string testPacket = "3,User,2,125,This is a test message.\r";
+    long lengthOfBytes = 37;
+    Tuple!(string, int, long, string) chatPacket = decodeChatPacket(testPacket, lengthOfBytes);
 
+    import std.algorithm.comparison : equal;
+
+    assert(chatPacket[0].equal("User"));
+    assert(chatPacket[1] == 2);
+    assert(chatPacket[2] == 125);
+    assert(chatPacket[3].equal("This is a test message."));
 }
 
 /**
@@ -356,7 +365,7 @@ unittest
  * Params: 
  *        - username  : string : username to encode
  *        - id        : int : user id to encode
- *        - timestamp : bool : desired connection operation
+ *        - timestamp : long : time stamp of message
  *        - message   : string : message to encode
  *
  * Returns: 
@@ -372,7 +381,15 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
 @("Testing encodeChatPacket")
 unittest
 {
+    string testUsername = "User";
+    int testId = 2;
+    long testTimeStamp = 125;
+    string testMessage = "This is a test message.";
 
+    string testChatPacket = encodeChatPacket(testUsername, testId, testTimeStamp, testMessage);
+    import std.algorithm.comparison : equal;
+
+    assert(testChatPacket.equal("3,User,2,125,This is a test message.\r"));
 }
 
 // TODO: FIGURE OUT CANVAS SYNC behavior
