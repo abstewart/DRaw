@@ -44,8 +44,8 @@ public:
     }
 
     /**
-* Testing setting and getting the appplication state client id.
-*/
+    * Testing setting and getting the appplication state client id.
+    */
     @("Testing appplication state client id")
     unittest
     {
