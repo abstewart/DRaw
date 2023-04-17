@@ -133,22 +133,6 @@ public:
         }
 
         SysTime currentTime = Clock.currTime();
-        string amPm = "AM";
-        string hour = to!string(currentTime.hour);
-        // Check from military time to standard time.
-        if (currentTime.hour > 12)
-        {
-            ubyte h = currentTime.hour % 12;
-            hour = to!string(h);
-            amPm = "PM";
-        }
-
-        string minutes = to!string(currentTime.minute);
-        // If there is only 1 digit/character in minutes then you know you need to add a 0.
-        if (minutes.length == 1)
-        {
-            minutes = "0" ~ minutes;
-        }
 
         //call chat updator
         this.updateMessageWindow(this.username, ApplicationState.getClientId(), currentTime.stdTime, this.message);
@@ -173,7 +157,7 @@ public:
             //~ ":\n\t" ~ this.message ~ "\n\n";
 
         //construct the actual message to display
-        string chat = uname ~ ":" ~ to!string(cid) ~ " @ " ~ to!string(time) ~ ":\n\t" ~ msg ~ "\n\n";
+        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(time) ~ ":\n\t" ~ msg ~ "\n\n";
 
         //add chat message to the application state, and to the chat buffer
 
@@ -183,6 +167,38 @@ public:
         // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
         // that they have access to all the other messages.
         // ===================================================================================
+    }
+
+    /**
+     * Transform a long time into a pretty string version.
+     */
+    string prettyTime(long numTime) {
+        SysTime time = SysTime(numTime);
+        string amPm = "AM";
+        string hour = to!string(time.hour);
+        // Check from military time to standard time.
+        if (time.hour > 12)
+        {
+            ubyte h = time.hour % 12;
+            hour = to!string(h);
+            amPm = "PM";
+        }
+
+        string minutes = to!string(time.minute);
+        // If there is only 1 digit/character in minutes then you know you need to add a 0.
+        if (minutes.length == 1)
+        {
+            minutes = "0" ~ minutes;
+        }
+        return(hour ~ ":" ~ minutes ~ amPm);
+
+    }
+
+    /**
+     * Get the chat history as 1 giant string
+     */
+    public void getChatHistory(){
+        this.chatBuffer.getText();
     }
 
     /**
