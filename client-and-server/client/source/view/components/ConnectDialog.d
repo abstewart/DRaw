@@ -96,7 +96,8 @@ public:
         message.run();
         message.destroy();
 
-        if (connected) {
+        if (connected)
+        {
             this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate("You", connected);
         }
     }

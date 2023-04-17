@@ -72,14 +72,13 @@ void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
     {
         ApplicationState.addConnectedUser(info[0], info[1]);
 
-        window.getChatBox.getMyChatBox().userConnectionUpdate(info[0],
-        info[1], info[2]);
+        window.getChatBox().getMyChatBox().userConnectionUpdate(info[0], info[1], info[2]);
     }
     else
     {
-        window.getChatBox.getMyChatBox().userConnectionUpdate(info[0],
-        info[1], info[2]);
+        import std.stdio;
 
+        writeln("client left -- time to remove them from the user left");
         ApplicationState.removeConnectedUser(info[1]);
     }
 }
@@ -332,7 +331,7 @@ unittest
 void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
-    window.getChatBox.getMyChatBox().updateMessageWindow(userIdTimeMsg[0],
+    window.getChatBox().getMyChatBox().updateMessageWindow(userIdTimeMsg[0],
             userIdTimeMsg[1], userIdTimeMsg[2], userIdTimeMsg[3]);
 }
 

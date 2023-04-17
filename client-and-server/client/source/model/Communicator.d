@@ -40,7 +40,7 @@ private:
         childThread = spawn(&handleNetworking, thisTid, ip, port);
         int clientId = ApplicationState.getClientId();
         string connReqPacket = encodeUserConnPacket(username, clientId, true);
-        send(childThread, connReqPacket);
+        send(this.childThread, connReqPacket);
 
         // Receive an acknowledgement packet from the server and update the application state.
         bool serverAck = receiveTimeout(THREAD_TIMEOUT_DUR, (string packet, immutable long recvLen) {
@@ -67,6 +67,9 @@ private:
      */
     void shutdown()
     {
+        //string connReqPacket = encodeUserConnPacket(username, clientId, false);
+        //send(childThread, connReqPacket);
+
         immutable bool shutdown = true;
         send(this.childThread, shutdown);
         threadActive = false;
@@ -80,7 +83,7 @@ private:
      */
     void sendToChild(string message)
     {
-        send(childThread, message);
+        send(this.childThread, message);
     }
 
 public:
