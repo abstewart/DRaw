@@ -48,6 +48,7 @@ private:
 public:
     /**
     * Constructs a MyWindow instnace.
+    *
     * Params:
     *        application : Application : an application instance
     */
@@ -160,7 +161,7 @@ public:
     }
 
     /**
-     * Gets the appBox inside of MyWindow. Only used for unittests.
+     * Gets the appBox inside of MyWindow. Used in CommandBuilder.d.
      *
      * Returns: 
      *        - appbox : AppBox : the application box
@@ -201,7 +202,7 @@ public:
      * Creates a new disconnection dialogue.
      *
      * Params: 
-     *       - button : Button : button to click to create new dialogue.
+     *       - button : Button : button to click to create new dialogue
      */
     private void disconnectWhiteboard(Button button)
     {

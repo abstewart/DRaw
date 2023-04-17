@@ -1,6 +1,5 @@
 module view.components.MyChatBox;
 
-// Imports.
 private import stdlib = core.stdc.stdlib : exit;
 private import std.algorithm : equal;
 private import std.datetime.systime : SysTime, Clock;
@@ -208,7 +207,7 @@ public:
     }
 
     /**
-     * Quits the application
+     * Quits the application.
      *
      * Params:
      *       - button : Button : the button to react to

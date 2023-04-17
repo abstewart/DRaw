@@ -15,12 +15,12 @@ import model.Communicator;
 import model.ApplicationState;
 import view.MyWindow;
 
-immutable int USER_CONNECT_PACKET = 0; // packet type for a user connection packet
-immutable int DRAW_COMMAND_PACKET = 1; // packet type for a draw command packet
-immutable int UNDO_COMMAND_PACKET = 2; // packet type for an undo command packet
-immutable int CHAT_MESSAGE_PACKET = 3; // packet type for a chat message packet
-immutable int CANVAS_SYNCH_PACKET = 4; // packet type for a canvas sync packet
-immutable char END_MESSAGE = '\r'; // end packet delimiter
+immutable int USER_CONNECT_PACKET = 0; // Packet type for a user connection packet.
+immutable int DRAW_COMMAND_PACKET = 1; // Packet type for a draw command packet.
+immutable int UNDO_COMMAND_PACKET = 2; // Packet type for an undo command packet.
+immutable int CHAT_MESSAGE_PACKET = 3; // Packet type for a chat message packet.
+immutable int CANVAS_SYNCH_PACKET = 4; // Packet type for a canvas sync packet.
+immutable char END_MESSAGE = '\r'; // End packet delimiter.
 
 /**
  * Parses and executes any packets that have come in from the server.
@@ -79,7 +79,7 @@ void parseAndExecuteUserConnPacket(string packet, long recv)
 }
 
 /**
- * Decodes a user connection packet into a tuple of username, user id, and connection status
+ * Decodes a user connection packet into a tuple of username, user id, and connection status.
  * Intended packet format:
  *          0,username,id,c/d\r
  *         [0,1       ,2 ,3   ] 
@@ -89,7 +89,7 @@ void parseAndExecuteUserConnPacket(string packet, long recv)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, connection status : Tuple!(string, int, bool) :
+ *        - a tuple of username, user id, connection status : Tuple!(string, int, bool)
  */
 Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
@@ -98,8 +98,22 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
     return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
 }
 
+@("Testing decodeUserConnPacket")
+unittest
+{
+    string testPacket = "0,User,1,true\r";
+    long lengthOfBytes = 14;
+    Tuple!(string, int, bool) connectionPacket = decodeUserConnPacket(testPacket, lengthOfBytes);
+
+    import std.algorithm.comparison : equal;
+
+    assert(connectionPacket[0].equal("User"));
+    assert(connectionPacket[1] == 1);
+    assert(connectionPacket[2]);
+}
+
 /**
- * Encodes a user connection packet into a string given username, id, and status
+ * Encodes a user connection packet into a string given username, id, and status.
  * Intended packet format:
  *          0,username,id,c/d\r
  *         [0,1       ,2 ,3   ] 
@@ -110,13 +124,26 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
  *        - connStatus : bool : desired connection operation
  *
  * Returns: 
- *        - a user connection packet : string :
+ *        - a user connection packet : string
  */
 string encodeUserConnPacket(string username, int id, bool connStatus)
 {
     string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username,
             to!string(id), to!string(connStatus));
     return packet;
+}
+
+@("Testing encodeUserConnPacket")
+unittest
+{
+    string testUsername = "User";
+    int testId = 5;
+    bool testConnectionStatus = false;
+
+    string testPacket = encodeUserConnPacket(testUsername, testId, testConnectionStatus);
+    import std.algorithm.comparison : equal;
+
+    assert(testPacket.equal("0,User,5,false\r"));
 }
 
 /**
@@ -133,7 +160,7 @@ void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
 }
 
 /**
- * Decodes a user draw packet into a tuple of username, user id, and command
+ * Decodes a user draw packet into a tuple of username, user id, and command.
  * Intended packet format:
  *          1,username,id,cmdId,brushType,brushSize,x,y,color\r
  *         [0,1       ,2 ,3    ,4        ,5        ,6,7,8    ]
@@ -143,7 +170,7 @@ void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, Command : Tuple!(string, int, Command) :
+ *        - a tuple of username, user id, Command : Tuple!(string, int, Command)
  */
 Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyWindow window)
 {
@@ -158,7 +185,7 @@ Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyW
 }
 
 /**
- * Encodes a user draw packet into a string given username, id, and command
+ * Encodes a user draw packet into a string given username, id, and command.
  * Intended packet format:
  *          0,username,id,c/d\r
  *         [0,1       ,2 ,3   ] 
@@ -169,7 +196,7 @@ Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyW
  *        - toEncode : Command : command object to encode
  *
  * Returns: 
- *        - a user draw packet : string :
+ *        - a user draw packet : string
  */
 string encodeUserDrawCommand(string username, int id, Command toEncode)
 {
@@ -178,7 +205,7 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
 }
 
 /**
- * Parses and executes undo packets. Undos all commands that have the parsed username and the parsed command type
+ * Parses and executes undo packets. Undos all commands that have the parsed username and the parsed command type.
  *
  * Params: 
  *        - packet : string : packet to decode
@@ -208,7 +235,7 @@ void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
 }
 
 /**
- * Decodes an undo packet into a tuple of username, user id, and command id
+ * Decodes an undo packet into a tuple of username, user id, and command id.
  * Intended packet format:
  *          2,username,id,cid\r
  *         [0,1       ,2 ,3   ] 
@@ -218,7 +245,7 @@ void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, command id : Tuple!(string, int, in) :
+ *        - a tuple of username, user id, command id : Tuple!(string, int, in)
  */
 Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
 {
@@ -230,8 +257,22 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
     return tuple(username, uid, cid);
 }
 
+@("Testing decodeUndoCommandPacket")
+unittest
+{
+    string testPacket = "2,Bob,2,0\r";
+    long lengthOfBytes = 10;
+    Tuple!(string, int, int) undoCommandPacket = decodeUndoCommandPacket(testPacket, lengthOfBytes);
+
+    import std.algorithm.comparison : equal;
+
+    assert(undoCommandPacket[0].equal("Bob"));
+    assert(undoCommandPacket[1] == 2);
+    assert(undoCommandPacket[2] == 0);
+}
+
 /**
- * Encodes an undo command packetinto a string given username, id, and command id
+ * Encodes an undo command packetinto a string given username, id, and command id.
  * Intended packet format:
  *          2,username,id,cid\r
  *         [0,1       ,2 ,3   ] 
@@ -242,12 +283,25 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
  *        - cid      : int : command id to encode
  *
  * Returns: 
- *        - an undo command packet : string :
+ *        - an undo command packet : string
  */
 string encodeUndoCommandPacket(string username, int uid, int cid)
 {
     string packet = "%s,%s,%s,%s\r".format(UNDO_COMMAND_PACKET, username, uid, cid);
     return packet;
+}
+
+@("Testing encodeUndoCommandPacket")
+unittest
+{
+    string testUsername = "User";
+    int testUId = 3;
+    int testCId = 2;
+
+    string testPacket = encodeUndoCommandPacket(testUsername, testUId, testCId);
+    import std.algorithm.comparison : equal;
+
+    assert(testPacket.equal("2,User,3,2\r"));
 }
 
 /**
@@ -265,7 +319,7 @@ void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 }
 
 /**
- * Decodes a chat packet into a tuple of username, user id, timestamp and message
+ * Decodes a chat packet into a tuple of username, user id, timestamp and message.
  * Intended packet format:
  *          3,username,id,timestamp,message\r
  *         [0,1       ,2 ,3        ,4     ]
@@ -275,7 +329,7 @@ void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
  *        - recv   : long : length in bytes of received message
  * 
  * Returns: 
- *        - a tuple of username, user id, timestamp, message: Tuple!(string, int, long, string) :
+ *        - a tuple of username, user id, timestamp, message: Tuple!(string, int, long, string)
  */
 Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
 {
@@ -288,8 +342,23 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
     return tuple(username, uid, time, msg);
 }
 
+@("Testing decodeChatPacket")
+unittest
+{
+    string testPacket = "3,User,2,125,This is a test message.\r";
+    long lengthOfBytes = 37;
+    Tuple!(string, int, long, string) chatPacket = decodeChatPacket(testPacket, lengthOfBytes);
+
+    import std.algorithm.comparison : equal;
+
+    assert(chatPacket[0].equal("User"));
+    assert(chatPacket[1] == 2);
+    assert(chatPacket[2] == 125);
+    assert(chatPacket[3].equal("This is a test message."));
+}
+
 /**
- * Encodes a chat packet into a string given username, id, timestamp, and message
+ * Encodes a chat packet into a string given username, id, timestamp, and message.
  * Intended packet format:
  *          3,username,id,timestamp,message\r
  *         [0,1       ,2 ,3        ,4      ]
@@ -297,17 +366,31 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
  * Params: 
  *        - username  : string : username to encode
  *        - id        : int : user id to encode
- *        - timestamp : bool : desired connection operation
+ *        - timestamp : long : time stamp of message
  *        - message   : string : message to encode
  *
  * Returns: 
- *        - a chat packet : string :
+ *        - a chat packet : string
  */
 string encodeChatPacket(string username, int id, long timestamp, string message)
 {
     string packet = "%s,%s,%s,%s,%s\r".format(CHAT_MESSAGE_PACKET, username,
             id, timestamp, message);
     return packet;
+}
+
+@("Testing encodeChatPacket")
+unittest
+{
+    string testUsername = "User";
+    int testId = 2;
+    long testTimeStamp = 125;
+    string testMessage = "This is a test message.";
+
+    string testChatPacket = encodeChatPacket(testUsername, testId, testTimeStamp, testMessage);
+    import std.algorithm.comparison : equal;
+
+    assert(testChatPacket.equal("3,User,2,125,This is a test message.\r"));
 }
 
 // TODO: FIGURE OUT CANVAS SYNC behavior

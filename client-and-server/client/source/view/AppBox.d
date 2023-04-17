@@ -24,7 +24,7 @@ public:
     }
 
     /** 
-     * Gets myDrawingBox. Only used for unittests.
+     * Gets myDrawingBox. Used in CommandBuilder.d.
      */
     public MyDrawingBox getMyDrawingBox()
     {

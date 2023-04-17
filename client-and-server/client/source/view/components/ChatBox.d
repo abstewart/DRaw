@@ -15,10 +15,10 @@ private:
 
 public:
     /**
-    * Constructs a ChatBox instnace.
+    * Constructs a ChatBox instance.
     * Params:
-    *        myWindow : MyWindow : the main application window
-    *        username : string :  the client's username
+    *        - myWindow : MyWindow : the main application window
+    *        - username : string :  the client's username
     */
     this(MyWindow myWindow, string username)
     {

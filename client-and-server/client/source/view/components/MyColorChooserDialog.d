@@ -35,7 +35,7 @@ public:
     }
 
     /**
-     * Executes the control flow depending on the option the user selected within the dialogue
+     * Executes the control flow depending on the option the user selected within the dialogue.
      *
      * Params:
      *       - response : int : represents which dialogue option the user chose
