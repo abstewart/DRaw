@@ -20,14 +20,17 @@ void main(string[] args)
     // If the number of command line arguments is not 0 or 2, alert the user and terminate the program.
     if (args.length == 2 || args.length > 3)
     {
-        stderr.writeln("Invalid number of command line arguments. See Server Log File for more information.");
+        stderr.writeln(
+                "Invalid number of command line arguments. See Server Log File for more information.");
         sLogger.warning("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server' OR 'dub run :server {ip address} " ~ " {port number}'");
         return;
     }
 
     // For logging purposes.
-    if (args.length == 3) {
-        sLogger.info("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(isValidIPAddress(args[1])));
+    if (args.length == 3)
+    {
+        sLogger.info("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(
+                isValidIPAddress(args[1])));
         sLogger.info("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(isValidPort(args[2])));
     }
 
@@ -51,7 +54,7 @@ void main(string[] args)
             if (args.length == 1)
             {
                 sLogger.info(
-                    "No command line arguments. The default ip address and port number will be used.");
+                        "No command line arguments. The default ip address and port number will be used.");
                 ourServer = new Server();
             }
             else
