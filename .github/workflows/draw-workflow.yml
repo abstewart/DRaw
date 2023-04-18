@@ -41,6 +41,14 @@ jobs:
         with:
           compiler: ${{ matrix.dc }}
 
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install libgtkd-3-dev -y
+          sudo apt-get install libgtksourceview-4-0 -y
+          sudo apt-get install libgstreamer1.0-0 -y
+          sudo apt-get install libgstreamer-plugins-bad1.0-dev -y
+          echo MADE IT!!!!!
+
       # Runs a set of commands using the runners shell
       - name: Run a Multi-Line Script
         run: |
@@ -48,13 +56,11 @@ jobs:
           dub --version
           dmd --version
           pwd
-          sudo apt-get install libgtkd-3-dev -y
-          sudo apt-get install libgtksourceview-4-0
-          echo MADE IT!!!!!
+          
 
       - name: Perform All Unit Tests
         working-directory: ./client-and-server
-        run: dub run -c unittest
+        run: dub run -b unittest -c unittest
 
 #      - name: Check All Docs
 #        working-directory: ./client-and-server
@@ -82,38 +88,38 @@ jobs:
       - name: Check Client Coverage
         run: sh ./support/cicd_scripts/check_coverage.sh ./client-and-server/client
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Client Coverage
-          path: ./client-and-server/client/coverage # or path/to/artifact
-          retention-days: 5
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: Client Coverage
+#          path: ./client-and-server/client/coverage # or path/to/artifact
+#          retention-days: 1
 
       - name: Build Client Release Deliverables
         working-directory: ./client-and-server
         run: |
-          dub build :client
+          dub build :client -c clientRelease
           ls ./client/bin
 
-      - uses: actions/upload-artifact@v3
-        if: matrix.os == 'macOS-latest'
-        with:
-          name: Client macOS Release Deliverable
-          path: ./client-and-server/client/bin/draw_client # or path/to/artifact
-          retention-days: 5
-
-      - uses: actions/upload-artifact@v3
-        if: matrix.os == 'ubuntu-20.04'
-        with:
-          name: Client Ubuntu-20.04 Release Deliverable
-          path: ./client-and-server/client/bin/draw_client # or path/to/artifact
-          retention-days: 5
-
-      - uses: actions/upload-artifact@v3
-        if: matrix.os == 'windows-latest'
-        with:
-          name: Client Windows Release Deliverable
-          path: ./client-and-server/client/bin/draw_client.exe # or path/to/artifact
-          retention-days: 5
+#      - uses: actions/upload-artifact@v3
+#        if: matrix.os == 'macOS-latest'
+#        with:
+#          name: Client macOS Release Deliverable
+#          path: ./client-and-server/client/bin/draw_client # or path/to/artifact
+#          retention-days: 1
+#
+#      - uses: actions/upload-artifact@v3
+#        if: matrix.os == 'ubuntu-20.04'
+#        with:
+#          name: Client Ubuntu-20.04 Release Deliverable
+#          path: ./client-and-server/client/bin/draw_client # or path/to/artifact
+#          retention-days: 1
+#
+#      - uses: actions/upload-artifact@v3
+#        if: matrix.os == 'windows-latest'
+#        with:
+#          name: Client Windows Release Deliverable
+#          path: ./client-and-server/client/bin/draw_client.exe # or path/to/artifact
+#          retention-days: 1
 
       ###
       ### Server:
@@ -130,35 +136,35 @@ jobs:
       - name: Check Server Coverage
         run: sh ./support/cicd_scripts/check_coverage.sh ./client-and-server/server
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Server Coverage
-          path: ./client-and-server/server/coverage # or path/to/artifact
-          retention-days: 5
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: Server Coverage
+#          path: ./client-and-server/server/coverage # or path/to/artifact
+#          retention-days: 1
 
       - name: Build Server Release Deliverables
         working-directory: ./client-and-server
         run: |
-          dub build :server
+          dub build :server -c serverRelease
           ls ./server/bin
 
-      - uses: actions/upload-artifact@v3
-        if: matrix.os == 'macOS-latest'
-        with:
-          name: Server macOS Release Deliverable
-          path: ./client-and-server/server/bin/draw_server # or path/to/artifact
-          retention-days: 5
-
-      - uses: actions/upload-artifact@v3
-        if: matrix.os == 'ubuntu-20.04'
-        with:
-          name: Server Ubuntu-20.04 Release Deliverable
-          path: ./client-and-server/server/bin/draw_server # or path/to/artifact
-          retention-days: 5
-
-      - uses: actions/upload-artifact@v3
-        if: matrix.os == 'windows-latest'
-        with:
-          name: Server Windows Release Deliverable
-          path: ./client-and-server/server/bin/draw_server.exe # or path/to/artifact
-          retention-days: 5
+#      - uses: actions/upload-artifact@v3
+#        if: matrix.os == 'macOS-latest'
+#        with:
+#          name: Server macOS Release Deliverable
+#          path: ./client-and-server/server/bin/draw_server # or path/to/artifact
+#          retention-days: 1
+#
+#      - uses: actions/upload-artifact@v3
+#        if: matrix.os == 'ubuntu-20.04'
+#        with:
+#          name: Server Ubuntu-20.04 Release Deliverable
+#          path: ./client-and-server/server/bin/draw_server # or path/to/artifact
+#          retention-days: 1
+#
+#      - uses: actions/upload-artifact@v3
+#        if: matrix.os == 'windows-latest'
+#        with:
+#          name: Server Windows Release Deliverable
+#          path: ./client-and-server/server/bin/draw_server.exe # or path/to/artifact
+#          retention-days: 1
