@@ -9,14 +9,16 @@ For your paint program, you now get to take some control of the direction of the
 Below is a prospective list of features which you may choose from to add. Decide as a group which feature you would like to add.
 
 - Features of your choice
-	- Networked Chat
-	- At least 3 different Paint brushes (ideally implemented in an 'intelligent way' or with a design pattern)
+	- **Networked Chat**
+	- **At least 3 different Paint brushes (ideally implemented in an 'intelligent way' or with a design pattern)**
 	- At least 3 different image filters that can be applied
 	- At least 3 different tools for manipulating the canvas (e.g. selection, eraser, blur)
 	- Real-time Video of each client
-	- A file compression algorithm for saving your sketch, and one for loading your sketch when the server starts
+	- **A file compression algorithm for saving your sketch**, and one for loading your sketch when the server starts
 	- Implement a client, so you can paint on another device (e.g. iOS or Android)
 	- Any other features you otherwise would like to propose, which must go through your project manager (See F.A.Q)
+	- **Cool CSS skins on mac and linux builds**
+	- **About page for the application**
 
 ### Feature Use Case
 
