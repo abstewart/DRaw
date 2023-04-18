@@ -15,7 +15,7 @@ private:
 
 public:
     /**
-    * Constructs a PadEntry instnace.
+    * Constructs a PadEntry instance.
     * Params:
     *        pJustify : BoxJustify : the alignment of the widget
     *        text     : string : the label text
