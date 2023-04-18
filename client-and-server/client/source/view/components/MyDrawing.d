@@ -212,6 +212,7 @@ public:
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
+            writeln(ApplicationState.getCommandHistory().length);
             // Send to server if applicable.
             string packet = encodeUserDrawCommand(ApplicationState.getUsername(),
                     ApplicationState.getClientId(), newCommand);
@@ -278,6 +279,7 @@ public:
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
+            writeln(ApplicationState.getCommandHistory().length);
             // Send the command to the server.
             string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
                     ApplicationState.getClientId(), newCommand);
@@ -353,5 +355,15 @@ public:
     public void onBrushOptionChanged(ComboBoxText comboBoxText)
     {
         this.brushType = comboBoxText.getActiveText();
+    }
+
+    /**
+     * Clear the drawing board.
+     */
+    public void clearDrawing()
+    {
+        auto ctx = Context.create(this.surface);
+        ctx.setSourceRgba(0, 0, 0, currentColor.alpha);
+        ctx.paint();
     }
 }

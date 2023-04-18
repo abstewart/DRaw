@@ -19,7 +19,6 @@ immutable int USER_CONNECT_PACKET = 0; // Packet type for a user connection pack
 immutable int DRAW_COMMAND_PACKET = 1; // Packet type for a draw command packet.
 immutable int UNDO_COMMAND_PACKET = 2; // Packet type for an undo command packet.
 immutable int CHAT_MESSAGE_PACKET = 3; // Packet type for a chat message packet.
-immutable int CANVAS_SYNCH_PACKET = 4; // Packet type for a canvas sync packet.
 immutable char END_MESSAGE = '\r'; // End packet delimiter.
 
 /**
@@ -45,9 +44,6 @@ bool resolveRemotePackets(MyWindow window)
             break;
         case (UNDO_COMMAND_PACKET):
             parseAndExecuteUndoCommand(packet[0], packet[1], window);
-            break;
-        case (CANVAS_SYNCH_PACKET):
-            //  &parseAndExecuteCanvasSynch;
             break;
         default:
             writeln("no case found");
@@ -414,15 +410,3 @@ unittest
 
     assert(testChatPacket.equal("3,User,2,125,This is a test message.\r"));
 }
-
-// TODO: FIGURE OUT CANVAS SYNC behavior
-// void parseAndExecuteCanvasSync(string packet, long recv) {
-//     Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
-//     //TODO update canvase
-// }
-// Tuple!(Canvas) decodeCanvasSyncPacket(string packet, long recv) {
-
-// }
-// string encodeCanvasSyncPacket(Canvas canvas) {
-
-// }

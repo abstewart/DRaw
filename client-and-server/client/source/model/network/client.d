@@ -99,6 +99,7 @@ public:
     {
         if (this.socketOpen)
         {
+            writeln(packetData);
             this.sock.send(packetData);
         }
     }

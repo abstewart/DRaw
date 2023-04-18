@@ -50,6 +50,7 @@ private:
                 Tuple!(string, int, bool) usernameId = decodeUserConnPacket(packet, recvLen);
                 string uname = usernameId[0];
                 int cid = usernameId[1];
+                writeln(uname, " ", cid);
                 ApplicationState.setUsername(uname);
                 ApplicationState.setClientId(cid);
                 ApplicationState.addConnectedUser(uname, cid);
@@ -71,6 +72,7 @@ private:
         immutable bool shutdown = true;
         send(this.childThread, shutdown);
         threadActive = false;
+        connectionStatus = false;
     }
 
     /**

@@ -8,14 +8,65 @@ import std.stdio;
 import std.parallelism;
 import std.conv;
 import std.typecons;
+import std.array;
+import std.algorithm;
+import core.thread;
 
 import model.packets.packet;
 import view.MyWindow;
 
+private import model.ServerState;
+
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
-int MESSAGE_BUFFER_SIZE = 4096;
+int MESSAGE_BUFFER_SIZE = 1024;
+
+void serverResolveRemotePackets(string packet)
+{
+    immutable int packetType = to!int(packet[0]) - '0';
+    switch (packetType)
+    {
+    case (USER_CONNECT_PACKET):
+        Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
+        if (info[2])
+        {
+           ServerState.addConnectedUser(info[0], info[1]);
+        }
+        else
+        {
+           ServerState.removeConnectedUser(info[1]);
+        }
+        break;
+    case (DRAW_COMMAND_PACKET):
+        ServerState.addToCommandHistory(packet);
+        break;
+    case (CHAT_MESSAGE_PACKET):
+        ServerState.addChatPacket(packet);
+        break;
+    case (UNDO_COMMAND_PACKET):
+        auto undoCmd = decodeUndoCommandPacket(packet, 0);
+        string toCheck = "1," ~ undoCmd[0] ~ "," ~ to!string(
+                undoCmd[1]) ~ "," ~ to!string(undoCmd[2]);
+        string[] acc;
+        foreach (cmdPacket; ServerState.getCommandHistory())
+        {
+            writeln("comparing: ", toCheck, ":: with: ", cmdPacket);
+            if (cmdPacket.startsWith(toCheck))
+            {
+                continue;
+            }
+            acc ~= cmdPacket;
+        }
+        ServerState.setCommandHistory(acc);
+        break;
+    case (CANVAS_SYNCH_PACKET):
+        break;
+    default:
+        writeln("no case found");
+        break;
+    }
+}
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
 {
@@ -27,7 +78,7 @@ Tuple!(string, int, Command) parseCommand(string message, long size)
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();
-    foreach (key; parallel(curKeys))
+    foreach (key; curKeys)
     {
         if (key == ckey)
         {
@@ -41,11 +92,30 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
 void notifyAll(Socket[int] clients, string message)
 {
     int[] curKeys = clients.keys();
-    foreach (key; parallel(curKeys))
+    foreach (key; curKeys)
     {
         Socket client = clients[key];
         client.send(message);
     }
+}
+
+void sendSyncUpdate(Socket[int] clients, int ckey)
+{
+    Socket client = clients[ckey];
+
+    foreach_reverse (cmd; ServerState.getCommandHistory())
+    {
+        writeln("sending sync: ", cmd);
+        Thread.sleep(1.msecs);
+        client.send(cmd);
+    }
+    foreach (chat; ServerState.getChatHistory())
+    {
+        writeln("sending sync: ", chat);
+        Thread.sleep(1.msecs);
+        client.send(chat);
+    }
+    writeln(ServerState.getCommandHistory().length);
 }
 
 class Server
@@ -74,6 +144,7 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
+
     }
 
     ~this()
@@ -98,9 +169,13 @@ class Server
                 this.users[this.clientCount] = userIdConnStatus[0];
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
+                //todo look into not hanging server while syncing
+                writeln("sending sync update");
+                sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
-            foreach (key; parallel(curKeys))
+            
+            foreach (key; curKeys)
             {
                 Socket client = this.connectedClients[key];
                 if (this.sockSet.isSet(client))
@@ -110,6 +185,9 @@ class Server
                     if (recv > 0)
                     {
                         writeln("received", buffer[0 .. recv]);
+
+                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        writeln(ServerState.getCommandHistory().length);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }

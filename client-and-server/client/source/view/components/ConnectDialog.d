@@ -2,6 +2,7 @@ module view.components.ConnectDialog;
 
 private import std.conv;
 private import std.string : isNumeric;
+private import std.typecons;
 private import std.algorithm.comparison : equal;
 private import std.regex;
 private import gdk.c.types;
@@ -12,6 +13,8 @@ private import gtk.MessageDialog;
 private import model.Communicator;
 private import view.components.AreaContent;
 private import view.MyWindow;
+private import model.ApplicationState;
+private import controller.commands.Command;
 
 /**
  * Class representing what opens when the user clicks the Connect button. 
@@ -86,6 +89,10 @@ public:
      */
     private void attemptConnection(string username, string ipAddr, ushort port)
     {
+        //clear the drawing board and command history prior to attempting to connect
+        this.myWindow.getAppBox().getMyDrawingBox().getMyDrawing().clearDrawing();
+        Tuple!(string, int, Command)[] history = [];
+        ApplicationState.setCommandHistory(history);
         // Get the communicator. If the communicator is null, it will be created.
         // Creating the communicator, encodes and sends to the server a connection packet.
         Communicator.getCommunicator(port, ipAddr, username);
