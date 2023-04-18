@@ -16,6 +16,24 @@
 				"../client/source/app.d",
 				"../client/source/server_cov_app.d"
 			],
+			"buildOptions": ["releaseMode", "optimize", "inline"],
+			"mainSourceFile": "source/app.d",
+			"name": "serverRelease",
+			"targetType": "executable"
+		},
+		{
+			"dependencies": {
+				"gtk-d:gstreamer": "~>3.10.0",
+				"gtk-d:gtkd": "~>3.10.0",
+				"gtk-d:peas": "~>3.10.0",
+				"gtk-d:sv": "~>3.10.0",
+				"gtk-d:vte": "~>3.10.0"
+			},
+			"excludedSourceFiles": [
+				"source/server_cov_app.d",
+				"../client/source/app.d",
+				"../client/source/server_cov_app.d"
+			],
 			"mainSourceFile": "source/app.d",
 			"name": "runServer",
 			"targetType": "executable"

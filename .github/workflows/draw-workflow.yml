@@ -97,7 +97,7 @@ jobs:
       - name: Build Client Release Deliverables
         working-directory: ./client-and-server
         run: |
-          dub build :client
+          dub build :client -c clientRelease
           ls ./client/bin
 
 #      - uses: actions/upload-artifact@v3
@@ -145,7 +145,7 @@ jobs:
       - name: Build Server Release Deliverables
         working-directory: ./client-and-server
         run: |
-          dub build :server
+          dub build :server -c serverRelease
           ls ./server/bin
 
 #      - uses: actions/upload-artifact@v3
