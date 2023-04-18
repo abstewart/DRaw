@@ -115,7 +115,7 @@ public:
     * Params:
     *       - username : string : the username to disconnect with
     */
-    static void sendShutdownPacket(string username)
+    static void sendDisconnectPacket(string username)
     {
         int clientId = ApplicationState.getClientId();
         // Create connection packet (disconnected -- false) and send it to the server.
