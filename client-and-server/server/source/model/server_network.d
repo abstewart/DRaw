@@ -1,19 +1,18 @@
 module model.server_network;
 
-import controller.commands.Command;
+private import std.socket;
+private import std.stdio;
+private import std.parallelism;
+private import std.conv;
+private import std.typecons;
+private import std.array;
+private import std.algorithm;
+private import core.thread;
+private import std.logger;
 
-import std.socket;
-import std.stdio;
-import std.parallelism;
-import std.conv;
-import std.typecons;
-import std.array;
-import std.algorithm;
-import core.thread;
-
-import model.packets.packet;
-import view.MyWindow;
-
+private import model.packets.packet;
+private import view.MyWindow;
+private import controller.commands.Command;
 private import model.ServerState;
 
 ushort MAX_ALLOWED_CONNECTIONS = 100;
@@ -23,6 +22,7 @@ int MESSAGE_BUFFER_SIZE = 1024;
 
 void serverResolveRemotePackets(string packet)
 {
+    auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
     {
@@ -50,7 +50,7 @@ void serverResolveRemotePackets(string packet)
         string[] acc;
         foreach (cmdPacket; ServerState.getCommandHistory())
         {
-            writeln("comparing: ", toCheck, ":: with: ", cmdPacket);
+            sLogger.info("comparing: ", toCheck, ":: with: ", cmdPacket);
             if (cmdPacket.startsWith(toCheck))
             {
                 continue;
@@ -60,14 +60,14 @@ void serverResolveRemotePackets(string packet)
         ServerState.setCommandHistory(acc);
         break;
     default:
-        writeln("no case found");
+        sLogger.info("In serverResolveRemotePackets switch statement. No case found.");
         break;
     }
 }
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
 {
-    //todo fix this when server state is implemented, this will likely cause NPR exceptions
+    // Todo fix this when server state is implemented, this will likely cause NPR exceptions.
     MyWindow window;
     return decodeUserDrawCommand(message, size, window);
 }
@@ -98,17 +98,18 @@ void notifyAll(Socket[int] clients, string message)
 
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
+    auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
     Socket client = clients[ckey];
 
     foreach_reverse (cmd; ServerState.getCommandHistory())
     {
-        writeln("sending sync: ", cmd);
+        sLogger.info("Sending sync: ", cmd);
         Thread.sleep(1.msecs);
         client.send(cmd);
     }
     foreach (chat; ServerState.getChatHistory())
     {
-        writeln("sending sync: ", chat);
+        sLogger.info("Sending sync: ", chat);
         Thread.sleep(1.msecs);
         client.send(chat);
     }
@@ -151,23 +152,24 @@ class Server
 
     void pollForMessagesAndClients()
     {
+        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
         if (Socket.select(this.sockSet, null, null))
         {
             if (this.sockSet.isSet(this.sock))
             {
                 Socket newSocket = this.sock.accept();
                 this.connectedClients[++this.clientCount] = newSocket;
-                writeln("> client", this.clientCount, " added to connectedClients list");
+                sLogger.info("> client", this.clientCount, " added to connectedClients list");
                 char[1024] buffer;
                 long recv = newSocket.receive(buffer);
                 Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer),
                         recv);
-                writeln("> user ", userIdConnStatus[0], " successfully connected");
+                sLogger.info("> user ", userIdConnStatus[0], " successfully connected");
                 this.users[this.clientCount] = userIdConnStatus[0];
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
-                //todo look into not hanging server while syncing
-                writeln("sending sync update");
+                // Todo look into not hanging server while syncing.
+                sLogger.info("S ending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
@@ -181,7 +183,7 @@ class Server
                     long recv = client.receive(buffer);
                     if (recv > 0)
                     {
-                        writeln("received", buffer[0 .. recv]);
+                        sLogger.info("Received", buffer[0 .. recv]);
 
                         serverResolveRemotePackets(to!string(buffer[0 .. recv]));
                         writeln(ServerState.getCommandHistory().length);
@@ -190,17 +192,17 @@ class Server
                     }
                     else if (recv == 0)
                     {
-                        writeln("Client closed connection: ", key);
+                        sLogger.info("Client closed connection: ", key);
                         client.close();
                         this.connectedClients.remove(key);
                     }
                     else if (recv == Socket.ERROR)
                     {
-                        writeln("Socket error");
+                        sLogger.warning("Socket error");
                     }
                     else
                     {
-                        writeln("Unknown socket reception return value");
+                        sLogger.warning("Unknown socket reception return value");
                     }
                 }
             }
@@ -209,9 +211,10 @@ class Server
 
     void initializeSocketSet()
     {
-        // Clear the readSet
+        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+        // Clear the readSet.
         this.sockSet.reset();
-        // Add the server
+        // Add the server.
         this.sockSet.add(this.sock);
         foreach (client; this.connectedClients)
         {

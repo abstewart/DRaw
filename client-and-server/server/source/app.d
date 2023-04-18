@@ -1,31 +1,33 @@
-import std.stdio;
-import std.getopt;
-import std.string : isNumeric;
-import std.conv;
-import std.regex;
+private import std.stdio;
+private import std.getopt;
+private import std.string : isNumeric;
+private import std.conv;
+private import std.regex;
 private import std.algorithm.comparison : equal;
+private import std.logger;
 
-import model.server_network;
+private import model.server_network;
 
 /**
  * Provides entry point for the server program.
  */
 void main(string[] args)
 {
+    auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
     const int MIN_REQUIRED = 3;
     if (args.length != MIN_REQUIRED)
     {
-        writeln("Expecting this format - 'dub run :server {ip address} " ~ " {port number}'");
-        writeln("Could not start up server. Please try again.");
+        stderr.writeln("Invalid command line arguments. See Server Log File for more information.");
+        sLogger.warning("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server {ip address} " ~ " {port number}'");
         return;
     }
 
-    writefln("isValidIPAddress(\"%s\") = %s", args[1], to!string(isValidIPAddress(args[1])));
-    writefln("isValidPort(\"%s\") = %s", args[2], to!string(isValidPort(args[2])));
+    sLogger.info("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(isValidIPAddress(args[1])));
+    sLogger.info("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(isValidPort(args[2])));
 
     if (isValidIPAddress(args[1]) && isValidPort(args[2]))
     {
-        writeln("Valid ip address and port number!");
+        sLogger.info("Valid ip address and port number!");
         string ipAddress = args[1];
         ushort portNumber = to!ushort(args[2]);
         bool disable_main_loop = false;
@@ -47,10 +49,11 @@ void main(string[] args)
     }
     else
     {
-        writefln(
+        stderr.writeln("Invalid command line arguments. See Server Log File for more information.");
+        sLogger.warning(
                 "Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
                 args[1], args[2]);
-        writeln("Expecting this format - 'dub run :server {ip address} " ~ " {port number}'");
+        sLogger.warning("Expecting this format in the terminal - 'dub run :server {ip address} " ~ " {port number}'");
     }
 }
 
