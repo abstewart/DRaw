@@ -23,7 +23,7 @@ private import model.packets.packet;
 private import model.ApplicationState;
 
 /**
- * Class representing box the user chats in.
+ * Class representing the box the user chats in.
  */
 class MyChatBox : VBox
 {
@@ -33,12 +33,11 @@ private:
     TextBuffer messageBuffer;
     string message;
     MyWindow myWindow;
-    bool isConnected;
     string username;
 
 public:
     /**
-    * Constructs a MyChatBox instnace.
+    * Constructs a MyChatBox instance.
     * Params:
     *        myWindow : MyWindow :  the main application window
     *        username : string : the client's username
@@ -46,6 +45,11 @@ public:
     this(MyWindow myWindow, string username)
     {
         super(false, 4);
+        setMarginLeft(20); // Sets the left margin of widget.
+        setMarginRight(8); // Sets the right margin of widget.
+        setMarginTop(20); // Sets the top margin of widget.
+        setMarginBottom(20); // Sets the bottom margin of widget.
+        setSizeRequest(300, 500); // Width, height.
         // Store instance variables.
         this.myWindow = myWindow;
         this.username = username;
@@ -56,7 +60,7 @@ public:
 
         // The scroll window for seeing the sent messages.
         ScrolledWindow sw1 = new ScrolledWindow(null, null);
-        sw1.setMinContentHeight(400); // Set the height of the chat feature.
+        sw1.setMinContentHeight(400); // Sets the minimum height that scrolled_window should keep visible.
         sw1.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         this.textView1 = new TextView();
         this.textView1.setEditable(false);
@@ -70,7 +74,7 @@ public:
 
         // The scroll window for typing a message.
         ScrolledWindow sw2 = new ScrolledWindow(null, null);
-        sw2.setMinContentHeight(10); // Set the height of the message input area.
+        sw2.setMinContentHeight(10); // Sets the minimum height that scrolled_window should keep visible.
         sw2.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         TextView textView2 = new TextView();
         textView2.setEditable(true);
@@ -109,22 +113,20 @@ public:
     {
         if (!this.myWindow.getConnection())
         {
-            {
-                MessageDialog notConnectedMsg = new MessageDialog(new Dialog(),
-                        GtkDialogFlags.MODAL, MessageType.WARNING,
-                        ButtonsType.OK, "You are not connected, so you cannot chat.");
-                // Sets a position constraint for this window.
-                // CENTER_ALWAYS = Keep window centered as it changes size, etc.
-                notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
-                notConnectedMsg.run();
-                notConnectedMsg.destroy();
+            MessageDialog notConnectedMsg = new MessageDialog(new Dialog(), GtkDialogFlags.MODAL,
+                    MessageType.WARNING, ButtonsType.OK,
+                    "You are not connected, so you cannot chat.");
+            // Sets a position constraint for this window.
+            // CENTER_ALWAYS = Keep window centered as it changes size, etc.
+            notConnectedMsg.setPosition(GtkWindowPosition.CENTER_ALWAYS);
+            notConnectedMsg.run();
+            notConnectedMsg.destroy();
 
-                // Clear the text buffer -- even if it is already empty.
-                this.messageBuffer.setText("");
-                return;
-            }
+            // Clear the text buffer -- even if it is already empty.
+            this.messageBuffer.setText("");
+            return;
         }
-        //we must be connected, so continue
+        // We must be connected, so continue.
         this.message = this.messageBuffer.getText();
         // If the bugger is "empty" do not send an empty message.
         if (this.message.equal(""))
@@ -134,19 +136,18 @@ public:
 
         SysTime currentTime = Clock.currTime();
 
-        //call chat updator
+        // Call chat updater.
         this.updateMessageWindow(this.username, ApplicationState.getClientId(),
                 currentTime.stdTime, this.message);
 
-        //send chat message to server
-        //username, id, timestamp, message
+        // Send chat message to server.
+        // Username, id, timestamp, message.
         string packetToSend = encodeChatPacket(this.username,
                 ApplicationState.getClientId(), currentTime.stdTime, this.message);
         Communicator.queueMessageSend(packetToSend);
 
         // Clear the text buffer.
         this.messageBuffer.setText("");
-
     }
 
     /**
@@ -154,22 +155,57 @@ public:
      */
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
-        //old formatting for message
-        //string chat = this.username ~ " " ~ hour ~ ":" ~ minutes ~ " " ~ amPm
-        //~ ":\n\t" ~ this.message ~ "\n\n";
-
-        //construct the actual message to display
+        // Construct the actual message to display.
         string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(
                 time) ~ ":\n\t" ~ msg ~ "\n\n";
 
-        //add chat message to the application state, and to the chat buffer
-
+        // Add chat message to the chat buffer.
         this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
 
         // ===================================================================================
         // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
         // that they have access to all the other messages.
         // ===================================================================================
+    }
+
+    /**
+    * Send the user connection update status (whether a user has joined or left the chat).
+    */
+    public void userConnectionUpdate(string uname, int cid, bool connection)
+    {
+        // Construct the actual update message to display.
+        string updateMsg;
+        if (connection)
+        {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " joined!!!~~~~\n\n";
+        }
+        else
+        {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ ":" ~ to!string(cid) ~ " left!!!~~~~\n\n";
+        }
+
+        // Add update message to the chat buffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
+    }
+
+    /**
+    * Handle when you yourself join or leave the chat.
+    */
+    public void yourConnectionUpdate(string uname, bool connection)
+    {
+        // Construct the actual update message to display.
+        string updateMsg;
+        if (connection)
+        {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ " joined!!!~~~~\n\n";
+        }
+        else
+        {
+            updateMsg = "\t\t\t\t~~~~" ~ uname ~ " left!!!~~~~\n\n";
+        }
+
+        // Add update message to the chat buffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
     }
 
     /**
@@ -195,11 +231,10 @@ public:
             minutes = "0" ~ minutes;
         }
         return (hour ~ ":" ~ minutes ~ amPm);
-
     }
 
     /**
-     * Get the chat history as 1 giant string
+     * Get the chat history as 1 giant string.
      */
     public void getChatHistory()
     {

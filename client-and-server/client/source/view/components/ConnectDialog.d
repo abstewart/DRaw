@@ -37,7 +37,7 @@ private:
 
 public:
     /**
-    * Constructs a ConnectDialog instnace.
+    * Constructs a ConnectDialog instance.
     * Params:
     *        - myWindow = the main application window
     */
@@ -86,19 +86,27 @@ public:
      */
     private void attemptConnection(string username, string ipAddr, ushort port)
     {
+        // Get the communicator. If the communicator is null, it will be created.
+        // Creating the communicator, encodes and sends to the server a connection packet.
         Communicator.getCommunicator(port, ipAddr, username);
         bool connected = Communicator.getConnectionStatus();
         this.myWindow.setConnection(connected);
+        this.myWindow.setUsername(username);
         MessageDialog message = connected ? new MessageDialog(this, GtkDialogFlags.MODAL,
                 MessageType.INFO, ButtonsType.OK, "You are now connceted!") : new MessageDialog(this,
                 GtkDialogFlags.MODAL,
-                MessageType.INFO, ButtonsType.OK, "Connection failed, please try again");
+                MessageType.INFO, ButtonsType.OK, "Connection failed, please try again.");
         message.run();
         message.destroy();
+
+        if (connected)
+        {
+            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate(username, connected);
+        }
     }
 
     /**
-     * Executes the control flow depending on the option the user selected within the dialogue.
+     * Executes the control flow depending on the option the user selected within the dialog.
      *
      * Params:
      *       - response : int : represents which dialogue option the user chose

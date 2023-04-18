@@ -21,7 +21,7 @@ private:
 
 public:
     /**
-    * Constructs a HPadBox instnace.
+    * Constructs a HPadBox instance.
     * Params:
     *        widget   : Widget : a widget (an entry in PadEntry and a label in PadLabel)
     *        pJustify : BoxJustify : the alignment of the widget

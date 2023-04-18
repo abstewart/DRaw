@@ -44,10 +44,11 @@ private:
     ChatBox chatBox;
     AppBox appBox;
     Timeout timeout;
+    string username;
 
 public:
     /**
-    * Constructs a MyWindow instnace.
+    * Constructs a MyWindow instance.
     *
     * Params:
     *        application : Application : an application instance
@@ -55,11 +56,22 @@ public:
     this(Application application)
     {
         super(application);
-        CssProvider provider = new CssProvider();
-        FileIF file = FileIF.parseName("./gtk.css");
-        provider.loadFromFile(file);
-        Screen def = Screen.getDefault();
-        StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+        version (OSX)
+        {
+            CssProvider provider = new CssProvider();
+            FileIF file = FileIF.parseName("./gtk.css");
+            provider.loadFromFile(file);
+            Screen def = Screen.getDefault();
+            StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+        version (linux)
+        {
+            CssProvider provider = new CssProvider();
+            FileIF file = FileIF.parseName("./gtk.css");
+            provider.loadFromFile(file);
+            Screen def = Screen.getDefault();
+            StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
         setTitle("DRaw"); // Sets the title of the gtk.Window The title of a window will be displayed in its title bar.
         setup();
         addOnDestroy(&quitApp);
@@ -77,6 +89,28 @@ public:
         this.timeout = new Timeout(10, () { return resolveRemotePackets(this); }, false);
         this.isConnected = false;
 
+    }
+
+    /**
+    * Gets the client's username.
+    *
+    * Params:
+    *       - username : string : the username to connect with
+    */
+    public void setUsername(string username)
+    {
+        this.username = username;
+    }
+
+    /**
+    * Gets the client's username.
+    *
+    * Returns:
+    *        - username : string : the username to connect with
+    */
+    public string getUsername()
+    {
+        return this.username;
     }
 
     /** 
@@ -117,6 +151,8 @@ public:
         {
             setIconFromFile("images/icon.png");
         }
+
+        setBorderWidth(20); // Sets the border width of the container.
 
         // Sets a position constraint for this window.
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.

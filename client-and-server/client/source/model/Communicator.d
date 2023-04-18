@@ -39,8 +39,9 @@ private:
         threadActive = true;
         childThread = spawn(&handleNetworking, thisTid, ip, port);
         int clientId = ApplicationState.getClientId();
+        // Create connection packet (connected -- true) and send it to the server.
         string connReqPacket = encodeUserConnPacket(username, clientId, true);
-        send(childThread, connReqPacket);
+        send(this.childThread, connReqPacket);
 
         // Receive an acknowledgement packet from the server and update the application state.
         bool serverAck = receiveTimeout(THREAD_TIMEOUT_DUR, (string packet, immutable long recvLen) {
@@ -80,7 +81,7 @@ private:
      */
     void sendToChild(string message)
     {
-        send(childThread, message);
+        send(this.childThread, message);
     }
 
 public:
@@ -106,6 +107,20 @@ public:
             }
         }
         return instance;
+    }
+
+    /**
+    * Sends a connection packet to the server.
+    *
+    * Params:
+    *       - username : string : the username to disconnect with
+    */
+    static void sendDisconnectPacket(string username)
+    {
+        int clientId = ApplicationState.getClientId();
+        // Create connection packet (disconnected -- false) and send it to the server.
+        string connReqPacket = encodeUserConnPacket(username, clientId, false);
+        send(childThread, connReqPacket);
     }
 
     /**

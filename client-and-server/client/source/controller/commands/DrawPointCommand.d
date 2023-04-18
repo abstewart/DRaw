@@ -42,12 +42,12 @@ public:
     override public void execute()
     {
         this.context.setOperator(this.operator);
-        const double ALPHAVALUE = 1.0;
+        double alphaValue = this.currentColor.alpha();
         double rValue = this.currentColor.red();
         double gValue = this.currentColor.green();
         double bValue = this.currentColor.blue();
         // Set the color of the brush/pen.
-        this.context.setSourceRgba(rValue, gValue, bValue, ALPHAVALUE);
+        this.context.setSourceRgba(rValue, gValue, bValue, alphaValue);
 
         // Save the point.
         this.saveOldRect(1, 1);

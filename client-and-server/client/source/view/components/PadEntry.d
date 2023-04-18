@@ -16,7 +16,7 @@ private:
 
 public:
     /**
-    * Constructs a PadEntry instnace.
+    * Constructs a PadEntry instance.
     * Params:
     *        pJustify = the alignment of the widget
     *        placeholderText = the default text in the entry

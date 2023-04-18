@@ -35,7 +35,7 @@ bool resolveRemotePackets(MyWindow window)
         switch (packetType)
         {
         case (USER_CONNECT_PACKET):
-            parseAndExecuteUserConnPacket(packet[0], packet[1]);
+            parseAndExecuteUserConnPacket(packet[0], packet[1], window);
             break;
         case (DRAW_COMMAND_PACKET):
             parseAndExecuteUserDrawPacket(packet[0], packet[1], window);
@@ -65,15 +65,18 @@ bool resolveRemotePackets(MyWindow window)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUserConnPacket(string packet, long recv)
+void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, bool) info = decodeUserConnPacket(packet, recv);
     if (info[2])
     {
         ApplicationState.addConnectedUser(info[0], info[1]);
+
+        window.getChatBox().getMyChatBox().userConnectionUpdate(info[0], info[1], info[2]);
     }
     else
     {
+        window.getChatBox().getMyChatBox().userConnectionUpdate(info[0], info[1], info[2]);
         ApplicationState.removeConnectedUser(info[1]);
     }
 }
@@ -95,14 +98,18 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
     string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
     auto fields = raw.split(',');
-    return tuple(fields[1], to!int(fields[2]), to!bool(fields[3]));
+    int b = to!int(fields[3]);
+    return tuple(fields[1], to!int(fields[2]), to!bool(b));
 }
 
+/**
+* Testing the decodeUserConnPacket() method.
+*/
 @("Testing decodeUserConnPacket")
 unittest
 {
-    string testPacket = "0,User,1,true\r";
-    long lengthOfBytes = 14;
+    string testPacket = "0,User,1,1\r";
+    long lengthOfBytes = 11;
     Tuple!(string, int, bool) connectionPacket = decodeUserConnPacket(testPacket, lengthOfBytes);
 
     import std.algorithm.comparison : equal;
@@ -129,10 +136,13 @@ unittest
 string encodeUserConnPacket(string username, int id, bool connStatus)
 {
     string packet = "%s,%s,%s,%s\r".format(USER_CONNECT_PACKET, username,
-            to!string(id), to!string(connStatus));
+            to!string(id), to!string(to!int(connStatus)));
     return packet;
 }
 
+/**
+* Testing the encodeUserConnPacket() method.
+*/
 @("Testing encodeUserConnPacket")
 unittest
 {
@@ -143,7 +153,7 @@ unittest
     string testPacket = encodeUserConnPacket(testUsername, testId, testConnectionStatus);
     import std.algorithm.comparison : equal;
 
-    assert(testPacket.equal("0,User,5,false\r"));
+    assert(testPacket.equal("0,User,5,0\r"));
 }
 
 /**
@@ -257,6 +267,9 @@ Tuple!(string, int, int) decodeUndoCommandPacket(string packet, long recv)
     return tuple(username, uid, cid);
 }
 
+/**
+* Testing the decodeUndoCommandPacket() method.
+*/
 @("Testing decodeUndoCommandPacket")
 unittest
 {
@@ -291,6 +304,9 @@ string encodeUndoCommandPacket(string username, int uid, int cid)
     return packet;
 }
 
+/**
+* Testing the encodeUndoCommandPacket() method.
+*/
 @("Testing encodeUndoCommandPacket")
 unittest
 {
@@ -314,7 +330,7 @@ unittest
 void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 {
     Tuple!(string, int, long, string) userIdTimeMsg = decodeChatPacket(packet, recv);
-    window.getChatBox.getMyChatBox().updateMessageWindow(userIdTimeMsg[0],
+    window.getChatBox().getMyChatBox().updateMessageWindow(userIdTimeMsg[0],
             userIdTimeMsg[1], userIdTimeMsg[2], userIdTimeMsg[3]);
 }
 
@@ -342,6 +358,9 @@ Tuple!(string, int, long, string) decodeChatPacket(string packet, long recv)
     return tuple(username, uid, time, msg);
 }
 
+/**
+* Testing the decodeChatPacket() method.
+*/
 @("Testing decodeChatPacket")
 unittest
 {
@@ -379,6 +398,9 @@ string encodeChatPacket(string username, int id, long timestamp, string message)
     return packet;
 }
 
+/**
+* Testing the encodeChatPacket() method.
+*/
 @("Testing encodeChatPacket")
 unittest
 {

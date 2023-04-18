@@ -43,6 +43,9 @@ public:
         ApplicationState.clientId = clientId;
     }
 
+    /**
+    * Testing setting and getting the appplication state client id.
+    */
     @("Testing appplication state client id")
     unittest
     {
@@ -72,7 +75,10 @@ public:
         ApplicationState.username = username;
     }
 
-    @("Testing appplication state client id")
+    /**
+    * Testing setting and getting the application state username.
+    */
+    @("Testing appplication state username")
     unittest
     {
         setUsername("Mike Shah");
@@ -105,6 +111,9 @@ public:
         ApplicationState.connectedUsers[uid] = username;
     }
 
+    /**
+    * Testing the addConnectedUser() and getConnectedUsers().
+    */
     @("Testing addConnectedUser and getConnectedUsers")
     unittest
     {
@@ -127,6 +136,9 @@ public:
         ApplicationState.connectedUsers.remove(uid);
     }
 
+    /**
+    * Testing the addConnectedUser(), getConnectedUsers(), and removeConnectedUser() methods.
+    */
     @("Testing addConnectedUser, getConnectedUsers, and removeConnectedUser")
     unittest
     {
@@ -168,6 +180,9 @@ public:
         ApplicationState.chatHistory ~= chatPackage;
     }
 
+    /**
+    * Testing the addChatPacket() and getChatHistory() methods.
+    */
     @("Testing addChatPacket and getChatHistory")
     unittest
     {

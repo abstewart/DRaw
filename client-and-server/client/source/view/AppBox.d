@@ -19,6 +19,10 @@ public:
     this()
     {
         super(Orientation.VERTICAL, 10);
+        setMarginLeft(8); // Sets the left margin of widget.
+        setMarginRight(5); // Sets the right margin of widget.
+        setMarginTop(20); // Sets the top margin of widget.
+        setMarginBottom(20); // Sets the bottom margin of widget.
         this.myDrawingBox = new MyDrawingBox();
         packStart(this.myDrawingBox, true, true, 0); // Adds child to box, packed with reference to the start of box. The child is packed after any other child packed with reference to the start of box.
     }
