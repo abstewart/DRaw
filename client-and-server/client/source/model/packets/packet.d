@@ -47,7 +47,7 @@ bool resolveRemotePackets(MyWindow window)
             parseAndExecuteUndoCommand(packet[0], packet[1], window);
             break;
         case (CANVAS_SYNCH_PACKET):
-            //  &parseAndExecuteCanvasSynch;
+            parseAndExecuteCanvasSync(packet[0], packet[1]);
             break;
         default:
             writeln("no case found");
@@ -393,16 +393,26 @@ unittest
     assert(testChatPacket.equal("3,User,2,125,This is a test message.\r"));
 }
 
-// TODO: FIGURE OUT CANVAS SYNC behavior
+//// TODO: FIGURE OUT CANVAS SYNC behavior
  void parseAndExecuteCanvasSync(string packet, long recv) {
-     Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
+     writeln("parseAndExecuteCanvasSync");
+     //Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
+     Tuple!(string, string) sync = decodeCanvasSyncPacket(packet, recv);
      //TODO update canvase
  }
 
- Tuple!(Canvas) decodeCanvasSyncPacket(string packet, long recv) {
+ Tuple!(string, string) decodeCanvasSyncPacket(string packet, long recv) {
+     writeln("decoding canvas sync");
+     string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
+     auto fields = packet.split(';');
+     writeln(fields);
+     writeln("f0: ",fields[0]);
+     writeln("f1: ",fields[1]);
+     writeln("f2: ",fields[2]);
+     return tuple("", "");
 
  }
 
- string encodeCanvasSyncPacket(Canvas canvas) {
-
- }
+ //string encodeCanvasSyncPacket(Canvas canvas) {
+ //
+ //}
