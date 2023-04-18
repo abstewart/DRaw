@@ -105,6 +105,7 @@ public:
     }
 
     /**
+     * Checks the status of the socket.
      *
      * Returns:
      *         - bool : whether or not the socket is currently open.

@@ -23,6 +23,9 @@ public:
 
     /**
      * Runs the main application
+     *
+     * Returns:
+     *        - status : int : return code of application
      */
     public int runMainApplication()
     {

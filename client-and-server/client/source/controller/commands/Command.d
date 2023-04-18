@@ -43,6 +43,7 @@ public:
     *        ulx = the upper left x
     *        uly = the upper left y
     *        id = the command id
+    *        type = the command type
     */
     this(MyDrawing myDrawing, RGBA color, int ulx, int uly, int id, int type)
     {
@@ -61,6 +62,9 @@ public:
 
     /**
      * Gets the command ID
+     * 
+     * Returns:
+     *        - id : int : the command id
      */
     final int getCmdId()
     {
@@ -75,18 +79,21 @@ public:
     /**
      * Function for undoing an Execute command.
      */
-    int undo()
+    void undo()
     {
         this.context.save();
         setSourcePixbuf(this.context, oldPB, this.ulX, this.ulY);
         this.context.paint();
         this.context.restore();
         this.myDrawing.queueDraw();
-        return 0;
     }
 
     /**
      * Function to save specified area to the given ImageSurface.
+     *
+     * Params: 
+     *       - width  : int : width of area to save
+     *       - height : int : height of area to save
      */
     final void saveOldRect(int width, int height)
     {
@@ -95,6 +102,9 @@ public:
 
     /** 
      * Gets the color in string format.
+     *
+     * Returns:
+     *        - colorString : string : a string representation of the color
      */
     final string getColorString()
     {
@@ -105,6 +115,9 @@ public:
     /**
      * Abstract method to encode the command into a string. 
      * Child classes will override this method and encode their relevant information.
+     *
+     * Returns:
+     *        - encoded : string : a string representation of the command
      */
     abstract string encode();
 }

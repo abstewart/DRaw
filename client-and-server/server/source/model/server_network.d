@@ -1,11 +1,7 @@
 module model.server_network;
 
-// Imports.
-import controller.commands.Command;
-
 import std.socket;
 import std.stdio;
-import std.parallelism;
 import std.conv;
 import std.typecons;
 import std.array;
@@ -14,14 +10,20 @@ import core.thread;
 
 import model.packets.packet;
 import view.MyWindow;
-
-private import model.ServerState;
+import controller.commands.Command;
+import model.ServerState;
 
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 1024;
 
+/**
+ * Resolves the given packet with the server's state
+ *
+ * Params:
+ *       - packet : string : packet to resolve
+ */
 void serverResolveRemotePackets(string packet)
 {
     immutable int packetType = to!int(packet[0]) - '0';
@@ -60,21 +62,20 @@ void serverResolveRemotePackets(string packet)
         }
         ServerState.setCommandHistory(acc);
         break;
-    case (CANVAS_SYNCH_PACKET):
-        break;
     default:
         writeln("no case found");
         break;
     }
 }
 
-Tuple!(string, int, Command) parseCommand(string message, long size)
-{
-    //todo fix this when server state is implemented, this will likely cause NPR exceptions
-    MyWindow window;
-    return decodeUserDrawCommand(message, size, window);
-}
-
+/**
+ * Notifies all clients in the given hashmap of the given message except the client with the given key
+ *
+ * Params:
+ *       - clients : Socket[int] : hashmap of client id to socket
+ *       - message : string : message to notify clients with
+ *       - ckey    : int : key to client socket in set to not notify
+ */
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();
@@ -89,6 +90,13 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
     }
 }
 
+/**
+ * Notifies all clients in the given hashmap of the given message
+ *
+ * Params: 
+ *       - clients : Socket[int] : hashmap of client id to socket
+ *       - message : string : message to notify clients of
+ */
 void notifyAll(Socket[int] clients, string message)
 {
     int[] curKeys = clients.keys();
@@ -99,6 +107,13 @@ void notifyAll(Socket[int] clients, string message)
     }
 }
 
+/**
+ * Sends the client of the given id the current surver state.
+ *
+ * Params:
+ *       - clients : Socket[int] : list of clients
+ *       - ckey    : int : client id to sync
+ */
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
     Socket client = clients[ckey];
@@ -118,6 +133,9 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
     writeln(ServerState.getCommandHistory().length);
 }
 
+/**
+ * Class implementing all server and consensus functionalitys for the application.
+ */
 class Server
 {
     private string ipAddress;
@@ -130,11 +148,20 @@ class Server
     private bool isRunning;
     private long bufferSize;
     private static int clientCount;
-    private Command[] commandStack = [];
 
-    this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
-            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
-            long bufferSize = MESSAGE_BUFFER_SIZE)
+    /**
+     * Constructs the server object
+     *
+     * Params:
+     *       - ipAddress          : string : the ipAddress to bind to
+     *       - portNumber         : ushort : the port number to bind to
+     *       - allowedConnections : ushort : the number of allowed simultaneous connections to the server
+     *       - bufferSize         : long : the buffer size of the socket
+     */
+    this(string ipAddress = DEFAULT_SOCKET_IP, 
+         ushort portNumber = DEFAULT_PORT_NUMBER,
+         ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+         long bufferSize = MESSAGE_BUFFER_SIZE)
     {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
@@ -144,14 +171,20 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
-
     }
 
+    /**
+     * Closes the socket upon destruction
+     */
     ~this()
     {
         this.sock.close();
     }
 
+    /**
+     * - polls the socket set for new connections, if one has connected adds it to the server's state
+     * - when socket receives a new packet, stores packet in state and relays to all clients
+     */
     void pollForMessagesAndClients()
     {
         if (Socket.select(this.sockSet, null, null))
@@ -210,6 +243,9 @@ class Server
         }
     }
 
+    /**
+     * Initializes the socket set and adds client sockets to reset update status
+     */
     void initializeSocketSet()
     {
         // Clear the readSet
@@ -222,6 +258,9 @@ class Server
         }
     }
 
+    /**
+     * Runs the loop of socket set initialization and polling
+     */
     void handleReception()
     {
         while (this.isRunning)

@@ -152,6 +152,12 @@ public:
 
     /**
      * Send the message to the chat.
+     *
+     * Params:
+     *       - uname : string : the username to update  chatwith
+     *       - cid   : int : the client id to update chat with
+     *       - time  : long : the timestamp to update chat with
+     *       - msg   : string : the message to update chat with
      */
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
@@ -170,6 +176,11 @@ public:
 
     /**
     * Send the user connection update status (whether a user has joined or left the chat).
+    *
+    * Params:
+    *       - uname      : string : the username to update connection status with
+    *       - cid        : int    : the client id to update connection status with
+    *       - connection : bool : conn/disconn status
     */
     public void userConnectionUpdate(string uname, int cid, bool connection)
     {
@@ -190,6 +201,10 @@ public:
 
     /**
     * Handle when you yourself join or leave the chat.
+    *
+    * Params:
+    *       - uname      : string : the username to display
+    *       - connection : bool : the connection status to display
     */
     public void yourConnectionUpdate(string uname, bool connection)
     {
@@ -210,6 +225,12 @@ public:
 
     /**
      * Transform a long time into a pretty string version.
+     * 
+     * Params:
+     *       - numTime : long : time since epoch
+     * 
+     * Returns: 
+     *       - prettified : string : pretty version of time string
      */
     string prettyTime(long numTime)
     {
@@ -231,14 +252,6 @@ public:
             minutes = "0" ~ minutes;
         }
         return (hour ~ ":" ~ minutes ~ amPm);
-    }
-
-    /**
-     * Get the chat history as 1 giant string.
-     */
-    public void getChatHistory()
-    {
-        this.chatBuffer.getText();
     }
 
     /**
