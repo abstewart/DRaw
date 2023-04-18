@@ -96,9 +96,16 @@ void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
  */
 Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
+    writeln("packet = " ~ packet);
+    writeln("recv = ", recv);
     string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
     auto fields = raw.split(',');
+    writeln("fields[3] = ", fields[3]);
     int b = to!int(fields[3]);
+    writeln("b = ", b);
+    writeln("fields[1] = ", fields[1]);
+    writeln("to!int(fields[2]) = ", to!int(fields[2]));
+    writeln("to!bool(b) = ", to!bool(b));
     return tuple(fields[1], to!int(fields[2]), to!bool(b));
 }
 
@@ -108,8 +115,8 @@ Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 @("Testing decodeUserConnPacket")
 unittest
 {
-    string testPacket = "0,User,1,true\r";
-    long lengthOfBytes = 14;
+    string testPacket = "0,User,1,1\r";
+    long lengthOfBytes = 11;
     Tuple!(string, int, bool) connectionPacket = decodeUserConnPacket(testPacket, lengthOfBytes);
 
     import std.algorithm.comparison : equal;
@@ -153,7 +160,7 @@ unittest
     string testPacket = encodeUserConnPacket(testUsername, testId, testConnectionStatus);
     import std.algorithm.comparison : equal;
 
-    assert(testPacket.equal("0,User,5,false\r"));
+    assert(testPacket.equal("0,User,5,0\r"));
 }
 
 /**
