@@ -60,7 +60,7 @@ jobs:
 
       - name: Perform All Unit Tests
         working-directory: ./client-and-server
-        run: dub run -c unittest
+        run: dub run -b unittest -c unittest
 
 #      - name: Check All Docs
 #        working-directory: ./client-and-server
