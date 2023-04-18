@@ -60,8 +60,6 @@ void serverResolveRemotePackets(string packet)
         }
         ServerState.setCommandHistory(acc);
         break;
-    case (CANVAS_SYNCH_PACKET):
-        break;
     default:
         writeln("no case found");
         break;
