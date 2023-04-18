@@ -90,7 +90,6 @@ public:
         }
         this.timeout = new Timeout(10, () { return resolveRemotePackets(this); }, false);
         this.isConnected = false;
-
     }
 
     /**

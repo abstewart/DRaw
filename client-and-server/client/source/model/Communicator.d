@@ -1,7 +1,7 @@
 module model.Communicator;
 
 import std.concurrency;
-import std.stdio : writeln;
+import std.logger;
 import std.typecons;
 import std.algorithm;
 import std.datetime;
@@ -50,7 +50,6 @@ private:
                 Tuple!(string, int, bool) usernameId = decodeUserConnPacket(packet, recvLen);
                 string uname = usernameId[0];
                 int cid = usernameId[1];
-                writeln(uname, " ", cid);
                 ApplicationState.setUsername(uname);
                 ApplicationState.setClientId(cid);
                 ApplicationState.addConnectedUser(uname, cid);
@@ -101,7 +100,8 @@ public:
     {
         if (instance is null)
         {
-            writeln("attempting to get a new communicator");
+            auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+            cLogger.info("attempting to get a new communicator");
             instance = new Communicator(port, ip, username);
             if (!Communicator.getConnectionStatus())
             {

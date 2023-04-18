@@ -21,6 +21,7 @@ private:
     ushort portNumber;
     TcpSocket sock;
     bool socketOpen;
+    FileLogger cLogger;
 
 public:
     /**
@@ -39,6 +40,7 @@ public:
         this.sock.setOption(SocketOptionLevel.SOCKET, SocketOption.RCVTIMEO, SOCKET_TIMEOUT);
         this.sock.connect(new InternetAddress(this.ipAddress, this.portNumber));
         this.socketOpen = true;
+        this.cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
     }
 
     /**
@@ -47,7 +49,7 @@ public:
     ~this()
     {
         this.sock.close();
-        writeln("closed socket");
+        this.cLogger.info("closed socket");
     }
 
     /**
@@ -76,14 +78,14 @@ public:
             {
                 if (!wouldHaveBlocked())
                 {
-                    writeln("Socket lerror");
+                    this.cLogger.warning("Socket error.");
                     this.sock.close();
                     this.socketOpen = false;
                 }
             }
             else
             {
-                writeln("Unknown received value.");
+                this.cLogger.warning("Unknown received value.");
             }
         }
         return Tuple!(char[1024], long)(message, recv);
@@ -99,7 +101,7 @@ public:
     {
         if (this.socketOpen)
         {
-            writeln(packetData);
+            this.cLogger.info(packetData);
             this.sock.send(packetData);
         }
     }
