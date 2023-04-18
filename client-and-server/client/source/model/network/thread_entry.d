@@ -54,7 +54,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             string encodedMsg = to!string(msgAndLen[0]);
             immutable long recvLen = msgAndLen[1];
             writeln(encodedMsg[0 .. recvLen]);
-            send(parent, encodedMsg, recvLen);
+            send(parent, encodedMsg[0 .. recvLen], recvLen);
         }
     }
 

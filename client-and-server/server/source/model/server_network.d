@@ -75,11 +75,11 @@ Tuple!(string, int, Command) parseCommand(string message, long size)
     MyWindow window;
     return decodeUserDrawCommand(message, size, window);
 }
-
+//parallel
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();
-    foreach (key; parallel(curKeys))
+    foreach (key; curKeys)
     {
         if (key == ckey)
         {
@@ -89,11 +89,11 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
         client.send(message);
     }
 }
-
+//parallel
 void notifyAll(Socket[int] clients, string message)
 {
     int[] curKeys = clients.keys();
-    foreach (key; parallel(curKeys))
+    foreach (key; curKeys)
     {
         Socket client = clients[key];
         client.send(message);
@@ -104,7 +104,7 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
 {
     Socket client = clients[ckey];
 
-    foreach (cmd; ServerState.getCommandHistory().reverse)
+    foreach_reverse (cmd; ServerState.getCommandHistory())
     {
         writeln("sending sync: ", cmd);
         Thread.sleep(1.msecs);
@@ -126,6 +126,9 @@ class Server
     private TcpSocket sock;
     private SocketSet sockSet;
     private Socket[int] connectedClients;
+    string[int] connectedUsers;
+    string[] chatHistory = [];
+    string[] commandHistory = [];
     private string[int] users;
     private int countMessages;
     private bool isRunning;
@@ -175,7 +178,8 @@ class Server
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
-            foreach (key; parallel(curKeys))
+            //parallel
+            foreach (key; curKeys)
             {
                 Socket client = this.connectedClients[key];
                 if (this.sockSet.isSet(client))
@@ -187,6 +191,7 @@ class Server
                         writeln("received", buffer[0 .. recv]);
 
                         serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        writeln(ServerState.getCommandHistory().length);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }
