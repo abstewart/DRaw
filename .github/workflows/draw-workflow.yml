@@ -49,8 +49,8 @@ jobs:
           dmd --version
           pwd
           sudo apt-get install libgtkd-3-dev -y
-          sudo apt-get install libgtksourceview-4-0
-          sudo apt-get install libgstapp-1.0.so.0
+          sudo apt-get install libgtksourceview-4-0 -y
+          sudo apt-get install libgstreamer1.0-0 -y
           echo MADE IT!!!!!
 
       - name: Perform All Unit Tests
