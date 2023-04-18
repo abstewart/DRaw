@@ -129,6 +129,7 @@ class Server
     private long bufferSize;
     private static int clientCount;
     private Command[] commandStack = [];
+    private FileLogger sLogger;
 
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
             ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
@@ -142,7 +143,7 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
-
+        this.sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
     }
 
     ~this()
@@ -152,7 +153,6 @@ class Server
 
     void pollForMessagesAndClients()
     {
-        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
         if (Socket.select(this.sockSet, null, null))
         {
             if (this.sockSet.isSet(this.sock))
@@ -169,7 +169,7 @@ class Server
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
                 // Todo look into not hanging server while syncing.
-                sLogger.info("S ending sync update");
+                sLogger.info("Sending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
@@ -198,11 +198,11 @@ class Server
                     }
                     else if (recv == Socket.ERROR)
                     {
-                        sLogger.warning("Socket error");
+                        sLogger.warning("Socket error.");
                     }
                     else
                     {
-                        sLogger.warning("Unknown socket reception return value");
+                        sLogger.warning("Unknown socket reception return value.");
                     }
                 }
             }
@@ -211,7 +211,6 @@ class Server
 
     void initializeSocketSet()
     {
-        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
         // Clear the readSet.
         this.sockSet.reset();
         // Add the server.
