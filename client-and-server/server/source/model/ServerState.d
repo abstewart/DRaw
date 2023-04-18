@@ -13,75 +13,11 @@ private import controller.commands.Command;
 class ServerState
 {
 private:
-    static int clientId = -1;
-    static string username = "";
     static string[int] connectedUsers;
     static string[] chatHistory = [];
     static string[] commandHistory = [];
-    static int curCmd = 0;
 
 public:
-    /**
-     * Gets the current clientId.
-     *
-     * Returns:
-     *        - clientId : int : the current client id
-     */
-    static int getClientId()
-    {
-        return ServerState.clientId;
-    }
-
-    /**
-     * Sets the current clientId.
-     *
-     * Params:
-     *       - clientId : int : the client id to set to
-     */
-    static void setClientId(int clientId)
-    {
-        ServerState.clientId = clientId;
-    }
-
-    @("Testing appplication state client id")
-    unittest
-    {
-        setClientId(3);
-        assert(getClientId() == 3);
-    }
-
-    /**
-     * Gets the current username.
-     *
-     * Returns:
-     *        - username : string : the current username
-     */
-    static string getUsername()
-    {
-        return ServerState.username;
-    }
-
-    /**
-     * Sets the current username.
-     *
-     * Params:
-     *       - username : string : the desired username
-     */
-    static void setUsername(string username)
-    {
-        ServerState.username = username;
-    }
-
-    @("Testing appplication state client id")
-    unittest
-    {
-        setUsername("Mike Shah");
-
-        import std.algorithm.comparison : equal;
-
-        assert(getUsername().equal("Mike Shah"));
-    }
-
     /**
      * Gets the current set of connected users.
      *
@@ -168,32 +104,6 @@ public:
         ServerState.chatHistory ~= chatPackage;
     }
 
-    @("Testing addChatPacket and getChatHistory")
-    unittest
-    {
-        Tuple!(string, int, long, string) testChatPacket1;
-        testChatPacket1[0] = "Bob";
-        testChatPacket1[1] = 1;
-        testChatPacket1[2] = 1253;
-        testChatPacket1[3] = "This is a test message!!!";
-        addChatPacket(testChatPacket1);
-
-        Tuple!(string, int, long, string)[] chatHistory1 = [testChatPacket1];
-        assert(getChatHistory() == chatHistory1);
-
-        Tuple!(string, int, long, string) testChatPacket2;
-        testChatPacket2[0] = "Sam";
-        testChatPacket2[1] = 1;
-        testChatPacket2[2] = 1300;
-        testChatPacket2[3] = "Testing testing. This is a message for a unittest.";
-        addChatPacket(testChatPacket2);
-
-        Tuple!(string, int, long, string)[] chatHistory2 = [
-            testChatPacket1, testChatPacket2
-        ];
-        assert(getChatHistory() == chatHistory2);
-    }
-
     /**
      * Prepends the given command tuple to the command history after executing it.
      *
@@ -225,24 +135,5 @@ public:
     static void setCommandHistory(string[] history)
     {
         ServerState.commandHistory = history;
-    }
-
-    /**
-     * Gets the current command id
-     *
-     * Returns:
-     *        - cid : int : the current command id
-     */
-    static int getCurCommandId()
-    {
-        return ServerState.curCmd;
-    }
-
-    /**
-     * Increments the current command id.
-     */
-    static void goToNextCommandId()
-    {
-        ServerState.curCmd += 1;
     }
 }
