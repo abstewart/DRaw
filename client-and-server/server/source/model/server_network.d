@@ -28,16 +28,15 @@ void serverResolveRemotePackets(string packet)
     switch (packetType)
     {
     case (USER_CONNECT_PACKET):
-        //todo fix this
-        //Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
-        //if (info[2])
-        //{
-        //    ServerState.addConnectedUser(info[0], info[1]);
-        //}
-        //else
-        //{
-        //    ServerState.removeConnectedUser(info[1]);
-        //}
+        Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
+        if (info[2])
+        {
+           ServerState.addConnectedUser(info[0], info[1]);
+        }
+        else
+        {
+           ServerState.removeConnectedUser(info[1]);
+        }
         break;
     case (DRAW_COMMAND_PACKET):
         ServerState.addToCommandHistory(packet);
@@ -126,9 +125,6 @@ class Server
     private TcpSocket sock;
     private SocketSet sockSet;
     private Socket[int] connectedClients;
-    string[int] connectedUsers;
-    string[] chatHistory = [];
-    string[] commandHistory = [];
     private string[int] users;
     private int countMessages;
     private bool isRunning;
