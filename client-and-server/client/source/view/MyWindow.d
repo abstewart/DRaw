@@ -44,6 +44,7 @@ private:
     ChatBox chatBox;
     AppBox appBox;
     Timeout timeout;
+    string username;
 
 public:
     /**
@@ -55,14 +56,16 @@ public:
     this(Application application)
     {
         super(application);
-        version(OSX) {
+        version (OSX)
+        {
             CssProvider provider = new CssProvider();
             FileIF file = FileIF.parseName("./gtk.css");
             provider.loadFromFile(file);
             Screen def = Screen.getDefault();
             StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         }
-        version(linux) {
+        version (linux)
+        {
             CssProvider provider = new CssProvider();
             FileIF file = FileIF.parseName("./gtk.css");
             provider.loadFromFile(file);
@@ -86,6 +89,28 @@ public:
         this.timeout = new Timeout(10, () { return resolveRemotePackets(this); }, false);
         this.isConnected = false;
 
+    }
+
+    /**
+    * Gets the client's username.
+    *
+    * Params:
+    *       - username : string : the username to connect with
+    */
+    public void setUsername(string username)
+    {
+        this.username = username;
+    }
+
+    /**
+    * Gets the client's username.
+    *
+    * Returns:
+    *        - username : string : the username to connect with
+    */
+    public string getUsername()
+    {
+        return this.username;
     }
 
     /** 

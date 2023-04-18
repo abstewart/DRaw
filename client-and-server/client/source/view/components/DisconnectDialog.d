@@ -19,6 +19,7 @@ private:
     string titleText = "Disconnect?";
     MyWindow myWindow;
     bool isConnected;
+    string username;
 
 public:
     /**
@@ -33,6 +34,7 @@ public:
         // CENTER_ALWAYS = Keep window centered as it changes size, etc.
         setPosition(GtkWindowPosition.CENTER_ALWAYS);
         this.myWindow = myWindow;
+        this.username = this.myWindow.getUsername();
         this.isConnected = this.myWindow.getConnection();
         addOnResponse(&handleResponse); // Emitted when an action widget is clicked, the dialog receives a delete event, or the application programmer calls Dialog.response.
         run(); // Blocks in a recursive main loop until the dialog either emits the response signal, or is destroyed.
@@ -63,7 +65,8 @@ public:
             }
 
             this.myWindow.setConnection(false); // Let myWindow know you are no longer connected.
-            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate("You", false);
+            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate(this.username, false);
+            Communicator.sendShutdownPacket(username);
             Communicator.disconnect();
 
             MessageDialog message = new MessageDialog(this, GtkDialogFlags.MODAL,

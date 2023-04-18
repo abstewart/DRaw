@@ -39,6 +39,7 @@ private:
         threadActive = true;
         childThread = spawn(&handleNetworking, thisTid, ip, port);
         int clientId = ApplicationState.getClientId();
+        // Create connection packet (connected -- true) and send it to the server.
         string connReqPacket = encodeUserConnPacket(username, clientId, true);
         send(this.childThread, connReqPacket);
 
@@ -61,15 +62,6 @@ private:
             connectionStatus = true;
         }
     }
-
-    ///**
-    //* Sends a connection packet to the server
-    //*/
-    //void sendShutdownPacket(string username) {
-    //    int clientId = ApplicationState.getClientId();
-    //    string connReqPacket = encodeUserConnPacket(username, clientId, false);
-    //    send(childThread, connReqPacket);
-    //}
 
     /**
      * Sends a message to the child thread to shutdown and marks our thread as closed.
@@ -115,6 +107,20 @@ public:
             }
         }
         return instance;
+    }
+
+    /**
+    * Sends a connection packet to the server.
+    *
+    * Params:
+    *       - username : string : the username to disconnect with
+    */
+    static void sendShutdownPacket(string username)
+    {
+        int clientId = ApplicationState.getClientId();
+        // Create connection packet (disconnected -- false) and send it to the server.
+        string connReqPacket = encodeUserConnPacket(username, clientId, false);
+        send(childThread, connReqPacket);
     }
 
     /**

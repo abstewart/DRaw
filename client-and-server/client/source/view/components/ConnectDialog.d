@@ -91,6 +91,7 @@ public:
         Communicator.getCommunicator(port, ipAddr, username);
         bool connected = Communicator.getConnectionStatus();
         this.myWindow.setConnection(connected);
+        this.myWindow.setUsername(username);
         MessageDialog message = connected ? new MessageDialog(this, GtkDialogFlags.MODAL,
                 MessageType.INFO, ButtonsType.OK, "You are now connceted!") : new MessageDialog(this,
                 GtkDialogFlags.MODAL,
@@ -100,7 +101,7 @@ public:
 
         if (connected)
         {
-            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate("You", connected);
+            this.myWindow.getChatBox.getMyChatBox().yourConnectionUpdate(username, connected);
         }
     }
 

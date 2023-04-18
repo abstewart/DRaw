@@ -76,9 +76,7 @@ void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
     }
     else
     {
-        import std.stdio;
-
-        writeln("client left -- time to remove them from the connected user list");
+        window.getChatBox().getMyChatBox().userConnectionUpdate(info[0], info[1], info[2]);
         ApplicationState.removeConnectedUser(info[1]);
     }
 }
