@@ -40,7 +40,7 @@ void main(string[] args)
             defaultGetoptPrinter("Help info for this program.", helpInformation.options);
         }
 
-        writeln("Awaiting client connections");
+        writeln("Running server. Awaiting client connections.");
         if (!disable_main_loop)
         {
             Server ourServer = new Server(ipAddress, portNumber);
