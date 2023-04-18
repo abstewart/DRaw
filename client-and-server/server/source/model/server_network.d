@@ -20,7 +20,7 @@ private import model.ServerState;
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
-int MESSAGE_BUFFER_SIZE = 4096;
+int MESSAGE_BUFFER_SIZE = 1024;
 
 void serverResolveRemotePackets(string packet)
 {
