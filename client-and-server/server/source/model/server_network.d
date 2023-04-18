@@ -12,10 +12,64 @@ import std.typecons;
 import model.packets.packet;
 import view.MyWindow;
 
+private import model.ApplicationState as serverState;
+
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 4096;
+
+
+
+void serverResolveRemotePackets(string packet)
+{
+    immutable int packetType = to!int(packet[0]) - '0';
+    auto packetFields = packet.split(',');
+    string packetUsername = packet.split(',')[1];
+    switch (packetType)
+    {
+        case (USER_CONNECT_PACKET):
+            Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
+            if (info[2])
+            {
+                ServerState.addConnectedUser(info[0], info[1]);
+            }
+            else
+            {
+                ServerState.removeConnectedUser(info[1]);
+            }
+            break;
+        case (DRAW_COMMAND_PACKET):
+            ServerState.addToCommandHistory(packet);
+            break;
+        case (CHAT_MESSAGE_PACKET):
+            ServerState.addToCommandHistory(packet);
+            break;
+        case (UNDO_COMMAND_PACKET):
+
+            auto undoFields = .split(',');
+            auto undoCmd = decodeUndoCommandPacket(packet, 0);
+
+            foreach (cmdPacket; ServerState.getCommandHistory())
+            {
+
+            }
+
+
+
+            break;
+        case (CANVAS_SYNCH_PACKET):
+        //  &parseAndExecuteCanvasSynch;
+            break;
+        default:
+            writeln("no case found");
+            break;
+    }
+    return true;
+}
+
+
+
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
 {
@@ -74,6 +128,7 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
+
     }
 
     ~this()
@@ -110,6 +165,11 @@ class Server
                     if (recv > 0)
                     {
                         writeln("received", buffer[0 .. recv]);
+
+
+                        serverState.
+
+
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }

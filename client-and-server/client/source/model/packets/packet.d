@@ -394,13 +394,15 @@ unittest
 }
 
 // TODO: FIGURE OUT CANVAS SYNC behavior
-// void parseAndExecuteCanvasSync(string packet, long recv) {
-//     Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
-//     //TODO update canvase
-// }
-// Tuple!(Canvas) decodeCanvasSyncPacket(string packet, long recv) {
+ void parseAndExecuteCanvasSync(string packet, long recv) {
+     Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
+     //TODO update canvase
+ }
 
-// }
-// string encodeCanvasSyncPacket(Canvas canvas) {
+ Tuple!(Canvas) decodeCanvasSyncPacket(string packet, long recv) {
 
-// }
+ }
+
+ string encodeCanvasSyncPacket(Canvas canvas) {
+
+ }
