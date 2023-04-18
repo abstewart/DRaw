@@ -23,7 +23,7 @@ private:
 
 public:
     /**
-    * Constructs a DisconnectDialog instnace.
+    * Constructs a DisconnectDialog instance.
     * Params:
     *        myWindow : MyWindow : the main application window
     */
@@ -42,7 +42,7 @@ public:
     }
 
     /**
-     * Executes the control flow depending on the option the user selected within the dialogue.
+     * Executes the control flow depending on the option the user selected within the dialog.
      *
      * Params:
      *       - response : int : represents which dialogue option the user chose

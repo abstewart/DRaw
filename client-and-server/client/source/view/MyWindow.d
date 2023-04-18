@@ -48,7 +48,7 @@ private:
 
 public:
     /**
-    * Constructs a MyWindow instnace.
+    * Constructs a MyWindow instance.
     *
     * Params:
     *        application : Application : an application instance

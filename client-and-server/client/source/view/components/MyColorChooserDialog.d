@@ -20,7 +20,7 @@ private:
 
 public:
     /**
-    * Constructs a MyColorChooserDialog instnace.
+    * Constructs a MyColorChooserDialog instance.
     * Params:
     *        drawingArea : MyDrawing : the whiteboard the user is drawing on
     */
@@ -35,7 +35,7 @@ public:
     }
 
     /**
-     * Executes the control flow depending on the option the user selected within the dialogue.
+     * Executes the control flow depending on the option the user selected within the dialog.
      *
      * Params:
      *       - response : int : represents which dialogue option the user chose

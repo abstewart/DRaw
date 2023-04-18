@@ -23,7 +23,7 @@ private import model.packets.packet;
 private import model.ApplicationState;
 
 /**
- * Class representing box the user chats in.
+ * Class representing the box the user chats in.
  */
 class MyChatBox : VBox
 {
@@ -37,7 +37,7 @@ private:
 
 public:
     /**
-    * Constructs a MyChatBox instnace.
+    * Constructs a MyChatBox instance.
     * Params:
     *        myWindow : MyWindow :  the main application window
     *        username : string : the client's username
