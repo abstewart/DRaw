@@ -152,7 +152,7 @@ class ServerState
      * Returns:
      *        - chatHistory : Tuple!(string, int, long, string)[] : the current chat history
      */
-    static Tuple!(string, int, long, string)[] getChatHistory()
+    static string[] getChatHistory()
     {
         return ServerState.chatHistory;
     }
@@ -163,7 +163,7 @@ class ServerState
      * Params:
      *       - chatPackage : Tuple!(string, int, long, string) : a username, id, timestamp, message package
      */
-    static void addChatPacket(Tuple!(string, int, long, string) chatPackage)
+    static void addChatPacket(string chatPackage)
     {
         ServerState.chatHistory ~= chatPackage;
     }
@@ -206,34 +206,12 @@ class ServerState
     }
 
     /**
-     * Pops the last command tuple off the front of the history array.
-     *
-     * Returns:
-     *        - commandTuple : Tuple!(string, int, Command) : if len(history) > 0
-     *        - null         : null : if len(history) == 0
-     */
-    static Tuple!(string, int, Command) popFromCommandHistory()
-    {
-        if (ServerState.commandHistory.length >= 1)
-        {
-            auto lastCommand = ServerState.commandHistory[0];
-            ServerState.commandHistory = ServerState.commandHistory[1 .. $];
-            return lastCommand;
-        }
-        else
-        {
-            Command badCmd = null;
-            return tuple("", -1, badCmd);
-        }
-    }
-
-    /**
      * Gets the current command tuple history.
      *
      * Returns:
      *        - commandHistory : Tuple!(string, int, Command)[] : the current command history
      */
-    static Tuple!(string, int, Command)[] getCommandHistory()
+    static string[] getCommandHistory()
     {
         return ServerState.commandHistory;
     }
@@ -244,7 +222,7 @@ class ServerState
      * Params:
      *       - history : Tuple!(string, int, Command)[] : the history to set
      */
-    static void setCommandHistory(Tuple!(string, int, Command)[] history)
+    static void setCommandHistory(string[] history)
     {
         ServerState.commandHistory = history;
     }

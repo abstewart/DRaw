@@ -8,11 +8,14 @@ import std.stdio;
 import std.parallelism;
 import std.conv;
 import std.typecons;
+import std.array;
+import std.algorithm;
+import core.thread;
 
 import model.packets.packet;
 import view.MyWindow;
 
-private import model.ApplicationState as serverState;
+private import model.ServerState;
 
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
@@ -24,48 +27,46 @@ int MESSAGE_BUFFER_SIZE = 4096;
 void serverResolveRemotePackets(string packet)
 {
     immutable int packetType = to!int(packet[0]) - '0';
-    auto packetFields = packet.split(',');
-    string packetUsername = packet.split(',')[1];
     switch (packetType)
     {
         case (USER_CONNECT_PACKET):
-            Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
-            if (info[2])
-            {
-                ServerState.addConnectedUser(info[0], info[1]);
-            }
-            else
-            {
-                ServerState.removeConnectedUser(info[1]);
-            }
+        //todo fix this
+            //Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
+            //if (info[2])
+            //{
+            //    ServerState.addConnectedUser(info[0], info[1]);
+            //}
+            //else
+            //{
+            //    ServerState.removeConnectedUser(info[1]);
+            //}
             break;
         case (DRAW_COMMAND_PACKET):
             ServerState.addToCommandHistory(packet);
             break;
         case (CHAT_MESSAGE_PACKET):
-            ServerState.addToCommandHistory(packet);
+            ServerState.addChatPacket(packet);
             break;
         case (UNDO_COMMAND_PACKET):
-
-            auto undoFields = .split(',');
             auto undoCmd = decodeUndoCommandPacket(packet, 0);
-
+            string toCheck = "1," ~ undoCmd[0] ~ "," ~ to!string(undoCmd[1]) ~ "," ~ to!string(undoCmd[2]);
+            string[] acc;
             foreach (cmdPacket; ServerState.getCommandHistory())
             {
-
+                writeln("comparing: ", toCheck, ":: with: ", cmdPacket);
+                if(cmdPacket.startsWith(toCheck)){
+                    continue;
+                }
+                acc ~= cmdPacket;
             }
-
-
-
+            ServerState.setCommandHistory(acc);
             break;
         case (CANVAS_SYNCH_PACKET):
-        //  &parseAndExecuteCanvasSynch;
             break;
         default:
             writeln("no case found");
             break;
     }
-    return true;
 }
 
 
@@ -100,6 +101,23 @@ void notifyAll(Socket[int] clients, string message)
         Socket client = clients[key];
         client.send(message);
     }
+}
+
+void sendSyncUpdate(Socket[int] clients, int ckey)
+{
+    Socket client = clients[ckey];
+
+    foreach(cmd; ServerState.getCommandHistory().reverse){
+        writeln("sending sync: ", cmd);
+        Thread.sleep(1.msecs);
+        client.send(cmd);
+    }
+    foreach(chat; ServerState.getChatHistory()){
+        writeln("sending sync: ", chat);
+        Thread.sleep(1.msecs);
+        client.send(chat);
+    }
+    writeln(ServerState.getCommandHistory().length);
 }
 
 class Server
@@ -153,6 +171,9 @@ class Server
                 this.users[this.clientCount] = userIdConnStatus[0];
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
+                //todo look into not hanging server while syncing
+                writeln("sending sync update");
+                sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
             foreach (key; parallel(curKeys))
@@ -166,10 +187,7 @@ class Server
                     {
                         writeln("received", buffer[0 .. recv]);
 
-
-                        serverState.
-
-
+                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }
