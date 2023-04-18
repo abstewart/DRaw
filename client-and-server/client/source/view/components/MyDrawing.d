@@ -356,4 +356,14 @@ public:
     {
         this.brushType = comboBoxText.getActiveText();
     }
+
+    /**
+     * Clear the drawing board.
+     */
+    public void clearDrawing()
+    {
+        auto ctx = Context.create(this.surface);
+        ctx.setSourceRgba(0, 0, 0, currentColor.alpha);
+        ctx.paint();
+    }
 }
