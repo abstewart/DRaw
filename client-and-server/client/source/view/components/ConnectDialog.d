@@ -90,7 +90,6 @@ public:
     private void attemptConnection(string username, string ipAddr, ushort port)
     {
         //clear the drawing board and command history prior to attempting to connect
-        //fixme this will clear the drawing area even if connection fails
         this.myWindow.getAppBox().getMyDrawingBox().getMyDrawing().clearDrawing();
         Tuple!(string, int, Command)[] history = [];
         ApplicationState.setCommandHistory(history);
