@@ -74,7 +74,7 @@ Tuple!(string, int, Command) parseCommand(string message, long size)
     MyWindow window;
     return decodeUserDrawCommand(message, size, window);
 }
-//parallel
+
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();
@@ -88,7 +88,7 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
         client.send(message);
     }
 }
-//parallel
+
 void notifyAll(Socket[int] clients, string message)
 {
     int[] curKeys = clients.keys();
@@ -174,7 +174,7 @@ class Server
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
-            //parallel
+            
             foreach (key; curKeys)
             {
                 Socket client = this.connectedClients[key];
