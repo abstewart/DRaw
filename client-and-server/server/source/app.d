@@ -1,5 +1,9 @@
 import std.stdio;
 import std.getopt;
+import std.string : isNumeric;
+import std.conv;
+import std.regex;
+private import std.algorithm.comparison : equal;
 
 import model.server_network;
 
@@ -8,20 +12,104 @@ import model.server_network;
  */
 void main(string[] args)
 {
-    bool disable_main_loop = false;
-    auto helpInformation = getopt(args, "disable_main_loop",
-            "Set to true to prevent blocking via main loop. Defaults to false.",
-            &disable_main_loop);
-
-    if (helpInformation.helpWanted)
+    const int MIN_REQUIRED = 3;
+    if (args.length != MIN_REQUIRED)
     {
-        defaultGetoptPrinter("Help info for this program.", helpInformation.options);
+        writeln("Expecting this format - 'dub run :server {ip address} " ~ " {port number}'");
+        writeln("Could not start up server. Please try again.");
+        return;
     }
 
-    writeln("Awaiting client connections");
-    if (!disable_main_loop)
+    writefln("isValidIPAddress(\"%s\") = %s", args[1], to!string(isValidIPAddress(args[1])));
+    writefln("isValidPort(\"%s\") = %s", args[2], to!string(isValidPort(args[2])));
+
+    if (isValidIPAddress(args[1]) && isValidPort(args[2]))
     {
-        Server ourServer = new Server();
-        ourServer.handleReception();
+        writeln("Valid ip address and port number!");
+        string ipAddress = args[1];
+        ushort portNumber = to!ushort(args[2]);
+        bool disable_main_loop = false;
+        auto helpInformation = getopt(args, "disable_main_loop",
+                "Set to true to prevent blocking via main loop. Defaults to false.",
+                &disable_main_loop);
+
+        if (helpInformation.helpWanted)
+        {
+            defaultGetoptPrinter("Help info for this program.", helpInformation.options);
+        }
+
+        writeln("Awaiting client connections");
+        if (!disable_main_loop)
+        {
+            Server ourServer = new Server(ipAddress, portNumber);
+            ourServer.handleReception();
+        }
     }
+    else
+    {
+        writefln(
+                "Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
+                args[1], args[2]);
+        writeln("Expecting this format - 'dub run :server {ip address} " ~ " {port number}'");
+    }
+}
+
+/**
+ * Validates the given IP address.
+ *
+ * An IP address is valid if it is in IPv4 dotted-decimal form a.b.c.d where 0 <= a,b,c,d <= 255
+ * or if IP address is a hostname that will resolve.
+ *
+ * Params:
+ *       - ipAddress : string : the IP address to validate
+ *
+ * Returns:
+ *       - status : bool : true if the IP address is valid, false if not
+ */
+private bool isValidIPAddress(string ipAddress)
+{
+    // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
+    auto r = regex(
+            r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+    return ipAddress.equal("localhost") || matchFirst(ipAddress, r);
+}
+
+/**
+ * Validates the given port.
+ *
+ * A valid port is any port that is not reserved (1-1024) and is a valid port number (1-65535).
+ *
+ * Params:
+ *       - port : string : the port number to check
+ *
+ * Returns:
+ *       - status : bool : true if the port is valid, false if not
+ */
+private bool isValidPort(string port)
+{
+    const ushort LOWRANGE = 1;
+    const ushort SYSPORT = 1024;
+    if (isNumeric(port))
+    {
+        try
+        {
+            ushort portNum = to!ushort(port);
+            // Do not need to check for the high range of 65535 because to!ushort will handle that for us.
+            if (portNum < LOWRANGE)
+            {
+                return false;
+            }
+            if (portNum <= SYSPORT)
+            {
+                return false;
+            }
+        }
+        catch (ConvException ce)
+        {
+            return false;
+        }
+
+        return true;
+    }
+    return false;
 }

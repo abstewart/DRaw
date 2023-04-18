@@ -1,6 +1,5 @@
 module model.server_network;
 
-// Imports.
 import controller.commands.Command;
 
 import std.socket;
@@ -31,11 +30,11 @@ void serverResolveRemotePackets(string packet)
         Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
         if (info[2])
         {
-           ServerState.addConnectedUser(info[0], info[1]);
+            ServerState.addConnectedUser(info[0], info[1]);
         }
         else
         {
-           ServerState.removeConnectedUser(info[1]);
+            ServerState.removeConnectedUser(info[1]);
         }
         break;
     case (DRAW_COMMAND_PACKET):
@@ -59,8 +58,6 @@ void serverResolveRemotePackets(string packet)
             acc ~= cmdPacket;
         }
         ServerState.setCommandHistory(acc);
-        break;
-    case (CANVAS_SYNCH_PACKET):
         break;
     default:
         writeln("no case found");
@@ -174,7 +171,7 @@ class Server
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
-            
+
             foreach (key; curKeys)
             {
                 Socket client = this.connectedClients[key];
