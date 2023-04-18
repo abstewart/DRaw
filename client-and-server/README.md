@@ -56,3 +56,4 @@ View the resulting documentation HTML in the `generated-docs` directory. This wi
 ### Notes ###
 * If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
 * When you are done running the client(s), closing the application down via exiting it or quitting it will shut down the client program. You have to `Control-c` the server program to shut down it down.
+* The server may take a little to start up, be patient.
