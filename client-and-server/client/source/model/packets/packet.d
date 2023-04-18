@@ -394,25 +394,27 @@ unittest
 }
 
 //// TODO: FIGURE OUT CANVAS SYNC behavior
- void parseAndExecuteCanvasSync(string packet, long recv) {
-     writeln("parseAndExecuteCanvasSync");
-     //Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
-     Tuple!(string, string) sync = decodeCanvasSyncPacket(packet, recv);
-     //TODO update canvase
- }
+void parseAndExecuteCanvasSync(string packet, long recv)
+{
+    writeln("parseAndExecuteCanvasSync");
+    //Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
+    Tuple!(string, string) sync = decodeCanvasSyncPacket(packet, recv);
+    //TODO update canvase
+}
 
- Tuple!(string, string) decodeCanvasSyncPacket(string packet, long recv) {
-     writeln("decoding canvas sync");
-     string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
-     auto fields = packet.split(';');
-     writeln(fields);
-     writeln("f0: ",fields[0]);
-     writeln("f1: ",fields[1]);
-     writeln("f2: ",fields[2]);
-     return tuple("", "");
+Tuple!(string, string) decodeCanvasSyncPacket(string packet, long recv)
+{
+    writeln("decoding canvas sync");
+    string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
+    auto fields = packet.split(';');
+    writeln(fields);
+    writeln("f0: ", fields[0]);
+    writeln("f1: ", fields[1]);
+    writeln("f2: ", fields[2]);
+    return tuple("", "");
 
- }
+}
 
- //string encodeCanvasSyncPacket(Canvas canvas) {
- //
- //}
+//string encodeCanvasSyncPacket(Canvas canvas) {
+//
+//}

@@ -22,55 +22,52 @@ string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 4096;
 
-
-
 void serverResolveRemotePackets(string packet)
 {
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
     {
-        case (USER_CONNECT_PACKET):
+    case (USER_CONNECT_PACKET):
         //todo fix this
-            //Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
-            //if (info[2])
-            //{
-            //    ServerState.addConnectedUser(info[0], info[1]);
-            //}
-            //else
-            //{
-            //    ServerState.removeConnectedUser(info[1]);
-            //}
-            break;
-        case (DRAW_COMMAND_PACKET):
-            ServerState.addToCommandHistory(packet);
-            break;
-        case (CHAT_MESSAGE_PACKET):
-            ServerState.addChatPacket(packet);
-            break;
-        case (UNDO_COMMAND_PACKET):
-            auto undoCmd = decodeUndoCommandPacket(packet, 0);
-            string toCheck = "1," ~ undoCmd[0] ~ "," ~ to!string(undoCmd[1]) ~ "," ~ to!string(undoCmd[2]);
-            string[] acc;
-            foreach (cmdPacket; ServerState.getCommandHistory())
+        //Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
+        //if (info[2])
+        //{
+        //    ServerState.addConnectedUser(info[0], info[1]);
+        //}
+        //else
+        //{
+        //    ServerState.removeConnectedUser(info[1]);
+        //}
+        break;
+    case (DRAW_COMMAND_PACKET):
+        ServerState.addToCommandHistory(packet);
+        break;
+    case (CHAT_MESSAGE_PACKET):
+        ServerState.addChatPacket(packet);
+        break;
+    case (UNDO_COMMAND_PACKET):
+        auto undoCmd = decodeUndoCommandPacket(packet, 0);
+        string toCheck = "1," ~ undoCmd[0] ~ "," ~ to!string(
+                undoCmd[1]) ~ "," ~ to!string(undoCmd[2]);
+        string[] acc;
+        foreach (cmdPacket; ServerState.getCommandHistory())
+        {
+            writeln("comparing: ", toCheck, ":: with: ", cmdPacket);
+            if (cmdPacket.startsWith(toCheck))
             {
-                writeln("comparing: ", toCheck, ":: with: ", cmdPacket);
-                if(cmdPacket.startsWith(toCheck)){
-                    continue;
-                }
-                acc ~= cmdPacket;
+                continue;
             }
-            ServerState.setCommandHistory(acc);
-            break;
-        case (CANVAS_SYNCH_PACKET):
-            break;
-        default:
-            writeln("no case found");
-            break;
+            acc ~= cmdPacket;
+        }
+        ServerState.setCommandHistory(acc);
+        break;
+    case (CANVAS_SYNCH_PACKET):
+        break;
+    default:
+        writeln("no case found");
+        break;
     }
 }
-
-
-
 
 Tuple!(string, int, Command) parseCommand(string message, long size)
 {
@@ -107,12 +104,14 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
 {
     Socket client = clients[ckey];
 
-    foreach(cmd; ServerState.getCommandHistory().reverse){
+    foreach (cmd; ServerState.getCommandHistory().reverse)
+    {
         writeln("sending sync: ", cmd);
         Thread.sleep(1.msecs);
         client.send(cmd);
     }
-    foreach(chat; ServerState.getChatHistory()){
+    foreach (chat; ServerState.getChatHistory())
+    {
         writeln("sending sync: ", chat);
         Thread.sleep(1.msecs);
         client.send(chat);

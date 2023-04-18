@@ -12,7 +12,7 @@ private import controller.commands.Command;
  */
 class ServerState
 {
-    private:
+private:
     static int clientId = -1;
     static string username = "";
     static string[int] connectedUsers;
@@ -20,7 +20,7 @@ class ServerState
     static string[] commandHistory = [];
     static int curCmd = 0;
 
-    public:
+public:
     /**
      * Gets the current clientId.
      *
