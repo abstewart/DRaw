@@ -50,6 +50,7 @@ jobs:
           pwd
           sudo apt-get install libgtkd-3-dev -y
           sudo apt-get install libgtksourceview-4-0
+          sudo apt-get install libgstapp-1.0.so.0
           echo MADE IT!!!!!
 
       - name: Perform All Unit Tests
