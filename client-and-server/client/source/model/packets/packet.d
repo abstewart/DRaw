@@ -96,16 +96,9 @@ void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
  */
 Tuple!(string, int, bool) decodeUserConnPacket(string packet, long recv)
 {
-    writeln("packet = " ~ packet);
-    writeln("recv = ", recv);
     string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
     auto fields = raw.split(',');
-    writeln("fields[3] = ", fields[3]);
     int b = to!int(fields[3]);
-    writeln("b = ", b);
-    writeln("fields[1] = ", fields[1]);
-    writeln("to!int(fields[2]) = ", to!int(fields[2]));
-    writeln("to!bool(b) = ", to!bool(b));
     return tuple(fields[1], to!int(fields[2]), to!bool(b));
 }
 
