@@ -1,7 +1,7 @@
 module model.network.client;
 
 import std.socket;
-import std.stdio;
+import std.logger;
 import std.typecons;
 import std.datetime;
 

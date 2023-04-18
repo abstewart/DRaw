@@ -5,12 +5,14 @@
 ## Commands ##
 
 ### Running the server ###
-From the `client-and-server` dir, run the following command: `dub run :server`
+From the `client-and-server` directory either run the following command: `dub run :server` OR `dub run :server -- {insert ip address} {insert port number}`
+
+The former will run the server with the default ip address (localhost) and the default port number (50002). The latter will run the server with the inserted ip address and port number, assuming they are valid.
 
 This will run the first configuration inside the server subproject, which runs the server application.
 
 ### Running the client ###
-From the `client-and-server` dir, run the following command: `dub run :client`
+From the `client-and-server` directory, run the following command: `dub run :client`
 
 This will run the first configuration inside the client subproject, which runs the client application.
 
@@ -55,5 +57,5 @@ View the resulting documentation HTML in the `generated-docs` directory. This wi
 
 ### Notes ###
 * If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
-* When you are done running the client(s), closing the application down via exiting it or quitting it will shut down the client program. You have to `Control-c` the server program to shut down it down.
-* The server may take a little to start up, be patient.
+* When you are done running the client(s), closing the application down via exiting it or quitting it will shut down the client program. However, you have to `Control-c` the server program to shut down it down.
+* The server and/or client may take a moment to start up (during the `dub` print outs) -- please be patient, they will load and start up correctly.
