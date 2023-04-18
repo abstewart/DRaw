@@ -19,7 +19,6 @@ immutable int USER_CONNECT_PACKET = 0; // Packet type for a user connection pack
 immutable int DRAW_COMMAND_PACKET = 1; // Packet type for a draw command packet.
 immutable int UNDO_COMMAND_PACKET = 2; // Packet type for an undo command packet.
 immutable int CHAT_MESSAGE_PACKET = 3; // Packet type for a chat message packet.
-immutable int CANVAS_SYNCH_PACKET = 4; // Packet type for a canvas sync packet.
 immutable char END_MESSAGE = '\r'; // End packet delimiter.
 
 /**
@@ -45,9 +44,6 @@ bool resolveRemotePackets(MyWindow window)
             break;
         case (UNDO_COMMAND_PACKET):
             parseAndExecuteUndoCommand(packet[0], packet[1], window);
-            break;
-        case (CANVAS_SYNCH_PACKET):
-            parseAndExecuteCanvasSync(packet[0], packet[1]);
             break;
         default:
             writeln("no case found");
@@ -414,29 +410,3 @@ unittest
 
     assert(testChatPacket.equal("3,User,2,125,This is a test message.\r"));
 }
-
-//// TODO: FIGURE OUT CANVAS SYNC behavior
-void parseAndExecuteCanvasSync(string packet, long recv)
-{
-    writeln("parseAndExecuteCanvasSync");
-    //Tuple!(Canvas) canv = decodeCanvasSyncPacket(packet, recv);
-    Tuple!(string, string) sync = decodeCanvasSyncPacket(packet, recv);
-    //TODO update canvase
-}
-
-Tuple!(string, string) decodeCanvasSyncPacket(string packet, long recv)
-{
-    writeln("decoding canvas sync");
-    string raw = packet[0 .. packet.indexOf(END_MESSAGE)];
-    auto fields = packet.split(';');
-    writeln(fields);
-    writeln("f0: ", fields[0]);
-    writeln("f1: ", fields[1]);
-    writeln("f2: ", fields[2]);
-    return tuple("", "");
-
-}
-
-//string encodeCanvasSyncPacket(Canvas canvas) {
-//
-//}
