@@ -55,3 +55,6 @@ source files located in the `client/source` and `server/source` directories.
 From the `DRaw` directory, run `dub run adrdox -- -i ./client-and-server`
 
 View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.
+
+### Notes ###
+If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
