@@ -1,0 +1,90 @@
+module util.Validator;
+
+private import std.regex;
+private import std.algorithm.comparison : equal;
+private import std.string : isNumeric;
+private import std.conv;
+private import std.typecons;
+
+class Validator {
+    public:
+    /**
+     * Validates the given username.
+     *
+     * A username is valid if it has at least one letter or number and no trailing whitespace.
+     *
+     * Params:
+     *       - username : string : the username to validate
+     *
+     * Returns:
+     *       - status : bool : true if the username is valid, false if not
+     */
+    static bool isValidUsername(string username)
+    {
+        // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
+        // Regular expression that prevents symbols and only allows letters and numbers.
+        // Allows for spaces between words. But there cannot be any leading or trailing spaces.
+        auto r = regex(r"^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$");
+        return !username.equal("") && matchFirst(username, r);
+    }
+
+    /**
+     * Validates the given IP address.
+     *
+     * An IP address is valid if it is in IPv4 dotted-decimal form a.b.c.d where 0 <= a,b,c,d <= 255
+     * or if IP address is a hostname that will resolve.
+     *
+     * Params:
+     *       - ipAddress : string : the IP address to validate
+     *
+     * Returns:
+     *       - status : bool : true if the IP address is valid, false if not
+     */
+    static bool isValidIPAddress(string ipAddress)
+    {
+        // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
+        auto r = regex(
+            r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+        return ipAddress.equal("localhost") || matchFirst(ipAddress, r);
+    }
+
+    /**
+     * Validates the given port.
+     *
+     * A valid port is any port that is not reserved (1-1024) and is a valid port number (1-65535).
+     *
+     * Params:
+     *       - port : string : the port number to check
+     *
+     * Returns:
+     *       - status : bool : true if the port is valid, false if not
+    */
+    static bool isValidPort(string port)
+    {
+        const ushort LOWRANGE = 1;
+        const ushort SYSPORT = 1024;
+        if (isNumeric(port))
+        {
+            try
+            {
+                ushort portNum = to!ushort(port);
+                // Do not need to check for the high range of 65535 because to!ushort will handle that for us.
+                if (portNum < LOWRANGE)
+                {
+                    return false;
+                }
+                if (portNum <= SYSPORT)
+                {
+                    return false;
+                }
+            }
+            catch (ConvException ce)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
+}
