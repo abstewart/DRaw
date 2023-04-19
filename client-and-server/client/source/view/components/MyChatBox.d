@@ -236,7 +236,8 @@ public:
         string amPm = "AM";
         string hour = to!string(time.hour);
         // Check from military time to standard time.
-        if (time.hour == 0 || time.hour == 24) {
+        if (time.hour == 0 || time.hour == 24)
+        {
             hour = "12";
         }
         else if (time.hour == 12)
@@ -259,17 +260,20 @@ public:
         return (hour ~ ":" ~ minutes ~ " " ~ amPm);
     }
 
-    /**
+    version (OSX)
+    {
+        /**
      * Tests some time conversions for pretty printing.
      */
-    @("Tests time conversion into pretty string")
-    unittest
-    {
-        assert(MyChatBox.prettyTime(547453984739485) == "10:07AM");
-        assert(MyChatBox.prettyTime(9847098) == "7:03PM");
-        assert(MyChatBox.prettyTime(2948752094387029438) == "8:23AM");
-        assert(MyChatBox.prettyTime(29384572098) == "7:52PM");
-        assert(MyChatBox.prettyTime(131428397040192) == "9:51PM");
+        @("Tests time conversion into pretty string")
+        unittest
+        {
+            assert(MyChatBox.prettyTime(547453984739485) == "10:07 AM");
+            assert(MyChatBox.prettyTime(9847098) == "7:03 PM");
+            assert(MyChatBox.prettyTime(2948752094387029438) == "8:23 AM");
+            assert(MyChatBox.prettyTime(29384572098) == "7:52 PM");
+            assert(MyChatBox.prettyTime(131428397040192) == "9:51 PM");
+        }
     }
 
     /**

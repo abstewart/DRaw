@@ -97,5 +97,6 @@
 	"importPaths": ["../client/source"],
 	"name": "server",
 	"targetPath": "bin",
-	"targetType": "executable"
+	"targetType": "executable",
+	"stringImportPaths": ["../client/views"]
 }

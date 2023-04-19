@@ -64,6 +64,7 @@
 				"client/source",
 				"server/source"
 			],
+			"stringImportPaths": ["client/views"],
 			"mainSourceFile": "bin/ut.d",
 			"name": "unittest",
 			"preBuildCommands": [

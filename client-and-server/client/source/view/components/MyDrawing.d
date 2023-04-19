@@ -364,7 +364,7 @@ public:
     public void clearDrawing()
     {
         auto ctx = Context.create(this.surface);
-        ctx.setSourceRgba(0, 0, 0, currentColor.alpha);
+        ctx.setSourceRgba(0, 0, 0, 1);
         ctx.paint();
     }
 }

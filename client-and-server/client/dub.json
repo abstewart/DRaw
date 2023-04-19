@@ -99,5 +99,6 @@
 	"license": "proprietary",
 	"name": "client",
 	"targetPath": "bin",
-	"targetType": "executable"
+	"targetType": "executable",
+	"stringImportPaths": ["views"]
 }
