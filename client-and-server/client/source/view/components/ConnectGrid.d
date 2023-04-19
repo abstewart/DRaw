@@ -17,7 +17,7 @@ class ConnectGrid : Grid
 private:
     int _borderWidth = 10; // Keeps the widgets from crowding each other in the grid.
     PadLabel usernameLabel;
-    string usernameLabelText = "Chat username:";
+    string usernameLabelText = "Chat Username:";
     PadEntry usernameEntry;
     string usernamePlaceholderText = "";
     PadLabel ipAddressLabel;
@@ -25,7 +25,7 @@ private:
     PadEntry ipAddressEntry;
     string ipAddressPlaceholderText = "localhost";
     PadLabel portNumLabel;
-    string portNumLabelText = "Port number:";
+    string portNumLabelText = "Port Number:";
     PadEntry portNumEntry;
     string portNumPlaceholderText = "50002";
     // Store the user-supplied data so it can be retrieved later.
