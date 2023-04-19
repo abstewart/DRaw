@@ -112,7 +112,7 @@ public:
     }
 
     /**
-     * Sends the given packet data to the server
+     * Sends the given packet data to the server.
      *
      * Params:
      *        - packetData : string : the packet data to send
@@ -131,6 +131,7 @@ public:
     }
 
     /**
+     * Checks the status of the socket.
      *
      * Returns:
      *         - bool : whether or not the socket is currently open.

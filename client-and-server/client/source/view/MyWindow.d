@@ -57,6 +57,7 @@ public:
     {
         super(application);
 
+        // Injects CSS in OSX and Linux, doesn't inject in Windows.
         version (OSX)
         {
             CssProvider provider = new CssProvider();

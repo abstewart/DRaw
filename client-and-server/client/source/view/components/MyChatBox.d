@@ -152,6 +152,12 @@ public:
 
     /**
      * Send the message to the chat.
+     *
+     * Params:
+     *       - uname : string : the username to update  chatwith
+     *       - cid   : int : the client id to update chat with
+     *       - time  : long : the timestamp to update chat with
+     *       - msg   : string : the message to update chat with
      */
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
@@ -159,17 +165,19 @@ public:
         string chat = uname ~ ":" ~ to!string(cid) ~ " " ~ this.prettyTime(
                 time) ~ ":\n\t" ~ msg ~ "\n\n";
 
-        // Add chat message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
+        import std.stdio;
 
-        // ===================================================================================
-        // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
-        // that they have access to all the other messages.
-        // ===================================================================================
+        // Add chat message to the chat buffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat);
     }
 
     /**
     * Send the user connection update status (whether a user has joined or left the chat).
+    *
+    * Params:
+    *       - uname      : string : the username to update connection status with
+    *       - cid        : int    : the client id to update connection status with
+    *       - connection : bool : conn/disconn status
     */
     public void userConnectionUpdate(string uname, int cid, bool connection)
     {
@@ -185,11 +193,15 @@ public:
         }
 
         // Add update message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg);
     }
 
     /**
     * Handle when you yourself join or leave the chat.
+    *
+    * Params:
+    *       - uname      : string : the username to display
+    *       - connection : bool : the connection status to display
     */
     public void yourConnectionUpdate(string uname, bool connection)
     {
@@ -205,13 +217,20 @@ public:
         }
 
         // Add update message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg);
     }
 
     /**
      * Transform a long time into a pretty string version.
+     * 
+     * Params:
+     *       - numTime : long : time since epoch
+     * 
+     * Returns: 
+     *       - prettified : string : pretty version of time string
      */
-    public string prettyTime(long numTime)
+
+    private static string prettyTime(long numTime)
     {
         SysTime time = SysTime(numTime);
         string amPm = "AM";
@@ -241,11 +260,16 @@ public:
     }
 
     /**
-     * Get the chat history as 1 giant string.
+     * Tests some time conversions for pretty printing.
      */
-    public void getChatHistory()
+    @("Tests time conversion into pretty string")
+    unittest
     {
-        this.chatBuffer.getText();
+        assert(MyChatBox.prettyTime(547453984739485) == "10:07AM");
+        assert(MyChatBox.prettyTime(9847098) == "7:03PM");
+        assert(MyChatBox.prettyTime(2948752094387029438) == "8:23AM");
+        assert(MyChatBox.prettyTime(29384572098) == "7:52PM");
+        assert(MyChatBox.prettyTime(131428397040192) == "9:51PM");
     }
 
     /**

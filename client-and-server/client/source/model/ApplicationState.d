@@ -267,7 +267,7 @@ public:
     }
 
     /**
-     * Gets the current command id
+     * Gets the current command id.
      * 
      * Returns:
      *        - cid : int : the current command id

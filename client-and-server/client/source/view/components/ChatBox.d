@@ -28,7 +28,7 @@ public:
     }
 
     /**
-     * Gets the nested chat box
+     * Gets the nested chat box.
      *
      * Returns:
      *        - chatbox : MyChatBox : the chatbox gtk object we wrap

@@ -71,6 +71,9 @@ public:
 
     /**
      * Gets the username, IP Address, and port number the user typed in (or the default).
+     *
+     * Returns:
+     *        - connectionData : Tuple!(string, string, string) : a tuple of username, ip address and port number
      */
     public Tuple!(string, string, string) getData()
     {

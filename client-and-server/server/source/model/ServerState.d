@@ -30,6 +30,15 @@ public:
     }
 
     /**
+     * Wipes the current set of connected users.
+     */
+    static void wipeConnectedUsers()
+    {
+        string[int] emptySet;
+        connectedUsers = emptySet;
+    }
+
+    /**
      * Adds a user to the set of connected users.
      *
      * Params:
@@ -86,7 +95,7 @@ public:
      * Gets the current chat history.
      *
      * Returns:
-     *        - chatHistory : Tuple!(string, int, long, string)[] : the current chat history
+     *        - chatHistory : string[] : the history of chat packets
      */
     static string[] getChatHistory()
     {
@@ -97,18 +106,26 @@ public:
      * Adds a chat to the chat history.
      *
      * Params:
-     *       - chatPackage : Tuple!(string, int, long, string) : a username, id, timestamp, message package
+     *       - chatPacket : string : a chat packet
      */
-    static void addChatPacket(string chatPackage)
+    static void addChatPacket(string chatPacket)
     {
-        ServerState.chatHistory ~= chatPackage;
+        ServerState.chatHistory ~= chatPacket;
+    }
+
+    /**
+     * Wipes the chat history.
+     */
+    static void wipeChatHistory()
+    {
+        ServerState.chatHistory = [];
     }
 
     /**
      * Prepends the given command tuple to the command history after executing it.
      *
      * Params:
-     *        - cmd : Tuple!(string, int, Command) : a username, user id, Command tuple
+     *        - cmd : string : a command packet
      */
     static void addToCommandHistory(string cmd)
     {
@@ -119,7 +136,7 @@ public:
      * Gets the current command tuple history.
      *
      * Returns:
-     *        - commandHistory : Tuple!(string, int, Command)[] : the current command history
+     *        - commandHistory : string[] : the current command history
      */
     static string[] getCommandHistory()
     {
@@ -130,7 +147,7 @@ public:
      * Sets the current command tuple history.
      *
      * Params:
-     *       - history : Tuple!(string, int, Command)[] : the history to set
+     *       - history : string[] : the history to set
      */
     static void setCommandHistory(string[] history)
     {

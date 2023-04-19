@@ -11,6 +11,7 @@ debug
 private import std.algorithm : equal;
 private import std.string;
 private import std.typecons;
+private import std.exception;
 private import gdk.RGBA;
 
 private import controller.commands.Command;
@@ -27,37 +28,47 @@ immutable char END_MESSAGE = '\r'; // End packet delimiter.
 
 /**
  * Parses and executes any packets that have come in from the server.
+ *
+ * Returns:
+ *        - True : bool : always returns true for use in timeouts
  */
 bool resolveRemotePackets(MyWindow window)
 {
     Tuple!(string, long)[] packetsToResolve = Communicator.receiveNetworkMessages();
     foreach (Tuple!(string, long) packet; packetsToResolve)
     {
-        char packetOld = packet[0][0];
-        immutable int packetType = to!int(packet[0][0]) - '0';
-        switch (packetType)
+        try
         {
-        case (USER_CONNECT_PACKET):
-            parseAndExecuteUserConnPacket(packet[0], packet[1], window);
-            break;
-        case (DRAW_COMMAND_PACKET):
-            parseAndExecuteUserDrawPacket(packet[0], packet[1], window);
-            break;
-        case (CHAT_MESSAGE_PACKET):
-            parseAndExecuteChatMessage(packet[0], packet[1], window);
-            break;
-        case (UNDO_COMMAND_PACKET):
-            parseAndExecuteUndoCommand(packet[0], packet[1], window);
-            break;
-        default:
-            debug
+            char packetOld = packet[0][0];
+            immutable int packetType = to!int(packet[0][0]) - '0';
+            switch (packetType)
             {
-                auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-                cLogger.info("In packet.d switch statement. No case found.");
+            case (USER_CONNECT_PACKET):
+                parseAndExecuteUserConnPacket(packet[0], packet[1], window);
+                break;
+            case (DRAW_COMMAND_PACKET):
+                parseAndExecuteUserDrawPacket(packet[0], packet[1], window);
+                break;
+            case (CHAT_MESSAGE_PACKET):
+                parseAndExecuteChatMessage(packet[0], packet[1], window);
+                break;
+            case (UNDO_COMMAND_PACKET):
+                parseAndExecuteUndoCommand(packet[0], packet[1]);
+                break;
+            default:
+                debug
+                {
+                    auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+                    cLogger.info("In packet.d switch statement. No case found.");
+                }
+                break;
             }
-
-            break;
         }
+        catch (Exception e)
+        {
+
+        }
+
     }
     return true;
 }
@@ -69,6 +80,7 @@ bool resolveRemotePackets(MyWindow window)
  * Params: 
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
+ *        - window : MyWindow : window to push chat update to
  */
 void parseAndExecuteUserConnPacket(string packet, long recv, MyWindow window)
 {
@@ -167,6 +179,7 @@ unittest
  * Params: 
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
+ *        - window : MyWindow : window to construct draw packets for
  */
 void parseAndExecuteUserDrawPacket(string packet, long recv, MyWindow window)
 {
@@ -202,8 +215,8 @@ Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyW
 /**
  * Encodes a user draw packet into a string given username, id, and command.
  * Intended packet format:
- *          0,username,id,c/d\r
- *         [0,1       ,2 ,3   ] 
+ *          0,username,id\r
+ *         [0,1       ,2  ] 
  *
  * Params: 
  *        - username : string : username to encode
@@ -226,7 +239,7 @@ string encodeUserDrawCommand(string username, int id, Command toEncode)
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
  */
-void parseAndExecuteUndoCommand(string packet, long recv, MyWindow window)
+void parseAndExecuteUndoCommand(string packet, long recv)
 {
     Tuple!(string, int, int) userIdCid = decodeUndoCommandPacket(packet, recv);
     string usernameToUndo = userIdCid[0];
@@ -331,6 +344,7 @@ unittest
  * Params: 
  *        - packet : string : packet to decode
  *        - recv   : long : length in bytes of received message
+ *        - window : MyWindow : window to push chat update to
  */
 void parseAndExecuteChatMessage(string packet, long recv, MyWindow window)
 {
