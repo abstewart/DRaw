@@ -61,16 +61,16 @@ public:
         version (OSX)
         {
             CssProvider provider = new CssProvider();
-            FileIF file = FileIF.parseName("./gtk.css");
-            provider.loadFromFile(file);
+            auto css = import("gtk.css");
+            provider.loadFromData(css);
             Screen def = Screen.getDefault();
             StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         }
         version (linux)
         {
             CssProvider provider = new CssProvider();
-            FileIF file = FileIF.parseName("./gtk.css");
-            provider.loadFromFile(file);
+            auto css = import("gtk.css");
+            provider.loadFromData(css);
             Screen def = Screen.getDefault();
             StyleContext.addProviderForScreen(def, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
         }
