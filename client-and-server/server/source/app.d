@@ -1,11 +1,11 @@
 private import std.stdio : writeln;
 private import std.getopt;
 private import std.conv;
+
 debug
 {
     private import std.logger;
 }
-
 
 private import model.server_network;
 private import util.Validator;
@@ -19,7 +19,6 @@ void main(string[] args)
     {
         auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
     }
-
 
     // If the number of command line arguments is not 0 or 2, alert the user and terminate the program.
     if (args.length == 2 || args.length > 3)
@@ -38,12 +37,11 @@ void main(string[] args)
         if (args.length == 3)
         {
             sLogger.info("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(
-                Validator.isValidIPAddress(args[1])));
+                    Validator.isValidIPAddress(args[1])));
             sLogger.info("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(
-                Validator.isValidPort(args[2])));
+                    Validator.isValidPort(args[2])));
         }
     }
-
 
     // If there are no command line arguments OR there are 2 command line arguments create a server.
     if (args.length == 1 || (Validator.isValidIPAddress(args[1]) && Validator.isValidPort(args[2])))
@@ -67,7 +65,7 @@ void main(string[] args)
                 debug
                 {
                     sLogger.info(
-                        "No command line arguments. The default ip address and port number will be used.");
+                            "No command line arguments. The default ip address and port number will be used.");
                 }
 
                 ourServer = new Server();
@@ -91,11 +89,11 @@ void main(string[] args)
     {
         debug
         {
+            sLogger.warning("Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
+                    args[1], args[2]);
             sLogger.warning(
-                "Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
-                args[1], args[2]);
-            sLogger.warning("Expecting this format in the terminal - 'dub run :server' OR 'dub run :server {ip address} "
-            ~ " {port number}'");
+                    "Expecting this format in the terminal - 'dub run :server' OR 'dub run :server {ip address} "
+                    ~ " {port number}'");
         }
     }
 }

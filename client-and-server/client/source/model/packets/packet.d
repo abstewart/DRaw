@@ -3,6 +3,7 @@ module model.packets.packet;
 private import std.conv : to;
 private import std.format : format;
 private import std.array : split;
+
 debug
 {
     private import std.logger;

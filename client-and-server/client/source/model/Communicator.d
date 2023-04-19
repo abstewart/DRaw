@@ -1,6 +1,7 @@
 module model.Communicator;
 
 import std.concurrency;
+
 debug
 {
     import std.logger;

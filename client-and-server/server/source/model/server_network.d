@@ -7,6 +7,7 @@ private import std.typecons;
 private import std.array;
 private import std.algorithm;
 private import core.thread;
+
 debug
 {
     private import std.logger;
@@ -157,7 +158,6 @@ class Server
         private FileLogger sLogger;
     }
 
-
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
             ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
             long bufferSize = MESSAGE_BUFFER_SIZE)
@@ -219,17 +219,15 @@ class Server
                         debug
                         {
                             sLogger.info("In server_network.d. Server received this packet: ",
-                            buffer[0 .. recv]);
+                                    buffer[0 .. recv]);
                         }
-
 
                         serverResolveRemotePackets(to!string(buffer[0 .. recv]));
                         debug
                         {
                             sLogger.info("The command history length = ",
-                            ServerState.getCommandHistory().length);
+                                    ServerState.getCommandHistory().length);
                         }
-
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }

@@ -1,6 +1,7 @@
 module model.network.client;
 
 import std.socket;
+
 debug
 {
     import std.logger;
