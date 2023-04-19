@@ -15,13 +15,10 @@ From the `client-and-server` dir, run the following command: `dub run :client`
 This will run the first configuration inside the client subproject, which runs the client application.
 
 ### Testing ###
-To run all tests, perform the following command in a terminal inside the `client-and-server` directory: `dub test`
+To run all tests, perform the following command in a terminal inside the `client-and-server` directory: `dub run -b unittest -c unittest`
 
 This will use unit-threaded to run all the tests located in the `./source`, `client/source`, and 
 `server/source` directories.
-
-NOTE: for some reason, in the same directory just running `dub run -c unitthreaded` (which should run the testing 
-configuration specified in the dub.json) doesn't actually run any tests. This may be a bug with dub??
 
 ### Coverage ###
 #### Server Coverage ####
