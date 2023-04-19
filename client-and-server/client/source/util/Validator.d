@@ -22,6 +22,10 @@ public:
      */
     static bool isValidUsername(string username)
     {
+        if (username is null)
+        {
+            return false;
+        }
         // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
         // Regular expression that prevents symbols and only allows letters and numbers.
         // Allows for spaces between words. But there cannot be any leading or trailing spaces.
@@ -47,6 +51,7 @@ public:
     @("Testing isValidUsername invalid")
     unittest
     {
+        assert(!isValidUsername(null));
         assert(!isValidUsername("   Mike"));
         assert(!isValidUsername(""));
         assert(!isValidUsername("   "));
@@ -70,6 +75,10 @@ public:
      */
     static bool isValidIPAddress(string ipAddress)
     {
+        if (ipAddress is null)
+        {
+            return false;
+        }
         // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
         auto r = regex(
                 r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
@@ -99,6 +108,10 @@ public:
     @("Testing isValidIPAddress invalid")
     unittest
     {
+        assert(!isValidIPAddress(null));
+        assert(!isValidIPAddress(""));
+        assert(!isValidIPAddress("localHOST"));
+        assert(!isValidIPAddress("testing"));
         assert(!isValidIPAddress("256.256.256.256"));
         assert(!isValidIPAddress("999.999.999.999"));
         assert(!isValidIPAddress("1.2.3"));
@@ -117,6 +130,10 @@ public:
     */
     static bool isValidPort(string port)
     {
+        if (port is null)
+        {
+            return false;
+        }
         const ushort LOWRANGE = 1;
         const ushort SYSPORT = 1024;
         if (isNumeric(port))
@@ -153,6 +170,9 @@ public:
         assert(isValidPort("50002"));
         assert(isValidPort("50001"));
         assert(isValidPort("50004"));
+        assert(isValidPort("65535"));
+        assert(isValidPort("1025"));
+        assert(isValidPort("60000"));
     }
 
     /**
@@ -161,9 +181,14 @@ public:
     @("Testing isValidPort invalid")
     unittest
     {
+        assert(!isValidPort(null));
         assert(!isValidPort("0"));
+        assert(!isValidPort(""));
         assert(!isValidPort("1024"));
         assert(!isValidPort("10"));
+        assert(!isValidPort("1"));
+        assert(!isValidPort("65536"));
+        assert(!isValidPort("70000"));
         assert(!isValidPort("Testing"));
         assert(!isValidPort("50002a"));
     }
