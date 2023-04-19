@@ -61,4 +61,6 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
     destroy(network);
     // Log thread exit.
     writeln("thread has exited");
+    
 }
+

@@ -11,8 +11,6 @@ The first stage we learned in the software development life cycle is planning.
 
 <hr>
 
-*TODO Add your estimated project timeline here highlighting major milestone completion targets*
-
 *I recommend you use a markdown table or list to stay organized, add or remove as many entries as you need.*
 
 

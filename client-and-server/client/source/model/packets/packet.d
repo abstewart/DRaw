@@ -204,8 +204,8 @@ Tuple!(string, int, Command) decodeUserDrawCommand(string packet, long recv, MyW
 /**
  * Encodes a user draw packet into a string given username, id, and command.
  * Intended packet format:
- *          0,username,id,c/d\r
- *         [0,1       ,2 ,3   ] 
+ *          0,username,id\r
+ *         [0,1       ,2  ] 
  *
  * Params: 
  *        - username : string : username to encode

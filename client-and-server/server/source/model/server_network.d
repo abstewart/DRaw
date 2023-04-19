@@ -24,7 +24,7 @@ int MESSAGE_BUFFER_SIZE = 1024;
  * Params:
  *       - packet : string : packet to resolve
  */
-void serverResolveRemotePackets(string packet)
+void serverResolveRemotePacket(string packet)
 {
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
@@ -33,11 +33,11 @@ void serverResolveRemotePackets(string packet)
         Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
         if (info[2])
         {
-           ServerState.addConnectedUser(info[0], info[1]);
+            ServerState.addConnectedUser(info[0], info[1]);
         }
         else
         {
-           ServerState.removeConnectedUser(info[1]);
+            ServerState.removeConnectedUser(info[1]);
         }
         break;
     case (DRAW_COMMAND_PACKET):
@@ -67,6 +67,87 @@ void serverResolveRemotePackets(string packet)
         break;
     }
 }
+
+/**
+ * Tests the resolution of chat packets
+ */
+@("Tests the resolution of chat packets")
+unittest {
+    ServerState.wipeChatHistory();
+    assert(ServerState.getChatHistory().length == 0);
+    string chatPacket = "3,ben%s,1,100000000,hello this is message %s\r";
+    for (int i = 1; i <= 100; i++) {
+        serverResolveRemotePacket(chatPacket.format(i,i));
+        assert(ServerState.getChatHistory().length == i);
+    }
+}
+
+/**
+ * Tests the resolution of undo packets
+ */
+@("Tests the resolution of undo packets")
+unittest {
+    ServerState.setCommandHistory([]);
+    assert(ServerState.getCommandHistory().length == 0);
+
+    string[] toSet = [];
+    string samplePacket = "1,%s,1,1,1,1,1,1,1|1|1|1\r";
+    for (int i = 1; i <= 20; i++) {
+        for (int j = 1; j <= 100; j++) {
+            toSet ~= samplePacket.format(i);
+        }
+    }
+    string undoPacket = "2,%s,1,1\r";
+    ServerState.setCommandHistory(toSet);
+    assert(ServerState.getCommandHistory().length == 2000);
+
+    for (int k = 1; k <= 10; k++) {
+        serverResolveRemotePacket(undoPacket.format(k));
+        assert(ServerState.getCommandHistory().length == 2000 - k*100);
+    }
+}
+
+
+/**
+* Tests the resolution of drawing packets
+*/
+@("Tests the resolution of drawing packets")
+unittest{
+    ServerState.setCommandHistory([]);
+    assert(ServerState.getCommandHistory().length == 0);
+
+    string samplePacket = "1,drawCommandPacket,%s,1,1,1,1,1,1|1|1|1\r";
+    for(int i = 1; i <= 10; i++) {
+        string toUpdateWith = samplePacket.format(i);
+        serverResolveRemotePacket(toUpdateWith);
+        auto updatedHistory = ServerState.getCommandHistory();
+        assert(updatedHistory.length == i);
+        assert(updatedHistory[$ - i] == toUpdateWith);
+    }
+}
+
+/**
+ * Tests resolution of user connection packets
+ */
+@("Tests resolution of user connection packets")
+unittest
+{
+    ServerState.wipeConnectedUsers();
+    assert(ServerState.getConnectedUsers().keys().length == 0);
+
+    string connPacket = "0,user,-1,1\r";
+    serverResolveRemotePacket(connPacket);
+
+    assert(ServerState.getConnectedUsers().keys().length == 1);
+    string[int] connUsers = ServerState.getConnectedUsers();
+    assert(connUsers[-1] == "user");
+
+    string disconnPacket = "0,user,-1,0\r";
+    serverResolveRemotePacket(disconnPacket);
+
+    assert(ServerState.getConnectedUsers().keys().length == 0);
+}
+
 
 /**
  * Notifies all clients in the given hashmap of the given message except the client with the given key
@@ -200,9 +281,10 @@ class Server
                         recv);
                 writeln("> user ", userIdConnStatus[0], " successfully connected");
                 this.users[this.clientCount] = userIdConnStatus[0];
-                notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
-                        this.clientCount, userIdConnStatus[2]));
-                //todo look into not hanging server while syncing
+                notifyAll(this.connectedClients, 
+                          encodeUserConnPacket(userIdConnStatus[0],
+                          this.clientCount, 
+                          userIdConnStatus[2]));
                 writeln("sending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
@@ -219,7 +301,7 @@ class Server
                     {
                         writeln("received", buffer[0 .. recv]);
 
-                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        serverResolveRemotePacket(to!string(buffer[0 .. recv]));
                         writeln(ServerState.getCommandHistory().length);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);

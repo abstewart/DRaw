@@ -33,7 +33,8 @@
 				"source/app.d",
 				"source/client_cov_app.d",
 				"../server/source/app.d",
-				"../server/source/server_cov_app.d"
+				"../server/source/server_cov_app.d",
+				"../mock/mocking_utility.d"
 			],
 			"mainSourceFile": "bin/ut.d",
 			"name": "unittest",

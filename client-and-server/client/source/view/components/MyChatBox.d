@@ -139,7 +139,7 @@ public:
         // Call chat updater.
         this.updateMessageWindow(this.username, ApplicationState.getClientId(),
                 currentTime.stdTime, this.message);
-
+        
         // Send chat message to server.
         // Username, id, timestamp, message.
         string packetToSend = encodeChatPacket(this.username,
@@ -162,16 +162,12 @@ public:
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
         // Construct the actual message to display.
-        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(
+        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ prettyTime(
                 time) ~ ":\n\t" ~ msg ~ "\n\n";
 
+        import std.stdio;
         // Add chat message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); // Concatenate the new message to the rest of the chatBuffer.
-
-        // ===================================================================================
-        // TODO: Look into saving that chatBuffer so when someone connects to the chat after users have sent messages
-        // that they have access to all the other messages.
-        // ===================================================================================
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); 
     }
 
     /**
@@ -196,7 +192,7 @@ public:
         }
 
         // Add update message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); 
     }
 
     /**
@@ -220,7 +216,7 @@ public:
         }
 
         // Add update message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); // Concatenate the new message to the rest of the chatBuffer.
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); 
     }
 
     /**
@@ -232,7 +228,7 @@ public:
      * Returns: 
      *       - prettified : string : pretty version of time string
      */
-    string prettyTime(long numTime)
+    private static string prettyTime(long numTime)
     {
         SysTime time = SysTime(numTime);
         string amPm = "AM";
@@ -252,6 +248,19 @@ public:
             minutes = "0" ~ minutes;
         }
         return (hour ~ ":" ~ minutes ~ amPm);
+    }
+
+    /**
+     * Tests some time conversions for pretty printing
+     */
+    @("Tests time conversion into pretty string")
+    unittest 
+    {
+        assert(MyChatBox.prettyTime(547453984739485) == "10:07AM");
+        assert(MyChatBox.prettyTime(9847098) == "7:03PM");
+        assert(MyChatBox.prettyTime(2948752094387029438) == "8:23AM");
+        assert(MyChatBox.prettyTime(29384572098) == "7:52PM");
+        assert(MyChatBox.prettyTime(131428397040192) == "9:51PM");
     }
 
     /**

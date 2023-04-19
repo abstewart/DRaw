@@ -30,6 +30,14 @@ public:
     }
 
     /**
+     * Wipes the current set of connected users;
+     */
+    static void wipeConnectedUsers() {
+        string[int] emptySet;
+        connectedUsers = emptySet;
+    }
+
+    /**
      * Adds a user to the set of connected users.
      *
      * Params:
@@ -102,6 +110,13 @@ public:
     static void addChatPacket(string chatPacket)
     {
         ServerState.chatHistory ~= chatPacket;
+    }
+
+    /**
+     * Wipes the chat history
+     */
+    static void wipeChatHistory() {
+        ServerState.chatHistory = [];
     }
 
     /**
