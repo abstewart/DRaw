@@ -32,8 +32,9 @@ bool resolveRemotePackets(MyWindow window)
 {
     Tuple!(string, long)[] packetsToResolve = Communicator.receiveNetworkMessages();
     foreach (Tuple!(string, long) packet; packetsToResolve)
-    {   
-        try {
+    {
+        try
+        {
             char packetOld = packet[0][0];
             immutable int packetType = to!int(packet[0][0]) - '0';
             switch (packetType)
@@ -54,10 +55,12 @@ bool resolveRemotePackets(MyWindow window)
                 writeln("no case found");
                 break;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
-        
+
     }
     return true;
 }

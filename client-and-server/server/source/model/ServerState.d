@@ -32,7 +32,8 @@ public:
     /**
      * Wipes the current set of connected users;
      */
-    static void wipeConnectedUsers() {
+    static void wipeConnectedUsers()
+    {
         string[int] emptySet;
         connectedUsers = emptySet;
     }
@@ -115,7 +116,8 @@ public:
     /**
      * Wipes the chat history
      */
-    static void wipeChatHistory() {
+    static void wipeChatHistory()
+    {
         ServerState.chatHistory = [];
     }
 

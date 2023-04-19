@@ -139,7 +139,7 @@ public:
         // Call chat updater.
         this.updateMessageWindow(this.username, ApplicationState.getClientId(),
                 currentTime.stdTime, this.message);
-        
+
         // Send chat message to server.
         // Username, id, timestamp, message.
         string packetToSend = encodeChatPacket(this.username,
@@ -162,12 +162,13 @@ public:
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
         // Construct the actual message to display.
-        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ prettyTime(
-                time) ~ ":\n\t" ~ msg ~ "\n\n";
+        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ prettyTime(time) ~ ":\n\t" ~ msg
+            ~ "\n\n";
 
         import std.stdio;
+
         // Add chat message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat); 
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ chat);
     }
 
     /**
@@ -192,7 +193,7 @@ public:
         }
 
         // Add update message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); 
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg);
     }
 
     /**
@@ -216,7 +217,7 @@ public:
         }
 
         // Add update message to the chat buffer.
-        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg); 
+        this.chatBuffer.setText(this.chatBuffer.getText() ~ updateMsg);
     }
 
     /**
@@ -254,7 +255,7 @@ public:
      * Tests some time conversions for pretty printing
      */
     @("Tests time conversion into pretty string")
-    unittest 
+    unittest
     {
         assert(MyChatBox.prettyTime(547453984739485) == "10:07AM");
         assert(MyChatBox.prettyTime(9847098) == "7:03PM");

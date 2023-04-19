@@ -72,12 +72,14 @@ void serverResolveRemotePacket(string packet)
  * Tests the resolution of chat packets
  */
 @("Tests the resolution of chat packets")
-unittest {
+unittest
+{
     ServerState.wipeChatHistory();
     assert(ServerState.getChatHistory().length == 0);
     string chatPacket = "3,ben%s,1,100000000,hello this is message %s\r";
-    for (int i = 1; i <= 100; i++) {
-        serverResolveRemotePacket(chatPacket.format(i,i));
+    for (int i = 1; i <= 100; i++)
+    {
+        serverResolveRemotePacket(chatPacket.format(i, i));
         assert(ServerState.getChatHistory().length == i);
     }
 }
@@ -86,14 +88,17 @@ unittest {
  * Tests the resolution of undo packets
  */
 @("Tests the resolution of undo packets")
-unittest {
+unittest
+{
     ServerState.setCommandHistory([]);
     assert(ServerState.getCommandHistory().length == 0);
 
     string[] toSet = [];
     string samplePacket = "1,%s,1,1,1,1,1,1,1|1|1|1\r";
-    for (int i = 1; i <= 20; i++) {
-        for (int j = 1; j <= 100; j++) {
+    for (int i = 1; i <= 20; i++)
+    {
+        for (int j = 1; j <= 100; j++)
+        {
             toSet ~= samplePacket.format(i);
         }
     }
@@ -101,23 +106,25 @@ unittest {
     ServerState.setCommandHistory(toSet);
     assert(ServerState.getCommandHistory().length == 2000);
 
-    for (int k = 1; k <= 10; k++) {
+    for (int k = 1; k <= 10; k++)
+    {
         serverResolveRemotePacket(undoPacket.format(k));
-        assert(ServerState.getCommandHistory().length == 2000 - k*100);
+        assert(ServerState.getCommandHistory().length == 2000 - k * 100);
     }
 }
-
 
 /**
 * Tests the resolution of drawing packets
 */
 @("Tests the resolution of drawing packets")
-unittest{
+unittest
+{
     ServerState.setCommandHistory([]);
     assert(ServerState.getCommandHistory().length == 0);
 
     string samplePacket = "1,drawCommandPacket,%s,1,1,1,1,1,1|1|1|1\r";
-    for(int i = 1; i <= 10; i++) {
+    for (int i = 1; i <= 10; i++)
+    {
         string toUpdateWith = samplePacket.format(i);
         serverResolveRemotePacket(toUpdateWith);
         auto updatedHistory = ServerState.getCommandHistory();
@@ -147,7 +154,6 @@ unittest
 
     assert(ServerState.getConnectedUsers().keys().length == 0);
 }
-
 
 /**
  * Notifies all clients in the given hashmap of the given message except the client with the given key
@@ -239,10 +245,9 @@ class Server
      *       - allowedConnections : ushort : the number of allowed simultaneous connections to the server
      *       - bufferSize         : long : the buffer size of the socket
      */
-    this(string ipAddress = DEFAULT_SOCKET_IP, 
-         ushort portNumber = DEFAULT_PORT_NUMBER,
-         ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
-         long bufferSize = MESSAGE_BUFFER_SIZE)
+    this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
+            ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
+            long bufferSize = MESSAGE_BUFFER_SIZE)
     {
         this.ipAddress = ipAddress;
         this.portNumber = portNumber;
@@ -281,15 +286,13 @@ class Server
                         recv);
                 writeln("> user ", userIdConnStatus[0], " successfully connected");
                 this.users[this.clientCount] = userIdConnStatus[0];
-                notifyAll(this.connectedClients, 
-                          encodeUserConnPacket(userIdConnStatus[0],
-                          this.clientCount, 
-                          userIdConnStatus[2]));
+                notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
+                        this.clientCount, userIdConnStatus[2]));
                 writeln("sending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
-            
+
             foreach (key; curKeys)
             {
                 Socket client = this.connectedClients[key];
