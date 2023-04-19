@@ -1,7 +1,11 @@
 module model.network.client;
 
 import std.socket;
-import std.stdio;
+
+debug
+{
+    import std.logger;
+}
 import std.typecons;
 import std.datetime;
 
@@ -21,6 +25,10 @@ private:
     ushort portNumber;
     TcpSocket sock;
     bool socketOpen;
+    debug
+    {
+        FileLogger cLogger;
+    }
 
 public:
     /**
@@ -39,6 +47,10 @@ public:
         this.sock.setOption(SocketOptionLevel.SOCKET, SocketOption.RCVTIMEO, SOCKET_TIMEOUT);
         this.sock.connect(new InternetAddress(this.ipAddress, this.portNumber));
         this.socketOpen = true;
+        debug
+        {
+            this.cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+        }
     }
 
     /**
@@ -47,7 +59,10 @@ public:
     ~this()
     {
         this.sock.close();
-        writeln("closed socket");
+        debug
+        {
+            this.cLogger.info("closed socket");
+        }
     }
 
     /**
@@ -76,14 +91,21 @@ public:
             {
                 if (!wouldHaveBlocked())
                 {
-                    writeln("Socket lerror");
+                    debug
+                    {
+                        this.cLogger.warning("Socket error.");
+                    }
+
                     this.sock.close();
                     this.socketOpen = false;
                 }
             }
             else
             {
-                writeln("Unknown received value.");
+                debug
+                {
+                    this.cLogger.warning("Unknown received value.");
+                }
             }
         }
         return Tuple!(char[1024], long)(message, recv);
@@ -99,7 +121,11 @@ public:
     {
         if (this.socketOpen)
         {
-            writeln(packetData);
+            debug
+            {
+                this.cLogger.info("Sending [\"" ~ packetData ~ "\"] to the server.");
+            }
+
             this.sock.send(packetData);
         }
     }

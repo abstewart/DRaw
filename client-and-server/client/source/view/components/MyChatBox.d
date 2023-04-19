@@ -162,8 +162,8 @@ public:
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
         // Construct the actual message to display.
-        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ prettyTime(time) ~ ":\n\t" ~ msg
-            ~ "\n\n";
+        string chat = uname ~ ":" ~ to!string(cid) ~ " " ~ this.prettyTime(
+                time) ~ ":\n\t" ~ msg ~ "\n\n";
 
         import std.stdio;
 
@@ -229,13 +229,21 @@ public:
      * Returns: 
      *       - prettified : string : pretty version of time string
      */
+
     private static string prettyTime(long numTime)
     {
         SysTime time = SysTime(numTime);
         string amPm = "AM";
         string hour = to!string(time.hour);
         // Check from military time to standard time.
-        if (time.hour > 12)
+        if (time.hour == 0 || time.hour == 24) {
+            hour = "12";
+        }
+        else if (time.hour == 12)
+        {
+            amPm = "PM";
+        }
+        else if (time.hour > 12)
         {
             ubyte h = time.hour % 12;
             hour = to!string(h);
@@ -248,7 +256,7 @@ public:
         {
             minutes = "0" ~ minutes;
         }
-        return (hour ~ ":" ~ minutes ~ amPm);
+        return (hour ~ ":" ~ minutes ~ " " ~ amPm);
     }
 
     /**
@@ -273,6 +281,7 @@ public:
     private void quitApplication(Button button)
     {
         // Disconnect from server, if connected.
+        Communicator.sendDisconnectPacket(this.username);
         Communicator.disconnect();
         stdlib.exit(0);
     }

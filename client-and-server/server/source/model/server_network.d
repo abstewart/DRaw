@@ -1,17 +1,22 @@
 module model.server_network;
 
-import std.socket;
-import std.stdio;
-import std.conv;
-import std.typecons;
-import std.array;
-import std.algorithm;
-import core.thread;
+private import std.socket;
+private import std.stdio;
+private import std.conv;
+private import std.typecons;
+private import std.array;
+private import std.algorithm;
+private import core.thread;
 
-import model.packets.packet;
-import view.MyWindow;
-import controller.commands.Command;
-import model.ServerState;
+debug
+{
+    private import std.logger;
+}
+
+private import model.packets.packet;
+private import view.MyWindow;
+private import controller.commands.Command;
+private import model.ServerState;
 
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
@@ -26,6 +31,10 @@ int MESSAGE_BUFFER_SIZE = 1024;
  */
 void serverResolveRemotePacket(string packet)
 {
+    debug
+    {
+        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+    }
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
     {
@@ -53,7 +62,6 @@ void serverResolveRemotePacket(string packet)
         string[] acc;
         foreach (cmdPacket; ServerState.getCommandHistory())
         {
-            writeln("comparing: ", toCheck, ":: with: ", cmdPacket);
             if (cmdPacket.startsWith(toCheck))
             {
                 continue;
@@ -63,7 +71,11 @@ void serverResolveRemotePacket(string packet)
         ServerState.setCommandHistory(acc);
         break;
     default:
-        writeln("no case found");
+        debug
+        {
+            sLogger.info("In serverResolveRemotePackets switch statement. No case found.");
+        }
+
         break;
     }
 }
@@ -203,21 +215,37 @@ void notifyAll(Socket[int] clients, string message)
  */
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
+    debug
+    {
+        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+    }
+
     Socket client = clients[ckey];
 
     foreach_reverse (cmd; ServerState.getCommandHistory())
     {
-        writeln("sending sync: ", cmd);
+        debug
+        {
+            sLogger.info("Sending sync: ", cmd);
+        }
+
         Thread.sleep(1.msecs);
         client.send(cmd);
     }
     foreach (chat; ServerState.getChatHistory())
     {
-        writeln("sending sync: ", chat);
+        debug
+        {
+            sLogger.info("Sending sync: ", chat);
+        }
+
         Thread.sleep(1.msecs);
         client.send(chat);
     }
-    writeln(ServerState.getCommandHistory().length);
+    debug
+    {
+        sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
+    }
 }
 
 /**
@@ -235,6 +263,11 @@ class Server
     private bool isRunning;
     private long bufferSize;
     private static int clientCount;
+    private Command[] commandStack = [];
+    debug
+    {
+        private FileLogger sLogger;
+    }
 
     /**
      * Constructs the server object.
@@ -257,6 +290,10 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
+        debug
+        {
+            this.sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+        }
     }
 
     /**
@@ -279,16 +316,18 @@ class Server
             {
                 Socket newSocket = this.sock.accept();
                 this.connectedClients[++this.clientCount] = newSocket;
-                writeln("> client", this.clientCount, " added to connectedClients list");
                 char[1024] buffer;
                 long recv = newSocket.receive(buffer);
                 Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer),
                         recv);
-                writeln("> user ", userIdConnStatus[0], " successfully connected");
+                debug
+                {
+                    sLogger.info("> user ", userIdConnStatus[0], " successfully connected");
+                }
+
                 this.users[this.clientCount] = userIdConnStatus[0];
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
-                writeln("sending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
@@ -302,26 +341,44 @@ class Server
                     long recv = client.receive(buffer);
                     if (recv > 0)
                     {
-                        writeln("received", buffer[0 .. recv]);
+                        debug
+                        {
+                            sLogger.info("In server_network.d. Server received this packet: ",
+                                    buffer[0 .. recv]);
+                        }
 
-                        serverResolveRemotePacket(to!string(buffer[0 .. recv]));
-                        writeln(ServerState.getCommandHistory().length);
+                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        debug
+                        {
+                            sLogger.info("The command history length = ",
+                                    ServerState.getCommandHistory().length);
+                        }
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }
                     else if (recv == 0)
                     {
-                        writeln("Client closed connection: ", key);
+                        debug
+                        {
+                            sLogger.info("Client closed connection: ", key);
+                        }
+
                         client.close();
                         this.connectedClients.remove(key);
                     }
                     else if (recv == Socket.ERROR)
                     {
-                        writeln("Socket error");
+                        debug
+                        {
+                            sLogger.warning("Socket error.");
+                        }
                     }
                     else
                     {
-                        writeln("Unknown socket reception return value");
+                        debug
+                        {
+                            sLogger.warning("Unknown socket reception return value.");
+                        }
                     }
                 }
             }
@@ -333,9 +390,9 @@ class Server
      */
     void initializeSocketSet()
     {
-        // Clear the readSet
+        // Clear the readSet.
         this.sockSet.reset();
-        // Add the server
+        // Add the server.
         this.sockSet.add(this.sock);
         foreach (client; this.connectedClients)
         {

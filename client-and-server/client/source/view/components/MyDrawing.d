@@ -215,7 +215,6 @@ public:
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
-            writeln(ApplicationState.getCommandHistory().length);
             // Send to server if applicable.
             string packet = encodeUserDrawCommand(ApplicationState.getUsername(),
                     ApplicationState.getClientId(), newCommand);
@@ -282,7 +281,6 @@ public:
             Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
                     id, newCommand);
             ApplicationState.addToCommandHistory(commandPackage);
-            writeln(ApplicationState.getCommandHistory().length);
             // Send the command to the server.
             string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
                     ApplicationState.getClientId(), newCommand);

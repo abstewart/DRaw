@@ -4,13 +4,27 @@
 
 ## Commands ##
 
-### Running the server ###
-From the `client-and-server` dir, run the following command: `dub run :server`
+### Running the server (debug Build Version) ###
+From the `client-and-server` directory either run the following command: `dub run :server` OR `dub run :server -- {insert ip address} {insert port number}`
+
+The former will run the server with the default ip address (localhost) and the default port number (50002). The latter will run the server with the inserted ip address and port number, assuming they are valid.
 
 This will run the first configuration inside the server subproject, which runs the server application.
 
-### Running the client ###
-From the `client-and-server` dir, run the following command: `dub run :client`
+### Running the client (debug Build Version) ###
+From the `client-and-server` directory, run the following command: `dub run :client`
+
+This will run the first configuration inside the client subproject, which runs the client application.
+
+### Running the server (release Build Version) ###
+From the `client-and-server` directory either run the following command: `dub run :server --build=release` OR `dub run :server -- {insert ip address} {insert port number}`
+
+The former will run the server with the default ip address (localhost) and the default port number (50002). The latter will run the server with the inserted ip address and port number, assuming they are valid.
+
+This will run the first configuration inside the server subproject, which runs the server application.
+
+### Running the client (release Build Version) ###
+From the `client-and-server` directory, run the following command: `dub run :client --build=release`
 
 This will run the first configuration inside the client subproject, which runs the client application.
 
@@ -54,4 +68,7 @@ From the `DRaw` directory, run `dub run adrdox -- -i ./client-and-server`
 View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.
 
 ### Notes ###
-If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
+* If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
+* When you are done running the client(s), closing the application down via exiting it or quitting it will shut down the client program. However, you have to `Control-c` the server program to shut down it down.
+* The server and/or client may take a moment to start up (during the `dub` print outs) -- please be patient, they will load and start up correctly.
+* If you run the debug build versions of the server and client, files named 'Client Log File' and 'Server Log File' will be created (if not already created) to log information. They will be in the `client-and-server` directory.

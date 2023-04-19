@@ -1,20 +1,24 @@
 module model.packets.packet;
 
-import std.conv : to;
-import std.format : format;
-import std.array : split;
-import std.stdio : writeln;
-import std.algorithm : equal;
-import std.string;
-import std.typecons;
-import std.exception;
-import gdk.RGBA;
+private import std.conv : to;
+private import std.format : format;
+private import std.array : split;
 
-import controller.commands.Command;
-import controller.commands.CommandBuilder;
-import model.Communicator;
-import model.ApplicationState;
-import view.MyWindow;
+debug
+{
+    private import std.logger;
+}
+private import std.algorithm : equal;
+private import std.string;
+private import std.typecons;
+private import std.exception;
+private import gdk.RGBA;
+
+private import controller.commands.Command;
+private import controller.commands.CommandBuilder;
+private import model.Communicator;
+private import model.ApplicationState;
+private import view.MyWindow;
 
 immutable int USER_CONNECT_PACKET = 0; // Packet type for a user connection packet.
 immutable int DRAW_COMMAND_PACKET = 1; // Packet type for a draw command packet.
@@ -52,7 +56,11 @@ bool resolveRemotePackets(MyWindow window)
                 parseAndExecuteUndoCommand(packet[0], packet[1]);
                 break;
             default:
-                writeln("no case found");
+                debug
+                {
+                    auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+                    cLogger.info("In packet.d switch statement. No case found.");
+                }
                 break;
             }
         }

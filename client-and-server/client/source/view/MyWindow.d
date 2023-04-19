@@ -91,7 +91,6 @@ public:
         }
         this.timeout = new Timeout(10, () { return resolveRemotePackets(this); }, false);
         this.isConnected = false;
-
     }
 
     /**
@@ -292,7 +291,7 @@ public:
     }
 
     /**
-     * Quits the application if connected.
+     * Quits the application.
      *
      * Params: 
      *       - widget : Widget : the widget to interact with to quit
@@ -300,6 +299,7 @@ public:
     public void quitApp(Widget widget)
     {
         // Disconnect from server, if connected.
+        Communicator.sendDisconnectPacket(this.username);
         Communicator.disconnect();
         stdlib.exit(0);
     }

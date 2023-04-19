@@ -1,10 +1,7 @@
 module view.components.ConnectDialog;
 
 private import std.conv;
-private import std.string : isNumeric;
 private import std.typecons;
-private import std.algorithm.comparison : equal;
-private import std.regex;
 private import gdk.c.types;
 private import gtk.Dialog;
 private import gtk.Box;
@@ -15,6 +12,7 @@ private import view.components.AreaContent;
 private import view.MyWindow;
 private import model.ApplicationState;
 private import controller.commands.Command;
+private import util.Validator;
 
 /**
  * Class representing what opens when the user clicks the Connect button. 
@@ -135,7 +133,8 @@ public:
                 alreadyConnectedMsg.destroy();
                 return;
             }
-            if (isValidUsername(uname) && isValidPort(port) && isValidIPAddress(ipAddr))
+            if (Validator.isValidUsername(uname)
+                    && Validator.isValidPort(port) && Validator.isValidIPAddress(ipAddr))
             {
                 this.username = uname;
                 attemptConnection(this.username, ipAddr, to!ushort(port));
@@ -143,7 +142,7 @@ public:
             else
             {
                 MessageDialog messageWarning = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
-                        .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
+                        .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphabetic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
                 messageWarning.run();
                 messageWarning.destroy();
             }
@@ -153,85 +152,5 @@ public:
         default:
             break;
         }
-    }
-
-    /**
-     * Validates the given username.
-     *
-     * A username is valid if it has at least one letter or number and no trailing whitespace.
-     *
-     * Params:
-     *       - username : string : the username to validate
-     *
-     * Returns:
-     *       - status : bool : true if the username is valid, false if not
-     */
-    private bool isValidUsername(string username)
-    {
-        // (https://stackoverflow.com/questions/34974942/regex-for-no-whitespace-at-the-beginning-and-end)
-        // Regular expression that prevents symbols and only allows letters and numbers.
-        // Allows for spaces between words. But there cannot be any leading or trailing spaces.
-        auto r = regex(r"^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$");
-        return !username.equal("") && matchFirst(username, r);
-    }
-
-    /** 
-     * Validates the given IP address.
-     *
-     * An IP address is valid if it is in IPv4 dotted-decimal form a.b.c.d where 0 <= a,b,c,d <= 255
-     * or if IP address is a hostname that will resolve.
-     *
-     * Params: 
-     *       - ipAddress : string : the IP address to validate
-     *
-     * Returns:
-     *       - status : bool : true if the IP address is valid, false if not
-     */
-    private bool isValidIPAddress(string ipAddress)
-    {
-        // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
-        auto r4 = regex(
-                r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
-        return ipAddress.equal("localhost") || matchFirst(ipAddress, r4);
-    }
-
-    /**
-     * Validates the given port.
-     *
-     * A valid port is any port that is not reserved (1-1024) and is a valid port number (1-65535).
-     *
-     * Params:
-     *       - port : string : the port number to check
-     * 
-     * Returns:
-     *       - status : bool : true if the port is valid, false if not
-     */
-    private bool isValidPort(string port)
-    {
-        const ushort LOWRANGE = 1;
-        const ushort SYSPORT = 1024;
-        if (isNumeric(port))
-        {
-            try
-            {
-                ushort portNum = to!ushort(port);
-                // Do not need to check for the high range of 65535 because to!ushort will handle that for us.
-                if (portNum < LOWRANGE)
-                {
-                    return false;
-                }
-                if (portNum <= SYSPORT)
-                {
-                    return false;
-                }
-            }
-            catch (ConvException ce)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        return false;
     }
 }
