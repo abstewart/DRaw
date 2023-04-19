@@ -1,7 +1,6 @@
 module model.server_network;
 
 private import std.socket;
-private import std.stdio;
 private import std.parallelism;
 private import std.conv;
 private import std.typecons;
@@ -50,7 +49,6 @@ void serverResolveRemotePackets(string packet)
         string[] acc;
         foreach (cmdPacket; ServerState.getCommandHistory())
         {
-            sLogger.info("comparing: ", toCheck, ":: with: ", cmdPacket);
             if (cmdPacket.startsWith(toCheck))
             {
                 continue;
@@ -113,7 +111,7 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
         Thread.sleep(1.msecs);
         client.send(chat);
     }
-    writeln(ServerState.getCommandHistory().length);
+    sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
 }
 
 class Server
@@ -159,7 +157,6 @@ class Server
             {
                 Socket newSocket = this.sock.accept();
                 this.connectedClients[++this.clientCount] = newSocket;
-                sLogger.info("> client", this.clientCount, " added to connectedClients list");
                 char[1024] buffer;
                 long recv = newSocket.receive(buffer);
                 Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer),
@@ -169,7 +166,6 @@ class Server
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
                 // Todo look into not hanging server while syncing.
-                sLogger.info("Sending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
@@ -183,10 +179,10 @@ class Server
                     long recv = client.receive(buffer);
                     if (recv > 0)
                     {
-                        sLogger.info("Received", buffer[0 .. recv]);
+                        sLogger.info("In server_networkd.d. Server received this packet: ", buffer[0 .. recv]);
 
                         serverResolveRemotePackets(to!string(buffer[0 .. recv]));
-                        writeln(ServerState.getCommandHistory().length);
+                        sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }

@@ -42,8 +42,8 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             cLogger.info("Shutting networking thread down upon owner termination.");
             active = false;
         }, (Variant any) {
-            // In the case of any other packet we will simply log the info.
-            cLogger.info(any);
+            // In the case of any other packet we will simply log the information.
+            cLogger.info("In thread_entry.d. Received any other packet: ", any);
         });
 
         // Receives information from the server if there is any.
@@ -54,7 +54,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
         {
             string encodedMsg = to!string(msgAndLen[0]);
             immutable long recvLen = msgAndLen[1];
-            cLogger.info(encodedMsg[0 .. recvLen]);
+            cLogger.info("Received packet from server: " ~ encodedMsg[0 .. recvLen]);
             send(parent, encodedMsg[0 .. recvLen], recvLen);
         }
     }

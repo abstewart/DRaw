@@ -101,7 +101,7 @@ public:
     {
         if (this.socketOpen)
         {
-            this.cLogger.info(packetData);
+            this.cLogger.info("Sending [" ~ packetData ~ "] to the server.");
             this.sock.send(packetData);
         }
     }

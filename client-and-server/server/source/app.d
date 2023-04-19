@@ -1,4 +1,4 @@
-private import std.stdio;
+private import std.stdio : writeln;
 private import std.getopt;
 private import std.conv;
 private import std.logger;
@@ -16,8 +16,6 @@ void main(string[] args)
     // If the number of command line arguments is not 0 or 2, alert the user and terminate the program.
     if (args.length == 2 || args.length > 3)
     {
-        stderr.writeln(
-                "Invalid number of command line arguments. See Server Log File for more information.");
         sLogger.warning("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server' OR 'dub run :server {ip address} " ~ " {port number}'");
         return;
     }
@@ -66,7 +64,6 @@ void main(string[] args)
     }
     else
     {
-        stderr.writeln("Invalid command line arguments. See Server Log File for more information.");
         sLogger.warning(
                 "Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
                 args[1], args[2]);
