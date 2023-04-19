@@ -142,7 +142,7 @@ public:
             else
             {
                 MessageDialog messageWarning = new MessageDialog(this, GtkDialogFlags.MODAL, MessageType.WARNING, ButtonsType
-                        .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphebtic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
+                        .OK, "You either typed in an invalid IP address, port number, or username." ~ " Please try again. Port numbers under 1024 are reserved for system services http, ftp, etc." ~ " and thus are considered invalid. Usernames must be at least one alphabetic or numeric character long," ~ " and they cannot contain leading or trailing white space.");
                 messageWarning.run();
                 messageWarning.destroy();
             }
