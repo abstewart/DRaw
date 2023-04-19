@@ -30,7 +30,7 @@ public:
     }
 
     /**
-     * Wipes the current set of connected users;
+     * Wipes the current set of connected users.
      */
     static void wipeConnectedUsers()
     {
@@ -114,7 +114,7 @@ public:
     }
 
     /**
-     * Wipes the chat history
+     * Wipes the chat history.
      */
     static void wipeChatHistory()
     {

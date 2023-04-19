@@ -22,7 +22,7 @@ public:
     }
 
     /**
-     * Runs the main application
+     * Runs the main application.
      *
      * Returns:
      *        - status : int : return code of application

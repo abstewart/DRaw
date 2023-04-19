@@ -28,7 +28,7 @@ public:
     }
 
     /** 
-     * Gets myDrawingBox. Used in CommandBuilder.d.
+     * Gets myDrawingBox.
      *
      * Returns:
      *        - drawingBox : MyDrawingBox : the drawing box of this component

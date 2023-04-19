@@ -90,7 +90,10 @@ public:
     }
 
     /** 
-     * Gets the drawing area in the MyDrawingBox instance. Used in CommandBuilder.d.
+     * Gets the drawing area in the MyDrawingBox instance.
+     *
+     * Returns:
+     *        - drawing : MyDrawing : a myDrawing object
      */
     public MyDrawing getMyDrawing()
     {

@@ -90,7 +90,7 @@ public:
     }
 
     /**
-     * Sends the given packet data to the server
+     * Sends the given packet data to the server.
      *
      * Params:
      *        - packetData : string : the packet data to send

@@ -19,7 +19,7 @@ ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 1024;
 
 /**
- * Resolves the given packet with the server's state
+ * Resolves the given packet with the server's state.
  *
  * Params:
  *       - packet : string : packet to resolve
@@ -69,7 +69,7 @@ void serverResolveRemotePacket(string packet)
 }
 
 /**
- * Tests the resolution of chat packets
+ * Tests the resolution of chat packets.
  */
 @("Tests the resolution of chat packets")
 unittest
@@ -85,7 +85,7 @@ unittest
 }
 
 /**
- * Tests the resolution of undo packets
+ * Tests the resolution of undo packets.
  */
 @("Tests the resolution of undo packets")
 unittest
@@ -114,7 +114,7 @@ unittest
 }
 
 /**
-* Tests the resolution of drawing packets
+* Tests the resolution of drawing packets.
 */
 @("Tests the resolution of drawing packets")
 unittest
@@ -134,7 +134,7 @@ unittest
 }
 
 /**
- * Tests resolution of user connection packets
+ * Tests resolution of user connection packets.
  */
 @("Tests resolution of user connection packets")
 unittest
@@ -156,7 +156,7 @@ unittest
 }
 
 /**
- * Notifies all clients in the given hashmap of the given message except the client with the given key
+ * Notifies all clients in the given hashmap of the given message except the client with the given key.
  *
  * Params:
  *       - clients : Socket[int] : hashmap of client id to socket
@@ -178,7 +178,7 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
 }
 
 /**
- * Notifies all clients in the given hashmap of the given message
+ * Notifies all clients in the given hashmap of the given message.
  *
  * Params: 
  *       - clients : Socket[int] : hashmap of client id to socket
@@ -195,7 +195,7 @@ void notifyAll(Socket[int] clients, string message)
 }
 
 /**
- * Sends the client of the given id the current surver state.
+ * Sends the client of the given id the current server state.
  *
  * Params:
  *       - clients : Socket[int] : list of clients
@@ -221,7 +221,7 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
 }
 
 /**
- * Class implementing all server and consensus functionalitys for the application.
+ * Class implementing all server and consensus functionalities for the application.
  */
 class Server
 {
@@ -237,7 +237,7 @@ class Server
     private static int clientCount;
 
     /**
-     * Constructs the server object
+     * Constructs the server object.
      *
      * Params:
      *       - ipAddress          : string : the ipAddress to bind to
@@ -260,7 +260,7 @@ class Server
     }
 
     /**
-     * Closes the socket upon destruction
+     * Closes the socket upon destruction.
      */
     ~this()
     {
@@ -268,8 +268,8 @@ class Server
     }
 
     /**
-     * - polls the socket set for new connections, if one has connected adds it to the server's state
-     * - when socket receives a new packet, stores packet in state and relays to all clients
+     * Polls the socket set for new connections, if one has connected adds it to the server's state.
+     * When socket receives a new packet, stores packet in state and relays to all clients.
      */
     void pollForMessagesAndClients()
     {
@@ -329,7 +329,7 @@ class Server
     }
 
     /**
-     * Initializes the socket set and adds client sockets to reset update status
+     * Initializes the socket set and adds client sockets to reset update status.
      */
     void initializeSocketSet()
     {
@@ -344,7 +344,7 @@ class Server
     }
 
     /**
-     * Runs the loop of socket set initialization and polling
+     * Runs the loop of socket set initialization and polling.
      */
     void handleReception()
     {

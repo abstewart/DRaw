@@ -13,7 +13,7 @@ private import controller.commands.DrawRectangleCommand;
 private import view.MyWindow;
 
 /**
- * Constructs a command object from a command id, command type, width, x, y, and color
+ * Constructs a command object from a command id, command type, width, x, y, and color.
  * 
  * Params: 
  *        - cId    : int : the id of the command to create

@@ -61,7 +61,7 @@ public:
     }
 
     /**
-     * Gets the command ID
+     * Gets the command ID.
      * 
      * Returns:
      *        - id : int : the command id

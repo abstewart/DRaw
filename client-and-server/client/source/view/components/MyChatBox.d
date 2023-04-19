@@ -252,7 +252,7 @@ public:
     }
 
     /**
-     * Tests some time conversions for pretty printing
+     * Tests some time conversions for pretty printing.
      */
     @("Tests time conversion into pretty string")
     unittest
