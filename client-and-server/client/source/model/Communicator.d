@@ -127,10 +127,12 @@ public:
     */
     static void sendDisconnectPacket(string username)
     {
-        int clientId = ApplicationState.getClientId();
-        // Create connection packet (disconnected -- false) and send it to the server.
-        string connReqPacket = encodeUserConnPacket(username, clientId, false);
-        send(childThread, connReqPacket);
+        if(!(instance is null)){
+            int clientId = ApplicationState.getClientId();
+            // Create connection packet (disconnected -- false) and send it to the server.
+            string connReqPacket = encodeUserConnPacket(username, clientId, false);
+            send(childThread, connReqPacket);
+        }
     }
 
     /**
