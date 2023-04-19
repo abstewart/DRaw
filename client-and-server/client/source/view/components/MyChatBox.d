@@ -257,6 +257,7 @@ public:
     private void quitApplication(Button button)
     {
         // Disconnect from server, if connected.
+        Communicator.sendDisconnectPacket(this.username);
         Communicator.disconnect();
         stdlib.exit(0);
     }
