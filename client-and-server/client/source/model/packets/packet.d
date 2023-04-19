@@ -6,7 +6,7 @@ private import std.array : split;
 
 debug
 {
-    private import std.logger;
+    private import std.stdio : writeln;
 }
 private import std.algorithm : equal;
 private import std.string;
@@ -58,8 +58,7 @@ bool resolveRemotePackets(MyWindow window)
             default:
                 debug
                 {
-                    auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-                    cLogger.info("In packet.d switch statement. No case found.");
+                    writeln("In packet.d switch statement. No case found.");
                 }
                 break;
             }
