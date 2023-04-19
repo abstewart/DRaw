@@ -347,7 +347,7 @@ class Server
                                     buffer[0 .. recv]);
                         }
 
-                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        serverResolveRemotePacket(to!string(buffer[0 .. recv]));
                         debug
                         {
                             sLogger.info("The command history length = ",
