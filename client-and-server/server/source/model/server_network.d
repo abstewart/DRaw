@@ -7,7 +7,10 @@ private import std.typecons;
 private import std.array;
 private import std.algorithm;
 private import core.thread;
-private import std.logger;
+debug
+{
+    private import std.logger;
+}
 
 private import model.packets.packet;
 private import view.MyWindow;
@@ -21,7 +24,10 @@ int MESSAGE_BUFFER_SIZE = 1024;
 
 void serverResolveRemotePackets(string packet)
 {
-    auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+    debug
+    {
+        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+    }
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
     {
@@ -58,7 +64,11 @@ void serverResolveRemotePackets(string packet)
         ServerState.setCommandHistory(acc);
         break;
     default:
-        sLogger.info("In serverResolveRemotePackets switch statement. No case found.");
+        debug
+        {
+            sLogger.info("In serverResolveRemotePackets switch statement. No case found.");
+        }
+
         break;
     }
 }
@@ -96,22 +106,37 @@ void notifyAll(Socket[int] clients, string message)
 
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
-    auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+    debug
+    {
+        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+    }
+
     Socket client = clients[ckey];
 
     foreach_reverse (cmd; ServerState.getCommandHistory())
     {
-        sLogger.info("Sending sync: ", cmd);
+        debug
+        {
+            sLogger.info("Sending sync: ", cmd);
+        }
+
         Thread.sleep(1.msecs);
         client.send(cmd);
     }
     foreach (chat; ServerState.getChatHistory())
     {
-        sLogger.info("Sending sync: ", chat);
+        debug
+        {
+            sLogger.info("Sending sync: ", chat);
+        }
+
         Thread.sleep(1.msecs);
         client.send(chat);
     }
-    sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
+    debug
+    {
+        sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
+    }
 }
 
 class Server
@@ -127,7 +152,11 @@ class Server
     private long bufferSize;
     private static int clientCount;
     private Command[] commandStack = [];
-    private FileLogger sLogger;
+    debug
+    {
+        private FileLogger sLogger;
+    }
+
 
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
             ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
@@ -141,7 +170,11 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
-        this.sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+        debug
+        {
+            this.sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
+        }
+
     }
 
     ~this()
@@ -161,7 +194,11 @@ class Server
                 long recv = newSocket.receive(buffer);
                 Tuple!(string, int, bool) userIdConnStatus = decodeUserConnPacket(to!string(buffer),
                         recv);
-                sLogger.info("> user ", userIdConnStatus[0], " successfully connected");
+                debug
+                {
+                    sLogger.info("> user ", userIdConnStatus[0], " successfully connected");
+                }
+
                 this.users[this.clientCount] = userIdConnStatus[0];
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
@@ -179,28 +216,46 @@ class Server
                     long recv = client.receive(buffer);
                     if (recv > 0)
                     {
-                        sLogger.info("In server_networkd.d. Server received this packet: ",
-                                buffer[0 .. recv]);
+                        debug
+                        {
+                            sLogger.info("In server_network.d. Server received this packet: ",
+                            buffer[0 .. recv]);
+                        }
+
 
                         serverResolveRemotePackets(to!string(buffer[0 .. recv]));
-                        sLogger.info("The command history length = ",
-                                ServerState.getCommandHistory().length);
+                        debug
+                        {
+                            sLogger.info("The command history length = ",
+                            ServerState.getCommandHistory().length);
+                        }
+
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }
                     else if (recv == 0)
                     {
-                        sLogger.info("Client closed connection: ", key);
+                        debug
+                        {
+                            sLogger.info("Client closed connection: ", key);
+                        }
+
                         client.close();
                         this.connectedClients.remove(key);
                     }
                     else if (recv == Socket.ERROR)
                     {
-                        sLogger.warning("Socket error.");
+                        debug
+                        {
+                            sLogger.warning("Socket error.");
+                        }
                     }
                     else
                     {
-                        sLogger.warning("Unknown socket reception return value.");
+                        debug
+                        {
+                            sLogger.warning("Unknown socket reception return value.");
+                        }
                     }
                 }
             }

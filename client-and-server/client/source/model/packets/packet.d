@@ -3,7 +3,10 @@ module model.packets.packet;
 private import std.conv : to;
 private import std.format : format;
 private import std.array : split;
-private import std.logger;
+debug
+{
+    private import std.logger;
+}
 private import std.algorithm : equal;
 private import std.string;
 private import std.typecons;
@@ -46,8 +49,12 @@ bool resolveRemotePackets(MyWindow window)
             parseAndExecuteUndoCommand(packet[0], packet[1], window);
             break;
         default:
-            auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-            cLogger.info("In packet.d switch statement. No case found.");
+            debug
+            {
+                auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+                cLogger.info("In packet.d switch statement. No case found.");
+            }
+
             break;
         }
     }

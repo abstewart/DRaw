@@ -1,7 +1,10 @@
 module model.Communicator;
 
 import std.concurrency;
-import std.logger;
+debug
+{
+    import std.logger;
+}
 import std.typecons;
 import std.algorithm;
 import std.datetime;
@@ -100,8 +103,12 @@ public:
     {
         if (instance is null)
         {
-            auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-            cLogger.info("attempting to get a new communicator");
+            debug
+            {
+                auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+                cLogger.info("attempting to get a new communicator");
+            }
+
             instance = new Communicator(port, ip, username);
             if (!Communicator.getConnectionStatus())
             {

@@ -1,6 +1,9 @@
 module model.network.thread_entry;
 
-import std.logger;
+debug
+{
+    import std.logger;
+}
 import std.string;
 import std.conv;
 import std.concurrency;
@@ -25,7 +28,10 @@ auto TIMEOUT_DUR = 1.msecs; // Timeout for checking interthread messages.
 void handleNetworking(Tid parent, string ipAddr, ushort port)
 {
     Client network = new Client(ipAddr, port);
-    auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+    debug
+    {
+        auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+    }
 
     for (bool active = true; active && network.isSocketOpen();)
     {
@@ -35,15 +41,26 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             network.sendToServer(packet);
         }, (immutable bool shutdown) {
             // If we receive a shutdown request, we will shutdown this thread.
-            cLogger.info("Shutting networking thread down upon request.");
+            debug
+            {
+                cLogger.info("Shutting networking thread down upon request.");
+            }
+
             active = false;
         }, (OwnerTerminated error) {
             // If our owner thread fails, we will shut down this thread as well.
-            cLogger.info("Shutting networking thread down upon owner termination.");
+            debug
+            {
+                cLogger.info("Shutting networking thread down upon owner termination.");
+            }
+
             active = false;
         }, (Variant any) {
             // In the case of any other packet we will simply log the information.
-            cLogger.info("In thread_entry.d. Received any other packet: ", any);
+            debug
+            {
+                cLogger.info("In thread_entry.d. Received any other packet: ", any);
+            }
         });
 
         // Receives information from the server if there is any.
@@ -54,12 +71,19 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
         {
             string encodedMsg = to!string(msgAndLen[0]);
             immutable long recvLen = msgAndLen[1];
-            cLogger.info("Received packet from server: " ~ encodedMsg[0 .. recvLen]);
+            debug
+            {
+                cLogger.info("Received packet from server: " ~ encodedMsg[0 .. recvLen]);
+            }
+
             send(parent, encodedMsg[0 .. recvLen], recvLen);
         }
     }
 
     destroy(network);
     // Log thread exit.
-    cLogger.info("thread has exited");
+    debug
+    {
+        cLogger.info("thread has exited");
+    }
 }

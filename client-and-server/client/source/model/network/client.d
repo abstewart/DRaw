@@ -1,7 +1,10 @@
 module model.network.client;
 
 import std.socket;
-import std.logger;
+debug
+{
+    import std.logger;
+}
 import std.typecons;
 import std.datetime;
 
@@ -21,7 +24,10 @@ private:
     ushort portNumber;
     TcpSocket sock;
     bool socketOpen;
-    FileLogger cLogger;
+    debug
+    {
+        FileLogger cLogger;
+    }
 
 public:
     /**
@@ -40,7 +46,10 @@ public:
         this.sock.setOption(SocketOptionLevel.SOCKET, SocketOption.RCVTIMEO, SOCKET_TIMEOUT);
         this.sock.connect(new InternetAddress(this.ipAddress, this.portNumber));
         this.socketOpen = true;
-        this.cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+        debug
+        {
+            this.cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
+        }
     }
 
     /**
@@ -49,7 +58,10 @@ public:
     ~this()
     {
         this.sock.close();
-        this.cLogger.info("closed socket");
+        debug
+        {
+            this.cLogger.info("closed socket");
+        }
     }
 
     /**
@@ -78,14 +90,21 @@ public:
             {
                 if (!wouldHaveBlocked())
                 {
-                    this.cLogger.warning("Socket error.");
+                    debug
+                    {
+                        this.cLogger.warning("Socket error.");
+                    }
+
                     this.sock.close();
                     this.socketOpen = false;
                 }
             }
             else
             {
-                this.cLogger.warning("Unknown received value.");
+                debug
+                {
+                    this.cLogger.warning("Unknown received value.");
+                }
             }
         }
         return Tuple!(char[1024], long)(message, recv);
@@ -101,7 +120,11 @@ public:
     {
         if (this.socketOpen)
         {
-            this.cLogger.info("Sending [" ~ packetData ~ "] to the server.");
+            debug
+            {
+                this.cLogger.info("Sending [\"" ~ packetData ~ "\"] to the server.");
+            }
+
             this.sock.send(packetData);
         }
     }
