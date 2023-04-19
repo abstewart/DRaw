@@ -71,4 +71,4 @@ View the resulting documentation HTML in the `generated-docs` directory. This wi
 * If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
 * When you are done running the client(s), closing the application down via exiting it or quitting it will shut down the client program. However, you have to `Control-c` the server program to shut down it down.
 * The server and/or client may take a moment to start up (during the `dub` print outs) -- please be patient, they will load and start up correctly.
-* A file called 'Client Log File' and a file called 'Server Log File' will be created (if not already created) in the `client-and-server` directory once the server and client have been run to log information.
+* If you run the debug build versions of the server and client, files named 'Client Log File' and 'Server Log File' will be created (if not already created) to log information. They will be in the `client-and-server` directory.
