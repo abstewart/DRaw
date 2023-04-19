@@ -2,7 +2,7 @@ module model.network.thread_entry;
 
 debug
 {
-    import std.logger;
+    private import std.stdio : writeln;
 }
 import std.string;
 import std.conv;
@@ -28,10 +28,6 @@ auto TIMEOUT_DUR = 1.msecs; // Timeout for checking interthread messages.
 void handleNetworking(Tid parent, string ipAddr, ushort port)
 {
     Client network = new Client(ipAddr, port);
-    debug
-    {
-        auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-    }
 
     for (bool active = true; active && network.isSocketOpen();)
     {
@@ -43,7 +39,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             // If we receive a shutdown request, we will shutdown this thread.
             debug
             {
-                cLogger.info("Shutting networking thread down upon request.");
+                writeln("Shutting networking thread down upon request.");
             }
 
             active = false;
@@ -51,7 +47,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             // If our owner thread fails, we will shut down this thread as well.
             debug
             {
-                cLogger.info("Shutting networking thread down upon owner termination.");
+                writeln("Shutting networking thread down upon owner termination.");
             }
 
             active = false;
@@ -59,7 +55,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             // In the case of any other packet we will simply log the information.
             debug
             {
-                cLogger.info("In thread_entry.d. Received any other packet: ", any);
+                writeln("In thread_entry.d. Received any other packet: ", any);
             }
         });
 
@@ -73,7 +69,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             immutable long recvLen = msgAndLen[1];
             debug
             {
-                cLogger.info("Received packet from server: " ~ encodedMsg[0 .. recvLen]);
+                writeln("Received packet from server: " ~ encodedMsg[0 .. recvLen]);
             }
 
             send(parent, encodedMsg[0 .. recvLen], recvLen);
@@ -84,6 +80,6 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
     // Log thread exit.
     debug
     {
-        cLogger.info("thread has exited");
+        writeln("thread has exited");
     }
 }

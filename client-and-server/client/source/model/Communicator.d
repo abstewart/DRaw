@@ -4,7 +4,7 @@ import std.concurrency;
 
 debug
 {
-    import std.logger;
+    private import std.stdio : writeln;
 }
 import std.typecons;
 import std.algorithm;
@@ -106,8 +106,7 @@ public:
         {
             debug
             {
-                auto cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-                cLogger.info("attempting to get a new communicator");
+                writeln("Attempting to get a new communicator.");
             }
 
             instance = new Communicator(port, ip, username);
