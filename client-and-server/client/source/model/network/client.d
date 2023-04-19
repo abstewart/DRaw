@@ -4,7 +4,7 @@ import std.socket;
 
 debug
 {
-    import std.logger;
+    private import std.stdio : writeln;
 }
 import std.typecons;
 import std.datetime;
@@ -25,10 +25,6 @@ private:
     ushort portNumber;
     TcpSocket sock;
     bool socketOpen;
-    debug
-    {
-        FileLogger cLogger;
-    }
 
 public:
     /**
@@ -47,10 +43,6 @@ public:
         this.sock.setOption(SocketOptionLevel.SOCKET, SocketOption.RCVTIMEO, SOCKET_TIMEOUT);
         this.sock.connect(new InternetAddress(this.ipAddress, this.portNumber));
         this.socketOpen = true;
-        debug
-        {
-            this.cLogger = new FileLogger("Client Log File"); // Will only create a new file if one with this name does not already exist.
-        }
     }
 
     /**
@@ -61,7 +53,7 @@ public:
         this.sock.close();
         debug
         {
-            this.cLogger.info("closed socket");
+            writeln("Closed socket.");
         }
     }
 
@@ -93,7 +85,7 @@ public:
                 {
                     debug
                     {
-                        this.cLogger.warning("Socket error.");
+                        writeln("Socket error.");
                     }
 
                     this.sock.close();
@@ -104,7 +96,7 @@ public:
             {
                 debug
                 {
-                    this.cLogger.warning("Unknown received value.");
+                    writeln("Unknown received value.");
                 }
             }
         }
@@ -123,7 +115,7 @@ public:
         {
             debug
             {
-                this.cLogger.info("Sending [\"" ~ packetData ~ "\"] to the server.");
+                writeln("Sending [\"" ~ packetData ~ "\"] to the server.");
             }
 
             this.sock.send(packetData);

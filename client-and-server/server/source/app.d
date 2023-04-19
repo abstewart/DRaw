@@ -2,11 +2,6 @@ private import std.stdio : writeln;
 private import std.getopt;
 private import std.conv;
 
-debug
-{
-    private import std.logger;
-}
-
 private import model.server_network;
 private import util.Validator;
 
@@ -15,30 +10,25 @@ private import util.Validator;
  */
 void main(string[] args)
 {
-    debug
-    {
-        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
-    }
-
     // If the number of command line arguments is not 0 or 2, alert the user and terminate the program.
     if (args.length == 2 || args.length > 3)
     {
         debug
         {
-            sLogger.warning("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server' OR 'dub run :server {ip address} " ~ " {port number}'");
+            writeln("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server' OR 'dub run :server {ip address} " ~ " {port number}'");
         }
 
         return;
     }
 
-    // For logging purposes.
+    // For debugging purposes.
     debug
     {
         if (args.length == 3)
         {
-            sLogger.info("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(
+            writeln("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(
                     Validator.isValidIPAddress(args[1])));
-            sLogger.info("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(
+            writeln("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(
                     Validator.isValidPort(args[2])));
         }
     }
@@ -64,7 +54,7 @@ void main(string[] args)
             {
                 debug
                 {
-                    sLogger.info(
+                    writeln(
                             "No command line arguments. The default ip address and port number will be used.");
                 }
 
@@ -74,7 +64,7 @@ void main(string[] args)
             {
                 debug
                 {
-                    sLogger.info("Valid ip address and port number!");
+                    writeln("Valid ip address and port number!");
                 }
 
                 string ipAddress = args[1];
@@ -89,10 +79,9 @@ void main(string[] args)
     {
         debug
         {
-            sLogger.warning("Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
+            writeln("Invalid ip address (\"%s\") and/or port number (\"%s\"). Could not start up server. Please try again.",
                     args[1], args[2]);
-            sLogger.warning(
-                    "Expecting this format in the terminal - 'dub run :server' OR 'dub run :server {ip address} "
+            writeln("Expecting this format in the terminal - 'dub run :server' OR 'dub run :server {ip address} "
                     ~ " {port number}'");
         }
     }

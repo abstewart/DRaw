@@ -7,12 +7,6 @@ private import std.typecons;
 private import std.array;
 private import std.algorithm;
 private import core.thread;
-
-debug
-{
-    private import std.logger;
-}
-
 private import model.packets.packet;
 private import view.MyWindow;
 private import controller.commands.Command;
@@ -31,10 +25,6 @@ int MESSAGE_BUFFER_SIZE = 1024;
  */
 void serverResolveRemotePacket(string packet)
 {
-    debug
-    {
-        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
-    }
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
     {
@@ -73,7 +63,7 @@ void serverResolveRemotePacket(string packet)
     default:
         debug
         {
-            sLogger.info("In serverResolveRemotePacket's switch statement. No case found.");
+            writeln("In serverResolveRemotePacket's switch statement. No case found.");
         }
 
         break;
@@ -215,18 +205,13 @@ void notifyAll(Socket[int] clients, string message)
  */
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
-    debug
-    {
-        auto sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
-    }
-
     Socket client = clients[ckey];
 
     foreach_reverse (cmd; ServerState.getCommandHistory())
     {
         debug
         {
-            sLogger.info("Sending sync: ", cmd);
+            writeln("Sending sync: ", cmd);
         }
 
         Thread.sleep(1.msecs);
@@ -236,7 +221,7 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
     {
         debug
         {
-            sLogger.info("Sending sync: ", chat);
+            writeln("Sending sync: ", chat);
         }
 
         Thread.sleep(1.msecs);
@@ -244,7 +229,7 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
     }
     debug
     {
-        sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
+        writeln("The command history length = ", ServerState.getCommandHistory().length);
     }
 }
 
@@ -264,10 +249,6 @@ class Server
     private long bufferSize;
     private static int clientCount;
     private Command[] commandStack = [];
-    debug
-    {
-        private FileLogger sLogger;
-    }
 
     /**
      * Constructs the server object.
@@ -290,10 +271,6 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
-        debug
-        {
-            this.sLogger = new FileLogger("Server Log File"); // Will only create a new file if one with this name does not already exist.
-        }
     }
 
     /**
@@ -322,7 +299,7 @@ class Server
                         recv);
                 debug
                 {
-                    sLogger.info("> user ", userIdConnStatus[0], " successfully connected");
+                    writeln("> user ", userIdConnStatus[0], " successfully connected");
                 }
 
                 this.users[this.clientCount] = userIdConnStatus[0];
@@ -343,14 +320,14 @@ class Server
                     {
                         debug
                         {
-                            sLogger.info("In server_network.d. Server received this packet: ",
+                            writeln("In server_network.d. Server received this packet: ",
                                     buffer[0 .. recv]);
                         }
 
                         serverResolveRemotePacket(to!string(buffer[0 .. recv]));
                         debug
                         {
-                            sLogger.info("The command history length = ",
+                            writeln("The command history length = ",
                                     ServerState.getCommandHistory().length);
                         }
 
@@ -360,7 +337,7 @@ class Server
                     {
                         debug
                         {
-                            sLogger.info("Client closed connection: ", key);
+                            writeln("Client closed connection: ", key);
                         }
 
                         client.close();
@@ -370,14 +347,14 @@ class Server
                     {
                         debug
                         {
-                            sLogger.warning("Socket error.");
+                            writeln("Socket error.");
                         }
                     }
                     else
                     {
                         debug
                         {
-                            sLogger.warning("Unknown socket reception return value.");
+                            writeln("Unknown socket reception return value.");
                         }
                     }
                 }
