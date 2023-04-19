@@ -25,7 +25,8 @@ void main(string[] args)
     {
         sLogger.info("isValidIPAddress(\"" ~ args[1] ~ "\") = " ~ to!string(
                 Validator.isValidIPAddress(args[1])));
-        sLogger.info("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(Validator.isValidPort(args[2])));
+        sLogger.info("isValidPort(\"" ~ args[2] ~ "\") = " ~ to!string(
+                Validator.isValidPort(args[2])));
     }
 
     // If there are no command line arguments OR there are 2 command line arguments create a server.

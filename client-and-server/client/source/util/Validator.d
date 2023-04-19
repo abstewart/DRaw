@@ -6,8 +6,9 @@ private import std.string : isNumeric;
 private import std.conv;
 private import std.typecons;
 
-class Validator {
-    public:
+class Validator
+{
+public:
     /**
      * Validates the given username.
      *
@@ -29,14 +30,23 @@ class Validator {
     }
 
     /**
-    * Testing the isValidUsername() method.
+    * Testing the isValidUsername() method with valid usernames.
     */
-    @("Testing isValidUsername")
-    unittest {
+    @("Testing isValidUsername valid")
+    unittest
+    {
         assert(isValidUsername("Mike Shah"));
         assert(isValidUsername("Rohit"));
         assert(isValidUsername("Bob"));
         assert(isValidUsername("User12"));
+    }
+
+    /**
+    * Testing the isValidUsername() method with invalid usernames.
+    */
+    @("Testing isValidUsername invalid")
+    unittest
+    {
         assert(!isValidUsername("   Mike"));
         assert(!isValidUsername(""));
         assert(!isValidUsername("   "));
@@ -62,21 +72,33 @@ class Validator {
     {
         // Regex expression for validating IPv4. (https://ihateregex.io/expr/ip/)
         auto r = regex(
-            r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
+                r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
         return ipAddress.equal("localhost") || matchFirst(ipAddress, r);
     }
 
     /**
-    * Testing the isValidIPAddress() method.
+    * Testing the isValidIPAddress() method with valid ip addresses.
     */
-    @("Testing isValidIPAddress")
-    unittest {
+    @("Testing isValidIPAddress valid")
+    unittest
+    {
         assert(isValidIPAddress("localhost"));
         assert(isValidIPAddress("192.168.1.1"));
         assert(isValidIPAddress("127.0.0.1"));
         assert(isValidIPAddress("0.0.0.0"));
         assert(isValidIPAddress("255.255.255.255"));
         assert(isValidIPAddress("1.2.3.4"));
+        assert(!isValidIPAddress("256.256.256.256"));
+        assert(!isValidIPAddress("999.999.999.999"));
+        assert(!isValidIPAddress("1.2.3"));
+    }
+
+    /**
+    * Testing the isValidIPAddress() method with invalid ip addresses.
+    */
+    @("Testing isValidIPAddress invalid")
+    unittest
+    {
         assert(!isValidIPAddress("256.256.256.256"));
         assert(!isValidIPAddress("999.999.999.999"));
         assert(!isValidIPAddress("1.2.3"));
@@ -123,13 +145,22 @@ class Validator {
     }
 
     /**
-    * Testing the isValidPort() method.
+    * Testing the isValidPort() method with valid port numbers.
     */
-    @("Testing isValidPort")
-    unittest {
+    @("Testing isValidPort valid")
+    unittest
+    {
         assert(isValidPort("50002"));
         assert(isValidPort("50001"));
         assert(isValidPort("50004"));
+    }
+
+    /**
+    * Testing the isValidPort() method with invalid port numbers.
+    */
+    @("Testing isValidPort invalid")
+    unittest
+    {
         assert(!isValidPort("0"));
         assert(!isValidPort("1024"));
         assert(!isValidPort("10"));

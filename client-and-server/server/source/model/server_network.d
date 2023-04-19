@@ -179,10 +179,12 @@ class Server
                     long recv = client.receive(buffer);
                     if (recv > 0)
                     {
-                        sLogger.info("In server_networkd.d. Server received this packet: ", buffer[0 .. recv]);
+                        sLogger.info("In server_networkd.d. Server received this packet: ",
+                                buffer[0 .. recv]);
 
                         serverResolveRemotePackets(to!string(buffer[0 .. recv]));
-                        sLogger.info("The command history length = ", ServerState.getCommandHistory().length);
+                        sLogger.info("The command history length = ",
+                                ServerState.getCommandHistory().length);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
                     }

@@ -133,7 +133,8 @@ public:
                 alreadyConnectedMsg.destroy();
                 return;
             }
-            if (Validator.isValidUsername(uname) && Validator.isValidPort(port) && Validator.isValidIPAddress(ipAddr))
+            if (Validator.isValidUsername(uname)
+                    && Validator.isValidPort(port) && Validator.isValidIPAddress(ipAddr))
             {
                 this.username = uname;
                 attemptConnection(this.username, ipAddr, to!ushort(port));
