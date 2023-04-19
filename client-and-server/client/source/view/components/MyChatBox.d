@@ -224,7 +224,7 @@ public:
         {
             amPm = "PM";
         }
-        else if (time.hour < 12)
+        else if (time.hour > 12)
         {
             ubyte h = time.hour % 12;
             hour = to!string(h);
