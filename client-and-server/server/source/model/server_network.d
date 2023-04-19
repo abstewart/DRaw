@@ -73,7 +73,7 @@ void serverResolveRemotePacket(string packet)
     default:
         debug
         {
-            sLogger.info("In serverResolveRemotePackets switch statement. No case found.");
+            sLogger.info("In serverResolveRemotePacket's switch statement. No case found.");
         }
 
         break;
@@ -347,7 +347,7 @@ class Server
                                     buffer[0 .. recv]);
                         }
 
-                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        serverResolveRemotePacket(to!string(buffer[0 .. recv]));
                         debug
                         {
                             sLogger.info("The command history length = ",
