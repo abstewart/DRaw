@@ -4,15 +4,27 @@
 
 ## Commands ##
 
-### Running the server ###
+### Running the server (debug Build Version) ###
 From the `client-and-server` directory either run the following command: `dub run :server` OR `dub run :server -- {insert ip address} {insert port number}`
 
 The former will run the server with the default ip address (localhost) and the default port number (50002). The latter will run the server with the inserted ip address and port number, assuming they are valid.
 
 This will run the first configuration inside the server subproject, which runs the server application.
 
-### Running the client ###
+### Running the client (debug Build Version) ###
 From the `client-and-server` directory, run the following command: `dub run :client`
+
+This will run the first configuration inside the client subproject, which runs the client application.
+
+### Running the server (release Build Version) ###
+From the `client-and-server` directory either run the following command: `dub run :server --build=release` OR `dub run :server -- {insert ip address} {insert port number}`
+
+The former will run the server with the default ip address (localhost) and the default port number (50002). The latter will run the server with the inserted ip address and port number, assuming they are valid.
+
+This will run the first configuration inside the server subproject, which runs the server application.
+
+### Running the client (release Build Version) ###
+From the `client-and-server` directory, run the following command: `dub run :client --build=release`
 
 This will run the first configuration inside the client subproject, which runs the client application.
 
