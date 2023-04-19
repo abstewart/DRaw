@@ -13,7 +13,7 @@ private import controller.commands.DrawRectangleCommand;
 private import view.MyWindow;
 
 /**
- * Constructs a command object from a command id, command type, width, x, y, and color
+ * Constructs a command object from a command id, command type, width, x, y, and color.
  * 
  * Params: 
  *        - cId    : int : the id of the command to create
@@ -22,6 +22,7 @@ private import view.MyWindow;
  *        - x      : int : the x position of the command to create
  *        - y      : int : the y position of the command to create
  *        - color  : string : the color of the command to create
+ *        - window : MyWindow : window object to reference drawing area for drawing commands
  */
 Command commandMux(int cId, int cType, int cWidth, int x, int y, string color, MyWindow window)
 {

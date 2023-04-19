@@ -90,6 +90,9 @@ public:
 
     /** 
      * Gets the image surface.
+     *
+     * Returns:
+     *        - surface : ImageSurface : the image surface of the drawing
      */
     public ImageSurface getImageSurface()
     {

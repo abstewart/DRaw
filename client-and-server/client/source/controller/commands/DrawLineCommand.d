@@ -61,6 +61,9 @@ public:
 
     /**
      * Encodes the command id, type, width, x, y and color in a string.
+     *
+     * Returns:
+     *        - encoded : string : comma separated string of fields of this command
      */
     override public string encode()
     {

@@ -1,11 +1,7 @@
 module model.server_network;
 
-// Imports.
-import controller.commands.Command;
-
 import std.socket;
 import std.stdio;
-import std.parallelism;
 import std.conv;
 import std.typecons;
 import std.array;
@@ -14,15 +10,21 @@ import core.thread;
 
 import model.packets.packet;
 import view.MyWindow;
-
-private import model.ServerState;
+import controller.commands.Command;
+import model.ServerState;
 
 ushort MAX_ALLOWED_CONNECTIONS = 100;
 string DEFAULT_SOCKET_IP = "localhost";
 ushort DEFAULT_PORT_NUMBER = 50002;
 int MESSAGE_BUFFER_SIZE = 1024;
 
-void serverResolveRemotePackets(string packet)
+/**
+ * Resolves the given packet with the server's state.
+ *
+ * Params:
+ *       - packet : string : packet to resolve
+ */
+void serverResolveRemotePacket(string packet)
 {
     immutable int packetType = to!int(packet[0]) - '0';
     switch (packetType)
@@ -31,11 +33,11 @@ void serverResolveRemotePackets(string packet)
         Tuple!(string, int, bool) info = decodeUserConnPacket(packet, 0);
         if (info[2])
         {
-           ServerState.addConnectedUser(info[0], info[1]);
+            ServerState.addConnectedUser(info[0], info[1]);
         }
         else
         {
-           ServerState.removeConnectedUser(info[1]);
+            ServerState.removeConnectedUser(info[1]);
         }
         break;
     case (DRAW_COMMAND_PACKET):
@@ -66,13 +68,101 @@ void serverResolveRemotePackets(string packet)
     }
 }
 
-Tuple!(string, int, Command) parseCommand(string message, long size)
+/**
+ * Tests the resolution of chat packets.
+ */
+@("Tests the resolution of chat packets")
+unittest
 {
-    //todo fix this when server state is implemented, this will likely cause NPR exceptions
-    MyWindow window;
-    return decodeUserDrawCommand(message, size, window);
+    ServerState.wipeChatHistory();
+    assert(ServerState.getChatHistory().length == 0);
+    string chatPacket = "3,ben%s,1,100000000,hello this is message %s\r";
+    for (int i = 1; i <= 100; i++)
+    {
+        serverResolveRemotePacket(chatPacket.format(i, i));
+        assert(ServerState.getChatHistory().length == i);
+    }
 }
 
+/**
+ * Tests the resolution of undo packets.
+ */
+@("Tests the resolution of undo packets")
+unittest
+{
+    ServerState.setCommandHistory([]);
+    assert(ServerState.getCommandHistory().length == 0);
+
+    string[] toSet = [];
+    string samplePacket = "1,%s,1,1,1,1,1,1,1|1|1|1\r";
+    for (int i = 1; i <= 20; i++)
+    {
+        for (int j = 1; j <= 100; j++)
+        {
+            toSet ~= samplePacket.format(i);
+        }
+    }
+    string undoPacket = "2,%s,1,1\r";
+    ServerState.setCommandHistory(toSet);
+    assert(ServerState.getCommandHistory().length == 2000);
+
+    for (int k = 1; k <= 10; k++)
+    {
+        serverResolveRemotePacket(undoPacket.format(k));
+        assert(ServerState.getCommandHistory().length == 2000 - k * 100);
+    }
+}
+
+/**
+* Tests the resolution of drawing packets.
+*/
+@("Tests the resolution of drawing packets")
+unittest
+{
+    ServerState.setCommandHistory([]);
+    assert(ServerState.getCommandHistory().length == 0);
+
+    string samplePacket = "1,drawCommandPacket,%s,1,1,1,1,1,1|1|1|1\r";
+    for (int i = 1; i <= 10; i++)
+    {
+        string toUpdateWith = samplePacket.format(i);
+        serverResolveRemotePacket(toUpdateWith);
+        auto updatedHistory = ServerState.getCommandHistory();
+        assert(updatedHistory.length == i);
+        assert(updatedHistory[$ - i] == toUpdateWith);
+    }
+}
+
+/**
+ * Tests resolution of user connection packets.
+ */
+@("Tests resolution of user connection packets")
+unittest
+{
+    ServerState.wipeConnectedUsers();
+    assert(ServerState.getConnectedUsers().keys().length == 0);
+
+    string connPacket = "0,user,-1,1\r";
+    serverResolveRemotePacket(connPacket);
+
+    assert(ServerState.getConnectedUsers().keys().length == 1);
+    string[int] connUsers = ServerState.getConnectedUsers();
+    assert(connUsers[-1] == "user");
+
+    string disconnPacket = "0,user,-1,0\r";
+    serverResolveRemotePacket(disconnPacket);
+
+    assert(ServerState.getConnectedUsers().keys().length == 0);
+}
+
+/**
+ * Notifies all clients in the given hashmap of the given message except the client with the given key.
+ *
+ * Params:
+ *       - clients : Socket[int] : hashmap of client id to socket
+ *       - message : string : message to notify clients with
+ *       - ckey    : int : key to client socket in set to not notify
+ */
 void notifyAllExcept(Socket[int] clients, string message, int ckey)
 {
     int[] curKeys = clients.keys();
@@ -87,6 +177,13 @@ void notifyAllExcept(Socket[int] clients, string message, int ckey)
     }
 }
 
+/**
+ * Notifies all clients in the given hashmap of the given message.
+ *
+ * Params: 
+ *       - clients : Socket[int] : hashmap of client id to socket
+ *       - message : string : message to notify clients of
+ */
 void notifyAll(Socket[int] clients, string message)
 {
     int[] curKeys = clients.keys();
@@ -97,6 +194,13 @@ void notifyAll(Socket[int] clients, string message)
     }
 }
 
+/**
+ * Sends the client of the given id the current server state.
+ *
+ * Params:
+ *       - clients : Socket[int] : list of clients
+ *       - ckey    : int : client id to sync
+ */
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
     Socket client = clients[ckey];
@@ -116,6 +220,9 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
     writeln(ServerState.getCommandHistory().length);
 }
 
+/**
+ * Class implementing all server and consensus functionalities for the application.
+ */
 class Server
 {
     private string ipAddress;
@@ -128,8 +235,16 @@ class Server
     private bool isRunning;
     private long bufferSize;
     private static int clientCount;
-    private Command[] commandStack = [];
 
+    /**
+     * Constructs the server object.
+     *
+     * Params:
+     *       - ipAddress          : string : the ipAddress to bind to
+     *       - portNumber         : ushort : the port number to bind to
+     *       - allowedConnections : ushort : the number of allowed simultaneous connections to the server
+     *       - bufferSize         : long : the buffer size of the socket
+     */
     this(string ipAddress = DEFAULT_SOCKET_IP, ushort portNumber = DEFAULT_PORT_NUMBER,
             ushort allowedConnections = MAX_ALLOWED_CONNECTIONS,
             long bufferSize = MESSAGE_BUFFER_SIZE)
@@ -142,14 +257,20 @@ class Server
         this.isRunning = true;
         this.sockSet = new SocketSet();
         this.bufferSize = bufferSize;
-
     }
 
+    /**
+     * Closes the socket upon destruction.
+     */
     ~this()
     {
         this.sock.close();
     }
 
+    /**
+     * Polls the socket set for new connections, if one has connected adds it to the server's state.
+     * When socket receives a new packet, stores packet in state and relays to all clients.
+     */
     void pollForMessagesAndClients()
     {
         if (Socket.select(this.sockSet, null, null))
@@ -167,12 +288,11 @@ class Server
                 this.users[this.clientCount] = userIdConnStatus[0];
                 notifyAll(this.connectedClients, encodeUserConnPacket(userIdConnStatus[0],
                         this.clientCount, userIdConnStatus[2]));
-                //todo look into not hanging server while syncing
                 writeln("sending sync update");
                 sendSyncUpdate(this.connectedClients, this.clientCount);
             }
             int[] curKeys = this.connectedClients.keys();
-            
+
             foreach (key; curKeys)
             {
                 Socket client = this.connectedClients[key];
@@ -184,7 +304,7 @@ class Server
                     {
                         writeln("received", buffer[0 .. recv]);
 
-                        serverResolveRemotePackets(to!string(buffer[0 .. recv]));
+                        serverResolveRemotePacket(to!string(buffer[0 .. recv]));
                         writeln(ServerState.getCommandHistory().length);
 
                         notifyAllExcept(this.connectedClients, to!string(buffer[0 .. recv]), key);
@@ -208,6 +328,9 @@ class Server
         }
     }
 
+    /**
+     * Initializes the socket set and adds client sockets to reset update status.
+     */
     void initializeSocketSet()
     {
         // Clear the readSet
@@ -220,6 +343,9 @@ class Server
         }
     }
 
+    /**
+     * Runs the loop of socket set initialization and polling.
+     */
     void handleReception()
     {
         while (this.isRunning)

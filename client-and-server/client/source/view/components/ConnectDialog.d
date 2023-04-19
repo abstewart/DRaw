@@ -100,7 +100,7 @@ public:
         this.myWindow.setConnection(connected);
         this.myWindow.setUsername(username);
         MessageDialog message = connected ? new MessageDialog(this, GtkDialogFlags.MODAL,
-                MessageType.INFO, ButtonsType.OK, "You are now connceted!") : new MessageDialog(this,
+                MessageType.INFO, ButtonsType.OK, "You are now connected!") : new MessageDialog(this,
                 GtkDialogFlags.MODAL,
                 MessageType.INFO, ButtonsType.OK, "Connection failed, please try again.");
         message.run();
