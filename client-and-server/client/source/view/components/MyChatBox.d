@@ -260,17 +260,20 @@ public:
         return (hour ~ ":" ~ minutes ~ " " ~ amPm);
     }
 
-    /**
+    version (OSX)
+    {
+        /**
      * Tests some time conversions for pretty printing.
      */
-    @("Tests time conversion into pretty string")
-    unittest
-    {
-        assert(MyChatBox.prettyTime(547453984739485) == "10:07 AM");
-        assert(MyChatBox.prettyTime(9847098) == "7:03 PM");
-        assert(MyChatBox.prettyTime(2948752094387029438) == "8:23 AM");
-        assert(MyChatBox.prettyTime(29384572098) == "7:52 PM");
-        assert(MyChatBox.prettyTime(131428397040192) == "9:51 PM");
+        @("Tests time conversion into pretty string")
+        unittest
+        {
+            assert(MyChatBox.prettyTime(547453984739485) == "10:07 AM");
+            assert(MyChatBox.prettyTime(9847098) == "7:03 PM");
+            assert(MyChatBox.prettyTime(2948752094387029438) == "8:23 AM");
+            assert(MyChatBox.prettyTime(29384572098) == "7:52 PM");
+            assert(MyChatBox.prettyTime(131428397040192) == "9:51 PM");
+        }
     }
 
     /**
