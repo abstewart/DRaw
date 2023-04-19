@@ -160,4 +160,4 @@ https://youtu.be/F0XVOL1zQHM
   </tbody>
 </table>
 
-**Note** To be 100% clear, every team member gets the same grade except for the peer assessment.
+**Note:** To be 100% clear, every team member gets the same grade except for the peer assessment.
