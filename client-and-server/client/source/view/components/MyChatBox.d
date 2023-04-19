@@ -156,7 +156,7 @@ public:
     public void updateMessageWindow(string uname, int cid, long time, string msg)
     {
         // Construct the actual message to display.
-        string chat = uname ~ ":" ~ to!string(cid) ~ "; " ~ this.prettyTime(
+        string chat = uname ~ ":" ~ to!string(cid) ~ " " ~ this.prettyTime(
                 time) ~ ":\n\t" ~ msg ~ "\n\n";
 
         // Add chat message to the chat buffer.
