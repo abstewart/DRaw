@@ -29,6 +29,24 @@ class Validator {
     }
 
     /**
+    * Testing the isValidUsername() method.
+    */
+    @("Testing isValidUsername")
+    unittest {
+        assert(isValidUsername("Mike Shah"));
+        assert(isValidUsername("Rohit"));
+        assert(isValidUsername("Bob"));
+        assert(isValidUsername("User12"));
+        assert(!isValidUsername("   Mike"));
+        assert(!isValidUsername(""));
+        assert(!isValidUsername("   "));
+        assert(!isValidUsername("  d"));
+        assert(!isValidUsername("User!!!"));
+        assert(!isValidUsername("\n"));
+        assert(!isValidUsername("\t\t\r"));
+    }
+
+    /**
      * Validates the given IP address.
      *
      * An IP address is valid if it is in IPv4 dotted-decimal form a.b.c.d where 0 <= a,b,c,d <= 255
@@ -46,6 +64,22 @@ class Validator {
         auto r = regex(
             r"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}");
         return ipAddress.equal("localhost") || matchFirst(ipAddress, r);
+    }
+
+    /**
+    * Testing the isValidIPAddress() method.
+    */
+    @("Testing isValidIPAddress")
+    unittest {
+        assert(isValidIPAddress("localhost"));
+        assert(isValidIPAddress("192.168.1.1"));
+        assert(isValidIPAddress("127.0.0.1"));
+        assert(isValidIPAddress("0.0.0.0"));
+        assert(isValidIPAddress("255.255.255.255"));
+        assert(isValidIPAddress("1.2.3.4"));
+        assert(!isValidIPAddress("256.256.256.256"));
+        assert(!isValidIPAddress("999.999.999.999"));
+        assert(!isValidIPAddress("1.2.3"));
     }
 
     /**
@@ -86,5 +120,20 @@ class Validator {
             return true;
         }
         return false;
+    }
+
+    /**
+    * Testing the isValidPort() method.
+    */
+    @("Testing isValidPort")
+    unittest {
+        assert(isValidPort("50002"));
+        assert(isValidPort("50001"));
+        assert(isValidPort("50004"));
+        assert(!isValidPort("0"));
+        assert(!isValidPort("1024"));
+        assert(!isValidPort("10"));
+        assert(!isValidPort("Testing"));
+        assert(!isValidPort("50002a"));
     }
 }
