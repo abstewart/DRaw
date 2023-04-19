@@ -211,13 +211,20 @@ public:
     /**
      * Transform a long time into a pretty string version.
      */
-    string prettyTime(long numTime)
+    public string prettyTime(long numTime)
     {
         SysTime time = SysTime(numTime);
         string amPm = "AM";
         string hour = to!string(time.hour);
         // Check from military time to standard time.
-        if (time.hour > 12)
+        if (time.hour == 0 || time.hour == 24) {
+            hour = "12";
+        }
+        else if (time.hour == 12)
+        {
+            amPm = "PM";
+        }
+        else if (time.hour < 12)
         {
             ubyte h = time.hour % 12;
             hour = to!string(h);
@@ -230,7 +237,7 @@ public:
         {
             minutes = "0" ~ minutes;
         }
-        return (hour ~ ":" ~ minutes ~ amPm);
+        return (hour ~ ":" ~ minutes ~ " " ~ amPm);
     }
 
     /**
