@@ -127,7 +127,8 @@ public:
     */
     static void sendDisconnectPacket(string username)
     {
-        if(!(instance is null)){
+        if (!(instance is null))
+        {
             int clientId = ApplicationState.getClientId();
             // Create connection packet (disconnected -- false) and send it to the server.
             string connReqPacket = encodeUserConnPacket(username, clientId, false);

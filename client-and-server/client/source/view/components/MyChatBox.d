@@ -236,7 +236,8 @@ public:
         string amPm = "AM";
         string hour = to!string(time.hour);
         // Check from military time to standard time.
-        if (time.hour == 0 || time.hour == 24) {
+        if (time.hour == 0 || time.hour == 24)
+        {
             hour = "12";
         }
         else if (time.hour == 12)
