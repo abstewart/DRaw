@@ -49,8 +49,7 @@ void main(string[] args)
             {
                 debug
                 {
-                    writeln(
-                            "Using default port and IP.");
+                    writeln("Using default port and IP.");
                 }
 
                 ourServer = new Server();

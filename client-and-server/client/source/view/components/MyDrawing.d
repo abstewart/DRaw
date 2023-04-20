@@ -209,7 +209,8 @@ public:
             this.buttonIsDown = true;
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
-             if (0 <= x && x <= this.width && 0 <= y && y <= this.height) {
+            if (0 <= x && x <= this.width && 0 <= y && y <= this.height)
+            {
                 // Draw/paint. Get the command based on the current brush type and then execute it.
                 int id = ApplicationState.getClientId();
                 Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());
@@ -277,7 +278,8 @@ public:
         {
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
-            if (0 <= x && x <= this.width && 0 <= y && y <= this.height) {
+            if (0 <= x && x <= this.width && 0 <= y && y <= this.height)
+            {
                 // Draw/paint. Get the command based on the current brush type and then execute it.
                 int id = ApplicationState.getClientId();
                 Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());

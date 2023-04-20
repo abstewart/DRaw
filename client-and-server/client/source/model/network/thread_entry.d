@@ -70,6 +70,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             debug
             {
                 import std.format;
+
                 writeln("Server -> %s".format(encodedMsg[0 .. recvLen]));
             }
 

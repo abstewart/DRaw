@@ -315,8 +315,7 @@ class Server
                     {
                         debug
                         {
-                            writeln("Client -> ",
-                                    buffer[0 .. recv]);
+                            writeln("Client -> ", buffer[0 .. recv]);
                         }
 
                         serverResolveRemotePacket(to!string(buffer[0 .. recv]));

@@ -107,7 +107,9 @@ public:
             debug
             {
                 import std.format;
-                writeln("Attempting to establish connection with new Communicator to IP: %s on port: %s".format(ip, port));
+
+                writeln("Attempting to establish connection with new Communicator to IP: %s on port: %s".format(ip,
+                        port));
             }
             instance = new Communicator(port, ip, username);
             if (!Communicator.getConnectionStatus())

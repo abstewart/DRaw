@@ -50,7 +50,8 @@ public:
      */
     ~this()
     {
-        if (this.socketOpen) {
+        if (this.socketOpen)
+        {
             this.sock.shutdown(SocketShutdown.BOTH);
             this.sock.close();
         }
@@ -120,6 +121,7 @@ public:
             debug
             {
                 import std.format;
+
                 writeln("%s -> Server".format(packetData));
             }
 
