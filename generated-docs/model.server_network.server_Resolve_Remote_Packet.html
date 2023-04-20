@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>serverResolveRemotePacket (model.server_network.serverResolveRemotePacket)</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="script.js" type="text/javascript"></script>
+
+	
+	<link href="search-results.html" rel="prefetch" />
+</head>
+<body>
+	<div id="page-header">
+		<div id="logotype">
+		<span>Documentation</span>
+		<nav>
+			<a href="http://dlang.org/">Dlang.org</a>
+		</nav>
+		</div>
+
+		<form action="search-docs.html" id="search">
+			<input name="searchTerm" placeholder="Find a symbol name..." type="search" />
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	<div id="page-body">
+		<div id="page-content">
+		<h1>serverResolveRemotePacket</h1><div class="breadcrumbs"><a class="breadcrumb" href="model.html">model</a> <a class="breadcrumb" href="model.server_network.html">server_network</a> </div><div><div class="documentation-comment synopsis"><div><p>Resolves the given packet with the server's state.</p></div></div></div><div class="annotated-prototype"><div class="function-prototype"><div class="attributes"></div><div class="return-type"><span class="builtin-type">void</span></div><div class="function-name">serverResolveRemotePacket</div><div class="template-parameters" data-count="0"></div><div class="runtime-parameters" data-count="1"><div class="parameters-list toplevel"><span class="paren">(</span><div class="runtime-parameter-item parameter-item"><span class="parameter-type-holder"><span class="parameter-type"><span class="builtin-type">string</span></span></span> <span class="parameter-name name" data-ident="packet"><a href="#param-packet">packet</a></span></div><span class="paren">)</span></div></div><div class="function-contracts"></div></div></div><div><h2 id="examples"><a class="header-anchor" href="#examples">Examples</a></h2><div class="documentation-comment"><div></div></div><div class="unittest-example-holder"><div class="documentation-comment"><p>Tests the resolution of chat packets.</p></div><pre class="d_code highlighted"><span class="hid">ServerState</span>.<span class="hid">wipeChatHistory</span>();
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getChatHistory</span>().<span class="hid">length</span> == <span class="num">0</span>);
+<span class="type">string</span> <span class="hid">chatPacket</span> = <span class="str">&quot;3,ben%s,1,100000000,hello this is message %s\r&quot;</span>;
+<span class="kwrd">for</span> (<span class="type">int</span> <span class="hid">i</span> = <span class="num">1</span>; <span class="hid">i</span> &lt;= <span class="num">100</span>; <span class="hid">i</span>++)
+{
+    <span class="hid">serverResolveRemotePacket</span>(<span class="hid">chatPacket</span>.<span class="hid">format</span>(<span class="hid">i</span>, <span class="hid">i</span>));
+    <span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getChatHistory</span>().<span class="hid">length</span> == <span class="hid">i</span>);
+}</pre></div><div class="unittest-example-holder"><div class="documentation-comment"><p>Tests the resolution of undo packets.</p></div><pre class="d_code highlighted"><span class="hid">ServerState</span>.<span class="hid">setCommandHistory</span>([]);
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getCommandHistory</span>().<span class="hid">length</span> == <span class="num">0</span>);
+
+<span class="type">string</span>[] <span class="hid">toSet</span> = [];
+<span class="type">string</span> <span class="hid">samplePacket</span> = <span class="str">&quot;1,%s,1,1,1,1,1,1,1|1|1|1\r&quot;</span>;
+<span class="kwrd">for</span> (<span class="type">int</span> <span class="hid">i</span> = <span class="num">1</span>; <span class="hid">i</span> &lt;= <span class="num">20</span>; <span class="hid">i</span>++)
+{
+    <span class="kwrd">for</span> (<span class="type">int</span> <span class="hid">j</span> = <span class="num">1</span>; <span class="hid">j</span> &lt;= <span class="num">100</span>; <span class="hid">j</span>++)
+    {
+        <span class="hid">toSet</span> ~= <span class="hid">samplePacket</span>.<span class="hid">format</span>(<span class="hid">i</span>);
+    }
+}
+<span class="type">string</span> <span class="hid">undoPacket</span> = <span class="str">&quot;2,%s,1,1\r&quot;</span>;
+<span class="hid">ServerState</span>.<span class="hid">setCommandHistory</span>(<span class="hid">toSet</span>);
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getCommandHistory</span>().<span class="hid">length</span> == <span class="num">2000</span>);
+
+<span class="kwrd">for</span> (<span class="type">int</span> <span class="hid">k</span> = <span class="num">1</span>; <span class="hid">k</span> &lt;= <span class="num">10</span>; <span class="hid">k</span>++)
+{
+    <span class="hid">serverResolveRemotePacket</span>(<span class="hid">undoPacket</span>.<span class="hid">format</span>(<span class="hid">k</span>));
+    <span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getCommandHistory</span>().<span class="hid">length</span> == <span class="num">2000</span> - <span class="hid">k</span> * <span class="num">100</span>);
+}</pre></div><div class="unittest-example-holder"><div class="documentation-comment"><p>Tests the resolution of drawing packets.</p></div><pre class="d_code highlighted"><span class="hid">ServerState</span>.<span class="hid">setCommandHistory</span>([]);
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getCommandHistory</span>().<span class="hid">length</span> == <span class="num">0</span>);
+
+<span class="type">string</span> <span class="hid">samplePacket</span> = <span class="str">&quot;1,drawCommandPacket,%s,1,1,1,1,1,1|1|1|1\r&quot;</span>;
+<span class="kwrd">for</span> (<span class="type">int</span> <span class="hid">i</span> = <span class="num">1</span>; <span class="hid">i</span> &lt;= <span class="num">10</span>; <span class="hid">i</span>++)
+{
+    <span class="type">string</span> <span class="hid">toUpdateWith</span> = <span class="hid">samplePacket</span>.<span class="hid">format</span>(<span class="hid">i</span>);
+    <span class="hid">serverResolveRemotePacket</span>(<span class="hid">toUpdateWith</span>);
+    <span class="kwrd">auto</span> <span class="hid">updatedHistory</span> = <span class="hid">ServerState</span>.<span class="hid">getCommandHistory</span>();
+    <span class="kwrd">assert</span>(<span class="hid">updatedHistory</span>.<span class="hid">length</span> == <span class="hid">i</span>);
+    <span class="kwrd">assert</span>(<span class="hid">updatedHistory</span>[$ - <span class="hid">i</span>] == <span class="hid">toUpdateWith</span>);
+}</pre></div><div class="unittest-example-holder"><div class="documentation-comment"><p>Tests resolution of user connection packets.</p></div><pre class="d_code highlighted"><span class="hid">ServerState</span>.<span class="hid">wipeConnectedUsers</span>();
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getConnectedUsers</span>().<span class="hid">keys</span>().<span class="hid">length</span> == <span class="num">0</span>);
+
+<span class="type">string</span> <span class="hid">connPacket</span> = <span class="str">&quot;0,user,-1,1\r&quot;</span>;
+<span class="hid">serverResolveRemotePacket</span>(<span class="hid">connPacket</span>);
+
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getConnectedUsers</span>().<span class="hid">keys</span>().<span class="hid">length</span> == <span class="num">1</span>);
+<span class="type">string</span>[<span class="type">int</span>] <span class="hid">connUsers</span> = <span class="hid">ServerState</span>.<span class="hid">getConnectedUsers</span>();
+<span class="kwrd">assert</span>(<span class="hid">connUsers</span>[-<span class="num">1</span>] == <span class="str">&quot;user&quot;</span>);
+
+<span class="type">string</span> <span class="hid">disconnPacket</span> = <span class="str">&quot;0,user,-1,0\r&quot;</span>;
+<span class="hid">serverResolveRemotePacket</span>(<span class="hid">disconnPacket</span>);
+
+<span class="kwrd">assert</span>(<span class="hid">ServerState</span>.<span class="hid">getConnectedUsers</span>().<span class="hid">keys</span>().<span class="hid">length</span> == <span class="num">0</span>);</pre></div></div></div>
+		<div id="page-nav"><a class="parent" href="model.html">model</a> <a class="parent" href="model.server_network.html">server_network</a> 
+		<span class="type-separator">classes</span><ul><li><a class="class" href="model.server_network._Server.html">Server</a></li></ul><span class="type-separator">functions</span><ul><li><a class="function" href="model.server_network.notify_All.html">notifyAll</a></li><li><a class="function" href="model.server_network.notify_All_Except.html">notifyAllExcept</a></li><li><a class="function" href="model.server_network.send_Sync_Update.html">sendSyncUpdate</a></li><li><a class="function current" href="model.server_network.server_Resolve_Remote_Packet.html">serverResolveRemotePacket</a></li></ul></div>
+	</div>
+	<div id="page-footer">Page generated by <a href="https://github.com/adamdruppe/adrdox">adrdox</a></div>
+</body>
+</html>

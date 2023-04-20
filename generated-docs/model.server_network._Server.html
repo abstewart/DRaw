@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Server (model.server_network.Server)</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="script.js" type="text/javascript"></script>
+
+	
+	<link href="search-results.html" rel="prefetch" />
+</head>
+<body>
+	<div id="page-header">
+		<div id="logotype">
+		<span>Documentation</span>
+		<nav>
+			<a href="http://dlang.org/">Dlang.org</a>
+		</nav>
+		</div>
+
+		<form action="search-docs.html" id="search">
+			<input name="searchTerm" placeholder="Find a symbol name..." type="search" />
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	<div id="page-body">
+		<div id="page-content">
+		<h1>Server</h1><div class="breadcrumbs"><a class="breadcrumb" href="model.html">model</a> <a class="breadcrumb" href="model.server_network.html">server_network</a> </div><div><div class="documentation-comment synopsis"><div><p>Class implementing all server and consensus functionalities for the application.</p></div></div></div><div class="annotated-prototype"><div class="aggregate-prototype"><div class="attributes"></div><span class="builtin-type">class</span> Server  {<div class="aggregate-member"><a href="model.server_network._Server.this.html"><span class="lang-feature name">this</span>(string ipAddress, ushort portNumber, ushort allowedConnections, long bufferSize);</a></div><div class="aggregate-member"><a href="model.server_network._Server.~this.html"><span class="lang-feature name">~this</span>();</a></div><div class="aggregate-member"><a href="model.server_network._Server.poll_For_Messages_And_Clients.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">pollForMessagesAndClients</span>();</a></div><div class="aggregate-member"><a href="model.server_network._Server.initialize_Socket_Set.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">initializeSocketSet</span>();</a></div><div class="aggregate-member"><a href="model.server_network._Server.handle_Reception.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">handleReception</span>();</a></div>}</div></div><h2 id="constructors"><a class="header-anchor" href="#constructors">Constructors</a></h2><dl class="member-list constructors"><dt><a href="model.server_network._Server.this.html">this</a><div class="simplified-prototype" style="max-width: 93ch;"><span class="lang-feature name">this</span>(string ipAddress, ushort portNumber, ushort allowedConnections, long bufferSize)</div></dt><dd><div><p>Constructs the server object.</p></div></dd></dl><h2 id="destructor"><a class="header-anchor" href="#destructor">Destructor</a></h2><dl class="member-list"><dt><a href="model.server_network._Server.~this.html">~this</a><div class="simplified-prototype" style="max-width: 7ch;"><span class="lang-feature name">~this</span>()</div></dt><dd><div><p>Closes the socket upon destruction.</p></div></dd></dl><h2 id="members"><a class="header-anchor" href="#members">Members</a></h2><h3 class="member-list-header hide-from-toc" id="function"><a class="header-anchor" href="#function">Functions</a></h3><dl class="member-list native"><dt><a href="model.server_network._Server.handle_Reception.html">handleReception</a><div class="simplified-prototype" style="max-width: 24ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">handleReception</span>()</div></dt><dd><div><p>Runs the loop of socket set initialization and polling.</p></div></dd><dt><a href="model.server_network._Server.initialize_Socket_Set.html">initializeSocketSet</a><div class="simplified-prototype" style="max-width: 28ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">initializeSocketSet</span>()</div></dt><dd><div><p>Initializes the socket set and adds client sockets to reset update status.</p></div></dd><dt><a href="model.server_network._Server.poll_For_Messages_And_Clients.html">pollForMessagesAndClients</a><div class="simplified-prototype" style="max-width: 35ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">pollForMessagesAndClients</span>()</div></dt><dd><div><p>Polls the socket set for new connections, if one has connected adds it to the server's state.
+When socket receives a new packet, stores packet in state and relays to all clients.</p></div></dd></dl><div></div></div>
+		<div id="page-nav"><a class="parent" href="model.html">model</a> <a class="parent" href="model.server_network.html">server_network</a> 
+		<span class="type-separator">classes</span><ul><li><a class="class current" href="model.server_network._Server.html">Server</a></li></ul><span class="type-separator">functions</span><ul><li><a class="function" href="model.server_network.notify_All.html">notifyAll</a></li><li><a class="function" href="model.server_network.notify_All_Except.html">notifyAllExcept</a></li><li><a class="function" href="model.server_network.send_Sync_Update.html">sendSyncUpdate</a></li><li><a class="function" href="model.server_network.server_Resolve_Remote_Packet.html">serverResolveRemotePacket</a></li></ul></div>
+	</div>
+	<div id="page-footer">Page generated by <a href="https://github.com/adamdruppe/adrdox">adrdox</a></div>
+</body>
+</html>

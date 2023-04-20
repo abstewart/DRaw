@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>MyChatBox (view.components.MyChatBox.MyChatBox)</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="script.js" type="text/javascript"></script>
+
+	
+	<link href="search-results.html" rel="prefetch" />
+</head>
+<body>
+	<div id="page-header">
+		<div id="logotype">
+		<span>Documentation</span>
+		<nav>
+			<a href="http://dlang.org/">Dlang.org</a>
+		</nav>
+		</div>
+
+		<form action="search-docs.html" id="search">
+			<input name="searchTerm" placeholder="Find a symbol name..." type="search" />
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	<div id="page-body">
+		<div id="page-content">
+		<h1>MyChatBox</h1><div class="breadcrumbs"><a class="breadcrumb" href="view.html">view</a> <a class="breadcrumb" href="view.components.html">components</a> <a class="breadcrumb" href="view.components._My_Chat_Box.html">MyChatBox</a> </div><div><div class="documentation-comment synopsis"><div><p>Class representing the box the user chats in.</p></div></div></div><div class="annotated-prototype"><div class="aggregate-prototype"><div class="attributes"></div><span class="builtin-type">class</span> MyChatBox  : VBox {<div class="aggregate-member"><a href="view.components._My_Chat_Box._My_Chat_Box.this.html"><span class="lang-feature name">this</span>(MyWindow myWindow, string username);</a></div><div class="aggregate-member"><a href="view.components._My_Chat_Box._My_Chat_Box.set_Username.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">setUsername</span>(string newUsername);</a></div><div class="aggregate-member"><a href="view.components._My_Chat_Box._My_Chat_Box.process_Self_Chat.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">processSelfChat</span>();</a></div><div class="aggregate-member"><a href="view.components._My_Chat_Box._My_Chat_Box.update_Message_Window.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">updateMessageWindow</span>(string uname, int cid, long time, string msg);</a></div><div class="aggregate-member"><a href="view.components._My_Chat_Box._My_Chat_Box.user_Connection_Update.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">userConnectionUpdate</span>(string uname, int cid, bool connection);</a></div><div class="aggregate-member"><a href="view.components._My_Chat_Box._My_Chat_Box.your_Connection_Update.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">yourConnectionUpdate</span>(string uname, bool connection);</a></div>}</div></div><h2 id="constructors"><a class="header-anchor" href="#constructors">Constructors</a></h2><dl class="member-list constructors"><dt><a href="view.components._My_Chat_Box._My_Chat_Box.this.html">this</a><div class="simplified-prototype" style="max-width: 44ch;"><span class="lang-feature name">this</span>(MyWindow myWindow, string username)</div></dt><dd><div><p>Constructs a MyChatBox instance.</p></div></dd></dl><h2 id="members"><a class="header-anchor" href="#members">Members</a></h2><h3 class="member-list-header hide-from-toc" id="function"><a class="header-anchor" href="#function">Functions</a></h3><dl class="member-list native"><dt><a href="view.components._My_Chat_Box._My_Chat_Box.process_Self_Chat.html">processSelfChat</a><div class="simplified-prototype" style="max-width: 24ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">processSelfChat</span>()</div></dt><dd><div><p>Handle a chat message from ourselves. This includes sending the message to the server.</p></div></dd><dt><a href="view.components._My_Chat_Box._My_Chat_Box.set_Username.html">setUsername</a><div class="simplified-prototype" style="max-width: 39ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">setUsername</span>(string newUsername)</div></dt><dd><div><p>Sets the username to be a new username.</p></div></dd><dt><a href="view.components._My_Chat_Box._My_Chat_Box.update_Message_Window.html">updateMessageWindow</a><div class="simplified-prototype" style="max-width: 77ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">updateMessageWindow</span>(string uname, int cid, long time, string msg)</div></dt><dd><div><p>Send the message to the chat.</p></div></dd><dt><a href="view.components._My_Chat_Box._My_Chat_Box.user_Connection_Update.html">userConnectionUpdate</a><div class="simplified-prototype" style="max-width: 71ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">userConnectionUpdate</span>(string uname, int cid, bool connection)</div></dt><dd><div><p>Send the user connection update status (whether a user has joined or left the chat).</p></div></dd><dt><a href="view.components._My_Chat_Box._My_Chat_Box.your_Connection_Update.html">yourConnectionUpdate</a><div class="simplified-prototype" style="max-width: 61ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">yourConnectionUpdate</span>(string uname, bool connection)</div></dt><dd><div><p>Handle when you yourself join or leave the chat.</p></div></dd></dl><div></div></div>
+		<div id="page-nav"><a class="parent" href="view.html">view</a> <a class="parent" href="view.components.html">components</a> <a class="parent" href="view.components._My_Chat_Box.html">MyChatBox</a> 
+		<span class="type-separator">classes</span><ul><li><a class="class current" href="view.components._My_Chat_Box._My_Chat_Box.html">MyChatBox</a></li></ul></div>
+	</div>
+	<div id="page-footer">Page generated by <a href="https://github.com/adamdruppe/adrdox">adrdox</a></div>
+</body>
+</html>

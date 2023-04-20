@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Validator.isValidIPAddress (util.Validator.Validator.isValidIPAddress)</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="script.js" type="text/javascript"></script>
+
+	
+	<link href="search-results.html" rel="prefetch" />
+</head>
+<body>
+	<div id="page-header">
+		<div id="logotype">
+		<span>Documentation</span>
+		<nav>
+			<a href="http://dlang.org/">Dlang.org</a>
+		</nav>
+		</div>
+
+		<form action="search-docs.html" id="search">
+			<input name="searchTerm" placeholder="Find a symbol name..." type="search" />
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	<div id="page-body">
+		<div id="page-content">
+		<h1>Validator.isValidIPAddress</h1><div class="breadcrumbs"><a class="breadcrumb" href="util.html">util</a> <a class="breadcrumb" href="util._Validator.html">Validator</a> <a class="breadcrumb" href="util._Validator._Validator.html">Validator</a> </div><div><div class="documentation-comment synopsis"><div><p>Validates the given IP address.</p><p>An IP address is valid if it is in IPv4 dotted-decimal form a.b.c.d where 0 &lt;= a,b,c,d &lt;= 255
+or if IP address is a hostname that will resolve.</p></div></div></div><div class="annotated-prototype"><div class="function-prototype"><div class="parent-prototype"><span class="builtin-type">class</span> <span class="name">Validator</span></div><div><div class="attributes">static </div><div class="return-type"><span class="builtin-type">bool</span></div><div class="function-name">isValidIPAddress</div><div class="template-parameters" data-count="0"></div><div class="runtime-parameters" data-count="1"><div class="parameters-list toplevel"><span class="paren">(</span><div class="runtime-parameter-item parameter-item"><span class="parameter-type-holder"><span class="parameter-type"><span class="builtin-type">string</span></span></span> <span class="parameter-name name" data-ident="ipAddress"><a href="#param-ipAddress">ipAddress</a></span></div><span class="paren">)</span></div></div><div class="function-contracts"></div></div></div></div><div><h2 id="returns"><a class="header-anchor" href="#returns">Return Value</a></h2><div><div class="return-type-holder">Type: <span class="return-type"><span class="builtin-type">bool</span></span></div><div class="documentation-comment returns-description"><div><p>- status : bool : true if the IP address is valid, false if not</p></div></div></div><h2 id="examples"><a class="header-anchor" href="#examples">Examples</a></h2><div class="documentation-comment"><div></div></div><div class="unittest-example-holder"><div class="documentation-comment"><p>Testing the isValidIPAddress() method with valid ip addresses.</p></div><pre class="d_code highlighted"><span class="kwrd">assert</span>(<span class="hid">isValidIPAddress</span>(<span class="str">&quot;localhost&quot;</span>));
+<span class="kwrd">assert</span>(<span class="hid">isValidIPAddress</span>(<span class="str">&quot;192.168.1.1&quot;</span>));
+<span class="kwrd">assert</span>(<span class="hid">isValidIPAddress</span>(<span class="str">&quot;127.0.0.1&quot;</span>));
+<span class="kwrd">assert</span>(<span class="hid">isValidIPAddress</span>(<span class="str">&quot;0.0.0.0&quot;</span>));
+<span class="kwrd">assert</span>(<span class="hid">isValidIPAddress</span>(<span class="str">&quot;255.255.255.255&quot;</span>));
+<span class="kwrd">assert</span>(<span class="hid">isValidIPAddress</span>(<span class="str">&quot;1.2.3.4&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;256.256.256.256&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;999.999.999.999&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;1.2.3&quot;</span>));
+</pre></div><div class="unittest-example-holder"><div class="documentation-comment"><p>Testing the isValidIPAddress() method with invalid ip addresses.</p></div><pre class="d_code highlighted"><span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="kwrd">null</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;localHOST&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;testing&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;256.256.256.256&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;999.999.999.999&quot;</span>));
+<span class="kwrd">assert</span>(!<span class="hid">isValidIPAddress</span>(<span class="str">&quot;1.2.3&quot;</span>));
+</pre></div></div></div>
+		<div id="page-nav"><a class="parent" href="util.html">util</a> <a class="parent" href="util._Validator.html">Validator</a> <a class="parent" href="util._Validator._Validator.html">Validator</a> 
+		<span class="type-separator">static functions</span><ul><li><a class="static-function current" href="util._Validator._Validator.is_Valid_I_P_Address.html">isValidIPAddress</a></li><li><a class="static-function" href="util._Validator._Validator.is_Valid_Port.html">isValidPort</a></li><li><a class="static-function" href="util._Validator._Validator.is_Valid_Username.html">isValidUsername</a></li></ul></div>
+	</div>
+	<div id="page-footer">Page generated by <a href="https://github.com/adamdruppe/adrdox">adrdox</a></div>
+</body>
+</html>

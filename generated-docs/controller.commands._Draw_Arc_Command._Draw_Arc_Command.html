@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>DrawArcCommand (controller.commands.DrawArcCommand.DrawArcCommand)</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="script.js" type="text/javascript"></script>
+
+	
+	<link href="search-results.html" rel="prefetch" />
+</head>
+<body>
+	<div id="page-header">
+		<div id="logotype">
+		<span>Documentation</span>
+		<nav>
+			<a href="http://dlang.org/">Dlang.org</a>
+		</nav>
+		</div>
+
+		<form action="search-docs.html" id="search">
+			<input name="searchTerm" placeholder="Find a symbol name..." type="search" />
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	<div id="page-body">
+		<div id="page-content">
+		<h1>DrawArcCommand</h1><div class="breadcrumbs"><a class="breadcrumb" href="controller.html">controller</a> <a class="breadcrumb" href="controller.commands.html">commands</a> <a class="breadcrumb" href="controller.commands._Draw_Arc_Command.html">DrawArcCommand</a> </div><div><div class="documentation-comment synopsis"><div><p>Implements functionality for drawing and undoing an 'Arc' on a Cairo Canvas.</p></div></div></div><div class="annotated-prototype"><div class="aggregate-prototype"><div class="attributes"></div><span class="builtin-type">class</span> DrawArcCommand  : <a class="xref parent-class" href="controller.commands._Command._Command.html">Command</a>  {<div class="aggregate-member"><div class="attributes">static immutable </div><tt class="highlighted"><span class="type">int</span></tt> <span class="name">cType</span>;</div><div class="aggregate-member"><a href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.this.html"><span class="lang-feature name">this</span>(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id);</a></div><div class="aggregate-member"><a href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.execute.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">execute</span>();</a></div><div class="aggregate-member"><a href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.encode.html"><tt class="highlighted"><span class="type">string</span></tt> <span class="name">encode</span>();</a></div>}</div></div><h2 id="constructors"><a class="header-anchor" href="#constructors">Constructors</a></h2><dl class="member-list constructors"><dt><a href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.this.html">this</a><div class="simplified-prototype" style="max-width: 84ch;"><span class="lang-feature name">this</span>(int x, int y, RGBA currentColor, int width, MyDrawing myDrawing, int id)</div></dt><dd><div><p>Constructs a DrawArcCommand instance.</p></div></dd></dl><h2 id="members"><a class="header-anchor" href="#members">Members</a></h2><h3 class="member-list-header hide-from-toc" id="function"><a class="header-anchor" href="#function">Functions</a></h3><dl class="member-list native"><dt><a href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.encode.html">encode</a><div class="simplified-prototype" style="max-width: 16ch;"><tt class="highlighted"><span class="type">string</span></tt> <span class="name">encode</span>()</div></dt><dd><div><p>Encodes the command id, type, width, x, y and color in a string.</p></div></dd><dt><a href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.execute.html">execute</a><div class="simplified-prototype" style="max-width: 15ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">execute</span>()</div></dt><dd><div><p>Draws an arc on the canvas.</p></div></dd></dl><h2 id="inherited-members"><a class="header-anchor" href="#inherited-members">Inherited Members</a></h2><h3 id="inherited-from-controller.commands.Command.Command"><a class="header-anchor" href="#inherited-from-controller.commands.Command.Command">From Command</a></h3><dl class="member-list inherited"><dt><a href="controller.commands._Command._Command.get_Cmd_Id.html">getCmdId</a><div class="simplified-prototype" style="max-width: 15ch;"><tt class="highlighted"><span class="type">int</span></tt> <span class="name">getCmdId</span>()</div></dt><dd><div><p>Gets the command ID.</p></div></dd><dt><a href="controller.commands._Command._Command.execute.html">execute</a><div class="simplified-prototype" style="max-width: 15ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">execute</span>()</div></dt><dd><div><p>Executes the command on the canvas.</p></div></dd><dt><a href="controller.commands._Command._Command.undo.html">undo</a><div class="simplified-prototype" style="max-width: 12ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">undo</span>()</div></dt><dd><div><p>Function for undoing an Execute command.</p></div></dd><dt><a href="controller.commands._Command._Command.save_Old_Rect.html">saveOldRect</a><div class="simplified-prototype" style="max-width: 42ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">saveOldRect</span>(int width, int height)</div></dt><dd><div><p>Function to save specified area to the given ImageSurface.</p></div></dd><dt><a href="controller.commands._Command._Command.get_Color_String.html">getColorString</a><div class="simplified-prototype" style="max-width: 25ch;"><tt class="highlighted"><span class="type">string</span></tt> <span class="name">getColorString</span>()</div></dt><dd><div><p>Gets the color in string format.</p></div></dd><dt><a href="controller.commands._Command._Command.encode.html">encode</a><div class="simplified-prototype" style="max-width: 16ch;"><tt class="highlighted"><span class="type">string</span></tt> <span class="name">encode</span>()</div></dt><dd><div><p>Abstract method to encode the command into a string. 
+Child classes will override this method and encode their relevant information.</p></div></dd></dl><div></div></div>
+		<div id="page-nav"><a class="parent" href="controller.html">controller</a> <a class="parent" href="controller.commands.html">commands</a> <a class="parent" href="controller.commands._Draw_Arc_Command.html">DrawArcCommand</a> 
+		<span class="type-separator">classes</span><ul><li><a class="class current" href="controller.commands._Draw_Arc_Command._Draw_Arc_Command.html">DrawArcCommand</a></li></ul></div>
+	</div>
+	<div id="page-footer">Page generated by <a href="https://github.com/adamdruppe/adrdox">adrdox</a></div>
+</body>
+</html>

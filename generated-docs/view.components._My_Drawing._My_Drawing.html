@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>MyDrawing (view.components.MyDrawing.MyDrawing)</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+        <link href="style.css" rel="stylesheet" />
+        <script src="script.js" type="text/javascript"></script>
+
+	
+	<link href="search-results.html" rel="prefetch" />
+</head>
+<body>
+	<div id="page-header">
+		<div id="logotype">
+		<span>Documentation</span>
+		<nav>
+			<a href="http://dlang.org/">Dlang.org</a>
+		</nav>
+		</div>
+
+		<form action="search-docs.html" id="search">
+			<input name="searchTerm" placeholder="Find a symbol name..." type="search" />
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	<div id="page-body">
+		<div id="page-content">
+		<h1>MyDrawing</h1><div class="breadcrumbs"><a class="breadcrumb" href="view.html">view</a> <a class="breadcrumb" href="view.components.html">components</a> <a class="breadcrumb" href="view.components._My_Drawing.html">MyDrawing</a> </div><div><div class="documentation-comment synopsis"><div><p>Class representing the drawing area that the user is drawing/painting on.</p></div></div></div><div class="annotated-prototype"><div class="aggregate-prototype"><div class="attributes"></div><span class="builtin-type">class</span> MyDrawing  : DrawingArea {<div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.this.html"><span class="lang-feature name">this</span>();</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.get_Spin.html"><tt class="highlighted"><span class="hid">SpinButton</span></tt> <span class="name">getSpin</span>();</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.get_Image_Surface.html"><tt class="highlighted"><span class="hid">ImageSurface</span></tt> <span class="name">getImageSurface</span>();</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.update_Brush_Color.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">updateBrushColor</span>(RGBA newColor);</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.save_Whiteboard.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">saveWhiteboard</span>();</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.undo_Whiteboard.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">undoWhiteboard</span>();</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.on_Brush_Option_Changed.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">onBrushOptionChanged</span>(ComboBoxText comboBoxText);</a></div><div class="aggregate-member"><a href="view.components._My_Drawing._My_Drawing.clear_Drawing.html"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">clearDrawing</span>();</a></div>}</div></div><h2 id="constructors"><a class="header-anchor" href="#constructors">Constructors</a></h2><dl class="member-list constructors"><dt><a href="view.components._My_Drawing._My_Drawing.this.html">this</a><div class="simplified-prototype" style="max-width: 6ch;"><span class="lang-feature name">this</span>()</div></dt><dd><div><p>Constructs a myDrawing instance.</p></div></dd></dl><h2 id="members"><a class="header-anchor" href="#members">Members</a></h2><h3 class="member-list-header hide-from-toc" id="function"><a class="header-anchor" href="#function">Functions</a></h3><dl class="member-list native"><dt><a href="view.components._My_Drawing._My_Drawing.clear_Drawing.html">clearDrawing</a><div class="simplified-prototype" style="max-width: 20ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">clearDrawing</span>()</div></dt><dd><div><p>Clear the drawing board.</p></div></dd><dt><a href="view.components._My_Drawing._My_Drawing.get_Image_Surface.html">getImageSurface</a><div class="simplified-prototype" style="max-width: 33ch;"><tt class="highlighted"><span class="hid">ImageSurface</span></tt> <span class="name">getImageSurface</span>()</div></dt><dd><div><p>Gets the image surface.</p></div></dd><dt><a href="view.components._My_Drawing._My_Drawing.get_Spin.html">getSpin</a><div class="simplified-prototype" style="max-width: 22ch;"><tt class="highlighted"><span class="hid">SpinButton</span></tt> <span class="name">getSpin</span>()</div></dt><dd><div><p>Gets the spin button.</p></div></dd><dt><a href="view.components._My_Drawing._My_Drawing.on_Brush_Option_Changed.html">onBrushOptionChanged</a><div class="simplified-prototype" style="max-width: 57ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">onBrushOptionChanged</span>(ComboBoxText comboBoxText)</div></dt><dd><div><p>Sets the brush type upon combo box interaction.</p></div></dd><dt><a href="view.components._My_Drawing._My_Drawing.save_Whiteboard.html">saveWhiteboard</a><div class="simplified-prototype" style="max-width: 23ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">saveWhiteboard</span>()</div></dt><dd><div><p>Saves the images as a png to disk.</p></div></dd><dt><a href="view.components._My_Drawing._My_Drawing.undo_Whiteboard.html">undoWhiteboard</a><div class="simplified-prototype" style="max-width: 23ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">undoWhiteboard</span>()</div></dt><dd><div><p>Undo all commands in the command history with the id of the most recent command.</p></div></dd><dt><a href="view.components._My_Drawing._My_Drawing.update_Brush_Color.html">updateBrushColor</a><div class="simplified-prototype" style="max-width: 39ch;"><tt class="highlighted"><span class="type">void</span></tt> <span class="name">updateBrushColor</span>(RGBA newColor)</div></dt><dd><div><p>Method called when the user selects a color in the color chooser dialog.</p></div></dd></dl><div></div></div>
+		<div id="page-nav"><a class="parent" href="view.html">view</a> <a class="parent" href="view.components.html">components</a> <a class="parent" href="view.components._My_Drawing.html">MyDrawing</a> 
+		<span class="type-separator">classes</span><ul><li><a class="class current" href="view.components._My_Drawing._My_Drawing.html">MyDrawing</a></li></ul></div>
+	</div>
+	<div id="page-footer">Page generated by <a href="https://github.com/adamdruppe/adrdox">adrdox</a></div>
+</body>
+</html>
