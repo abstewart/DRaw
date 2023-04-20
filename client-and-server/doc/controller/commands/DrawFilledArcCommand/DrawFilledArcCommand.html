@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../../style.css"/>
+<script src="../../../highlight.pack.js"></script>
+<title>DrawFilledArcCommand</title>
+<base href="../../../"/>
+<script src="anchor.js"></script>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>controller.commands.<a href=controller/commands/DrawFilledArcCommand.html>DrawFilledArcCommand</a>.</small><span class="highlight">DrawFilledArcCommand</span>
+</div>
+<div class="sidebar">
+<a href="controller/commands/DrawFilledArcCommand.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="controller/commands/DrawFilledArcCommand.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('controller');">controller</span>
+<ul id="controller" style='display:block'>
+<li>controller.<a href="controller/DRawApp.html">DRawApp</a></li>
+<li><span class="package" onclick="show_hide('controller.commands');">controller.commands</span>
+<ul id="controller.commands" style='display:block'>
+<li>controller.commands.<a href="controller/commands/Command.html">Command</a></li>
+<li>controller.commands.<a href="controller/commands/CommandBuilder.html">CommandBuilder</a></li>
+<li>controller.commands.<a href="controller/commands/DrawArcCommand.html">DrawArcCommand</a></li>
+<li><span class=" selected">controller.commands.<a href="controller/commands/DrawFilledArcCommand.html">DrawFilledArcCommand</a></span>
+</li>
+<li>controller.commands.<a href="controller/commands/DrawFilledRectangleCommand.html">DrawFilledRectangleCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawLineCommand.html">DrawLineCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawPointCommand.html">DrawPointCommand</a></li>
+<li>controller.commands.<a href="controller/commands/DrawRectangleCommand.html">DrawRectangleCommand</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="package" onclick="show_hide('model');">model</span>
+<ul id="model">
+<li>model.<a href="model/ApplicationState.html">ApplicationState</a></li>
+<li>model.<a href="model/Communicator.html">Communicator</a></li>
+<li>model.<a href="model/ServerState.html">ServerState</a></li>
+<li><span class="package" onclick="show_hide('model.network');">model.network</span>
+<ul id="model.network">
+<li>model.network.<a href="model/network/client.html">client</a></li>
+<li>model.network.<a href="model/network/thread_entry.html">thread_entry</a></li>
+</ul>
+</li>
+<li><span class="package" onclick="show_hide('model.packets');">model.packets</span>
+<ul id="model.packets">
+<li>model.packets.<a href="model/packets/packet.html">packet</a></li>
+</ul>
+</li>
+<li>model.<a href="model/server_network.html">server_network</a></li>
+</ul>
+</li>
+<li><span class="package" onclick="show_hide('util');">util</span>
+<ul id="util">
+<li>util.<a href="util/Validator.html">Validator</a></li>
+</ul>
+</li>
+<li><span class="package" onclick="show_hide('view');">view</span>
+<ul id="view">
+<li>view.<a href="view/AppBox.html">AppBox</a></li>
+<li>view.<a href="view/MyWindow.html">MyWindow</a></li>
+<li><span class="package" onclick="show_hide('view.components');">view.components</span>
+<ul id="view.components">
+<li>view.components.<a href="view/components/AreaContent.html">AreaContent</a></li>
+<li>view.components.<a href="view/components/BoxJustify.html">BoxJustify</a></li>
+<li>view.components.<a href="view/components/BrushTypeComboBoxText.html">BrushTypeComboBoxText</a></li>
+<li>view.components.<a href="view/components/ChatBox.html">ChatBox</a></li>
+<li>view.components.<a href="view/components/ConnectDialog.html">ConnectDialog</a></li>
+<li>view.components.<a href="view/components/ConnectGrid.html">ConnectGrid</a></li>
+<li>view.components.<a href="view/components/DRawAbout.html">DRawAbout</a></li>
+<li>view.components.<a href="view/components/DisconnectDialog.html">DisconnectDialog</a></li>
+<li>view.components.<a href="view/components/HPadBox.html">HPadBox</a></li>
+<li>view.components.<a href="view/components/MyChatBox.html">MyChatBox</a></li>
+<li>view.components.<a href="view/components/MyColorChooserDialog.html">MyColorChooserDialog</a></li>
+<li>view.components.<a href="view/components/MyDrawing.html">MyDrawing</a></li>
+<li>view.components.<a href="view/components/MyDrawingBox.html">MyDrawingBox</a></li>
+<li>view.components.<a href="view/components/PadEntry.html">PadEntry</a></li>
+<li>view.components.<a href="view/components/PadLabel.html">PadLabel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public class DrawFilledArcCommand : <a href="controller/commands/Command/Command.html">Command</a>
+</code></pre>
+<div class="section"><p>Implements functionality for drawing and undoing a 'Filled Arc' on a Cairo Canvas.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>private this(
+    <a href="http://dlang.org/type.html#basic-data-types">int</a> x, 
+    <a href="http://dlang.org/type.html#basic-data-types">int</a> y, 
+    RGBA currentColor, 
+    <a href="http://dlang.org/type.html#basic-data-types">int</a> width, 
+    <a href="view/components/MyDrawing/MyDrawing.html">MyDrawing</a> myDrawing, 
+    <a href="http://dlang.org/type.html#basic-data-types">int</a> id)
+</code></pre>
+<div class="section"><p>Constructs a DrawArcCommand instance.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">x</td><td class="paramDoc"><p>the x coordinate of the mouse
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">y</td><td class="paramDoc"><p>the y coordinate of the mouse
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">currentColor</td><td class="paramDoc"><p>the color of the paint brush for this command
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">width</td><td class="paramDoc"><p>the brush size (dictated my what the user sets in the spin in MyDrawing.d)
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">myDrawing</td><td class="paramDoc"><p>the client's drawing surface
+</p>
+</td></tr>
+<tr class="param"><td class="paramName">id</td><td class="paramDoc"><p>the command id
+</p>
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="execute"></a><div class="symbol"><div class="description"><pre><code>private override <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="controller/commands/DrawFilledArcCommand/DrawFilledArcCommand.html#execute">execute</a>()
+</code></pre>
+<div class="section"><p>Draws a filled arc on the canvas.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+</div></div><a class="anchor" id="encode"></a><div class="symbol"><div class="description"><pre><code>private override string <a href="controller/commands/DrawFilledArcCommand/DrawFilledArcCommand.html#encode">encode</a>()
+</code></pre>
+<div class="section"><p>Encodes the command id, type, width, x, y and color in a string.
+</p>
+
+
+</div>
+<div class="section">
+
+</div>
+<div class="section"><h2>Returns</h2>
+<ul>
+<li>encoded : string : comma separated string of fields of this command
+</li>
+</ul>
+
+
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="controller/commands/DrawFilledArcCommand/DrawFilledArcCommand.html#this">this</a></td><td></td><td></td></tr><tr><td><a href="controller/commands/DrawFilledArcCommand/DrawFilledArcCommand.html#execute">execute</a><span class="extrainfo"></span></td><td></td><td></td></tr><tr><td><a href="controller/commands/DrawFilledArcCommand/DrawFilledArcCommand.html#encode">encode</a><span class="extrainfo"></span></td><td></td><td>Returns: <ul>
+<li>encoded : string : comma separated string of fields of this command
+</li>
+</ul>
+</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://gitlab.com/basile.b/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+<script>anchors.add();</script>
+</body>
+</html>
