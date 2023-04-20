@@ -50,7 +50,7 @@ Once the executable is built with the above server release build command, you ca
 ### Testing ###
 To run all tests, perform the following command in a terminal inside the [`client-and-server`](../../../client-and-server) directory: `dub run -b unittest -c unittest`
 
-This will use unit-threaded to run all the tests located in the [`./source`](../../../client-and-server/source), [`client/source`](../../../client-and-server/client/source), and 
+This will use unit-threaded to run all the tests located in the [`./source`](../../../client-and-server/source/.), [`client/source`](../../../client-and-server/client/source), and 
 [`server/source`](../../../client-and-server/server/source) directories.
 
 ### Coverage ###
@@ -82,7 +82,7 @@ View the resulting documentation HTML in the `doc` directory. This will build an
 source files located in the `client/source` and `server/source` directories.
 
 #### Adrdox Documentation Generation ####
-From the [`DRaw`](../../../) directory, run `dub run adrdox -- -i ./client-and-server`
+From the [`DRaw`](../../../.) directory, run `dub run adrdox -- -i ./client-and-server`
 
 View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.
 
