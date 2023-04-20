@@ -50,7 +50,7 @@ Once the executable is built with the above server release build command, you ca
 ### Testing ###
 To run all tests, perform the following command in a terminal inside the [`client-and-server`](../../../client-and-server) directory: `dub run -b unittest -c unittest`
 
-This will use unit-threaded to run all the tests located in the [`./source`](../../../client-and-server/source/.), [`client/source`](../../../client-and-server/client/source), and 
+This will use unit-threaded to run all the tests located in the [`client/source`](../../../client-and-server/client/source) and 
 [`server/source`](../../../client-and-server/server/source) directories.
 
 ### Coverage ###
