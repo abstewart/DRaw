@@ -58,7 +58,7 @@ bool resolveRemotePackets(MyWindow window)
             default:
                 debug
                 {
-                    writeln("In packet.d switch statement. No case found.");
+                    writeln("Unexpected case in packet resolution.");
                 }
                 break;
             }
