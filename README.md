@@ -38,10 +38,10 @@ https://youtu.be/F0XVOL1zQHM
 
 ## Team Logistics
 
-- Work with your team to ensure everyone has a way to work on this codebase with a common set of tools.
+- Work with your team to ensure everyone has a way to work on this codebase with a common set of tools
 - Everyone should make code contributions to the repository (i.e. everyone should have some commits in the commit history -- even if you pair program, that means you need to switch who is in control!)
 - See the project timeline
-- Note: In semesters where I have a 'token system' for late days, **you cannot use any tokens** for the final project.
+- Note: In semesters where I have a 'token system' for late days, **you cannot use any tokens** for the final project
 
 ## Notes on working in teams
 
