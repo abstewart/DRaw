@@ -50,10 +50,14 @@ public:
      */
     ~this()
     {
-        this.sock.close();
+        if (this.socketOpen)
+        {
+            this.sock.shutdown(SocketShutdown.BOTH);
+            this.sock.close();
+        }
         debug
         {
-            writeln("Closed socket.");
+            writeln("Closed socket in Client destructor.");
         }
     }
 
@@ -76,6 +80,7 @@ public:
             }
             else if (recv == 0)
             {
+                this.sock.shutdown(SocketShutdown.BOTH);
                 this.sock.close();
                 this.socketOpen = false;
             }
@@ -85,9 +90,9 @@ public:
                 {
                     debug
                     {
-                        writeln("Socket error.");
+                        writeln("Socket error during reception.");
                     }
-
+                    this.sock.shutdown(SocketShutdown.BOTH);
                     this.sock.close();
                     this.socketOpen = false;
                 }
@@ -96,7 +101,7 @@ public:
             {
                 debug
                 {
-                    writeln("Unknown received value.");
+                    writeln("Unknown value received from server.");
                 }
             }
         }
@@ -115,7 +120,9 @@ public:
         {
             debug
             {
-                writeln("Sending [\"" ~ packetData ~ "\"] to the server.");
+                import std.format;
+
+                writeln("%s -> Server".format(packetData));
             }
 
             this.sock.send(packetData);

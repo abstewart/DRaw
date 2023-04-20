@@ -13,15 +13,10 @@ void main(string[] args)
     // If the number of command line arguments is not 0 or 2, alert the user and terminate the program.
     if (args.length == 2 || args.length > 3)
     {
-        debug
-        {
-            writeln("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server' OR 'dub run :server {ip address} " ~ " {port number}'");
-        }
-
+        writeln("Could not start up server. Please try again. Expecting this format in terminal - 'dub run :server' OR 'dub run :server {ip address} " ~ " {port number}'");
         return;
     }
 
-    // For debugging purposes.
     debug
     {
         if (args.length == 3)
@@ -54,8 +49,7 @@ void main(string[] args)
             {
                 debug
                 {
-                    writeln(
-                            "No command line arguments. The default ip address and port number will be used.");
+                    writeln("Using default port and IP.");
                 }
 
                 ourServer = new Server();
@@ -64,7 +58,7 @@ void main(string[] args)
             {
                 debug
                 {
-                    writeln("Valid ip address and port number!");
+                    writeln("Using user defined port and IP.");
                 }
 
                 string ipAddress = args[1];

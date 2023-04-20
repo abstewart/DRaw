@@ -63,7 +63,7 @@ void serverResolveRemotePacket(string packet)
     default:
         debug
         {
-            writeln("In serverResolveRemotePacket's switch statement. No case found.");
+            writeln("Unexpected case in packet resolutions.");
         }
 
         break;
@@ -206,7 +206,6 @@ void notifyAll(Socket[int] clients, string message)
 void sendSyncUpdate(Socket[int] clients, int ckey)
 {
     Socket client = clients[ckey];
-
     foreach_reverse (cmd; ServerState.getCommandHistory())
     {
         debug
@@ -226,10 +225,6 @@ void sendSyncUpdate(Socket[int] clients, int ckey)
 
         Thread.sleep(1.msecs);
         client.send(chat);
-    }
-    debug
-    {
-        writeln("The command history length = ", ServerState.getCommandHistory().length);
     }
 }
 
@@ -320,14 +315,13 @@ class Server
                     {
                         debug
                         {
-                            writeln("In server_network.d. Server received this packet: ",
-                                    buffer[0 .. recv]);
+                            writeln("Client -> ", buffer[0 .. recv]);
                         }
 
                         serverResolveRemotePacket(to!string(buffer[0 .. recv]));
                         debug
                         {
-                            writeln("The command history length = ",
+                            writeln("Command history length: ",
                                     ServerState.getCommandHistory().length);
                         }
 
@@ -340,6 +334,7 @@ class Server
                             writeln("Client closed connection: ", key);
                         }
 
+                        client.shutdown(SocketShutdown.BOTH);
                         client.close();
                         this.connectedClients.remove(key);
                     }
