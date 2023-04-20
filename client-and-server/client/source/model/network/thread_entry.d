@@ -39,7 +39,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             // If we receive a shutdown request, we will shutdown this thread.
             debug
             {
-                writeln("Shutting networking thread down upon request.");
+                writeln("Shutting networking thread down upon request from owner.");
             }
 
             active = false;
@@ -55,7 +55,7 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             // In the case of any other packet we will simply log the information.
             debug
             {
-                writeln("In thread_entry.d. Received any other packet: ", any);
+                writeln("Received a message from a thread that was not handled by delegates.");
             }
         });
 
@@ -69,7 +69,8 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
             immutable long recvLen = msgAndLen[1];
             debug
             {
-                writeln("Received packet from server: " ~ encodedMsg[0 .. recvLen]);
+                import std.format;
+                writeln("Server -> %s".format(encodedMsg[0 .. recvLen]));
             }
 
             send(parent, encodedMsg[0 .. recvLen], recvLen);
@@ -80,6 +81,6 @@ void handleNetworking(Tid parent, string ipAddr, ushort port)
     // Log thread exit.
     debug
     {
-        writeln("thread has exited");
+        writeln("Networking thread has exited.");
     }
 }

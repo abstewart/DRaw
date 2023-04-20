@@ -274,17 +274,19 @@ public:
         {
             int x = cast(int) event.button.x;
             int y = cast(int) event.button.y;
-            // Draw/paint. Get the command based on the current brush type and then execute it.
-            int id = ApplicationState.getClientId();
-            Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());
-            // Add the command to the history.
-            Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
-                    id, newCommand);
-            ApplicationState.addToCommandHistory(commandPackage);
-            // Send the command to the server.
-            string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
-                    ApplicationState.getClientId(), newCommand);
-            Communicator.queueMessageSend(packetToSend);
+            if (0 <= x && x <= this.width && 0 <= y && y <= this.height) {
+                // Draw/paint. Get the command based on the current brush type and then execute it.
+                int id = ApplicationState.getClientId();
+                Command newCommand = getCommand(x, y, ApplicationState.getCurCommandId());
+                // Add the command to the history.
+                Tuple!(string, int, Command) commandPackage = tuple(ApplicationState.getUsername(),
+                        id, newCommand);
+                ApplicationState.addToCommandHistory(commandPackage);
+                // Send the command to the server.
+                string packetToSend = encodeUserDrawCommand(ApplicationState.getUsername(),
+                        ApplicationState.getClientId(), newCommand);
+                Communicator.queueMessageSend(packetToSend);
+            }
         }
         return true;
     }
