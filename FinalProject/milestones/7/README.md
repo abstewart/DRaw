@@ -84,7 +84,7 @@ source files located in the `client/source` and `server/source` directories.
 #### Adrdox Documentation Generation ####
 From the root directory (`DRaw`), run `dub run adrdox -- -i ./client-and-server`
 
-View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.
+View the resulting documentation HTML (start with [`index.html`](../../../generated-docs/index.html)) in the `generated-docs` directory. This will build an interactive HTML documentation.
 
 ### Notes ###
 * If you are on a Mac computer, you may need to run: `export MACOSX_DEPLOYMENT_TARGET=11` in your terminal before running `dub`.
