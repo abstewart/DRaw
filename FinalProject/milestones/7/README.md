@@ -78,7 +78,7 @@ and not in the `docs` folder.
 #### Harbored-mod Documentation Generation ####
 From the [`client-and-server`](../../../client-and-server) directory, run (you may need to accept the option to download harbored-mod): `dub run harbored-mod -- $(find ./client/source ./server/source -iname '*.d')`
 
-View the resulting documentation HTML in the `doc` directory. This will build an interactive HTML documentation (start from the `index.html` file), for just the 
+View the resulting documentation HTML in the [`doc`](../../../client-and-server/doc) directory. This will build an interactive HTML documentation (start from the [`index.html`](../../../client-and-server/doc/index.html) file), for just the 
 source files located in the `client/source` and `server/source` directories.
 
 #### Adrdox Documentation Generation ####
