@@ -82,7 +82,7 @@ View the resulting documentation HTML in the `doc` directory. This will build an
 source files located in the `client/source` and `server/source` directories.
 
 #### Adrdox Documentation Generation ####
-From the [`DRaw`](../../../.) directory, run `dub run adrdox -- -i ./client-and-server`
+From the root directory (`DRaw`), run `dub run adrdox -- -i ./client-and-server`
 
 View the resulting documentation HTML in the `generated-docs` directory. This will build an interactive HTML documentation.
 
